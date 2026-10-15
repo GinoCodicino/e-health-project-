@@ -1,0 +1,60 @@
+# Unity cache e cartelle generate
+My project/[Ll]ibrary/
+My project/[Tt]emp/
+My project/[Oo]bj/
+My project/[Bb]uild/
+My project/[Bb]uilds/
+My project/[Ll]ogs/
+My project/[Uu]ser[Ss]ettings/
+My project/[Mm]emoryCaptures/
+My project/[Rr]ecordings/
+
+# File generati da Unity
+My project/*.csproj
+My project/*.unityproj
+My project/*.sln
+My project/*.slnx
+My project/*.log
+My project/*.user
+My project/*.userprefs
+My project/*.suo
+My project/*.tmp
+My project/*.pdb
+My project/*.mdb
+My project/*.opendb
+My project/sysinfo.txt
+My project/mono_crash.*
+
+# IDE
+.vs/
+.vscode/
+.gradle/
+.consulo/
+*.DotSettings.user
+
+# File di sistema
+.DS_Store
+**/.DS_Store
+Thumbs.db
+
+# Build e pacchetti Unity
+My project/*.apk
+My project/*.aab
+My project/*.unitypackage
+My project/*.unitypackage.meta
+My project/*.app
+
+# Crash report
+My project/crashlytics-build.properties
+
+# File temporanei di Blender
+My project/*.blend1
+My project/*.blend1.meta
+
+# File generati da Addressables e Unity
+My project/ServerData/
+My project/Assets/StreamingAssets/aa*
+My project/Assets/Addressables_Temp*
+My project/Assets/AddressableAssetsData/*/*.bin*
+My project/UIElementsSchema/
+My project/Assets/SceneDependencyCache*

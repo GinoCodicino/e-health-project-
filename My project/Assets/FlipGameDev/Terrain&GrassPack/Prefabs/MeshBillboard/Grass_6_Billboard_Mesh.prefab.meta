@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 866f1df83615adc42aefe6c3ba163c4d
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 379910
+  packageName: Terrain & Grass Pack
+  packageVersion: 1.0
+  assetPath: Assets/FlipGameDev/Terrain&GrassPack/Prefabs/MeshBillboard/Grass_6_Billboard_Mesh.prefab
+  uploadId: 925568

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 4949430b93c2bf34c8b47979d32d2ad4
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 379910
+  packageName: Terrain & Grass Pack
+  packageVersion: 1.0
+  assetPath: Assets/FlipGameDev/Terrain&GrassPack/Art/Materials/Rocks/Rockwall_2_AlbedoTransparency.mat
+  uploadId: 925568

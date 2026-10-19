@@ -58,3 +58,7 @@ My project/Assets/Addressables_Temp*
 My project/Assets/AddressableAssetsData/*/*.bin*
 My project/UIElementsSchema/
 My project/Assets/SceneDependencyCache*
+
+# Unity generated lighting and terrain data
+**/LightingData.asset
+**/Terrain_Settings/Data/Demo.asset

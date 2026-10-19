@@ -5,11 +5,11 @@ public class playercontroller : MonoBehaviour
     private playerinputcontroller inputController;
 
     [Header("Movement")]
-    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float moveSpeed = 8f;
 
     [Header("Look")]
     [SerializeField] private Transform pitchPivot;
-    [SerializeField] private float mouseSensitivity = 0.1f;
+    [SerializeField] private float mouseSensitivity = 0.5f;
     [SerializeField] private float maxLookAngle = 80f;
 
     private float cameraPitch = 0f;

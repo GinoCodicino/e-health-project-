@@ -5,7 +5,7 @@ public class playercontroller : MonoBehaviour
     private playerinputcontroller inputController;
 
     [Header("Movement")]
-    [SerializeField] private float moveSpeed = 8f;
+    [SerializeField] private float moveSpeed;
 
     [Header("Look")]
     [SerializeField] private Transform pitchPivot;

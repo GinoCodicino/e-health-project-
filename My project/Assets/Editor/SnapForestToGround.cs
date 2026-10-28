@@ -1,19 +1,28 @@
 using UnityEngine;
 using UnityEditor;
+using System.Collections.Generic;
 
 public class SnapForestToGround : MonoBehaviour
 {
-    [MenuItem("Tools/Adatta Alberi al Terreno")]
-    private static void SnapSelectedTrees()
+    // Aumentato leggermente l'affondamento per gruppi larghi come Rock Pile
+    private const float SINK_AMOUNT = 0.25f;
+
+    [MenuItem("Tools/Adatta Oggetti al Terreno")]
+    private static void SnapSelectedObjects()
     {
-        // Raccoglie tutti i collider degli oggetti selezionati (compresi i figli)
-        var allColliders = new System.Collections.Generic.List<Collider>();
+        if (Selection.gameObjects.Length == 0)
+        {
+            Debug.LogWarning("Nessun oggetto selezionato!");
+            return;
+        }
+
+        // Disattiva tutti i collider (inclusi tutti i figli di Rock Pile)
+        var allColliders = new List<Collider>();
         foreach (GameObject go in Selection.gameObjects)
         {
             allColliders.AddRange(go.GetComponentsInChildren<Collider>());
         }
 
-        // Li disattiva temporaneamente per evitare che il raggio colpisca l'oggetto stesso
         foreach (var col in allColliders)
         {
             if (col != null) col.enabled = false;
@@ -21,28 +30,55 @@ public class SnapForestToGround : MonoBehaviour
 
         try
         {
+            Terrain terrain = Terrain.activeTerrain;
+
             foreach (GameObject go in Selection.gameObjects)
             {
-                // Calcola il punto più basso della mesh (se presente) per correggere pivot errati
-                Renderer rend = go.GetComponentInChildren<Renderer>();
-                float bottomOffset = 0f;
-                if (rend != null)
+                Renderer[] renderers = go.GetComponentsInChildren<Renderer>();
+                if (renderers.Length == 0) continue;
+
+                // Calcola il bounding box globale unificato che include TUTTE le rocce del cumulo
+                Bounds combinedBounds = renderers[0].bounds;
+                for (int i = 1; i < renderers.Length; i++)
                 {
-                    bottomOffset = go.transform.position.y - rend.bounds.min.y;
+                    combinedBounds.Encapsulate(renderers[i].bounds);
                 }
 
-                // Lancia il raggio verso il basso
-                if (Physics.Raycast(go.transform.position + Vector3.up * 50f, Vector3.down, out RaycastHit hit, 500f))
+                // Consideriamo il centro orizzontale effettivo delle mesh, non solo il pivot del genitore
+                Vector3 centerXZ = new Vector3(combinedBounds.center.x, go.transform.position.y, combinedBounds.center.z);
+                float bottomOffset = go.transform.position.y - combinedBounds.min.y;
+
+                float targetY = go.transform.position.y;
+                bool hitGround = false;
+
+                // Lancia il raggio partendo dal centro volumetrico dell'intero gruppo
+                if (Physics.Raycast(centerXZ + Vector3.up * 500f, Vector3.down, out RaycastHit hit, 1000f))
                 {
-                    Undo.RecordObject(go.transform, "Snap to Terrain");
-                    // Posiziona l'oggetto compensando l'altezza del fondo
-                    go.transform.position = new Vector3(go.transform.position.x, hit.point.y + bottomOffset, go.transform.position.z);
+                    targetY = hit.point.y;
+                    hitGround = true;
+                }
+                else if (terrain != null)
+                {
+                    targetY = terrain.SampleHeight(centerXZ) + terrain.transform.position.y;
+                    hitGround = true;
+                }
+
+                if (hitGround)
+                {
+                    Undo.RecordObject(go.transform, "Snap to Ground");
+
+                    // Applica la nuova altezza compensando il punto più basso di tutto il cumulo
+                    go.transform.position = new Vector3(
+                        go.transform.position.x,
+                        targetY + bottomOffset - SINK_AMOUNT,
+                        go.transform.position.z
+                    );
                 }
             }
         }
         finally
         {
-            // Riattiva tutti i collider
+            // Riattiva sempre i collider
             foreach (var col in allColliders)
             {
                 if (col != null) col.enabled = true;

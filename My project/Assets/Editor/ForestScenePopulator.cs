@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 // Unity 6 - strumento per l'Editor. Salvare in Assets/Editor/ForestScenePopulator.cs.
 // Aprire Tools > Bosco > Completa scena.
 // 1. Indicare Terrain/Ground, montagne e percorso (i pulsanti aiutano a trovarli).
-// 2. Inserire almeno un prefab/modello nelle categorie desiderate.
+// 2. Inserire almeno un prefab/modello nelle categorie desiderate, Ground inclusi.
 // 3. Tracciare un poligono semplice all'interno della valle, in vista dall'alto.
 // 4. Terminare il disegno e premere Genera negli spazi liberi.
 // Ogni esecuzione AGGIUNGE un gruppo Bosco_Generato; gli oggetti esistenti restano
@@ -17,8 +17,13 @@ using UnityEngine.SceneManagement;
 // Collider delle montagne e campioni del suolo. Non sono un test esatto fra
 // tutti i triangoli dei modelli. Mesh deformate da shader e animazioni richiedono
 // controllo visivo. Tutte le distanze sono espresse in unita della scena.
+// I Ground sono generati prima degli altri oggetti, parzialmente interrati.
+// Diventano superfici di appoggio; i loro ingombri non bloccano la vegetazione.
+// Il Terrain originale non viene scolpito. I Ground devono essere modelli del suolo,
+// non contenitori che includano anche alberi, rocce o altri oggetti di scena.
 public class ForestScenePopulator : EditorWindow
 {
+    private const string GeneratedGroundName = "Ground_Generati";
     [Serializable]
     private class Category
     {
@@ -49,6 +54,14 @@ public class ForestScenePopulator : EditorWindow
     [SerializeField] private List<GameObject> mountains = new List<GameObject>();
     [SerializeField] private List<GameObject> pathAndZones = new List<GameObject>();
     [SerializeField] private List<Vector3> area = new List<Vector3>();
+    [SerializeField] private Category groundPatches = new Category("Ground / macchie di terreno", 8, true)
+    {
+        scale = new Vector2(0.9f, 1.1f), maxSlope = 15f, expanded = true
+    };
+    [SerializeField] private Vector2 groundRise = new Vector2(0.03f, 0.15f);
+    [SerializeField] private float groundEmbedDepth = 0.02f;
+    [SerializeField] private float groundSupportVariation = 0.25f;
+    [SerializeField] private float groundOverlap = 0.1f;
     [SerializeField] private Category trees = new Category("Alberi", 40, false);
     [SerializeField] private Category rocks = new Category("Rocce", 20, true);
     [SerializeField] private Category grass = new Category("Erba", 100, true);
@@ -91,7 +104,7 @@ public class ForestScenePopulator : EditorWindow
     {
         scroll = EditorGUILayout.BeginScrollView(scroll);
         EditorGUILayout.HelpBox(
-            "Aggiunge alberi, rocce, erba e fiori negli spazi liberi. " +
+            "Aggiunge Ground, alberi, rocce, erba e fiori negli spazi liberi. " +
             "Mantiene gli oggetti esistenti e crea un gruppo separato, annullabile con Cmd+Z. " +
             "I modelli e le superfici devono appartenere alla configurazione della tua scena.",
             MessageType.Info);
@@ -155,7 +168,34 @@ public class ForestScenePopulator : EditorWindow
         }
 
         EditorGUILayout.Space();
-        EditorGUILayout.LabelField("5. Modelli e quantita", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField("5. Ground da distribuire", EditorStyles.boldLabel);
+        EditorGUILayout.HelpBox(
+            "Inserisci qui i modelli Ground da COPIARE. Vengono distribuiti prima della vegetazione, " +
+            "con rotazione e scala casuali, bordi inferiori interrati e rilievo variabile. " +
+            "Il punto 1 indica invece il suolo gia presente su cui appoggiarli. " +
+            "Quantita 0 disattiva l'aggiunta di Ground.", MessageType.None);
+        DrawCategory(groundPatches);
+        if (groundPatches.expanded)
+        {
+            EditorGUI.indentLevel++;
+            groundRise = EditorGUILayout.Vector2Field("Rilievo min / max", groundRise);
+            groundRise.x = Mathf.Max(0f, groundRise.x);
+            groundRise.y = Mathf.Max(groundRise.x, groundRise.y);
+            groundEmbedDepth = PositiveField("Interramento minimo", groundEmbedDepth);
+            groundSupportVariation = PositiveField("Dislivello sotto i Ground", groundSupportVariation);
+            groundOverlap = EditorGUILayout.Slider("Sovrapposizione fra Ground", groundOverlap, 0f, 0.35f);
+            EditorGUILayout.HelpBox(
+                "Il rilievo e l'altezza massima visibile rispetto al suolo piu basso sotto il pezzo. " +
+                "Viene limitato dallo spessore del modello per non sollevarne la base. " +
+                "I modelli quasi piatti vengono tenuti aderenti al suolo e richiedono una zona uniforme. " +
+                "Una piccola sovrapposizione fra Ground aiuta a unire le macchie; percorso e altri oggetti " +
+                "restano esclusi. Le mesh rigide non vengono deformate: verifica visivamente i bordi.",
+                MessageType.None);
+            EditorGUI.indentLevel--;
+        }
+
+        EditorGUILayout.Space();
+        EditorGUILayout.LabelField("6. Vegetazione, rocce e quantita", EditorStyles.boldLabel);
         EditorGUILayout.HelpBox(
             "Trascina i prefab dal Project, oppure seleziona alcuni esempi nella Hierarchy " +
             "e premi Aggiungi selezione nella categoria giusta. Basta un esempio per variante. " +
@@ -166,7 +206,7 @@ public class ForestScenePopulator : EditorWindow
         DrawCategory(flowers);
 
         EditorGUILayout.Space();
-        EditorGUILayout.LabelField("6. Distanze e variazioni", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField("7. Distanze e variazioni", EditorStyles.boldLabel);
         seed = EditorGUILayout.IntField("Disposizione (seed)", seed);
         pathMargin = PositiveField("Margine dal percorso", pathMargin);
         objectGap = PositiveField("Spazio fra ingombri", objectGap);
@@ -308,6 +348,26 @@ public class ForestScenePopulator : EditorWindow
         return go != null && go.scene == SceneManager.GetActiveScene() && go.activeInHierarchy;
     }
 
+    private static bool IsGeneratedGround(Transform transform)
+    {
+        for (Transform current = transform; current != null; current = current.parent)
+            if (current.name == GeneratedGroundName && current.parent != null &&
+                current.parent.name.StartsWith("Bosco_Generato", StringComparison.Ordinal)) return true;
+        return false;
+    }
+
+    private List<GameObject> GroundRoots()
+    {
+        var roots = new List<GameObject>(surfaces);
+        // Riconosce anche Ground generati in esecuzioni precedenti, senza dipendere
+        // dai riferimenti conservati dalla finestra dopo una ricompilazione.
+        foreach (GameObject root in SceneManager.GetActiveScene().GetRootGameObjects())
+        foreach (Transform child in root.GetComponentsInChildren<Transform>())
+            if (child.name == GeneratedGroundName && IsGeneratedGround(child) && !roots.Contains(child.gameObject))
+                roots.Add(child.gameObject);
+        return roots;
+    }
+
     private static bool Hit(Ray ray, List<Collider> colliders, float distance, out RaycastHit nearest)
     {
         nearest = default(RaycastHit);
@@ -349,7 +409,7 @@ public class ForestScenePopulator : EditorWindow
         {
             Physics.SyncTransforms();
             Ray ray = HandleUtility.GUIPointToWorldRay(ev.mousePosition);
-            if (Hit(ray, GetColliders(surfaces, true), float.MaxValue, out RaycastHit hit))
+            if (Hit(ray, GetColliders(GroundRoots(), true), float.MaxValue, out RaycastHit hit))
             {
                 Undo.RecordObject(this, "Punto area bosco");
                 area.Add(hit.point);
@@ -380,6 +440,7 @@ public class ForestScenePopulator : EditorWindow
 
     private bool IsGroundRenderer(Renderer r)
     {
+        if (IsGeneratedGround(r.transform)) return true;
         foreach (GameObject root in surfaces)
         {
             if (root == null) continue;
@@ -444,6 +505,23 @@ public class ForestScenePopulator : EditorWindow
             if (IsGroundRenderer(r) || UnderAny(r.transform, mountains) || UnderAny(r.transform, pathAndZones)) continue;
             result.Add(Footprint(r.bounds, objectGap * 0.5f));
         }
+        return result;
+    }
+
+    private Rect GroundSpacingFootprint(Bounds bounds)
+    {
+        Rect footprint = Footprint(bounds, 0f);
+        Vector2 size = footprint.size * (1f - groundOverlap);
+        return new Rect(footprint.center - size * 0.5f, size);
+    }
+
+    private List<Rect> ExistingGroundFootprints(Scene scene)
+    {
+        var result = new List<Rect>();
+        foreach (GameObject root in scene.GetRootGameObjects())
+        foreach (Renderer renderer in root.GetComponentsInChildren<Renderer>())
+            if ((renderer is MeshRenderer || renderer is SkinnedMeshRenderer) && IsGeneratedGround(renderer.transform))
+                result.Add(GroundSpacingFootprint(renderer.bounds));
         return result;
     }
 
@@ -575,13 +653,61 @@ public class ForestScenePopulator : EditorWindow
         return true;
     }
 
+    private bool GroundPatchSupport(Bounds bounds, float startY, float length,
+        List<Collider> baseGround, List<Collider> blockers, out float lowestY, out float highestY)
+    {
+        lowestY = float.PositiveInfinity;
+        highestY = float.NegativeInfinity;
+        // Centro, bordi e angoli: evita di stendere un pezzo rigido su buchi,
+        // scarpate o montagne. Sono campioni conservativi, non una deformazione.
+        for (int ix = 0; ix < 3; ix++)
+        for (int iz = 0; iz < 3; iz++)
+        {
+            float x = Mathf.Lerp(bounds.min.x, bounds.max.x, ix * 0.5f);
+            float z = Mathf.Lerp(bounds.min.z, bounds.max.z, iz * 0.5f);
+            if (!GroundAt(x, z, startY, length, baseGround, blockers, out RaycastHit support) ||
+                Vector3.Angle(support.normal, Vector3.up) > groundPatches.maxSlope) return false;
+            lowestY = Mathf.Min(lowestY, support.point.y);
+            highestY = Mathf.Max(highestY, support.point.y);
+        }
+        return highestY - lowestY <= groundSupportVariation;
+    }
+
+    private static List<Collider> PrepareGroundColliders(GameObject instance)
+    {
+        // Il suolo generato resta fermo anche se l'esempio conteneva un Rigidbody.
+        foreach (Rigidbody body in instance.GetComponentsInChildren<Rigidbody>())
+        {
+            Undo.RecordObject(body, "Ground statico");
+            body.isKinematic = true;
+            body.useGravity = false;
+            if (PrefabUtility.IsPartOfPrefabInstance(body))
+                PrefabUtility.RecordPrefabInstancePropertyModifications(body);
+        }
+        var colliders = GetColliders(new List<GameObject> { instance }, false);
+        if (colliders.Count > 0) return colliders;
+
+        // Aggiunge i Collider solo alle COPIE generate, mai ai prefab sorgenti.
+        foreach (MeshFilter mesh in instance.GetComponentsInChildren<MeshFilter>())
+        {
+            if (mesh.sharedMesh == null || mesh.sharedMesh.vertexCount == 0) continue;
+            MeshCollider collider = Undo.AddComponent<MeshCollider>(mesh.gameObject);
+            collider.sharedMesh = mesh.sharedMesh;
+            collider.convex = false;
+            if (PrefabUtility.IsPartOfPrefabInstance(collider))
+                PrefabUtility.RecordPrefabInstancePropertyModifications(collider);
+        }
+        return GetColliders(new List<GameObject> { instance }, false);
+    }
+
     private void Generate()
     {
         drawing = false;
         if (EditorApplication.isPlayingOrWillChangePlaymode) return;
         if (!ValidPolygon()) { status = "Disegna un contorno con almeno tre punti, senza lati incrociati o punti ripetuti."; return; }
         Scene scene = SceneManager.GetActiveScene();
-        List<Collider> ground = GetColliders(surfaces, true);
+        List<Collider> ground = GetColliders(GroundRoots(), true);
+        var baseGround = ground.FindAll(col => !IsGeneratedGround(col.transform));
         List<Collider> blockers = GetColliders(mountains, false);
         Physics.SyncTransforms();
         if (ground.Count == 0) { status = "Indica Terrain e Ground con Collider attivi nella scena corrente."; return; }
@@ -595,7 +721,7 @@ public class ForestScenePopulator : EditorWindow
         List<Rect> reserved = PathFootprints();
         if (reserved.Count == 0) { status = "Indica i Path Piece o il loro contenitore per tenere libero il percorso."; return; }
 
-        Category[] categories = { trees, rocks, grass, flowers };
+        Category[] categories = { groundPatches, trees, rocks, grass, flowers };
         var templates = new List<Template>[categories.Length];
         int requested = 0;
         for (int i = 0; i < categories.Length; i++)
@@ -609,6 +735,8 @@ public class ForestScenePopulator : EditorWindow
             if (templates[i].Count > 0) requested += categories[i].count;
         }
         if (requested == 0) { status = "Aggiungi modelli ad almeno una categoria e imposta una quantita maggiore di zero."; return; }
+        if (groundPatches.count > 0 && templates[0].Count > 0 && baseGround.Count == 0)
+        { status = "Per distribuire Ground indica anche il Terrain o il suolo originale al punto 1."; return; }
 
         float startY = float.NegativeInfinity, bottomY = float.PositiveInfinity;
         foreach (Collider col in ground) { startY = Mathf.Max(startY, col.bounds.max.y); bottomY = Mathf.Min(bottomY, col.bounds.min.y); }
@@ -618,6 +746,7 @@ public class ForestScenePopulator : EditorWindow
         Vector2 min = XZ(area[0]), max = min;
         foreach (Vector3 p in area) { min = Vector2.Min(min, XZ(p)); max = Vector2.Max(max, XZ(p)); }
         List<Rect> occupied = ExistingFootprints(scene);
+        List<Rect> groundOccupied = ExistingGroundFootprints(scene);
         var blockerSet = new HashSet<Collider>(blockers);
         var random = new System.Random(seed);
         int total = 0;
@@ -635,7 +764,16 @@ public class ForestScenePopulator : EditorWindow
             for (int c = 0; c < categories.Length && !cancelled; c++)
             {
                 Category category = categories[c];
-                if (category.count <= 0 || templates[c].Count == 0) continue;
+                if (category.count <= 0) continue;
+                if (templates[c].Count == 0)
+                {
+                    reports.Add(category.label + ": nessun modello valido assegnato");
+                    continue;
+                }
+                bool isGround = c == 0;
+                // I Ground si appoggiano al suolo originale, non si accumulano
+                // sopra quelli appena generati. La vegetazione usa invece tutti.
+                List<Collider> supportGround = isGround ? baseGround : ground;
                 int created = 0;
                 int budget = Mathf.Clamp(category.count * 40, 200, 20000);
                 Transform parent = null;
@@ -647,7 +785,7 @@ public class ForestScenePopulator : EditorWindow
                     float x = Mathf.Lerp(min.x, max.x, (float)random.NextDouble());
                     float z = Mathf.Lerp(min.y, max.y, (float)random.NextDouble());
                     if (!CircleInsideArea(new Vector2(x, z), 0f) ||
-                        !GroundAt(x, z, startY, rayLength, ground, blockers, out RaycastHit hit) ||
+                        !GroundAt(x, z, startY, rayLength, supportGround, blockers, out RaycastHit hit) ||
                         Vector3.Angle(hit.normal, Vector3.up) > category.maxSlope) continue;
 
                     Template template = templates[c][random.Next(templates[c].Count)];
@@ -659,11 +797,37 @@ public class ForestScenePopulator : EditorWindow
                     Vector3 position = new Vector3(x, hit.point.y - relative.min.y - 0.01f, z);
                     Bounds bounds = relative;
                     bounds.center += position;
+                    if (isGround)
+                    {
+                        if (!GroundPatchSupport(bounds, startY, rayLength, baseGround, blockers,
+                            out float lowestSupport, out float highestSupport)) continue;
+                        float thickness = template.localBounds.size.y * Mathf.Abs(scale.y);
+                        if (thickness <= 0.02f)
+                        {
+                            // Un piano non puo diventare un rialzo: sulle zone
+                            // uniformi resta a pochi millimetri dalla superficie.
+                            if (highestSupport - lowestSupport > 0.015f) continue;
+                            position.y = (lowestSupport + highestSupport) * 0.5f - relative.center.y + 0.003f;
+                        }
+                        else
+                        {
+                            float desiredRise = Mathf.Lerp(groundRise.x, groundRise.y, (float)random.NextDouble());
+                            float availableRise = Mathf.Max(0f, Mathf.Min(thickness, relative.size.y) - groundEmbedDepth);
+                            float rise = Mathf.Min(desiredRise, availableRise);
+                            position.y = lowestSupport + rise - relative.max.y;
+                        }
+                        bounds = relative;
+                        bounds.center += position;
+                    }
                     float radius = new Vector2(bounds.extents.x, bounds.extents.z).magnitude + borderMargin;
                     Rect footprint = Footprint(bounds, objectGap * 0.5f);
                     if (!CircleInsideArea(XZ(bounds.center), radius) || OverlapsAny(footprint, reserved) ||
-                        OverlapsAny(footprint, occupied) ||
-                        !FullSupport(bounds, hit.point.y, startY, rayLength, ground, blockers)) continue;
+                        OverlapsAny(footprint, occupied)) continue;
+                    if (isGround)
+                    {
+                        if (OverlapsAny(GroundSpacingFootprint(bounds), groundOccupied)) continue;
+                    }
+                    else if (!FullSupport(bounds, hit.point.y, startY, rayLength, ground, blockers)) continue;
 
                     bool collision = false;
                     foreach (Collider col in Physics.OverlapBox(bounds.center,
@@ -673,7 +837,7 @@ public class ForestScenePopulator : EditorWindow
 
                     if (parent == null)
                     {
-                        GameObject group = new GameObject(category.label);
+                        GameObject group = new GameObject(isGround ? GeneratedGroundName : category.label);
                         SceneManager.MoveGameObjectToScene(group, scene);
                         group.transform.SetParent(output.transform, false);
                         Undo.RegisterCreatedObjectUndo(group, "Genera bosco");
@@ -696,11 +860,30 @@ public class ForestScenePopulator : EditorWindow
                     Undo.RegisterCreatedObjectUndo(instance, "Genera bosco");
                     if (PrefabUtility.IsPartOfPrefabInstance(instance))
                         PrefabUtility.RecordPrefabInstancePropertyModifications(instance.transform);
-                    occupied.Add(footprint);
+                    if (isGround)
+                    {
+                        List<Collider> newGround = PrepareGroundColliders(instance);
+                        if (newGround.Count == 0)
+                        {
+                            Undo.DestroyObjectImmediate(instance);
+                            continue;
+                        }
+                        ground.AddRange(newGround);
+                        groundOccupied.Add(GroundSpacingFootprint(bounds));
+                    }
+                    else occupied.Add(footprint);
                     created++;
                     total++;
                 }
                 reports.Add(category.label + " " + created + "/" + category.count);
+                if (isGround && created > 0)
+                {
+                    // Aggiorna la fisica dopo aver posato i Ground: alberi, rocce,
+                    // erba e fiori possono cosi appoggiarsi anche ai nuovi rilievi.
+                    Physics.SyncTransforms();
+                    foreach (Collider col in ground) startY = Mathf.Max(startY, col.bounds.max.y + 2f);
+                    rayLength = startY - bottomY + 2f;
+                }
             }
         }
         catch (Exception error)

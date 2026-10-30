@@ -18,6 +18,9 @@ using UnityEngine.SceneManagement;
 // tutti i triangoli dei modelli. Mesh deformate da shader e animazioni richiedono
 // controllo visivo. Tutte le distanze sono espresse in unita della scena.
 // I Ground sono generati prima degli altri oggetti, parzialmente interrati.
+// La posa confronta la superficie reale della mesh con il suolo in piu punti:
+// non usa il solo massimo del bounding box, che seppelliva quasi tutto il pezzo.
+// Tools > Bosco > Correggi Ground nascosti sistema anche le copie gia generate.
 // Diventano superfici di appoggio; i loro ingombri non bloccano la vegetazione.
 // Il Terrain originale non viene scolpito. I Ground devono essere modelli del suolo,
 // non contenitori che includano anche alberi, rocce o altri oggetti di scena.
@@ -48,7 +51,16 @@ public class ForestScenePopulator : EditorWindow
         public Bounds localBounds;
         public Vector3 scale;
         public Quaternion rotation;
+        public List<SurfaceMesh> groundMeshes;
     }
+
+    private class SurfaceMesh
+    {
+        public Vector3[] vertices;
+        public int[] triangles;
+    }
+
+    private const float GroundClearance = 0.01f;
 
     [SerializeField] private List<GameObject> surfaces = new List<GameObject>();
     [SerializeField] private List<GameObject> mountains = new List<GameObject>();
@@ -85,6 +97,15 @@ public class ForestScenePopulator : EditorWindow
         ForestScenePopulator window = GetWindow<ForestScenePopulator>("Completa bosco");
         window.minSize = new Vector2(460f, 480f);
         window.Show();
+    }
+
+    [MenuItem("Tools/Bosco/Correggi Ground nascosti")]
+    private static void RepairGroundMenu()
+    {
+        ForestScenePopulator window = GetWindow<ForestScenePopulator>("Completa bosco");
+        window.minSize = new Vector2(460f, 480f);
+        window.Show();
+        window.RepairGeneratedGrounds();
     }
 
     private void OnEnable()
@@ -185,14 +206,18 @@ public class ForestScenePopulator : EditorWindow
             groundSupportVariation = PositiveField("Dislivello sotto i Ground", groundSupportVariation);
             groundOverlap = EditorGUILayout.Slider("Sovrapposizione fra Ground", groundOverlap, 0f, 0.35f);
             EditorGUILayout.HelpBox(
-                "Il rilievo e l'altezza massima visibile rispetto al suolo piu basso sotto il pezzo. " +
-                "Viene limitato dallo spessore del modello per non sollevarne la base. " +
-                "I modelli quasi piatti vengono tenuti aderenti al suolo e richiedono una zona uniforme. " +
+                "Il rilievo indica quanto far emergere la superficie interna del Ground. " +
+                "La posa confronta piu punti della mesh con il suolo, non solo il punto piu alto. " +
+                "Il fondo resta interrato; se non e possibile, il punto viene scartato. " +
+                "I modelli quasi piatti rimangono a 1 cm dal suolo su zone uniformi. " +
                 "Una piccola sovrapposizione fra Ground aiuta a unire le macchie; percorso e altri oggetti " +
                 "restano esclusi. Le mesh rigide non vengono deformate: verifica visivamente i bordi.",
                 MessageType.None);
             EditorGUI.indentLevel--;
         }
+        using (new EditorGUI.DisabledScope(EditorApplication.isPlayingOrWillChangePlaymode))
+            if (GUILayout.Button("Correggi Ground gia generati (senza aggiungerne altri)"))
+                RepairGeneratedGrounds();
 
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("6. Vegetazione, rocce e quantita", EditorStyles.boldLabel);
@@ -538,7 +563,7 @@ public class ForestScenePopulator : EditorWindow
         return b;
     }
 
-    private static Template MakeTemplate(GameObject source)
+    private static Template MakeTemplate(GameObject source, bool readGroundSurface = false)
     {
         if (source == null) return null;
         // InstantiatePrefab istanzia la radice: un sotto-oggetto di un asset
@@ -560,9 +585,137 @@ public class ForestScenePopulator : EditorWindow
         }
         if (!found) return null;
         bool asset = EditorUtility.IsPersistent(source);
-        return new Template { source = source, localBounds = local,
+        List<SurfaceMesh> groundMeshes = readGroundSurface ? ReadGroundMeshes(source) : null;
+        if (readGroundSurface && groundMeshes.Count == 0) return null;
+        return new Template { source = source, localBounds = local, groundMeshes = groundMeshes,
             scale = asset ? source.transform.localScale : source.transform.lossyScale,
             rotation = asset ? source.transform.localRotation : source.transform.rotation };
+    }
+
+    private static List<SurfaceMesh> ReadGroundMeshes(GameObject root)
+    {
+        var result = new List<SurfaceMesh>();
+        Matrix4x4 toRoot = root.transform.worldToLocalMatrix;
+        foreach (MeshFilter filter in root.GetComponentsInChildren<MeshFilter>(true))
+        {
+            MeshRenderer renderer = filter.GetComponent<MeshRenderer>();
+            if (filter.sharedMesh == null || renderer == null || !renderer.enabled) continue;
+            bool active = true;
+            for (Transform t = filter.transform; t != root.transform; t = t.parent)
+                if (!t.gameObject.activeSelf) { active = false; break; }
+            if (!active) continue;
+            // Operazione solo Editor: la lettura e consentita anche per modelli
+            // importati senza Read/Write, senza modificare le opzioni dell'asset.
+            try
+            {
+                Vector3[] vertices = filter.sharedMesh.vertices;
+                int[] triangles = filter.sharedMesh.triangles;
+                if (vertices.Length == 0 || triangles.Length < 3) continue;
+                Matrix4x4 matrix = toRoot * filter.transform.localToWorldMatrix;
+                for (int i = 0; i < vertices.Length; i++)
+                    vertices[i] = matrix.MultiplyPoint3x4(vertices[i]);
+                result.Add(new SurfaceMesh { vertices = vertices, triangles = triangles });
+            }
+            catch (Exception error)
+            {
+                Debug.LogWarning("Ground '" + root.name + "': mesh non leggibile. " + error.Message);
+            }
+        }
+        return result;
+    }
+
+    // Intersezione verticale con un triangolo, calcolata nel piano XZ.
+    // Ignora l'orientamento dei triangoli: interessa la superficie superiore.
+    private static bool TriangleHeight(Vector3 a, Vector3 b, Vector3 c,
+        float x, float z, out float y)
+    {
+        y = 0f;
+        float determinant = (b.z - c.z) * (a.x - c.x) + (c.x - b.x) * (a.z - c.z);
+        if (Mathf.Abs(determinant) < 0.0000001f) return false;
+        float u = ((b.z - c.z) * (x - c.x) + (c.x - b.x) * (z - c.z)) / determinant;
+        float v = ((c.z - a.z) * (x - c.x) + (a.x - c.x) * (z - c.z)) / determinant;
+        float w = 1f - u - v;
+        if (u < -0.00001f || v < -0.00001f || w < -0.00001f) return false;
+        y = u * a.y + v * b.y + w * c.y;
+        return true;
+    }
+
+    private static List<Vector3> GroundSurfaceSamples(Template template, Matrix4x4 matrix)
+    {
+        var meshes = new List<SurfaceMesh>();
+        Bounds bounds = default(Bounds);
+        bool found = false;
+        foreach (SurfaceMesh mesh in template.groundMeshes)
+        {
+            var vertices = new Vector3[mesh.vertices.Length];
+            for (int i = 0; i < vertices.Length; i++)
+            {
+                vertices[i] = matrix.MultiplyPoint3x4(mesh.vertices[i]);
+                if (!found) { bounds = new Bounds(vertices[i], Vector3.zero); found = true; }
+                else bounds.Encapsulate(vertices[i]);
+            }
+            meshes.Add(new SurfaceMesh { vertices = vertices, triangles = mesh.triangles });
+        }
+        var samples = new List<Vector3>();
+        if (!found) return samples;
+        // Non misura il fondo o un angolo estremo del bounding box. Cerca la
+        // superficie superiore reale su una griglia interna; i bordi estremi
+        // possono rimanere interrati per raccordarsi al Terrain.
+        for (int ix = 0; ix < 7; ix++)
+        for (int iz = 0; iz < 7; iz++)
+        {
+            float x = Mathf.Lerp(bounds.min.x, bounds.max.x, 0.05f + 0.9f * ix / 6f);
+            float z = Mathf.Lerp(bounds.min.z, bounds.max.z, 0.05f + 0.9f * iz / 6f);
+            float top = float.NegativeInfinity;
+            foreach (SurfaceMesh mesh in meshes)
+                for (int i = 0; i + 2 < mesh.triangles.Length; i += 3)
+                    if (TriangleHeight(mesh.vertices[mesh.triangles[i]], mesh.vertices[mesh.triangles[i + 1]],
+                        mesh.vertices[mesh.triangles[i + 2]], x, z, out float y)) top = Mathf.Max(top, y);
+            if (!float.IsNegativeInfinity(top)) samples.Add(new Vector3(x, top, z));
+        }
+        return samples;
+    }
+
+    private bool GroundPatchPosition(Template template, Matrix4x4 relativeMatrix, Bounds relative,
+        float x, float z, float desiredRise, float startY, float length,
+        List<Collider> baseGround, List<Collider> blockers, out float pivotY)
+    {
+        pivotY = 0f;
+        Bounds footprint = relative;
+        footprint.center += new Vector3(x, 0f, z);
+        if (!GroundPatchSupport(footprint, startY, length, baseGround, blockers,
+            out float lowestSupport, out float highestSupport)) return false;
+        List<Vector3> samples = GroundSurfaceSamples(template, relativeMatrix);
+        if (samples.Count < 3) return false;
+        float requiredY = float.NegativeInfinity;
+        float lowestDifference = float.PositiveInfinity;
+        foreach (Vector3 sample in samples)
+        {
+            if (!GroundAt(x + sample.x, z + sample.z, startY, length,
+                baseGround, blockers, out RaycastHit support) ||
+                Vector3.Angle(support.normal, Vector3.up) > groundPatches.maxSlope) return false;
+            lowestSupport = Mathf.Min(lowestSupport, support.point.y);
+            highestSupport = Mathf.Max(highestSupport, support.point.y);
+            float difference = support.point.y - sample.y;
+            requiredY = Mathf.Max(requiredY, difference);
+            lowestDifference = Mathf.Min(lowestDifference, difference);
+        }
+        if (highestSupport - lowestSupport > groundSupportVariation) return false;
+        float thickness = template.localBounds.size.y * relativeMatrix.MultiplyVector(Vector3.up).magnitude;
+        if (thickness <= 0.02f)
+        {
+            // Un piano non ha una base da interrare. Accetta solo una posa
+            // quasi aderente, evitando di farlo galleggiare su un dislivello.
+            if (requiredY - lowestDifference > 0.015f) return false;
+            pivotY = requiredY + GroundClearance;
+            return true;
+        }
+        float highestAllowed = lowestSupport - groundEmbedDepth - relative.min.y;
+        // Tutti i campioni interni devono emergere almeno di GroundClearance.
+        // Se non e possibile senza estrarre il fondo, prova un'altra posizione.
+        if (requiredY + GroundClearance > highestAllowed) return false;
+        pivotY = Mathf.Min(requiredY + Mathf.Max(GroundClearance, desiredRise), highestAllowed);
+        return true;
     }
 
     private static Vector2 XZ(Vector3 p) { return new Vector2(p.x, p.z); }
@@ -700,6 +853,138 @@ public class ForestScenePopulator : EditorWindow
         return GetColliders(new List<GameObject> { instance }, false);
     }
 
+    private void RepairGeneratedGrounds()
+    {
+        if (EditorApplication.isPlayingOrWillChangePlaymode) return;
+        drawing = false;
+        Scene scene = SceneManager.GetActiveScene();
+        var patches = new List<GameObject>();
+        var forestRoots = new HashSet<GameObject>();
+        foreach (GameObject root in scene.GetRootGameObjects())
+        foreach (Transform t in root.GetComponentsInChildren<Transform>())
+            if (t.name == GeneratedGroundName && IsGeneratedGround(t))
+            {
+                forestRoots.Add(t.parent.gameObject);
+                foreach (Transform child in t)
+                    if (child.gameObject.activeInHierarchy) patches.Add(child.gameObject);
+            }
+        if (patches.Count == 0)
+        { status = "Non ci sono Ground in Bosco_Generato/Ground_Generati da correggere."; Repaint(); return; }
+
+        List<Collider> baseGround = GetColliders(GroundRoots(), true).FindAll(col => !IsGeneratedGround(col.transform));
+        if (baseGround.Count == 0)
+        {
+            FindNamed(surfaces, 0);
+            baseGround = GetColliders(GroundRoots(), true).FindAll(col => !IsGeneratedGround(col.transform));
+        }
+        if (baseGround.Count == 0)
+        { status = "Indica il Terrain o il suolo originale con Collider attivi al punto 1."; Repaint(); return; }
+        if (GetColliders(mountains, false).Count == 0) FindNamed(mountains, 1);
+        List<Collider> blockers = GetColliders(mountains, false);
+        var blockerSet = new HashSet<Collider>(blockers);
+        Physics.SyncTransforms();
+        float startY = float.NegativeInfinity, bottomY = float.PositiveInfinity;
+        foreach (Collider col in baseGround)
+        { startY = Mathf.Max(startY, col.bounds.max.y); bottomY = Mathf.Min(bottomY, col.bounds.min.y); }
+        foreach (Collider col in blockers) startY = Mathf.Max(startY, col.bounds.max.y);
+        foreach (GameObject patch in patches)
+            if (SceneBounds(patch, out Bounds b)) startY = Mathf.Max(startY, b.max.y);
+        startY += 2f;
+        float length = startY - bottomY + 2f;
+        var changedAreas = new List<Rect>();
+        var random = new System.Random(seed);
+        int corrected = 0, skipped = 0, settled = 0;
+
+        Undo.IncrementCurrentGroup();
+        int undoGroup = Undo.GetCurrentGroup();
+        Undo.SetCurrentGroupName("Correggi Ground nascosti");
+        try
+        {
+            for (int i = 0; i < patches.Count; i++)
+            {
+                GameObject patch = patches[i];
+                if (EditorUtility.DisplayCancelableProgressBar("Correggi Ground nascosti",
+                    patch.name + " (" + (i + 1) + "/" + patches.Count + ")", i / (float)patches.Count)) break;
+                Template template = MakeTemplate(patch, true);
+                if (template == null) { skipped++; continue; }
+                Vector3 oldPosition = patch.transform.position;
+                // Mantiene X/Z, rotazione, scala e le trasformazioni dei genitori.
+                // Il risultato e una quota assoluta: ripetere il comando non
+                // accumula un ulteriore sollevamento a ogni esecuzione.
+                Matrix4x4 relativeMatrix = Matrix4x4.Translate(-oldPosition) * patch.transform.localToWorldMatrix;
+                Bounds relative = TransformBounds(template.localBounds, relativeMatrix);
+                float desiredRise = Mathf.Lerp(groundRise.x, groundRise.y, (float)random.NextDouble());
+                if (!GroundPatchPosition(template, relativeMatrix, relative, oldPosition.x, oldPosition.z,
+                    desiredRise, startY, length, baseGround, blockers, out float pivotY))
+                { skipped++; continue; }
+                Bounds placed = relative;
+                placed.center += new Vector3(oldPosition.x, pivotY, oldPosition.z);
+                bool collision = false;
+                foreach (Collider col in Physics.OverlapBox(placed.center,
+                    placed.extents + Vector3.one * mountainMargin, Quaternion.identity, ~0, QueryTriggerInteraction.Ignore))
+                    if (blockerSet.Contains(col)) { collision = true; break; }
+                if (collision) { skipped++; continue; }
+                if (Mathf.Abs(pivotY - oldPosition.y) <= 0.001f) continue;
+                Undo.RecordObject(patch.transform, "Correggi altezza Ground");
+                patch.transform.position = new Vector3(oldPosition.x, pivotY, oldPosition.z);
+                if (PrefabUtility.IsPartOfPrefabInstance(patch))
+                    PrefabUtility.RecordPrefabInstancePropertyModifications(patch.transform);
+                corrected++;
+                PrepareGroundColliders(patch);
+                changedAreas.Add(Footprint(placed, 0f));
+            }
+
+            // Alberi, rocce e ciuffi generati sopra i pezzi corretti devono
+            // seguire la nuova quota; altrimenti rimarrebbero sotto il Ground.
+            Physics.SyncTransforms();
+            List<Collider> allGround = GetColliders(GroundRoots(), true);
+            foreach (Collider col in allGround) startY = Mathf.Max(startY, col.bounds.max.y + 2f);
+            length = startY - bottomY + 2f;
+            foreach (GameObject forest in forestRoots)
+            foreach (Transform category in forest.transform)
+            {
+                if (category.name == GeneratedGroundName) continue;
+                foreach (Transform item in category)
+                {
+                    if (!item.gameObject.activeInHierarchy) continue;
+                    Template template = MakeTemplate(item.gameObject);
+                    if (template == null) continue;
+                    Bounds bounds = TransformBounds(template.localBounds, item.localToWorldMatrix);
+                    if (!OverlapsAny(Footprint(bounds, 0f), changedAreas) ||
+                        !GroundAt(item.position.x, item.position.z, startY, length,
+                            allGround, blockers, out RaycastHit hit)) continue;
+                    float delta = hit.point.y - bounds.min.y - 0.01f;
+                    if (Mathf.Abs(delta) <= 0.001f) continue;
+                    Undo.RecordObject(item, "Riappoggia elemento generato");
+                    item.position += Vector3.up * delta;
+                    if (PrefabUtility.IsPartOfPrefabInstance(item))
+                        PrefabUtility.RecordPrefabInstancePropertyModifications(item);
+                    settled++;
+                }
+            }
+        }
+        catch (Exception error)
+        {
+            Debug.LogException(error);
+            status = "Correzione interrotta: " + error.Message + ". Cmd+Z annulla le modifiche gia applicate.";
+            return;
+        }
+        finally
+        {
+            Physics.SyncTransforms();
+            EditorUtility.ClearProgressBar();
+            Undo.CollapseUndoOperations(undoGroup);
+            if (corrected > 0 || settled > 0) EditorSceneManager.MarkSceneDirty(scene);
+            SceneView.RepaintAll();
+            Repaint();
+        }
+        status = "Ground corretti: " + corrected + "; elementi riappoggiati: " + settled +
+            "; Ground non adattabili: " + skipped + ". " +
+            (skipped > 0 ? "Per quelli non adattabili verifica modello, Collider, pendenza e Dislivello sotto i Ground. " : "") +
+            "Nessun elemento aggiunto. Cmd+Z annulla la correzione.";
+        Debug.Log(status);
+    }
+
     private void Generate()
     {
         drawing = false;
@@ -729,7 +1014,7 @@ public class ForestScenePopulator : EditorWindow
             templates[i] = new List<Template>();
             foreach (GameObject model in categories[i].models)
             {
-                Template template = MakeTemplate(model);
+                Template template = MakeTemplate(model, i == 0);
                 if (template != null) templates[i].Add(template);
             }
             if (templates[i].Count > 0) requested += categories[i].count;
@@ -793,29 +1078,17 @@ public class ForestScenePopulator : EditorWindow
                     Vector3 scale = template.scale * factor;
                     Quaternion rotation = Quaternion.AngleAxis((float)random.NextDouble() * 360f, Vector3.up) * template.rotation;
                     if (category.alignToGround) rotation = Quaternion.FromToRotation(Vector3.up, hit.normal) * rotation;
-                    Bounds relative = TransformBounds(template.localBounds, Matrix4x4.TRS(Vector3.zero, rotation, scale));
+                    Matrix4x4 relativeMatrix = Matrix4x4.TRS(Vector3.zero, rotation, scale);
+                    Bounds relative = TransformBounds(template.localBounds, relativeMatrix);
                     Vector3 position = new Vector3(x, hit.point.y - relative.min.y - 0.01f, z);
                     Bounds bounds = relative;
                     bounds.center += position;
                     if (isGround)
                     {
-                        if (!GroundPatchSupport(bounds, startY, rayLength, baseGround, blockers,
-                            out float lowestSupport, out float highestSupport)) continue;
-                        float thickness = template.localBounds.size.y * Mathf.Abs(scale.y);
-                        if (thickness <= 0.02f)
-                        {
-                            // Un piano non puo diventare un rialzo: sulle zone
-                            // uniformi resta a pochi millimetri dalla superficie.
-                            if (highestSupport - lowestSupport > 0.015f) continue;
-                            position.y = (lowestSupport + highestSupport) * 0.5f - relative.center.y + 0.003f;
-                        }
-                        else
-                        {
-                            float desiredRise = Mathf.Lerp(groundRise.x, groundRise.y, (float)random.NextDouble());
-                            float availableRise = Mathf.Max(0f, Mathf.Min(thickness, relative.size.y) - groundEmbedDepth);
-                            float rise = Mathf.Min(desiredRise, availableRise);
-                            position.y = lowestSupport + rise - relative.max.y;
-                        }
+                        float desiredRise = Mathf.Lerp(groundRise.x, groundRise.y, (float)random.NextDouble());
+                        if (!GroundPatchPosition(template, relativeMatrix, relative, x, z, desiredRise,
+                            startY, rayLength, baseGround, blockers, out float pivotY)) continue;
+                        position.y = pivotY;
                         bounds = relative;
                         bounds.center += position;
                     }

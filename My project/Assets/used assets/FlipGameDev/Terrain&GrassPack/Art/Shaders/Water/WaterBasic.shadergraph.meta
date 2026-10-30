@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 6ddcf9aa841dd06459c5c7ce1c282364
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 625f186215c104763be7675aa2d941aa, type: 3}
+AssetOrigin:
+  serializedVersion: 1
+  productId: 379910
+  packageName: Terrain & Grass Pack
+  packageVersion: 1.0
+  assetPath: Assets/FlipGameDev/Terrain&GrassPack/Art/Shaders/Water/WaterBasic.shadergraph
+  uploadId: 925568

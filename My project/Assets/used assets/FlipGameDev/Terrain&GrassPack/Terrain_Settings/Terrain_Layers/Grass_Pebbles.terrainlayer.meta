@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 63ed94b8cd5b2654087bf7e4ef14bcfb
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 8574412962073106934
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 379910
+  packageName: Terrain & Grass Pack
+  packageVersion: 1.0
+  assetPath: Assets/FlipGameDev/Terrain&GrassPack/Terrain_Settings/Terrain_Layers/Grass_Pebbles.terrainlayer
+  uploadId: 925568

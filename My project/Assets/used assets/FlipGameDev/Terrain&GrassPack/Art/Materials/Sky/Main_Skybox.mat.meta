@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 1f3294ee4021c4541864705820702a19
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 379910
+  packageName: Terrain & Grass Pack
+  packageVersion: 1.0
+  assetPath: Assets/FlipGameDev/Terrain&GrassPack/Art/Materials/Sky/Main_Skybox.mat
+  uploadId: 925568

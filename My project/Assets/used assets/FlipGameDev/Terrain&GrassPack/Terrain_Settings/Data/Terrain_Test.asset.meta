@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: d70b1bb2c20e6fe479dc1596a4beaae0
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 15600000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 379910
+  packageName: Terrain & Grass Pack
+  packageVersion: 1.0
+  assetPath: Assets/FlipGameDev/Terrain&GrassPack/Terrain_Settings/Data/Terrain_Test.asset
+  uploadId: 925568

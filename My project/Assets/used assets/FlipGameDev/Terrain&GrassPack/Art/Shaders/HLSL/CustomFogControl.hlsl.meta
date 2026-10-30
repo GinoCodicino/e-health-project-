@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: f9bb292d3fe749d44900f7d054b96ba0
+ShaderIncludeImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 379910
+  packageName: Terrain & Grass Pack
+  packageVersion: 1.0
+  assetPath: Assets/FlipGameDev/Terrain&GrassPack/Art/Shaders/HLSL/CustomFogControl.hlsl
+  uploadId: 925568

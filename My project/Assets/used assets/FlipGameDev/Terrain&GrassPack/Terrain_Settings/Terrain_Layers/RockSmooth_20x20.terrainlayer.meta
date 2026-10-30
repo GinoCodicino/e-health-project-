@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 59e2aad69ab24cd43acd327df7fb0342
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 8574412962073106934
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 379910
+  packageName: Terrain & Grass Pack
+  packageVersion: 1.0
+  assetPath: Assets/FlipGameDev/Terrain&GrassPack/Terrain_Settings/Terrain_Layers/RockSmooth_20x20.terrainlayer
+  uploadId: 925568

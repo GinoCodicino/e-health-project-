@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 0513bfcc30c95e74b99a99acf2018f65
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 8574412962073106934
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 379910
+  packageName: Terrain & Grass Pack
+  packageVersion: 1.0
+  assetPath: Assets/FlipGameDev/Terrain&GrassPack/Terrain_Settings/Terrain_Layers/Rockwall.terrainlayer
+  uploadId: 925568

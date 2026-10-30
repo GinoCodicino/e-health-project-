@@ -1,0 +1,41 @@
+{
+  "id": "persona_03",
+  "topic": "Climate change",
+  "name": "Rachel Morgan",
+  "age": 47,
+  "occupation": "Accountant",
+  "archetype": "The Concerned but Powerless Pragmatist",
+  "biography": "Rachel accepts climate science and its seriousness but feels that lifestyle changes achieve little compared with governments and industry. She recycles and avoids waste, yet cost, inconvenience and established habits often outweigh sustainability. Her skepticism concerns response effectiveness, not the existence or human causes of warming. This creates a substantial knowledge-action gap.",
+  "quote": "Of course climate change is real. But whether I take the car or change what I eat isn't going to change the planet.",
+  "climate_environmental_behavior": [
+    "Accepts human-caused warming and its seriousness.",
+    "Supports environmental policies in principle.",
+    "Recycles consistently, avoids waste and saves energy when convenient.",
+    "Drives despite public-transport options and flies for holidays.",
+    "Makes few environmental changes to diet or transport habits.",
+    "Doubts response effectiveness; prioritizes government and industry action."
+  ],
+  "climate_change_profile": {
+    "MACK_12": {
+      "description": "Multidimensional Assessment of Climate Knowledge (factual climate knowledge)",
+      "score": 51,
+      "max": 60,
+      "level": "High"
+    },
+    "CCS_Q": {
+      "description": "Climate Change Skepticism Questionnaire (mean scores, 1-7, higher = more skepticism)",
+      "scale": { "low": "1.0-2.9", "moderate": "3.0-4.9", "high": "5.0-7.0" },
+      "trend_skepticism": { "score": 1.4, "level": "Low" },
+      "attribution_skepticism": { "score": 1.8, "level": "Low" },
+      "impact_skepticism": { "score": 2.2, "level": "Low" },
+      "response_skepticism": { "score": 5.8, "level": "High" }
+    },
+    "PEBS": {
+      "description": "Pro-Environmental Behavior Scale (qualitative levels)",
+      "conservation": "High",
+      "environmental_citizenship": "Low",
+      "food": "Medium",
+      "transportation": "Low"
+    }
+  }
+}

@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: cfe6c64d27d7f724381a210bbae252d3
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 379910
+  packageName: Terrain & Grass Pack
+  packageVersion: 1.0
+  assetPath: Assets/FlipGameDev/Terrain&GrassPack/Prefabs/MeshBillboard/Bush_Mesh.prefab
+  uploadId: 925568

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 09f2899245239d9449cec0f4ad1c8301
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 8574412962073106934
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 379910
+  packageName: Terrain & Grass Pack
+  packageVersion: 1.0
+  assetPath: Assets/FlipGameDev/Terrain&GrassPack/Terrain_Settings/Terrain_Layers/Road.terrainlayer
+  uploadId: 925568

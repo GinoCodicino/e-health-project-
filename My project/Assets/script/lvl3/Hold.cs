@@ -13,13 +13,6 @@ public class Hold : MonoBehaviour
     }
     public void SetHighlight(bool highlight)
     {
-        if (highlight)
-        {
-            mat.SetColor("_EmissionColor", Color.yellow);
-        }
-        else
-        {
-            mat.SetColor("_EmissionColor", Color.black);
-        }
+        mat.SetColor("_EmissionColor", highlight ? Color.yellow : Color.black);
     }
 }

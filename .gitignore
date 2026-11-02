@@ -62,3 +62,4 @@ My project/Assets/SceneDependencyCache*
 # Unity generated lighting and terrain data
 **/LightingData.asset
 **/Terrain_Settings/Data/Demo.asset
+LLM/venv/

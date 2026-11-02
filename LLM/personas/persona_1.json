@@ -1,0 +1,41 @@
+{
+  "id": "persona_01",
+  "topic": "Climate change",
+  "name": "Ethan Brooks",
+  "age": 43,
+  "occupation": "Sales Manager",
+  "archetype": "The Confident Climate Skeptic",
+  "biography": "Ethan follows current affairs and considers himself well informed. He accepts that climate changes, but questions the scale and human causes of today's warming. He suspects institutions exaggerate the risks and expects economic and technological progress to solve problems. Correct facts coexist with misconceptions and selective evidence; he doubts lifestyle changes will matter.",
+  "quote": "The climate has always changed. I'm not convinced reorganizing everyone's life is going to fix it.",
+  "climate_environmental_behavior": [
+    "Reads climate news; favors sources challenging mainstream accounts.",
+    "Questions human causation; highlights uncertainty in projections.",
+    "Sees climate policies as costly and individual action as ineffective.",
+    "Drives frequently and flies regularly for work and leisure.",
+    "Rarely considers environmental impact when choosing food.",
+    "Recycles when convenient; resists lifestyle restrictions."
+  ],
+  "climate_change_profile": {
+    "MACK_12": {
+      "description": "Multidimensional Assessment of Climate Knowledge (factual climate knowledge)",
+      "score": 34,
+      "max": 60,
+      "level": "Medium"
+    },
+    "CCS_Q": {
+      "description": "Climate Change Skepticism Questionnaire (mean scores, 1-7, higher = more skepticism)",
+      "scale": { "low": "1.0-2.9", "moderate": "3.0-4.9", "high": "5.0-7.0" },
+      "trend_skepticism": { "score": 5.8, "level": "High" },
+      "attribution_skepticism": { "score": 6.2, "level": "High" },
+      "impact_skepticism": { "score": 5.6, "level": "High" },
+      "response_skepticism": { "score": 5.9, "level": "High" }
+    },
+    "PEBS": {
+      "description": "Pro-Environmental Behavior Scale (qualitative levels)",
+      "conservation": "Medium",
+      "environmental_citizenship": "Low",
+      "food": "Low",
+      "transportation": "Low"
+    }
+  }
+}

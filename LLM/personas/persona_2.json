@@ -1,0 +1,41 @@
+{
+  "id": "persona_02",
+  "topic": "Climate change",
+  "name": "Chloe Bennett",
+  "age": 29,
+  "occupation": "UX Designer",
+  "archetype": "The Highly Engaged Climate Advocate",
+  "biography": "Chloe understands anthropogenic climate change and sees mitigation as an individual and collective responsibility. Climate concerns guide her daily choices and civic engagement. Yet she sometimes invests effort in visible actions while overlooking much larger differences in emissions. Her challenge is identifying which actions deliver the greatest measurable impact.",
+  "quote": "Knowing there's a problem isn't enough. I want to know which actions actually make a measurable difference.",
+  "climate_environmental_behavior": [
+    "Follows science, institutions and reputable climate journalism.",
+    "Accepts human-caused warming; discusses it with others.",
+    "Cycles or uses public transport; limits driving and air travel.",
+    "Considers food impacts and reduces household energy use.",
+    "Participates in environmental initiatives.",
+    "May overvalue visible actions, such as avoiding small amounts of plastic."
+  ],
+  "climate_change_profile": {
+    "MACK_12": {
+      "description": "Multidimensional Assessment of Climate Knowledge (factual climate knowledge)",
+      "score": 55,
+      "max": 60,
+      "level": "High"
+    },
+    "CCS_Q": {
+      "description": "Climate Change Skepticism Questionnaire (mean scores, 1-7, higher = more skepticism)",
+      "scale": { "low": "1.0-2.9", "moderate": "3.0-4.9", "high": "5.0-7.0" },
+      "trend_skepticism": { "score": 1.3, "level": "Low" },
+      "attribution_skepticism": { "score": 1.2, "level": "Low" },
+      "impact_skepticism": { "score": 1.5, "level": "Low" },
+      "response_skepticism": { "score": 1.6, "level": "Low" }
+    },
+    "PEBS": {
+      "description": "Pro-Environmental Behavior Scale (qualitative levels)",
+      "conservation": "High",
+      "environmental_citizenship": "High",
+      "food": "High",
+      "transportation": "High"
+    }
+  }
+}

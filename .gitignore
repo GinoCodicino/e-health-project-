@@ -32,7 +32,6 @@ My project/mono_crash.*
 .consulo/
 *.DotSettings.user
 
-
 # File di sistema
 .DS_Store
 **/.DS_Store
@@ -63,8 +62,4 @@ My project/Assets/SceneDependencyCache*
 # Unity generated lighting and terrain data
 **/LightingData.asset
 **/Terrain_Settings/Data/Demo.asset
-
-# Python related
-*.pyc
-LLM/venv  
-*/__pycache__/
+LLM/venv/

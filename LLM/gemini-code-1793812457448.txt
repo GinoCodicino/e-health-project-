@@ -1,0 +1,2 @@
+cd C:\GITHUB\-e-health-project-\e-health-project-\e-health-project-\LLM
+.\venv\Scripts\python.exe unity_server.py

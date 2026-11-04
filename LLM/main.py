@@ -86,6 +86,6 @@ if __name__ == "__main__":
     model_name = "Qwen/Qwen3-0.6B"
     persona_number = 1
     llm = LLM(model_name, persona_number)
-    input_text = """what's your opinion on Climate Change?"""
+    input_text = """why mushrooms doesn't grow anymore?"""
     answer = llm.call_model(input_text, max_new_tokens=1200, temperature=0.7)
     print(answer)

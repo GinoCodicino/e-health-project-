@@ -409,9 +409,9 @@ MonoBehaviour:
     - {fileID: 4680757731160225450, guid: 0fde05fa0f3321942a21896ff4f0856f, type: 3}
     - {fileID: 8783306491908617939, guid: f02116c209ecd9e488fc4d2cd8996133, type: 3}
     - {fileID: 1576488453971893466, guid: a778b631c6253a04899cb31bad047c81, type: 3}
-    water: {fileID: 0}
+    water: {fileID: 919132149155446097, guid: 95a7bd55b586d422fbc8b25c1852708d, type: 3}
     warning: {fileID: 0}
-    wet: {fileID: 0}
+    wet: {fileID: 919132149155446097, guid: 535649c63319e4f0699c018883be14df, type: 3}
   sliceHeight: 2.5
   spawnAhead: 9
   gustWarningTime: 1

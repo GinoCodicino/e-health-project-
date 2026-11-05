@@ -5,7 +5,7 @@ public enum HazardType { Rock, Wet, Lightning, Water }
 /// <summary>
 /// Un danger (ou bonus) dans un couloir. Créé par HazardSpawner.
 /// Pierre et éclair sont annoncés avant d'arriver ; plaque mouillée et gourde sont posées sur la paroi.
-/// Pierre, gourde et signal sont des modèles 3D ; plaque, zone d'éclair et éclair restent plats (effets transparents).
+/// Pierre, gourde, plaque glissante et signal sont des modèles 3D ; zone d'éclair et éclair restent plats (effets transparents).
 /// </summary>
 public class Hazard : MonoBehaviour
 {
@@ -45,9 +45,11 @@ public class Hazard : MonoBehaviour
                                               new Color(1f, 0.25f, 0.2f), Vector3.one * 0.45f);
                 break;
             case HazardType.Wet:
-                visual = SpriteFactory.Create("Wet", transform, visuals.wet, SpriteFactory.Square,
-                                              new Color(0.6f, 0.85f, 1f, 0.7f), new Vector2(w * 0.85f, 1.2f), -1).gameObject;
-                visual.transform.localPosition = new Vector3(0f, 0f, ClimbScenery.WallZ - 0.02f);
+                // Sans modèle : un bloc plat bleu-gris. On le recule jusqu'à ce que son arrière touche la paroi.
+                visual = ModelFactory.Create("Wet", transform, visuals.wet, PrimitiveType.Cube,
+                                             new Color(0.6f, 0.75f, 0.85f), new Vector3(w * 0.85f, 1.2f, 0.1f));
+                float back = ModelFactory.WorldBounds(visual).max.z;
+                visual.transform.position += Vector3.forward * (ClimbScenery.WallZ - back);
                 break;
             case HazardType.Water:
                 visual = ModelFactory.Create("Water", transform, visuals.water, PrimitiveType.Cylinder,

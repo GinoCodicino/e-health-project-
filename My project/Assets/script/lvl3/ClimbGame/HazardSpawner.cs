@@ -13,8 +13,8 @@ public class HazardVisuals
     public GameObject water;
     [Tooltip("Signal 3D affiché avant la chute d'une pierre.")]
     public GameObject warning;
-    [Tooltip("Plaque mouillée : sprite semi-transparent posé sur la paroi.")]
-    public Sprite wet;
+    [Tooltip("Plaque glissante 3D (ex. neige, glace), collée à la paroi.")]
+    public GameObject wet;
 }
 
 /// <summary>

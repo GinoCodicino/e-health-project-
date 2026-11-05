@@ -35,9 +35,24 @@ public class LaneClimber : MonoBehaviour
     [SerializeField] private float invulnerableTime = 1.2f;
 
     [Header("Visuel")]
-    public Sprite sprite;
+    [Tooltip("Modèle 3D du grimpeur (le personnage principal). Vide = une capsule.")]
+    public GameObject model;
+    [Tooltip("Matériau imposé au modèle (ex. Texture_A, celui du personnage dans la montagne).")]
+    public Material modelMaterial;
+    [Tooltip("Rotation du modèle pour qu'il soit de dos, face à la paroi.")]
+    [SerializeField] private float modelYaw = 0f;
     [SerializeField] private Color color = new Color(0.95f, 0.45f, 0.2f);
     [SerializeField] private Vector2 size = new Vector2(0.9f, 1.2f);
+
+    [Header("Animation des mains")]
+    [SerializeField] private string leftHandBone = "Arm_L";
+    [SerializeField] private string rightHandBone = "Arm_R";
+    [Tooltip("Hauteur dont une main monte pour attraper la paroi (m).")]
+    [SerializeField] private float handReach = 0.45f;
+    [Tooltip("Mouvements de mains par mètre grimpé.")]
+    [SerializeField] private float handsPerMeter = 1.2f;
+    [Tooltip("Inclinaison du corps pendant un changement de couloir (degrés).")]
+    [SerializeField] private float leanAngle = 12f;
 
     public int Lane { get; private set; }
     public float Stamina { get; private set; }
@@ -48,12 +63,24 @@ public class LaneClimber : MonoBehaviour
 
     public event Action OnExhausted;
 
-    private SpriteRenderer body;
+    private GameObject body;
+    private Transform leftHand, rightHand;
+    private Vector3 leftRest, rightRest;
     private float dropRemaining, stunTimer, invulnerableTimer;
+    private float handPhase, lastY;
 
     private void Awake()
     {
-        body = SpriteFactory.Create("Body", transform, sprite, SpriteFactory.Square, color, size, 5);
+        // Le modèle a les bras écartés : on le cale sur sa hauteur, il peut déborder jusqu'à la largeur du couloir.
+        body = ModelFactory.Create("Body", transform, model, PrimitiveType.Capsule, color,
+                                   new Vector3(model != null ? laneWidth : size.x, size.y, size.x));
+        body.transform.localRotation = Quaternion.Euler(0f, modelYaw, 0f);
+        ModelFactory.SetMaterial(body, modelMaterial);
+
+        leftHand = FindBone(body.transform, leftHandBone);
+        rightHand = FindBone(body.transform, rightHandBone);
+        if (leftHand != null) leftRest = leftHand.localPosition;
+        if (rightHand != null) rightRest = rightHand.localPosition;
     }
 
     public float LaneX(int lane) => (lane - (laneCount - 1) / 2f) * laneWidth;
@@ -67,7 +94,9 @@ public class LaneClimber : MonoBehaviour
         transform.position = new Vector3(LaneX(Lane), height, 0f);
         Stamina = maxStamina;
         dropRemaining = stunTimer = invulnerableTimer = 0f;
-        body.color = sprite != null ? Color.white : color;
+        handPhase = 0f;
+        lastY = height;
+        ModelFactory.SetVisible(body, true);
     }
 
     private void Update()
@@ -98,7 +127,48 @@ public class LaneClimber : MonoBehaviour
         Spend(drainPerSecond * weather.Current.drainMultiplier * dt);
 
         // Clignote quand il est invincible.
-        body.enabled = invulnerableTimer <= 0f || Mathf.Repeat(Time.time * 10f, 1f) > 0.4f;
+        ModelFactory.SetVisible(body, invulnerableTimer <= 0f || Mathf.Repeat(Time.time * 10f, 1f) > 0.4f);
+    }
+
+    private void LateUpdate()
+    {
+        Animate();
+    }
+
+    // ---------- Animation ----------
+
+    // Les mains suivent la montée réelle : elles s'arrêtent quand il est étourdi
+    // et repartent en arrière quand il glisse. Le corps penche du côté où il change de couloir.
+    private void Animate()
+    {
+        float climbed = transform.position.y - lastY;
+        lastY = transform.position.y;
+        handPhase += climbed * handsPerMeter * Mathf.PI;
+
+        float s = Mathf.Sin(handPhase);
+        PlaceHand(leftHand, leftRest, handReach * (0.5f + 0.5f * s));
+        PlaceHand(rightHand, rightRest, handReach * (0.5f - 0.5f * s));
+
+        float towardLane = LaneX(Lane) - transform.position.x;
+        float lean = Mathf.Clamp(towardLane / laneWidth, -1f, 1f) * leanAngle;
+        float sway = Mathf.Sin(handPhase) * 3f;
+        body.transform.localRotation = Quaternion.Euler(0f, modelYaw, -lean + sway);
+    }
+
+    // On déplace la main en coordonnées monde (vers le haut), quel que soit l'axe de l'os.
+    private static void PlaceHand(Transform hand, Vector3 rest, float up)
+    {
+        if (hand == null) return;
+        hand.localPosition = rest;
+        hand.position += Vector3.up * up;
+    }
+
+    private static Transform FindBone(Transform root, string boneName)
+    {
+        if (string.IsNullOrEmpty(boneName)) return null;
+        foreach (var t in root.GetComponentsInChildren<Transform>())
+            if (t.name == boneName) return t;
+        return null;
     }
 
     private void ReadInput()

@@ -1,12 +1,29 @@
 using UnityEngine;
 
 /// <summary>
-/// Sprites de remplacement générés en code (carré, rond), utilisés tant qu'aucun asset 2D
-/// n'est assigné dans l'Inspector. Taille : 1 unité.
+/// Sprites générés en code (carré, rond) pour les effets plats et transparents
+/// (plaque mouillée, zone d'éclair, gouttes de pluie). Taille : 1 unité.
+/// Les objets 3D passent par ModelFactory.
 /// </summary>
 public static class SpriteFactory
 {
     private static Sprite square, circle;
+    private static Material defaultMaterial;
+
+    /// <summary>Matériau par défaut des sprites (transparent), réutilisé par les LineRenderer.</summary>
+    public static Material DefaultMaterial
+    {
+        get
+        {
+            if (defaultMaterial == null)
+            {
+                var probe = new GameObject("SpriteMaterialProbe");
+                defaultMaterial = probe.AddComponent<SpriteRenderer>().sharedMaterial;
+                Object.Destroy(probe);
+            }
+            return defaultMaterial;
+        }
+    }
 
     public static Sprite Square
     {

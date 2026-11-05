@@ -5,11 +5,13 @@ public enum HazardType { Rock, Wet, Lightning, Water }
 /// <summary>
 /// Un danger (ou bonus) dans un couloir. Créé par HazardSpawner.
 /// Pierre et éclair sont annoncés avant d'arriver ; plaque mouillée et gourde sont posées sur la paroi.
+/// Pierre, gourde et signal sont des modèles 3D ; plaque, zone d'éclair et éclair restent plats (effets transparents).
 /// </summary>
 public class Hazard : MonoBehaviour
 {
     const float RockWarnTime = 1f;
     const float RockSpeed = 9f;
+    const float RockSpin = 220f;
     const float LightningWarnTime = 1.2f;
     const float LightningStrikeTime = 0.25f;
     const float WaterAmount = 30f;
@@ -17,20 +19,21 @@ public class Hazard : MonoBehaviour
     public HazardType Type { get; private set; }
 
     private LaneClimber climber;
-    private Camera cam;
-    private HazardSprites sprites;
+    private ClimbCamera view;
+    private HazardVisuals visuals;
     private int lane;
     private float timer;
     private bool armed;            // pierre : tombe ; éclair : a frappé
-    private SpriteRenderer visual, warning;
+    private GameObject visual, warning;
+    private Vector3 spinAxis;
 
-    public void Init(HazardType type, LaneClimber target, int laneIndex, float y, HazardSprites spriteSet)
+    public void Init(HazardType type, LaneClimber target, ClimbCamera camera, int laneIndex, float y, HazardVisuals set)
     {
         Type = type;
         climber = target;
+        view = camera;
         lane = laneIndex;
-        sprites = spriteSet;
-        cam = Camera.main;
+        visuals = set;
         float x = climber.LaneX(lane);
         float w = climber.laneWidth;
         transform.position = new Vector3(x, y, 0f);
@@ -38,23 +41,25 @@ public class Hazard : MonoBehaviour
         switch (type)
         {
             case HazardType.Rock:
-                warning = SpriteFactory.Create("Warning", transform, sprites.warning, SpriteFactory.Circle, new Color(1f, 0.25f, 0.2f), new Vector2(0.5f, 0.5f), 9);
+                warning = ModelFactory.Create("Warning", transform, visuals.warning, PrimitiveType.Sphere,
+                                              new Color(1f, 0.25f, 0.2f), Vector3.one * 0.45f);
                 break;
             case HazardType.Wet:
-                visual = SpriteFactory.Create("Wet", transform, sprites.wet, SpriteFactory.Square, new Color(0.6f, 0.85f, 1f, 0.7f), new Vector2(w * 0.85f, 1.2f), -1);
+                visual = SpriteFactory.Create("Wet", transform, visuals.wet, SpriteFactory.Square,
+                                              new Color(0.6f, 0.85f, 1f, 0.7f), new Vector2(w * 0.85f, 1.2f), -1).gameObject;
+                visual.transform.localPosition = new Vector3(0f, 0f, ClimbScenery.WallZ - 0.02f);
                 break;
             case HazardType.Water:
-                visual = SpriteFactory.Create("Water", transform, sprites.water, SpriteFactory.Circle, new Color(0.2f, 0.6f, 1f), new Vector2(0.5f, 0.5f), 4);
+                visual = ModelFactory.Create("Water", transform, visuals.water, PrimitiveType.Cylinder,
+                                             new Color(0.2f, 0.6f, 1f), new Vector3(0.35f, 0.25f, 0.35f));
                 break;
             case HazardType.Lightning:
-                warning = SpriteFactory.Create("LaneFlash", transform, null, SpriteFactory.Square, new Color(1f, 0.95f, 0.3f, 0.25f), new Vector2(w, CamHeight + 2f), 7);
+                warning = SpriteFactory.Create("LaneFlash", transform, null, SpriteFactory.Square,
+                                               new Color(1f, 0.95f, 0.3f, 0.25f), new Vector2(w, view.HalfHeight * 2f + 2f), 7).gameObject;
+                warning.transform.localPosition = new Vector3(0f, 0f, ClimbScenery.WallZ - 0.03f);
                 break;
         }
     }
-
-    private float CamHeight => cam.orthographicSize * 2f;
-    private float CamTop => cam.transform.position.y + cam.orthographicSize;
-    private float CamBottom => cam.transform.position.y - cam.orthographicSize;
 
     private void Update()
     {
@@ -73,31 +78,34 @@ public class Hazard : MonoBehaviour
         if (!armed)
         {
             // Signal en haut de l'écran, puis la pierre tombe.
-            transform.position = new Vector3(transform.position.x, CamTop - 0.6f, 0f);
-            warning.enabled = Mathf.Repeat(timer * 6f, 1f) > 0.3f;
+            transform.position = new Vector3(transform.position.x, view.Top - 0.6f, 0f);
+            ModelFactory.SetVisible(warning, Mathf.Repeat(timer * 6f, 1f) > 0.3f);
             if (timer < RockWarnTime) return;
             armed = true;
-            Destroy(warning.gameObject);
-            visual = SpriteFactory.Create("Rock", transform, sprites.rock, SpriteFactory.Circle, new Color(0.45f, 0.4f, 0.35f), new Vector2(0.7f, 0.7f), 6);
+            Destroy(warning);
+            visual = ModelFactory.Create("Rock", transform, PickRock(), PrimitiveType.Sphere,
+                                         new Color(0.45f, 0.4f, 0.35f), Vector3.one * 0.7f);
+            spinAxis = Random.onUnitSphere;
             transform.position += Vector3.up * 1.2f;
         }
 
         transform.position += Vector3.down * RockSpeed * Time.deltaTime;
+        visual.transform.Rotate(spinAxis, RockSpin * Time.deltaTime, Space.World);
         if (Touches()) { climber.Hit(); Destroy(gameObject); return; }
-        if (transform.position.y < CamBottom - 1f) Destroy(gameObject);
+        if (transform.position.y < view.Bottom - 1f) Destroy(gameObject);
     }
 
     private void UpdateLightning()
     {
-        transform.position = new Vector3(transform.position.x, cam.transform.position.y, 0f);
+        transform.position = new Vector3(transform.position.x, view.FocusY, 0f);
         if (!armed)
         {
-            warning.enabled = Mathf.Repeat(timer * 5f, 1f) > 0.4f;
+            warning.SetActive(Mathf.Repeat(timer * 5f, 1f) > 0.4f);
             if (timer < LightningWarnTime) return;
             armed = true;
             timer = 0f;
-            warning.enabled = false;
-            visual = SpriteFactory.Create("Bolt", transform, sprites.lightning, SpriteFactory.Square, new Color(1f, 1f, 0.75f), new Vector2(0.35f, CamHeight + 2f), 8);
+            warning.SetActive(false);
+            visual = CreateBolt();
             if (climber.Active && climber.Lane == lane) climber.Hit();
         }
         else if (timer > LightningStrikeTime) Destroy(gameObject);
@@ -105,13 +113,45 @@ public class Hazard : MonoBehaviour
 
     private void UpdateStatic()
     {
+        // La gourde tourne sur elle-même pour attirer l'œil.
+        if (Type == HazardType.Water) visual.transform.Rotate(Vector3.up, 90f * Time.deltaTime, Space.World);
+
         if (Touches())
         {
             if (Type == HazardType.Water) { climber.Refill(WaterAmount); Destroy(gameObject); return; }
             if (!armed) { armed = true; climber.Slip(); }
         }
-        if (transform.position.y < CamBottom - 2f) Destroy(gameObject);
+        if (transform.position.y < view.Bottom - 2f) Destroy(gameObject);
     }
 
-    private bool Touches() => climber.Active && visual != null && visual.bounds.Intersects(climber.Bounds);
+    // Éclair en zigzag sur toute la hauteur de l'écran, dans le couloir.
+    private GameObject CreateBolt()
+    {
+        var go = new GameObject("Bolt");
+        go.transform.SetParent(transform, false);
+        var line = go.AddComponent<LineRenderer>();
+        // Matériau des sprites : transparent et sans éclairage, disponible même dans un build.
+        line.sharedMaterial = SpriteFactory.DefaultMaterial;
+        line.startColor = line.endColor = new Color(1f, 1f, 0.75f);
+        line.widthMultiplier = 0.12f;
+        line.useWorldSpace = false;
+
+        const int points = 12;
+        float half = view.HalfHeight + 1f;
+        float zigzag = climber.laneWidth * 0.3f;
+        line.positionCount = points;
+        for (int i = 0; i < points; i++)
+        {
+            float t = i / (points - 1f);
+            float x = i == 0 || i == points - 1 ? 0f : Random.Range(-zigzag, zigzag);
+            line.SetPosition(i, new Vector3(x, Mathf.Lerp(half, -half, t), -0.3f));
+        }
+        return go;
+    }
+
+    private GameObject PickRock() =>
+        visuals.rocks != null && visuals.rocks.Length > 0 ? visuals.rocks[Random.Range(0, visuals.rocks.Length)] : null;
+
+    private bool Touches() =>
+        climber.Active && visual != null && ModelFactory.OverlapsXY(ModelFactory.WorldBounds(visual), climber.Bounds);
 }

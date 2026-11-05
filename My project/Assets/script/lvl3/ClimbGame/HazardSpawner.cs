@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-/// <summary>Assets 2D des dangers. Champ vide = forme de couleur par défaut.</summary>
+/// <summary>Visuels des dangers. Champ vide = forme de couleur par défaut.</summary>
 [Serializable]
-public class HazardSprites
+public class HazardVisuals
 {
-    public Sprite rock;
+    [Tooltip("Rochers 3D qui tombent (un au hasard à chaque chute).")]
+    public GameObject[] rocks;
+    [Tooltip("Gourde 3D qui recharge l'endurance.")]
+    public GameObject water;
+    [Tooltip("Signal 3D affiché avant la chute d'une pierre.")]
+    public GameObject warning;
+    [Tooltip("Plaque mouillée : sprite semi-transparent posé sur la paroi.")]
     public Sprite wet;
-    public Sprite water;
-    public Sprite lightning;
-    [Tooltip("Signal affiché avant la chute d'une pierre.")]
-    public Sprite warning;
 }
 
 /// <summary>
@@ -24,7 +26,8 @@ public class HazardSpawner : MonoBehaviour
 {
     public LaneClimber climber;
     public ClimbWeather weather;
-    public HazardSprites sprites = new HazardSprites();
+    public ClimbCamera view;
+    public HazardVisuals visuals = new HazardVisuals();
 
     [Tooltip("Hauteur d'une tranche de paroi (m).")]
     [SerializeField] private float sliceHeight = 2.5f;
@@ -123,7 +126,7 @@ public class HazardSpawner : MonoBehaviour
         var go = new GameObject(type.ToString());
         go.transform.SetParent(transform, false);
         var hazard = go.AddComponent<Hazard>();
-        hazard.Init(type, climber, lane, y, sprites);
+        hazard.Init(type, climber, view, lane, y, visuals);
         hazards.Add(hazard);
     }
 }

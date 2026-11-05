@@ -53,7 +53,7 @@ public class Hazard : MonoBehaviour
                 break;
             case HazardType.Water:
                 visual = ModelFactory.Create("Water", transform, visuals.water, PrimitiveType.Cylinder,
-                                             new Color(0.2f, 0.6f, 1f), new Vector3(0.35f, 0.25f, 0.35f));
+                                             new Color(0.2f, 0.6f, 1f), new Vector3(0.6f, 0.7f, 0.6f));
                 break;
             case HazardType.Lightning:
                 warning = SpriteFactory.Create("LaneFlash", transform, null, SpriteFactory.Square,

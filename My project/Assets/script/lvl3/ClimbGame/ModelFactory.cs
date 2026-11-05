@@ -22,7 +22,8 @@ public static class ModelFactory
         {
             model = InstantiatePrefab(prefab, root.transform);
             model.transform.localPosition = Vector3.zero;
-            model.transform.localRotation = Quaternion.identity;
+            // On garde la rotation propre du prefab : les .fbx venus de Blender ont -90° en X pour être debout.
+            model.transform.localRotation = prefab.transform.localRotation;
             // En mode édition, on désactive au lieu de détruire (pas de « composant supprimé » sur l'instance de prefab).
             foreach (var c in model.GetComponentsInChildren<Collider>())
                 if (Application.isPlaying) Object.Destroy(c); else c.enabled = false;

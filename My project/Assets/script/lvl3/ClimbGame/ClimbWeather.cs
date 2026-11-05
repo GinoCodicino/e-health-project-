@@ -12,7 +12,10 @@ public class WeatherSection
     public string name = "Beau temps";
     [Tooltip("Altitude où commence ce tronçon (m). C'est aussi le point de contrôle après une chute.")]
     public float startHeight;
+    [Tooltip("Couleur du ciel à l'horizon, reprise par le brouillard.")]
     public Color sky = new Color(0.55f, 0.78f, 0.98f);
+    [Tooltip("Couleur du ciel tout en haut (zénith).")]
+    public Color skyTop = new Color(0.2f, 0.42f, 0.8f);
     [Tooltip("Pluie visible à l'écran.")]
     public bool rain;
 
@@ -33,6 +36,9 @@ public class WeatherSection
     [Range(0f, 1f)] public float wetChance;
     [Tooltip("Probabilité d'une gourde d'eau à chaque tranche de paroi.")]
     [Range(0f, 1f)] public float waterChance = 0.12f;
+
+    /// <summary>Zénith ; si skyTop n'a jamais été réglé (transparent), une version plus sombre de l'horizon.</summary>
+    public Color SkyTop => skyTop.a > 0f ? skyTop : sky * 0.55f;
 }
 
 /// <summary>
@@ -43,10 +49,10 @@ public class ClimbWeather : MonoBehaviour
 {
     public List<WeatherSection> sections = new List<WeatherSection>
     {
-        new WeatherSection { name = "Beau temps", startHeight = 0f,  sky = new Color(0.55f, 0.78f, 0.98f), rockRate = 0.25f, waterChance = 0.12f },
-        new WeatherSection { name = "Vent",       startHeight = 30f, sky = new Color(0.62f, 0.74f, 0.86f), drainMultiplier = 1.1f, rockRate = 0.3f, gustRate = 0.25f, waterChance = 0.15f },
-        new WeatherSection { name = "Pluie",      startHeight = 60f, sky = new Color(0.42f, 0.5f, 0.6f),   rain = true, drainMultiplier = 1.3f, climbSpeedMultiplier = 0.85f, rockRate = 0.35f, gustRate = 0.1f, wetChance = 0.35f, waterChance = 0.18f },
-        new WeatherSection { name = "Orage",      startHeight = 90f, sky = new Color(0.24f, 0.26f, 0.34f), rain = true, drainMultiplier = 1.5f, climbSpeedMultiplier = 0.8f, rockRate = 0.4f, gustRate = 0.3f, lightningRate = 0.4f, wetChance = 0.3f, waterChance = 0.2f },
+        new WeatherSection { name = "Beau temps", startHeight = 0f,  sky = new Color(0.55f, 0.78f, 0.98f), skyTop = new Color(0.2f, 0.42f, 0.8f), rockRate = 0.25f, waterChance = 0.12f },
+        new WeatherSection { name = "Vent",       startHeight = 30f, sky = new Color(0.62f, 0.74f, 0.86f), skyTop = new Color(0.3f, 0.45f, 0.7f), drainMultiplier = 1.1f, rockRate = 0.3f, gustRate = 0.25f, waterChance = 0.15f },
+        new WeatherSection { name = "Pluie",      startHeight = 60f, sky = new Color(0.42f, 0.5f, 0.6f), skyTop = new Color(0.25f, 0.3f, 0.4f),   rain = true, drainMultiplier = 1.3f, climbSpeedMultiplier = 0.85f, rockRate = 0.35f, gustRate = 0.1f, wetChance = 0.35f, waterChance = 0.18f },
+        new WeatherSection { name = "Orage",      startHeight = 90f, sky = new Color(0.24f, 0.26f, 0.34f), skyTop = new Color(0.08f, 0.09f, 0.14f), rain = true, drainMultiplier = 1.5f, climbSpeedMultiplier = 0.8f, rockRate = 0.4f, gustRate = 0.3f, lightningRate = 0.4f, wetChance = 0.3f, waterChance = 0.2f },
     };
 
     public WeatherSection Current { get; private set; }

@@ -431,6 +431,7 @@ MonoBehaviour:
   - name: Beau temps
     startHeight: 0
     sky: {r: 0.55, g: 0.78, b: 0.98, a: 1}
+    skyTop: {r: 0.2, g: 0.42, b: 0.8, a: 1}
     rain: 0
     drainMultiplier: 1
     climbSpeedMultiplier: 1
@@ -442,6 +443,7 @@ MonoBehaviour:
   - name: Vent
     startHeight: 30
     sky: {r: 0.62, g: 0.74, b: 0.86, a: 1}
+    skyTop: {r: 0.3, g: 0.45, b: 0.7, a: 1}
     rain: 0
     drainMultiplier: 1.1
     climbSpeedMultiplier: 1
@@ -453,6 +455,7 @@ MonoBehaviour:
   - name: Pluie
     startHeight: 60
     sky: {r: 0.42, g: 0.5, b: 0.6, a: 1}
+    skyTop: {r: 0.25, g: 0.3, b: 0.4, a: 1}
     rain: 1
     drainMultiplier: 1.3
     climbSpeedMultiplier: 0.85
@@ -464,6 +467,7 @@ MonoBehaviour:
   - name: Orage
     startHeight: 90
     sky: {r: 0.24, g: 0.26, b: 0.34, a: 1}
+    skyTop: {r: 0.08, g: 0.09, b: 0.14, a: 1}
     rain: 1
     drainMultiplier: 1.5
     climbSpeedMultiplier: 0.8

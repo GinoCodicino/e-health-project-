@@ -3,7 +3,7 @@ using UnityEngine;
 /// <summary>
 /// Caméra du mini-jeu : en légère perspective et légère contre-plongée, elle suit le grimpeur
 /// en regardant un peu au-dessus de lui (pour voir arriver les dangers).
-/// Elle prend la couleur du ciel du tronçon courant (fond et brouillard lointain).
+/// Elle règle le ciel en dégradé (skybox) et le brouillard selon le tronçon courant et l'altitude.
 /// Donne aussi la zone visible sur le plan de jeu (z = 0), utilisée par les dangers.
 /// </summary>
 [RequireComponent(typeof(Camera))]
@@ -16,6 +16,12 @@ public class ClimbCamera : MonoBehaviour
     [SerializeField] private float lead = 3f;
     [SerializeField] private float smoothing = 5f;
     [SerializeField] private float skySmoothing = 2f;
+
+    [Header("Ciel")]
+    [Tooltip("Matériau du ciel (shader Skybox/ClimbGradient). Vide = Resources/ClimbSky.")]
+    [SerializeField] private Material skyMaterial;
+    [Tooltip("Plus on monte, plus le zénith fonce (0 = pas d'effet, 1 = noir au sommet).")]
+    [Range(0f, 1f)] [SerializeField] private float altitudeDarkening = 0.4f;
 
     [Header("Cadrage")]
     [Tooltip("Distance entre la caméra et la paroi (m).")]
@@ -30,6 +36,8 @@ public class ClimbCamera : MonoBehaviour
 
     // Lu par ClimbGameManager.Awake, qui peut passer avant le nôtre : on le récupère à la demande.
     private Camera cam;
+    private Material sky;           // copie du matériau : on ne modifie pas l'asset
+    private Color horizonColor, topColor;
     public Camera Cam => cam != null ? cam : cam = GetComponent<Camera>();
 
     /// <summary>Altitude regardée (centre de l'écran sur la paroi).</summary>
@@ -45,7 +53,28 @@ public class ClimbCamera : MonoBehaviour
     {
         Cam.orthographic = false;
         Cam.fieldOfView = fieldOfView;
-        Cam.clearFlags = CameraClearFlags.SolidColor;
+        SetupSky();
+    }
+
+    private void OnDestroy()
+    {
+        if (sky != null) Destroy(sky);
+    }
+
+    // Ciel en dégradé si le shader est disponible, sinon couleur unie comme avant.
+    private void SetupSky()
+    {
+        Material source = skyMaterial != null ? skyMaterial : Resources.Load<Material>("ClimbSky");
+        if (source != null && source.shader.isSupported)
+        {
+            sky = new Material(source);
+            RenderSettings.skybox = sky;
+            Cam.clearFlags = CameraClearFlags.Skybox;
+        }
+        else
+        {
+            Cam.clearFlags = CameraClearFlags.SolidColor;
+        }
     }
 
     /// <summary>Place la caméra directement sur le grimpeur, sans lissage (début, retour au point de contrôle).</summary>
@@ -53,7 +82,12 @@ public class ClimbCamera : MonoBehaviour
     {
         FocusY = TargetY();
         Place();
-        if (weather.Current != null) SetSky(weather.Current.sky);
+        if (weather.Current != null)
+        {
+            horizonColor = weather.Current.sky;
+            topColor = weather.Current.SkyTop;
+            ApplySky();
+        }
     }
 
     private void LateUpdate()
@@ -63,7 +97,12 @@ public class ClimbCamera : MonoBehaviour
         Place();
 
         if (weather.Current != null)
-            SetSky(Color.Lerp(Cam.backgroundColor, weather.Current.sky, skySmoothing * Time.deltaTime));
+        {
+            float s = skySmoothing * Time.deltaTime;
+            horizonColor = Color.Lerp(horizonColor, weather.Current.sky, s);
+            topColor = Color.Lerp(topColor, weather.Current.SkyTop, s);
+            ApplySky();
+        }
     }
 
     // La caméra est sous le point regardé et lève les yeux vers lui.
@@ -73,12 +112,26 @@ public class ClimbCamera : MonoBehaviour
         transform.SetPositionAndRotation(new Vector3(0f, FocusY - below, -distance), Quaternion.Euler(-tilt, 0f, 0f));
     }
 
-    // Le brouillard prend la couleur du ciel : les montagnes du fond se fondent dedans.
-    private void SetSky(Color sky)
+    // Le brouillard prend la couleur de l'horizon : les montagnes du fond se fondent dedans.
+    private void ApplySky()
     {
-        Cam.backgroundColor = sky;
-        RenderSettings.fogColor = sky;
+        Cam.backgroundColor = horizonColor;
+        RenderSettings.fogColor = horizonColor;
+        if (sky == null) return;
+
+        float altitude = MaxY < float.MaxValue ? Mathf.Clamp01(FocusY / MaxY) : 0f;
+        Color top = Color.Lerp(topColor, Color.black, altitude * altitudeDarkening);
+        sky.SetColor(TopId, top);
+        sky.SetColor(HorizonId, horizonColor);
+        sky.SetColor(BottomId, horizonColor * 0.85f);
     }
+
+    /// <summary>Couleur actuelle de l'horizon (pour teinter les nuages lointains).</summary>
+    public Color HorizonColor => horizonColor;
+
+    private static readonly int TopId = Shader.PropertyToID("_TopColor");
+    private static readonly int HorizonId = Shader.PropertyToID("_HorizonColor");
+    private static readonly int BottomId = Shader.PropertyToID("_BottomColor");
 
     private float TargetY() => Mathf.Min(climber.Height + lead, MaxY);
 }

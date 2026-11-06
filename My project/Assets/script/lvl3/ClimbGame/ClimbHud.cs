@@ -61,9 +61,10 @@ public class ClimbHud : MonoBehaviour
             GUI.Label(new Rect(0, Screen.height * 0.2f, Screen.width, 60f), banner, bannerStyle);
 
         // Incoming gust
-        if (spawner.GustWarning > 0f && spawner.PendingGustDirection != 0)
+        GustHazard gust = spawner.ActiveGust;
+        if (gust != null && gust.IsWarning)
         {
-            string arrows = spawner.PendingGustDirection > 0 ? "GUST  →→→" : "←←←  GUST";
+            string arrows = gust.Direction > 0 ? "GUST  →→→" : "←←←  GUST";
             GUI.Label(new Rect(0, Screen.height * 0.32f, Screen.width, 50f), arrows, arrowStyle);
         }
 

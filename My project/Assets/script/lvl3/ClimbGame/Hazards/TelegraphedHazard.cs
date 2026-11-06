@@ -2,11 +2,15 @@ using UnityEngine;
 
 /// <summary>
 /// A hazard announced before it arrives: a blinking warning for WarnTime seconds, then the strike.
+/// The warning object is optional (the gust is announced by the HUD).
 /// </summary>
 public abstract class TelegraphedHazard : Hazard
 {
     protected GameObject warning;
     private bool struck;
+
+    /// <summary>True until the strike.</summary>
+    public bool IsWarning => !struck;
 
     protected abstract float WarnTime { get; }
     /// <summary>Warning blinks per second.</summary>
@@ -19,11 +23,11 @@ public abstract class TelegraphedHazard : Hazard
         if (!struck)
         {
             TickWarning();
-            ModelFactory.SetVisible(warning, Mathf.Repeat(timer * BlinkRate, 1f) > BlinkOff);
+            if (warning != null) ModelFactory.SetVisible(warning, Mathf.Repeat(timer * BlinkRate, 1f) > BlinkOff);
             if (timer < WarnTime) return;
             struck = true;
             timer = 0f;
-            Destroy(warning);
+            if (warning != null) Destroy(warning);
             Strike();
         }
         TickStrike();

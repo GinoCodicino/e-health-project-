@@ -33,15 +33,13 @@ public class HazardSpawner : MonoBehaviour
     [SerializeField] private float sliceHeight = 2.5f;
     [Tooltip("The wall is filled up to this distance above the climber (m).")]
     [SerializeField] private float spawnAhead = 9f;
-    [SerializeField] private float gustWarningTime = 1f;
 
     /// <summary>Nothing spawns above this (the summit).</summary>
     public float TopLimit { get; set; } = float.MaxValue;
     public bool Running { get; set; }
 
-    /// <summary>Incoming gust: direction (-1/+1), 0 if none.</summary>
-    public int PendingGustDirection { get; private set; }
-    public float GustWarning { get; private set; }
+    /// <summary>The gust in progress (only one at a time), null if none.</summary>
+    public GustHazard ActiveGust { get; private set; }
 
     private readonly List<Hazard> hazards = new List<Hazard>();
     private float nextSliceY, rockTimer, lightningTimer, gustTimer;
@@ -54,8 +52,7 @@ public class HazardSpawner : MonoBehaviour
         hazards.Clear();
         nextSliceY = climber.Height + 4f;
         rockTimer = lightningTimer = gustTimer = 2f;   // a short breather at the start
-        PendingGustDirection = 0;
-        GustWarning = 0f;
+        ActiveGust = null;
     }
 
     private void Update()
@@ -72,23 +69,9 @@ public class HazardSpawner : MonoBehaviour
         rockTimer = Tick(rockTimer, w.rockRate, () => Spawn<RockHazard>(RandomLane(), 0f));
         lightningTimer = Tick(lightningTimer, w.lightningRate, () => Spawn<LightningHazard>(RandomLane(), 0f));
 
-        if (GustWarning > 0f)
-        {
-            GustWarning -= Time.deltaTime;
-            if (GustWarning <= 0f)
-            {
-                climber.Push(PendingGustDirection);
-                PendingGustDirection = 0;
-            }
-        }
-        else
-        {
-            gustTimer = Tick(gustTimer, w.gustRate, () =>
-            {
-                PendingGustDirection = Random.value < 0.5f ? -1 : 1;
-                GustWarning = gustWarningTime;
-            });
-        }
+        // The next gust is only counted down once the previous one has blown.
+        if (ActiveGust == null)
+            gustTimer = Tick(gustTimer, w.gustRate, () => ActiveGust = Spawn<GustHazard>(climber.Lane, 0f));
 
         hazards.RemoveAll(h => h == null);
     }
@@ -121,12 +104,13 @@ public class HazardSpawner : MonoBehaviour
 
     private int RandomLane() => Random.Range(0, climber.laneCount);
 
-    private void Spawn<T>(int lane, float y) where T : Hazard
+    private T Spawn<T>(int lane, float y) where T : Hazard
     {
         var go = new GameObject(typeof(T).Name);
         go.transform.SetParent(transform, false);
         var hazard = go.AddComponent<T>();
         hazard.Init(climber, view, lane, y, visuals);
         hazards.Add(hazard);
+        return hazard;
     }
 }

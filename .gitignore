@@ -63,20 +63,3 @@ My project/Assets/SceneDependencyCache*
 **/LightingData.asset
 **/Terrain_Settings/Data/Demo.asset
 LLM/venv/
-
-# Ambiente Python locale
-/LLM/.venv_mushrooms/
-__pycache__/
-*.pyc
-
-# Cache Unity
-/My project/[Ll]ibrary/
-/My project/[Tt]emp/
-/My project/[Oo]bj/
-/My project/[Ll]ogs/
-/My project/[Uu]serSettings/
-
-# Backup locali delle patch
-/My project/*_Backup_*/
-
-.DS_Store

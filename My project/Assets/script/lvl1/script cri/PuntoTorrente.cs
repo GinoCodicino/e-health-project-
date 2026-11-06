@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PuntoTorrente : MonoBehaviour
 {
@@ -12,6 +13,9 @@ public class PuntoTorrente : MonoBehaviour
 
     void Start()
     {
+        if (minigioco == null)
+            minigioco = FindAnyObjectByType<QTEAcqua>();
+
         if (minigioco != null)
             minigioco.onVittoria.AddListener(() => completato = true);
     }
@@ -20,7 +24,10 @@ public class PuntoTorrente : MonoBehaviour
     {
         if (!abilitato || completato || minigioco == null || minigioco.InCorso) return;
 
-        if (InRange() && Input.GetKeyDown(interactKey))
+        bool interactionPressed = Keyboard.current != null &&
+                                  Keyboard.current.eKey.wasPressedThisFrame;
+
+        if (InRange() && interactionPressed)
             minigioco.Avvia();
     }
 

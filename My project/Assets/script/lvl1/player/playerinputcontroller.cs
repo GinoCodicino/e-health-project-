@@ -8,6 +8,14 @@ public class playerinputcontroller : MonoBehaviour
     public bool sprintHeld { get; private set; }
 
     private bool jumpRequested;
+    private bool interactRequested;
+
+    private void Awake()
+    {
+        PlayerInput playerInput = GetComponent<PlayerInput>();
+        if (playerInput != null && playerInput.currentActionMap == null)
+            playerInput.SwitchCurrentActionMap("Player");
+    }
 
     private void OnMove(InputValue inputValue)
     {
@@ -30,10 +38,23 @@ public class playerinputcontroller : MonoBehaviour
             jumpRequested = true;
     }
 
+    private void OnInteract(InputValue inputValue)
+    {
+        if (inputValue.isPressed)
+            interactRequested = true;
+    }
+
     public bool ConsumeJumpRequest()
     {
         bool requested = jumpRequested;
         jumpRequested = false;
+        return requested;
+    }
+
+    public bool ConsumeInteractRequest()
+    {
+        bool requested = interactRequested;
+        interactRequested = false;
         return requested;
     }
 
@@ -43,5 +64,6 @@ public class playerinputcontroller : MonoBehaviour
         lookInputVector = Vector2.zero;
         sprintHeld = false;
         jumpRequested = false;
+        interactRequested = false;
     }
 }

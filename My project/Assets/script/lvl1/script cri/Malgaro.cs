@@ -1,12 +1,14 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Malgaro : MonoBehaviour
 {
-    public PlayerFPS player;
+    public playercontroller player;
     public PuntoMinigioco punto;     // trascina qui l'oggetto con PuntoMinigioco
     public string nome = "Il malgaro";
     public KeyCode interactKey = KeyCode.E;
     public float interactDistance = 3f;
+    [SerializeField] float orientamentoModello = 180f;
 
     [TextArea(2, 4)]
     public string[] dialogoIniziale = new string[]
@@ -36,11 +38,35 @@ public class Malgaro : MonoBehaviour
     bool parlando;
     bool haParlato;
     System.Action allaFine;
+    playerinputcontroller inputController;
 
     void Start()
     {
         if (player == null && Camera.main != null)
-            player = Camera.main.GetComponentInParent<PlayerFPS>();
+            player = Camera.main.GetComponentInParent<playercontroller>();
+
+        if (player != null)
+            inputController = player.GetComponent<playerinputcontroller>();
+
+        if (punto == null)
+        {
+            PuntoMinigioco[] punti =
+                FindObjectsByType<PuntoMinigioco>(FindObjectsInactive.Exclude);
+            float distanzaMinima = float.MaxValue;
+
+            foreach (PuntoMinigioco candidato in punti)
+            {
+                if (candidato.minigioco == null)
+                    continue;
+
+                float distanza = (candidato.transform.position - transform.position).sqrMagnitude;
+                if (distanza < distanzaMinima)
+                {
+                    distanzaMinima = distanza;
+                    punto = candidato;
+                }
+            }
+        }
     }
 
     void Update()
@@ -52,13 +78,29 @@ public class Malgaro : MonoBehaviour
             Vector3 dir = player.transform.position - transform.position;
             dir.y = 0;
             if (dir.sqrMagnitude > 0.01f)
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * 4f);
+            {
+                Quaternion rotazioneVersoPlayer =
+                    Quaternion.LookRotation(dir) *
+                    Quaternion.Euler(0f, orientamentoModello, 0f);
+                transform.rotation = Quaternion.Slerp(
+                    transform.rotation, rotazioneVersoPlayer, Time.deltaTime * 4f);
+            }
 
-            if (Input.GetKeyDown(interactKey) || Input.GetMouseButtonDown(0)) Avanti();
+            if (InterazionePremuta() ||
+                (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame))
+                Avanti();
             return;
         }
 
-        if (InRange() && Input.GetKeyDown(interactKey)) Inizia();
+        if (InRange() && InterazionePremuta()) Inizia();
+    }
+
+    bool InterazionePremuta()
+    {
+        bool actionPressed = inputController != null && inputController.ConsumeInteractRequest();
+        bool keyboardPressed = Keyboard.current != null &&
+                               Keyboard.current.eKey.wasPressedThisFrame;
+        return actionPressed || keyboardPressed;
     }
 
     void Inizia()

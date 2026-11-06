@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PuntoMinigioco : MonoBehaviour
 {
@@ -12,6 +13,13 @@ public class PuntoMinigioco : MonoBehaviour
 
     void Start()
     {
+        if (minigioco == null)
+        {
+            minigioco = GetComponentInChildren<MemoryMinigame>(true);
+            if (minigioco == null)
+                minigioco = GetComponentInParent<MemoryMinigame>();
+        }
+
         if (minigioco != null)
             minigioco.onVittoria.AddListener(() => completato = true);
     }
@@ -20,7 +28,8 @@ public class PuntoMinigioco : MonoBehaviour
     {
         if (!abilitato || completato || minigioco == null || minigioco.InCorso) return;
 
-        if (InRange() && Input.GetKeyDown(interactKey))
+        if (InRange() && Keyboard.current != null &&
+            Keyboard.current.eKey.wasPressedThisFrame)
             minigioco.Avvia();
     }
 

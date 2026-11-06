@@ -66,14 +66,13 @@ public class playercontroller : MonoBehaviour
 
     private void Update()
     {
-        HandleCursor();
-
         if (soloBlocco)
             return;
 
         if (!canMove)
             return;
 
+        HandleCursor();
         HandleLook();
         HandleMovement();
     }

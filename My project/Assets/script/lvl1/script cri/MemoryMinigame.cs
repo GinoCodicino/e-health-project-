@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 
 public class MemoryMinigame : MonoBehaviour
@@ -34,7 +36,7 @@ public class MemoryMinigame : MonoBehaviour
     public Animale[] animali;
 
     [Header("Riferimenti")]
-    public PlayerFPS player;
+    public playercontroller player;
 
     [Header("Eventi")]
     public UnityEvent onVittoria;
@@ -60,6 +62,7 @@ public class MemoryMinigame : MonoBehaviour
     Text titolo, timerTesto, messaggio;
     GameObject btnRiprova, btnEsci;
     Font font;
+    playerinputcontroller playerInput;
 
     readonly List<Carta> carte = new List<Carta>();
     Carta primo;
@@ -114,11 +117,32 @@ public class MemoryMinigame : MonoBehaviour
         {
             GameObject es = new GameObject("EventSystem");
             es.AddComponent<EventSystem>();
-            es.AddComponent<StandaloneInputModule>();
+            InputSystemUIInputModule moduloInputSystem =
+                es.AddComponent<InputSystemUIInputModule>();
+            moduloInputSystem.AssignDefaultActions();
+        }
+        else
+        {
+            StandaloneInputModule moduloVecchio =
+                EventSystem.current.GetComponent<StandaloneInputModule>();
+            if (moduloVecchio != null)
+                moduloVecchio.enabled = false;
+
+            InputSystemUIInputModule moduloInputSystem =
+                EventSystem.current.GetComponent<InputSystemUIInputModule>();
+            if (moduloInputSystem == null)
+                moduloInputSystem =
+                    EventSystem.current.gameObject.AddComponent<InputSystemUIInputModule>();
+
+            moduloInputSystem.AssignDefaultActions();
+            moduloInputSystem.enabled = true;
         }
 
         if (player == null && Camera.main != null)
-            player = Camera.main.GetComponentInParent<PlayerFPS>();
+            player = Camera.main.GetComponentInParent<playercontroller>();
+
+        if (player != null)
+            playerInput = player.GetComponent<playerinputcontroller>();
 
         PreparaCarte();
 
@@ -129,7 +153,10 @@ public class MemoryMinigame : MonoBehaviour
 
         canvasGO.SetActive(true);
 
-        if (player != null) player.canMove = false;
+        if (player != null)
+            player.canMove = false;
+        if (playerInput != null)
+            playerInput.enabled = false;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
@@ -143,7 +170,10 @@ public class MemoryMinigame : MonoBehaviour
     {
         attivo = false;
         if (canvasGO != null) canvasGO.SetActive(false);
-        if (player != null) player.canMove = true;
+        if (playerInput != null)
+            playerInput.enabled = true;
+        if (player != null)
+            player.canMove = true;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -155,6 +185,8 @@ public class MemoryMinigame : MonoBehaviour
     {
         if (!attivo) return;
 
+        GestisciClickCarte();
+
         tempoRimasto -= Time.deltaTime;
 
         int s = Mathf.CeilToInt(Mathf.Max(0f, tempoRimasto));
@@ -165,6 +197,23 @@ public class MemoryMinigame : MonoBehaviour
         pannello.color = Color.Lerp(cieloFresco, cieloCaldo, caldo);
 
         if (tempoRimasto <= 0f) TempoScaduto();
+    }
+
+    void GestisciClickCarte()
+    {
+        if (Mouse.current == null || !Mouse.current.leftButton.wasPressedThisFrame)
+            return;
+
+        Vector2 posizione = Mouse.current.position.ReadValue();
+        foreach (Carta carta in carte)
+        {
+            if (carta.rt != null &&
+                RectTransformUtility.RectangleContainsScreenPoint(carta.rt, posizione, null))
+            {
+                ClickCarta(carta);
+                return;
+            }
+        }
     }
 
     void ClickCarta(Carta c)
@@ -389,7 +438,6 @@ public class MemoryMinigame : MonoBehaviour
             };
 
             AggiornaFaccia(carta);
-            btn.onClick.AddListener(() => ClickCarta(carta));
             carte.Add(carta);
         }
     }

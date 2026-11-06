@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
+using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 
 public class QTEAcqua : MonoBehaviour
@@ -36,7 +37,7 @@ public class QTEAcqua : MonoBehaviour
         "[A] o [D] = passo sulla roccia (premi il tasto indicato in tempo)\n[SPAZIO] = raccogli la goccia quando l'indicatore è nell'azzurro\nAttenzione al fango!";
 
     [Header("Riferimenti")]
-    public PlayerFPS player;
+    public playercontroller player;
 
     [Header("Eventi")]
     public UnityEvent onVittoria;
@@ -66,6 +67,7 @@ public class QTEAcqua : MonoBehaviour
     KeyCode tastoRichiesto;
     float timerFase, durataFase;
     float markerT, velocita, zonaStart, zonaW;
+    playerinputcontroller playerInput;
 
     static readonly Color acquaLimpida = new Color(0.357f, 0.722f, 0.902f);   // #5BB8E6
     static readonly Color acquaFango = new Color(0.545f, 0.42f, 0.29f);       // #8B6B4A
@@ -87,14 +89,32 @@ public class QTEAcqua : MonoBehaviour
         {
             GameObject es = new GameObject("EventSystem");
             es.AddComponent<EventSystem>();
-            es.AddComponent<StandaloneInputModule>();
+            es.AddComponent<InputSystemUIInputModule>();
+        }
+        else
+        {
+            StandaloneInputModule moduloVecchio =
+                EventSystem.current.GetComponent<StandaloneInputModule>();
+            if (moduloVecchio != null)
+                moduloVecchio.enabled = false;
+
+            InputSystemUIInputModule moduloInputSystem =
+                EventSystem.current.GetComponent<InputSystemUIInputModule>();
+            if (moduloInputSystem == null)
+                EventSystem.current.gameObject.AddComponent<InputSystemUIInputModule>();
         }
 
         if (player == null && Camera.main != null)
-            player = Camera.main.GetComponentInParent<PlayerFPS>();
+            player = Camera.main.GetComponentInParent<playercontroller>();
+
+        if (player != null)
+            playerInput = player.GetComponent<playerinputcontroller>();
 
         canvasGO.SetActive(true);
-        if (player != null) player.canMove = false;
+        if (player != null)
+            player.canMove = false;
+        if (playerInput != null)
+            playerInput.enabled = false;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
@@ -107,7 +127,10 @@ public class QTEAcqua : MonoBehaviour
         fase = Fase.Fermo;
         StopAllCoroutines();
         if (canvasGO != null) canvasGO.SetActive(false);
-        if (player != null) player.canMove = true;
+        if (playerInput != null)
+            playerInput.enabled = true;
+        if (player != null)
+            player.canMove = true;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }

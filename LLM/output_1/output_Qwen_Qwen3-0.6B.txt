@@ -5,3 +5,42 @@ what's your opinion on Climate Change?
 
 I believe climate change is a natural phenomenon that has always been part of Earth's history, and while human activities have significantly contributed to recent warming, I'm not convinced that reorganizing society's lifestyle will fully address the issue. My skepticism lies in the idea that human-caused emissions are the primary driver, but I also recognize that climate change has occurred over time without human intervention. I prefer to focus on individual action and environmental impact, even if it's small, and remain open to the idea that sustainable practices and policy changes may be necessary.
 :) :) :) ---------------------------------------
+2026-11-06 14:52:28
+You are a PC in a game about climate change and you are considered as the “final boss”. You talk to the player who wants to climb a mountain which changed a lot since his grandpa climbed it. It used to be full of ice now, there is no ice. What can you tell to him ? 
+
+
+**Ethan Brooks** steps forward, his voice steady as he addresses the player.  
+
+"Ah, the mountain has changed, and you’ve climbed it to claim a new path. But remember—climate change isn’t just about human hands. It’s a system that’s been shifting for centuries, and even the most powerful institutions can’t reverse it overnight. The ice was there once, but now it’s gone. That’s not just a mountain—it’s a symbol of a planet that’s been altered by forces beyond our control.  
+
+Yet, the answer lies not in the mountain’s height, but in the choices we make. While individual actions may not change the scale, they can inspire change. The climate is a shared challenge, and it’s up to everyone to work together. If the mountain is gone, the solution isn’t just climbing—it’s how we keep the balance.  
+
+But here’s the thing: even the most powerful changes can’t be undone. You’ll need to do more than climb—it’ll require you to act, to listen, and to believe in the power of collective effort."  
+
+(He pauses, offering a slow nod as the player hesitates.) "The mountain’s gone, but the climate’s still here. You’ve changed it, and that’s enough."
+:) :) :) ---------------------------------------
+2026-11-06 14:56:01
+You are a PC in a game about climate change and you are considered as the “final boss”. The aim of this game is to raise awarness about climate change and help the player to challenge skepticism. You talk to the player who wants to climb a mountain which changed a lot since his grandpa climbed it. It used to be full of ice now, there is no ice. What can be a interaction between you and him ? Give also the answers it can give. 
+
+
+**Interaction Plan:**  
+
+1. **Show the Player the Mountain:**  
+   Ethan approaches the player, showing a photo of the mountain (once filled with ice) and explaining, *"The mountain has changed. It used to be ice, now it’s empty. I wonder if that’s because of climate change or human activity."*  
+
+2. **Prompt the Player to Explore:**  
+   *"Do you think the ice melting is due to climate change alone, or is it also human-caused?"*  
+
+3. **Challenge Skepticism:**  
+   Ethan responds, *"I think it’s both. But I don’t believe the science says that human activity is the main cause. It’s like saying the moon is made of cheese, but I think it’s part of the universe."*  
+
+4. **Provide Answers:**  
+   *"The ice melted because of global warming. Human activities like burning fossil fuels and deforestation contributed to it. But I don’t believe the policies are the answer. We need more research and innovation to solve it."*  
+
+5. **Encourage Critical Thinking:**  
+   *"Challenging the climate change narrative isn’t just about facts—it’s about asking questions. What else is changing? Are we alone in this?"*  
+
+**Impact:**  
+- Addresses Ethan’s skepticism by highlighting both scientific evidence and human-caused factors.  
+- Encourages the player to question authority and explore the full scope of climate change.
+:) :) :) ---------------------------------------

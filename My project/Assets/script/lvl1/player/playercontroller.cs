@@ -1,4 +1,7 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(playerinputcontroller))]
@@ -22,97 +25,112 @@ public class playercontroller : MonoBehaviour
 
     private float cameraPitch;
     private float verticalVelocity;
+    private bool cursorReleased;
+    private bool hasFocus = true;
+    private int ignoreLookUntilFrame;
+    private readonly HashSet<Object> uiOwners = new HashSet<Object>();
+
+    public bool IsGameplayBlocked { get { return uiOwners.Count > 0 || cursorReleased || !hasFocus; } }
 
     private void Awake()
     {
         inputController = GetComponent<playerinputcontroller>();
         characterController = GetComponent<CharacterController>();
+        if (pitchPivot == null) pitchPivot = transform.Find("pitchpivot");
+        if (pitchPivot == null)
+        {
+            Camera view = GetComponentInChildren<Camera>(true);
+            if (view != null)
+                pitchPivot = view.transform.parent != transform ? view.transform.parent : view.transform;
+        }
+        if (pitchPivot != null) cameraPitch = Mathf.DeltaAngle(0f, pitchPivot.localEulerAngles.x);
     }
 
-    private void Start()
+    private void Start() { ApplyInputMode(); }
+
+    // Ogni pannello possiede il proprio blocco: chiuderne uno non sblocca gli altri.
+    public void SetUiMode(Object owner, bool open)
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        if (owner == null) return;
+        if (open) uiOwners.Add(owner);
+        else uiOwners.Remove(owner);
+        cursorReleased = false;
+        ignoreLookUntilFrame = Time.frameCount + 1;
+        ApplyInputMode();
+    }
+
+    private void ApplyInputMode()
+    {
+        if (inputController == null) return;
+        inputController.SetGameplayInputEnabled(!IsGameplayBlocked);
+        inputController.ClearInput();
+        Cursor.lockState = IsGameplayBlocked ? CursorLockMode.None : CursorLockMode.Locked;
+        Cursor.visible = IsGameplayBlocked;
     }
 
     private void Update()
     {
-        HandleLook();
+        if (uiOwners.Count == 0)
+        {
+            if (playerinputcontroller.ConsumeEscape())
+            {
+                cursorReleased = !cursorReleased;
+                ignoreLookUntilFrame = Time.frameCount + 1;
+                ApplyInputMode();
+            }
+            else if (cursorReleased && Mouse.current != null
+                && Mouse.current.leftButton.wasPressedThisFrame
+                && (EventSystem.current == null || !EventSystem.current.IsPointerOverGameObject()))
+            {
+                cursorReleased = false;
+                ignoreLookUntilFrame = Time.frameCount + 1;
+                ApplyInputMode();
+            }
+        }
+
+        if (!hasFocus) return;
+        if (!IsGameplayBlocked && Time.frameCount > ignoreLookUntilFrame) HandleLook();
         HandleMovement();
     }
 
     private void HandleMovement()
     {
+        if (!characterController.enabled) return;
         bool grounded = characterController.isGrounded;
+        if (grounded && verticalVelocity < 0f) verticalVelocity = -2f;
 
-        // Mantiene il contatto con il terreno quando non saltiamo.
-        if (grounded && verticalVelocity < 0f)
-        {
-            verticalVelocity = -2f;
-        }
-
-        Vector2 input = inputController.movementinputvector;
-
-        Vector3 move =
-            transform.right * input.x +
-            transform.forward * input.y;
-
-        // Evita una velocità maggiore nelle diagonali,
-        // conservando l'intensità di un eventuale stick analogico.
-        move = Vector3.ClampMagnitude(move, 1f);
-
-        float speed = inputController.sprintHeld
-            ? sprintSpeed
-            : moveSpeed;
-
+        Vector2 input = IsGameplayBlocked ? Vector2.zero : inputController.movementinputvector;
+        Vector3 move = Vector3.ClampMagnitude(transform.right * input.x + transform.forward * input.y, 1f);
+        float speed = !IsGameplayBlocked && inputController.sprintHeld ? sprintSpeed : moveSpeed;
         bool jumpPressed = inputController.ConsumeJumpRequest();
-
-        if (jumpPressed && grounded)
-        {
-            verticalVelocity = Mathf.Sqrt(
-                jumpHeight * -2f * gravity
-            );
-        }
+        if (!IsGameplayBlocked && jumpPressed && grounded)
+            verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * gravity);
 
         verticalVelocity += gravity * Time.deltaTime;
-
-        Vector3 velocity =
-            move * speed +
-            Vector3.up * verticalVelocity;
-
-        CollisionFlags collisions = characterController.Move(
-            velocity * Time.deltaTime
-        );
-
-        // Se colpiamo un soffitto, interrompiamo la salita.
-        if ((collisions & CollisionFlags.Above) != 0 &&
-            verticalVelocity > 0f)
-        {
-            verticalVelocity = 0f;
-        }
+        CollisionFlags collisions = characterController.Move((move * speed + Vector3.up * verticalVelocity) * Time.deltaTime);
+        if ((collisions & CollisionFlags.Above) != 0 && verticalVelocity > 0f) verticalVelocity = 0f;
     }
 
     private void HandleLook()
     {
         Vector2 look = inputController.lookInputVector;
+        transform.Rotate(0f, look.x * mouseSensitivity, 0f);
+        cameraPitch = Mathf.Clamp(cameraPitch - look.y * mouseSensitivity, -maxLookAngle, maxLookAngle);
+        if (pitchPivot != null) pitchPivot.localRotation = Quaternion.Euler(cameraPitch, 0f, 0f);
+    }
 
-        float mouseX = look.x * mouseSensitivity;
-        float mouseY = look.y * mouseSensitivity;
+    private void OnApplicationFocus(bool focus)
+    {
+        hasFocus = focus;
+        ignoreLookUntilFrame = Time.frameCount + 1;
+        ApplyInputMode();
+    }
 
-        transform.Rotate(0f, mouseX, 0f);
-
-        cameraPitch -= mouseY;
-        cameraPitch = Mathf.Clamp(
-            cameraPitch,
-            -maxLookAngle,
-            maxLookAngle
-        );
-
-        if (pitchPivot != null)
-        {
-            pitchPivot.localRotation = Quaternion.Euler(
-                cameraPitch, 0f, 0f
-            );
-        }
+    private void OnDisable()
+    {
+        if (inputController != null) inputController.ClearInput();
+        uiOwners.Clear();
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 }

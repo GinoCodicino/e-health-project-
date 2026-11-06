@@ -14,7 +14,7 @@ public class LaneClimber : MonoBehaviour
     [SerializeField] private float laneSwitchSpeed = 14f;
 
     [Header("Climbing")]
-    [SerializeField] private float climbSpeed = 2.2f;
+    [SerializeField] private float climbSpeed = 2.6f;
 
     [SerializeField] private ClimberStamina stamina = new ClimberStamina();
 

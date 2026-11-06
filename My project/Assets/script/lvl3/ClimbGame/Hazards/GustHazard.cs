@@ -9,7 +9,7 @@ public class GustHazard : TelegraphedHazard
     /// <summary>-1 = pushes left, +1 = pushes right.</summary>
     public int Direction { get; private set; }
 
-    protected override float WarnTime => 1f;
+    protected override float WarnTime => 0.5f;
 
     protected override void Build()
     {

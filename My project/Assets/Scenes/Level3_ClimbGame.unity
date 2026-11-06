@@ -414,7 +414,6 @@ MonoBehaviour:
     wet: {fileID: 919132149155446097, guid: 535649c63319e4f0699c018883be14df, type: 3}
   sliceHeight: 2.5
   spawnAhead: 9
-  gustWarningTime: 1
 --- !u!114 &683794977
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -533,49 +532,53 @@ MonoBehaviour:
   climber: {fileID: 1458925228}
   view: {fileID: 0}
   weather: {fileID: 0}
-  laneMaterials:
-  - {fileID: 2100000, guid: 1869fcfa481e54cd497739e5dfb48c71, type: 2}
-  - {fileID: 2100000, guid: c5d1a823b1910432eb714d83fd93e676, type: 2}
-  sideCliffs:
-  - {fileID: 3619911763600413812, guid: 1c90b0e142219f043bba4cd103ad74a7, type: 3}
-  - {fileID: 6239069557825479946, guid: 1dff1b6d41153f04b89191ef1a82f20c, type: 3}
-  - {fileID: 2475487538999437734, guid: f53d43fa45e2a32458980cb12ee76084, type: 3}
-  - {fileID: 1343775349410250795, guid: ad3ff5a98cea060489bf124ad17b4fee, type: 3}
-  - {fileID: 2814605142884267445, guid: 7e525c8d5ef27724c957da5dfce8be70, type: 3}
-  - {fileID: 7718913367434838856, guid: f44a5fec597efc8499df8340a7c0c1f3, type: 3}
-  - {fileID: 8795414786190670859, guid: efab6186a53e2584cb2a006ea786428d, type: 3}
-  - {fileID: 8334272329370966491, guid: 7e2f34d5420d6d04db0afd91534305d5, type: 3}
-  cliffMaterial: {fileID: 2100000, guid: 1869fcfa481e54cd497739e5dfb48c71, type: 2}
-  cliffSpacing: 4.5
-  cliffSize: 6
-  wallDetails:
-  - {fileID: 7120489767288413619, guid: a780de880321cba448622b436c97ffb7, type: 3}
-  - {fileID: 5168518811813546106, guid: 788fb9b5d86c1c24cb5245ffcfa55607, type: 3}
-  - {fileID: 7619728729629545365, guid: b43735016bf892a48bbb9819b8b8ce7c, type: 3}
-  - {fileID: 7987298900470834025, guid: e1c63f155621335498f5eda643d2011b, type: 3}
-  - {fileID: 8450135607298981446, guid: a5343355ebc8c9c4cb5cf77a5315d86f, type: 3}
-  wallDetailMaterial: {fileID: 2100000, guid: c5d1a823b1910432eb714d83fd93e676, type: 2}
-  detailsPerMeter: 1.2
-  farMountains:
-  - {fileID: 3971230521285569970, guid: de546e230fe491d46aaca545e62493c5, type: 3}
-  - {fileID: 5756111170750341522, guid: 10dda8866777bf44f9ce6862664323b1, type: 3}
-  - {fileID: 6783127261911708965, guid: 713c943ccbfcab0449993d096180948d, type: 3}
-  - {fileID: 7316386993682477049, guid: 283ec6f0a2b15c34e83fa08ce42cf7dc, type: 3}
-  pines:
-  - {fileID: 6208551969367241003, guid: f30a358b7336975468ee7d12a0aa30c7, type: 3}
-  - {fileID: 4751892824378312366, guid: b494815f7682f6e4db2ff5cd616e1717, type: 3}
-  - {fileID: 1248564959300070555, guid: 6df0c32e24342b845b0ca643604fe0ef, type: 3}
-  - {fileID: 5610412344464807517, guid: e735c04079cd2ec41a27bac1b848bfc0, type: 3}
-  - {fileID: 1760923041891628936, guid: 9a08f387c56d2e44aa12051243374461, type: 3}
-  groundMaterial: {fileID: 2100000, guid: e37ce48de581745e58f71d0480a1ab70, type: 2}
-  mountainsMinZ: 70
   fogRange: {x: 5, y: 120}
-  mountainMaterial: {fileID: 0}
-  cloudSprites: []
-  cloudDriftSpeed: 0.6
-  frontCloudAlpha: 0.2
-  flagPoleMaterial: {fileID: 2100000, guid: feb530b67b06640db96818474f138c19, type: 2}
-  flagClothMaterial: {fileID: 2100000, guid: 24e4cf2f59b34474c9f27112e14f30eb, type: 2}
+  wall:
+    laneMaterials:
+    - {fileID: 2100000, guid: 1869fcfa481e54cd497739e5dfb48c71, type: 2}
+    - {fileID: 2100000, guid: c5d1a823b1910432eb714d83fd93e676, type: 2}
+    sideCliffs:
+    - {fileID: 3619911763600413812, guid: 1c90b0e142219f043bba4cd103ad74a7, type: 3}
+    - {fileID: 6239069557825479946, guid: 1dff1b6d41153f04b89191ef1a82f20c, type: 3}
+    - {fileID: 2475487538999437734, guid: f53d43fa45e2a32458980cb12ee76084, type: 3}
+    - {fileID: 1343775349410250795, guid: ad3ff5a98cea060489bf124ad17b4fee, type: 3}
+    - {fileID: 2814605142884267445, guid: 7e525c8d5ef27724c957da5dfce8be70, type: 3}
+    - {fileID: 7718913367434838856, guid: f44a5fec597efc8499df8340a7c0c1f3, type: 3}
+    - {fileID: 8795414786190670859, guid: efab6186a53e2584cb2a006ea786428d, type: 3}
+    - {fileID: 8334272329370966491, guid: 7e2f34d5420d6d04db0afd91534305d5, type: 3}
+    cliffMaterial: {fileID: 2100000, guid: 1869fcfa481e54cd497739e5dfb48c71, type: 2}
+    cliffSpacing: 4.5
+    cliffSize: 6
+    wallDetails:
+    - {fileID: 7120489767288413619, guid: a780de880321cba448622b436c97ffb7, type: 3}
+    - {fileID: 5168518811813546106, guid: 788fb9b5d86c1c24cb5245ffcfa55607, type: 3}
+    - {fileID: 7619728729629545365, guid: b43735016bf892a48bbb9819b8b8ce7c, type: 3}
+    - {fileID: 7987298900470834025, guid: e1c63f155621335498f5eda643d2011b, type: 3}
+    - {fileID: 8450135607298981446, guid: a5343355ebc8c9c4cb5cf77a5315d86f, type: 3}
+    wallDetailMaterial: {fileID: 2100000, guid: c5d1a823b1910432eb714d83fd93e676, type: 2}
+    detailsPerMeter: 1.2
+  backdrop:
+    farMountains:
+    - {fileID: 3971230521285569970, guid: de546e230fe491d46aaca545e62493c5, type: 3}
+    - {fileID: 5756111170750341522, guid: 10dda8866777bf44f9ce6862664323b1, type: 3}
+    - {fileID: 6783127261911708965, guid: 713c943ccbfcab0449993d096180948d, type: 3}
+    - {fileID: 7316386993682477049, guid: 283ec6f0a2b15c34e83fa08ce42cf7dc, type: 3}
+    pines:
+    - {fileID: 6208551969367241003, guid: f30a358b7336975468ee7d12a0aa30c7, type: 3}
+    - {fileID: 4751892824378312366, guid: b494815f7682f6e4db2ff5cd616e1717, type: 3}
+    - {fileID: 1248564959300070555, guid: 6df0c32e24342b845b0ca643604fe0ef, type: 3}
+    - {fileID: 5610412344464807517, guid: e735c04079cd2ec41a27bac1b848bfc0, type: 3}
+    - {fileID: 1760923041891628936, guid: 9a08f387c56d2e44aa12051243374461, type: 3}
+    groundMaterial: {fileID: 2100000, guid: e37ce48de581745e58f71d0480a1ab70, type: 2}
+    mountainsMinZ: 70
+    mountainMaterial: {fileID: 0}
+  clouds:
+    sprites: []
+    driftSpeed: 0.6
+    frontAlpha: 0.2
+  summit:
+    flagPoleMaterial: {fileID: 2100000, guid: feb530b67b06640db96818474f138c19, type: 2}
+    flagClothMaterial: {fileID: 2100000, guid: 24e4cf2f59b34474c9f27112e14f30eb, type: 2}
 --- !u!1 &1133634943
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,66 +1,66 @@
 using UnityEngine;
 
 /// <summary>
-/// Décor 3D du mini-jeu, construit au lancement : la paroi des couloirs, des falaises de chaque côté,
-/// les montagnes et les sapins du fond, le sol de départ et le sommet avec son drapeau.
-/// Tout champ vide est remplacé par une forme simple colorée.
-/// Les nuages et la rangée de montagnes la plus lointaine sont toujours reconstruits au lancement
-/// (ils ne sont pas enregistrés dans la scène) : voir BuildBackdrop.
-/// Pour l'éditer à la main : menu ⋮ du composant → « Générer le décor dans la scène », puis sauvegarder la scène.
-/// Le jeu réutilise alors ce décor au lieu d'en reconstruire un.
+/// 3D scenery of the mini-game, built at startup: the lanes' wall, cliffs on each side,
+/// the background mountains and pine trees, the starting ground and the summit with its flag.
+/// Any empty field is replaced by a simple colored shape.
+/// The clouds and the farthest row of mountains are always rebuilt at startup
+/// (they are not saved in the scene): see BuildBackdrop.
+/// To edit it by hand: component ⋮ menu → "Generate scenery in scene", then save the scene.
+/// The game then reuses this scenery instead of building a new one.
 /// </summary>
 public class ClimbScenery : MonoBehaviour
 {
     [SerializeField] private LaneClimber climber;
-    [Tooltip("Vide = cherché dans la scène. Sert à teinter les nuages selon le ciel.")]
+    [Tooltip("Empty = found in the scene. Used to tint the clouds from the sky.")]
     [SerializeField] private ClimbCamera view;
-    [Tooltip("Vide = cherché dans la scène. Sert à placer le plafond nuageux au début de la pluie.")]
+    [Tooltip("Empty = found in the scene. Used to place the cloud ceiling where the rain starts.")]
     [SerializeField] private ClimbWeather weather;
 
-    [Header("Paroi")]
-    [Tooltip("Matériaux des couloirs, en alternance (ex. MountainRidge_Rock / MountainRidge_RockLight).")]
+    [Header("Wall")]
+    [Tooltip("Lane materials, alternating (e.g. MountainRidge_Rock / MountainRidge_RockLight).")]
     public Material[] laneMaterials;
-    [Tooltip("Falaises posées de chaque côté des couloirs (ex. Cliff_1 à Cliff_8).")]
+    [Tooltip("Cliffs placed on each side of the lanes (e.g. Cliff_1 to Cliff_8).")]
     public GameObject[] sideCliffs;
-    [Tooltip("Matériau imposé aux falaises (vide = celui du prefab).")]
+    [Tooltip("Material forced on the cliffs (empty = the prefab's).")]
     public Material cliffMaterial;
     [SerializeField] private float cliffSpacing = 4.5f;
     [SerializeField] private float cliffSize = 6f;
-    [Tooltip("Petits rochers incrustés dans la paroi, pour lui donner du relief (ex. Rock_Small_1 à 5).")]
+    [Tooltip("Small rocks embedded in the wall to give it relief (e.g. Rock_Small_1 to 5).")]
     public GameObject[] wallDetails;
     public Material wallDetailMaterial;
     [SerializeField] private float detailsPerMeter = 1.2f;
 
-    [Header("Fond")]
+    [Header("Background")]
     public GameObject[] farMountains;
     public GameObject[] pines;
     public Material groundMaterial;
-    [Tooltip("Les montagnes du fond commencent à cette profondeur (m).")]
+    [Tooltip("Background mountains start at this depth (m).")]
     [SerializeField] private float mountainsMinZ = 70f;
-    [Tooltip("Distance du brouillard qui fond les montagnes dans le ciel (m).")]
+    [Tooltip("Fog distance that blends the mountains into the sky (m).")]
     [SerializeField] private Vector2 fogRange = new Vector2(60f, 350f);
-    [Tooltip("Matériau imposé aux montagnes lointaines (vide = celui du prefab).")]
+    [Tooltip("Material forced on the distant mountains (empty = the prefab's).")]
     public Material mountainMaterial;
 
-    [Header("Nuages")]
-    [Tooltip("Sprites de nuages (vide = nuage doux généré en code).")]
+    [Header("Clouds")]
+    [Tooltip("Cloud sprites (empty = soft cloud generated in code).")]
     public Sprite[] cloudSprites;
     [SerializeField] private float cloudDriftSpeed = 0.6f;
-    [Tooltip("Opacité des nuages qui passent devant la paroi, au plafond nuageux (garder bas pour la lisibilité).")]
+    [Tooltip("Opacity of clouds passing in front of the wall at the cloud ceiling (keep low for readability).")]
     [Range(0f, 1f)] [SerializeField] private float frontCloudAlpha = 0.2f;
 
-    [Header("Sommet")]
+    [Header("Summit")]
     public Material flagPoleMaterial;
     public Material flagClothMaterial;
 
-    /// <summary>Profondeur de la face de la paroi : le grimpeur est en z = 0, juste devant.</summary>
+    /// <summary>Depth of the wall face: the climber is at z = 0, just in front.</summary>
     public const float WallZ = 0.5f;
 
     private const string RootName = "Scenery";
     private const string BackdropName = "Backdrop";
     private Transform root;
 
-    // Nuages construits au lancement : chacun dérive en x et prend la teinte du ciel selon sa profondeur.
+    // Clouds built at startup: each drifts along x and takes the sky tint based on its depth.
     private struct Cloud
     {
         public SpriteRenderer renderer;
@@ -70,8 +70,8 @@ public class ClimbScenery : MonoBehaviour
     private static Sprite softCloud;
 
     /// <summary>
-    /// Appelé au lancement. Si le décor a déjà été généré dans la scène (menu ⋮ du composant),
-    /// on le garde tel quel, avec les retouches faites à la main ; sinon on le construit.
+    /// Called at startup. If the scenery was already generated in the scene (component ⋮ menu),
+    /// it is kept as is, with any manual tweaks; otherwise it is built.
     /// </summary>
     public void Build(float summitHeight)
     {
@@ -99,8 +99,8 @@ public class ClimbScenery : MonoBehaviour
     }
 
 #if UNITY_EDITOR
-    // Clic droit sur le composant (ou menu ⋮) dans l'Inspector.
-    [ContextMenu("Générer le décor dans la scène")]
+    // Right-click the component (or ⋮ menu) in the Inspector.
+    [ContextMenu("Generate scenery in scene")]
     private void GenerateInEditor()
     {
         var manager = GetComponent<ClimbGameManager>();
@@ -110,11 +110,11 @@ public class ClimbScenery : MonoBehaviour
         ClearInEditor();
         ApplyFog();
         Generate(summitHeight);
-        UnityEditor.Undo.RegisterCreatedObjectUndo(root.gameObject, "Générer le décor");
+        UnityEditor.Undo.RegisterCreatedObjectUndo(root.gameObject, "Generate scenery");
         UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(gameObject.scene);
     }
 
-    [ContextMenu("Supprimer le décor de la scène")]
+    [ContextMenu("Delete scenery from scene")]
     private void ClearInEditor()
     {
         var existing = transform.Find(RootName);
@@ -127,7 +127,7 @@ public class ClimbScenery : MonoBehaviour
         float bottom = -4f, top = summitHeight + 6f;
         float height = top - bottom;
 
-        // Une bande de roche par couloir.
+        // One strip of rock per lane.
         for (int i = 0; i < climber.laneCount; i++)
         {
             var lane = ModelFactory.Create($"Lane{i}", root, null, PrimitiveType.Cube,
@@ -138,7 +138,7 @@ public class ClimbScenery : MonoBehaviour
                 ModelFactory.SetMaterial(lane, laneMaterials[i % laneMaterials.Length]);
         }
 
-        // Falaises de chaque côté, en quinconce, pour encadrer les couloirs.
+        // Staggered cliffs on each side, to frame the lanes.
         float halfWidth = climber.laneCount * climber.laneWidth / 2f;
         var random = new System.Random(3);
         for (float y = bottom; y < top; y += cliffSpacing)
@@ -151,14 +151,14 @@ public class ClimbScenery : MonoBehaviour
                                                 new Color(0.45f, 0.42f, 0.4f), new Vector3(size, size, size));
                 cliff.transform.position = new Vector3(side * (halfWidth + size * 0.5f),
                                                        y + (side > 0 ? cliffSpacing / 2f : 0f), WallZ + size * 0.4f);
-                // Retournées : leur face plate (faite pour poser au sol) part vers le haut,
-                // là où la caméra en contre-plongée ne la voit pas.
+                // Flipped: their flat face (meant to sit on the ground) points up,
+                // where the low-angle camera can't see it.
                 cliff.transform.rotation = Quaternion.Euler(180f, random.Next(4) * 90f, 0f);
                 ModelFactory.SetMaterial(cliff, cliffMaterial);
             }
         }
 
-        // Petits rochers à moitié enfoncés dans la face des couloirs.
+        // Small rocks half sunk into the lanes' face.
         int details = Mathf.RoundToInt(height * detailsPerMeter);
         for (int i = 0; i < details; i++)
         {
@@ -181,7 +181,7 @@ public class ClimbScenery : MonoBehaviour
         ground.transform.position = new Vector3(0f, -1.1f, -10f);
         ModelFactory.SetMaterial(ground, groundMaterial);
 
-        // Sapins au pied de la paroi, de part et d'autre.
+        // Pine trees at the foot of the wall, on both sides.
         for (int i = 0; i < 14; i++)
         {
             float x = (i % 2 == 0 ? -1f : 1f) * (6f + 18f * (float)random.NextDouble());
@@ -192,8 +192,8 @@ public class ClimbScenery : MonoBehaviour
             pine.transform.position = new Vector3(x, -0.6f + h / 2f, z);
         }
 
-        // Montagnes lointaines, derrière la paroi : on les voit sur les côtés.
-        // Ces modèles sont très profonds : on recule chacune jusqu'à ce que sa face avant soit à mountainsMinZ.
+        // Distant mountains behind the wall: visible on the sides.
+        // These models are very deep: each is pushed back until its front face is at mountainsMinZ.
         for (int i = 0; i < 7; i++)
         {
             float x = -180f + 60f * i + 20f * (float)random.NextDouble();
@@ -208,7 +208,7 @@ public class ClimbScenery : MonoBehaviour
         }
     }
 
-    // ---------- Arrière-plan reconstruit à chaque lancement ----------
+    // ---------- Backdrop rebuilt at every startup ----------
 
     private void BuildBackdrop(float summitHeight)
     {
@@ -225,8 +225,8 @@ public class ClimbScenery : MonoBehaviour
         BuildClouds(backdrop, summitHeight);
     }
 
-    // Grands sommets lointains, assez hauts pour rester visibles sur les côtés jusqu'au sommet de la voie.
-    // Placés vers la fin du brouillard : ils ressortent en silhouettes pâles, couleur d'horizon.
+    // Large distant peaks, tall enough to stay visible on the sides up to the top of the route.
+    // Placed near the end of the fog: they show up as pale, horizon-colored silhouettes.
     private const float PeakSink = 70f;
 
     private void BuildHighPeaks(Transform parent, float summitHeight)
@@ -239,9 +239,9 @@ public class ClimbScenery : MonoBehaviour
             float x = side * (25f + 30f * (i / 2) + 10f * (float)random.NextDouble());
             float h = summitHeight * (1.2f + 0.6f * (float)random.NextDouble());
             var peak = ModelFactory.Create("Peak", parent, Pick(farMountains, random), PrimitiveType.Cube,
-                                           new Color(0.6f, 0.65f, 0.72f), new Vector3(h * 4f, h, h));  // largeur large : c'est la hauteur qui fixe l'échelle
+                                           new Color(0.6f, 0.65f, 0.72f), new Vector3(h * 4f, h, h));  // generous width: the height sets the scale
             peak.transform.rotation = Quaternion.Euler(0f, random.Next(360), 0f);
-            // Base bien enfoncée : la caméra en contre-plongée ne doit jamais voir le bas plat des modèles.
+            // Base sunk deep: the low-angle camera must never see the models' flat bottom.
             peak.transform.position = new Vector3(x, 0f, 0f);
             Bounds bounds = ModelFactory.WorldBounds(peak);
             peak.transform.position += new Vector3(0f, -PeakSink - bounds.min.y,
@@ -255,13 +255,13 @@ public class ClimbScenery : MonoBehaviour
         var random = new System.Random(5);
         float top = summitHeight + 25f;
 
-        // Trois couches derrière la paroi : la perspective les fait défiler à des vitesses différentes.
-        //        profondeur, nombre, largeur min-max, étendue x, brume (part de couleur d'horizon), opacité
+        // Three layers behind the wall: perspective makes them scroll at different speeds.
+        //        depth, count, min-max width, x spread, haze (share of horizon color), opacity
         AddCloudLayer(parent, random, 60f, 22, 20f, 34f, 110f, -10f, top, 0.65f, 0.9f);
         AddCloudLayer(parent, random, 30f, 16, 10f, 18f, 60f, -5f, top, 0.35f, 0.85f);
         AddCloudLayer(parent, random, 12f, 10, 6f, 10f, 35f, 0f, top, 0.15f, 0.8f);
 
-        // Plafond nuageux à l'arrivée de la pluie : couche dense derrière, et voile léger devant la paroi.
+        // Cloud ceiling where the rain begins: a dense layer behind, and a light veil in front of the wall.
         float ceiling = CeilingHeight(summitHeight);
         AddCloudLayer(parent, random, 20f, 18, 14f, 24f, 50f, ceiling - 6f, ceiling + 6f, 0.25f, 0.95f);
         AddCloudLayer(parent, random, -3f, 7, 8f, 14f, 22f, ceiling - 3f, ceiling + 3f, 0.1f, frontCloudAlpha);
@@ -286,7 +286,7 @@ public class ClimbScenery : MonoBehaviour
             clouds.Add(new Cloud
             {
                 renderer = sr,
-                // Les nuages lointains semblent plus lents ; sens aléatoire faible = vent dominant vers la droite.
+                // Distant clouds look slower; slight random direction = prevailing wind to the right.
                 speed = cloudDriftSpeed * (0.5f + (float)random.NextDouble()) * (z < 0f ? 1.5f : 1f) / (1f + Mathf.Max(z, 0f) / 30f),
                 haze = haze,
                 alpha = alpha,
@@ -295,7 +295,7 @@ public class ClimbScenery : MonoBehaviour
         }
     }
 
-    // Le plafond nuageux se place au début du premier tronçon pluvieux (sinon à mi-hauteur).
+    // The cloud ceiling sits at the start of the first rainy section (otherwise halfway up).
     private float CeilingHeight(float summitHeight)
     {
         if (weather != null)
@@ -308,7 +308,7 @@ public class ClimbScenery : MonoBehaviour
     {
         if (clouds.Count == 0) return;
         Color horizon = view != null ? view.HorizonColor : RenderSettings.fogColor;
-        // Par mauvais temps l'horizon fonce : les nuages grisent avec lui.
+        // In bad weather the horizon darkens: the clouds turn gray with it.
         Color tint = Color.Lerp(Color.white, horizon * 1.3f, 0.3f);
         float dt = Time.deltaTime;
 
@@ -327,7 +327,7 @@ public class ClimbScenery : MonoBehaviour
         }
     }
 
-    // Nuage doux généré en code : quelques boules floues fondues ensemble, base un peu aplatie.
+    // Soft cloud generated in code: a few blurry blobs blended together, slightly flattened base.
     private static Sprite SoftCloud
     {
         get
@@ -354,8 +354,8 @@ public class ClimbScenery : MonoBehaviour
                     density += Mathf.Exp(-(dx * dx + dy * dy) * 2.5f);
                 }
                 float a = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01((density - 0.25f) * 1.6f));
-                a *= Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(v * 5f));  // base adoucie
-                // Un peu d'ombre en bas du nuage pour le relief.
+                a *= Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(v * 5f));  // softened base
+                // A bit of shadow at the bottom of the cloud for depth.
                 float shade = Mathf.Lerp(0.82f, 1f, Mathf.Clamp01(v * 1.6f));
                 pixels[y * w + x] = new Color(shade, shade, shade, a);
             }

@@ -1,8 +1,8 @@
 using UnityEngine;
 
 /// <summary>
-/// Pluie à l'écran : des traits qui tombent en biais, enfants de la caméra.
-/// Visible seulement quand le tronçon courant a de la pluie.
+/// On-screen rain: slanted falling streaks, children of the camera.
+/// Only visible when the current section has rain.
 /// </summary>
 [RequireComponent(typeof(Camera))]
 public class RainEffect : MonoBehaviour
@@ -11,7 +11,7 @@ public class RainEffect : MonoBehaviour
     [SerializeField] private int dropCount = 90;
     [SerializeField] private float speed = 14f;
     [SerializeField] private Vector2 direction = new Vector2(-0.25f, -1f);
-    [Tooltip("Distance des gouttes devant la caméra (m) : elles passent devant la paroi.")]
+    [Tooltip("Distance of the drops in front of the camera (m): they pass in front of the wall.")]
     [SerializeField] private float depth = 5f;
     [SerializeField] private Vector2 dropSize = new Vector2(0.015f, 0.16f);
     public Sprite dropSprite;
@@ -19,7 +19,7 @@ public class RainEffect : MonoBehaviour
     private Camera cam;
     private Transform[] drops;
 
-    // Demi-hauteur visible à la distance des gouttes.
+    // Visible half-height at the drops' distance.
     private float HalfHeight => cam.orthographic ? cam.orthographicSize
                                                  : depth * Mathf.Tan(cam.fieldOfView * 0.5f * Mathf.Deg2Rad);
 

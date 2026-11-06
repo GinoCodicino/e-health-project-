@@ -428,7 +428,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ClimbWeather
   sections:
-  - name: Beau temps
+  - name: Clear skies
     startHeight: 0
     sky: {r: 0.55, g: 0.78, b: 0.98, a: 1}
     skyTop: {r: 0.2, g: 0.42, b: 0.8, a: 1}
@@ -440,7 +440,7 @@ MonoBehaviour:
     lightningRate: 0
     wetChance: 0
     waterChance: 0.12
-  - name: Vent
+  - name: Wind
     startHeight: 30
     sky: {r: 0.62, g: 0.74, b: 0.86, a: 1}
     skyTop: {r: 0.3, g: 0.45, b: 0.7, a: 1}
@@ -452,7 +452,7 @@ MonoBehaviour:
     lightningRate: 0
     wetChance: 0
     waterChance: 0.15
-  - name: Pluie
+  - name: Rain
     startHeight: 60
     sky: {r: 0.42, g: 0.5, b: 0.6, a: 1}
     skyTop: {r: 0.25, g: 0.3, b: 0.4, a: 1}
@@ -464,7 +464,7 @@ MonoBehaviour:
     lightningRate: 0
     wetChance: 0.35
     waterChance: 0.18
-  - name: Orage
+  - name: Storm
     startHeight: 90
     sky: {r: 0.24, g: 0.26, b: 0.34, a: 1}
     skyTop: {r: 0.08, g: 0.09, b: 0.14, a: 1}
@@ -498,7 +498,7 @@ MonoBehaviour:
   summitHeight: 120
   fadeDuration: 0.5
   fallDuration: 0.8
-  summitMessage: Sommet atteint !
+  summitMessage: Summit reached!
   onSummitReached:
     m_PersistentCalls:
       m_Calls: []

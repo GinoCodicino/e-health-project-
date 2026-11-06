@@ -3,67 +3,67 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Un tronçon de la voie avec sa météo. Toutes ces valeurs sont des « leviers » :
-/// un futur système météo peut les modifier pendant la partie.
+/// A section of the route with its weather. All these values are "levers":
+/// a future weather system can change them during the game.
 /// </summary>
 [Serializable]
 public class WeatherSection
 {
-    public string name = "Beau temps";
-    [Tooltip("Altitude où commence ce tronçon (m). C'est aussi le point de contrôle après une chute.")]
+    public string name = "The weather is fine...";
+    [Tooltip("Altitude where this section starts (m). It is also the checkpoint after a fall.")]
     public float startHeight;
-    [Tooltip("Couleur du ciel à l'horizon, reprise par le brouillard.")]
+    [Tooltip("Sky color at the horizon, also used by the fog.")]
     public Color sky = new Color(0.55f, 0.78f, 0.98f);
-    [Tooltip("Couleur du ciel tout en haut (zénith).")]
+    [Tooltip("Sky color at the very top (zenith).")]
     public Color skyTop = new Color(0.2f, 0.42f, 0.8f);
-    [Tooltip("Pluie visible à l'écran.")]
+    [Tooltip("Rain visible on screen.")]
     public bool rain;
 
-    [Header("Grimpeur")]
-    [Tooltip("Multiplie la perte d'endurance au fil du temps (froid, chaleur, pluie).")]
+    [Header("Climber")]
+    [Tooltip("Multiplies stamina loss over time (cold, heat, rain).")]
     public float drainMultiplier = 1f;
-    [Tooltip("Multiplie la vitesse de montée (pluie = plus lent).")]
+    [Tooltip("Multiplies climbing speed (rain = slower).")]
     public float climbSpeedMultiplier = 1f;
 
-    [Header("Dangers (par seconde ou par tranche de paroi)")]
-    [Tooltip("Pierres qui tombent, par seconde.")]
+    [Header("Hazards (per second or per wall slice)")]
+    [Tooltip("Falling rocks, per second.")]
     public float rockRate = 0.25f;
-    [Tooltip("Rafales qui poussent d'un couloir, par seconde.")]
+    [Tooltip("Gusts that push one lane over, per second.")]
     public float gustRate;
-    [Tooltip("Éclairs, par seconde.")]
+    [Tooltip("Lightning strikes, per second.")]
     public float lightningRate;
-    [Tooltip("Probabilité d'une plaque mouillée / verglacée à chaque tranche de paroi.")]
+    [Tooltip("Chance of a wet / icy patch on each wall slice.")]
     [Range(0f, 1f)] public float wetChance;
-    [Tooltip("Probabilité d'une gourde d'eau à chaque tranche de paroi.")]
+    [Tooltip("Chance of a water bottle on each wall slice.")]
     [Range(0f, 1f)] public float waterChance = 0.12f;
 
-    /// <summary>Zénith ; si skyTop n'a jamais été réglé (transparent), une version plus sombre de l'horizon.</summary>
+    /// <summary>Zenith; if skyTop was never set (transparent), a darker version of the horizon.</summary>
     public Color SkyTop => skyTop.a > 0f ? skyTop : sky * 0.55f;
 }
 
 /// <summary>
-/// La météo de la voie, découpée en tronçons par altitude.
-/// Le tronçon courant est choisi selon la hauteur du grimpeur.
+/// The route's weather, split into sections by altitude.
+/// The current section is chosen from the climber's height.
 /// </summary>
 public class ClimbWeather : MonoBehaviour
 {
     public List<WeatherSection> sections = new List<WeatherSection>
     {
-        new WeatherSection { name = "Beau temps", startHeight = 0f,  sky = new Color(0.55f, 0.78f, 0.98f), skyTop = new Color(0.2f, 0.42f, 0.8f), rockRate = 0.25f, waterChance = 0.12f },
-        new WeatherSection { name = "Vent",       startHeight = 30f, sky = new Color(0.62f, 0.74f, 0.86f), skyTop = new Color(0.3f, 0.45f, 0.7f), drainMultiplier = 1.1f, rockRate = 0.3f, gustRate = 0.25f, waterChance = 0.15f },
-        new WeatherSection { name = "Pluie",      startHeight = 60f, sky = new Color(0.42f, 0.5f, 0.6f), skyTop = new Color(0.25f, 0.3f, 0.4f),   rain = true, drainMultiplier = 1.3f, climbSpeedMultiplier = 0.85f, rockRate = 0.35f, gustRate = 0.1f, wetChance = 0.35f, waterChance = 0.18f },
-        new WeatherSection { name = "Orage",      startHeight = 90f, sky = new Color(0.24f, 0.26f, 0.34f), skyTop = new Color(0.08f, 0.09f, 0.14f), rain = true, drainMultiplier = 1.5f, climbSpeedMultiplier = 0.8f, rockRate = 0.4f, gustRate = 0.3f, lightningRate = 0.4f, wetChance = 0.3f, waterChance = 0.2f },
+        new WeatherSection { name = "Clear skies", startHeight = 0f,  sky = new Color(0.55f, 0.78f, 0.98f), skyTop = new Color(0.2f, 0.42f, 0.8f), rockRate = 0.25f, waterChance = 0.12f },
+        new WeatherSection { name = "Wind",       startHeight = 30f, sky = new Color(0.62f, 0.74f, 0.86f), skyTop = new Color(0.3f, 0.45f, 0.7f), drainMultiplier = 1.1f, rockRate = 0.3f, gustRate = 0.25f, waterChance = 0.15f },
+        new WeatherSection { name = "Rain",       startHeight = 60f, sky = new Color(0.42f, 0.5f, 0.6f), skyTop = new Color(0.25f, 0.3f, 0.4f),   rain = true, drainMultiplier = 1.3f, climbSpeedMultiplier = 0.85f, rockRate = 0.35f, gustRate = 0.1f, wetChance = 0.35f, waterChance = 0.18f },
+        new WeatherSection { name = "Storm",      startHeight = 90f, sky = new Color(0.24f, 0.26f, 0.34f), skyTop = new Color(0.08f, 0.09f, 0.14f), rain = true, drainMultiplier = 1.5f, climbSpeedMultiplier = 0.8f, rockRate = 0.4f, gustRate = 0.3f, lightningRate = 0.4f, wetChance = 0.3f, waterChance = 0.2f },
     };
 
     public WeatherSection Current { get; private set; }
     public int CurrentIndex { get; private set; } = -1;
 
-    /// <summary>Levé à l'entrée dans un nouveau tronçon.</summary>
+    /// <summary>Raised when entering a new section.</summary>
     public event Action<WeatherSection> OnSectionChanged;
 
     /// <summary>
-    /// Met à jour le tronçon d'après l'altitude. On ne redescend jamais de tronçon pendant
-    /// une montée (un recul après un choc ne doit pas relancer la météo précédente).
+    /// Updates the section from the altitude. Never goes back down a section during
+    /// a climb (being knocked back after a hit must not restart the previous weather).
     /// </summary>
     public void UpdateForHeight(float height)
     {
@@ -71,7 +71,7 @@ public class ClimbWeather : MonoBehaviour
         if (index > CurrentIndex) SetSection(index);
     }
 
-    /// <summary>Repart du tronçon correspondant à cette altitude (début ou point de contrôle).</summary>
+    /// <summary>Restarts from the section matching this altitude (start or checkpoint).</summary>
     public void ResetTo(float height) => SetSection(IndexAt(height));
 
     private int IndexAt(float height)

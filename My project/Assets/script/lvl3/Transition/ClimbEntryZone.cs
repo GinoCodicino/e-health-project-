@@ -3,14 +3,14 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 /// <summary>
-/// Zone au pied de la voie : quand le joueur est dedans, affiche « Appuie sur C pour grimper »
-/// et, sur C, fait un fondu puis charge la scène du mini-jeu d'escalade.
-/// Le Collider sert juste à définir la zone (on teste ses bounds).
+/// Zone at the foot of the route: when the player is inside, shows "Press C to climb"
+/// and, on C, fades out then loads the climbing mini-game scene.
+/// The Collider only defines the zone (we test its bounds).
 /// </summary>
 [RequireComponent(typeof(Collider))]
 public class ClimbEntryZone : MonoBehaviour
 {
-    [SerializeField] private string prompt = "Appuie sur C pour grimper";
+    [SerializeField] private string prompt = "Press C to climb";
     [SerializeField] private int fontSize = 28;
     [SerializeField] private float fadeDuration = 0.5f;
 

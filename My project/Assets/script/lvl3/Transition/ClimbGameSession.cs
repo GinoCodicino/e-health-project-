@@ -1,8 +1,8 @@
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Passage entre la montagne (Level3_grandpa) et le mini-jeu d'escalade (Level3_ClimbGame).
-/// Les deux scènes doivent être dans les Build Settings.
+/// Transition between the mountain (Level3_grandpa) and the climbing mini-game (Level3_ClimbGame).
+/// Both scenes must be in the Build Settings.
 /// </summary>
 public static class ClimbGameSession
 {
@@ -23,7 +23,7 @@ public static class ClimbGameSession
         SceneManager.LoadScene(MountainScene);
     }
 
-    /// <summary>Vrai une seule fois après un retour du mini-jeu (lu par MountainReturnPoint).</summary>
+    /// <summary>True only once after returning from the mini-game (read by MountainReturnPoint).</summary>
     public static bool ConsumeReturn()
     {
         bool value = returningFromClimb;

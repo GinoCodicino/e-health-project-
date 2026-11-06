@@ -4,10 +4,10 @@ using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 /// <summary>
-/// Déroulé du mini-jeu « Couloirs » : fondu d'entrée, montée, tronçons météo,
-/// chute → retour au début du tronçon (point de contrôle), sommet → victoire,
-/// Échap → retour à la montagne.
-/// La caméra (ClimbCamera), l'interface (ClimbHud) et le décor (ClimbScenery) sont dans leurs propres scripts.
+/// Flow of the "Lanes" mini-game: fade-in, climb, weather sections,
+/// fall → back to the start of the section (checkpoint), summit → victory,
+/// Escape → back to the mountain.
+/// The camera (ClimbCamera), the UI (ClimbHud) and the scenery (ClimbScenery) are in their own scripts.
 /// </summary>
 public class ClimbGameManager : MonoBehaviour
 {
@@ -19,13 +19,13 @@ public class ClimbGameManager : MonoBehaviour
     [SerializeField] private ClimbScenery scenery;
     [SerializeField] private ScreenFader fader;
 
-    [Header("Partie")]
+    [Header("Game")]
     [SerializeField] private float summitHeight = 120f;
     [SerializeField] private float fadeDuration = 0.5f;
-    [Tooltip("Temps pendant lequel on voit le grimpeur tomber avant le fondu.")]
+    [Tooltip("How long the climber is seen falling before the fade.")]
     [SerializeField] private float fallDuration = 0.8f;
-    [SerializeField] private string summitMessage = "Sommet atteint !";
-    [Tooltip("Appelé quand le sommet est atteint (fin du jeu : scène de fin, crédits…).")]
+    [SerializeField] private string summitMessage = "Summit reached!";
+    [Tooltip("Called when the summit is reached (end of the game: ending scene, credits...).")]
     public UnityEvent onSummitReached;
 
     public float SummitHeight => summitHeight;
@@ -33,7 +33,7 @@ public class ClimbGameManager : MonoBehaviour
     private float checkpoint;
     private bool busy, finished;
 
-    // ---------- Cycle de vie ----------
+    // ---------- Lifecycle ----------
 
     private void Awake()
     {
@@ -82,7 +82,7 @@ public class ClimbGameManager : MonoBehaviour
             StartCoroutine(AbandonRoutine());
     }
 
-    // ---------- Déroulé ----------
+    // ---------- Flow ----------
 
     private void PlaceAt(float height)
     {
@@ -98,7 +98,7 @@ public class ClimbGameManager : MonoBehaviour
         spawner.Running = playing;
     }
 
-    // Le point de contrôle est le début du dernier tronçon atteint.
+    // The checkpoint is the start of the last section reached.
     private void HandleSectionChanged(WeatherSection section)
     {
         checkpoint = section.startHeight;
@@ -114,9 +114,9 @@ public class ClimbGameManager : MonoBehaviour
     {
         busy = true;
         SetPlaying(false);
-        hud.ShowBanner("Épuisé !", fallDuration + fadeDuration);
+        hud.ShowBanner("Exhausted!", fallDuration + fadeDuration);
 
-        // On voit le grimpeur tomber.
+        // Show the climber falling.
         float speed = 0f;
         for (float t = 0f; t < fallDuration; t += Time.deltaTime)
         {
@@ -138,7 +138,7 @@ public class ClimbGameManager : MonoBehaviour
         SetPlaying(false);
         hud.ShowBanners = false;
         if (fader != null) fader.Message = summitMessage;
-        Debug.Log("Sommet atteint : victoire !");
+        Debug.Log("Summit reached: victory!");
         onSummitReached?.Invoke();
     }
 

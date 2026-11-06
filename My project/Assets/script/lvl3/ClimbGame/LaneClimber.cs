@@ -3,62 +3,62 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 /// <summary>
-/// Le grimpeur : monte tout seul, change de couloir avec ←/→ (ou A/D).
-/// Gère l'endurance et les effets des dangers (choc, glissade, rafale).
+/// The climber: climbs automatically, changes lane with ←/→ (or A/D).
+/// Handles stamina and hazard effects (hit, slip, gust).
 /// </summary>
 public class LaneClimber : MonoBehaviour
 {
     public ClimbWeather weather;
 
-    [Header("Couloirs")]
+    [Header("Lanes")]
     public int laneCount = 4;
     public float laneWidth = 1.6f;
     [SerializeField] private float laneSwitchSpeed = 14f;
 
-    [Header("Montée")]
+    [Header("Climbing")]
     [SerializeField] private float climbSpeed = 2.2f;
 
-    [Header("Endurance")]
+    [Header("Stamina")]
     [SerializeField] private float maxStamina = 100f;
     [SerializeField] private float drainPerSecond = 2.5f;
     [SerializeField] private float hitCost = 20f;
     [SerializeField] private float slipCost = 10f;
 
-    [Header("Effets des dangers")]
-    [Tooltip("Recul après une pierre ou un éclair (m).")]
+    [Header("Hazard effects")]
+    [Tooltip("Knockback after a rock or lightning hit (m).")]
     [SerializeField] private float hitDrop = 1.5f;
-    [Tooltip("Glissade sur une plaque mouillée (m).")]
+    [Tooltip("Slide on a wet patch (m).")]
     [SerializeField] private float slipDrop = 2.5f;
     [SerializeField] private float dropSpeed = 8f;
     [SerializeField] private float stunTime = 0.6f;
-    [Tooltip("Temps d'invincibilité après un choc, pour ne pas enchaîner les dégâts.")]
+    [Tooltip("Invincibility time after a hit, to avoid chained damage.")]
     [SerializeField] private float invulnerableTime = 1.2f;
 
-    [Header("Visuel")]
-    [Tooltip("Modèle 3D du grimpeur (le personnage principal). Vide = une capsule.")]
+    [Header("Visual")]
+    [Tooltip("3D model of the climber (the main character). Empty = a capsule.")]
     public GameObject model;
-    [Tooltip("Matériau imposé au modèle (ex. Texture_A, celui du personnage dans la montagne).")]
+    [Tooltip("Material forced on the model (e.g. Texture_A, the one used by the character on the mountain).")]
     public Material modelMaterial;
-    [Tooltip("Rotation du modèle pour qu'il soit de dos, face à la paroi.")]
+    [Tooltip("Model rotation so it is seen from behind, facing the wall.")]
     [SerializeField] private float modelYaw = 0f;
     [SerializeField] private Color color = new Color(0.95f, 0.45f, 0.2f);
     [SerializeField] private Vector2 size = new Vector2(0.9f, 1.2f);
 
-    [Header("Animation des mains")]
+    [Header("Hand animation")]
     [SerializeField] private string leftHandBone = "Arm_L";
     [SerializeField] private string rightHandBone = "Arm_R";
-    [Tooltip("Hauteur dont une main monte pour attraper la paroi (m).")]
+    [Tooltip("How high a hand reaches up to grab the wall (m).")]
     [SerializeField] private float handReach = 0.45f;
-    [Tooltip("Mouvements de mains par mètre grimpé.")]
+    [Tooltip("Hand movements per meter climbed.")]
     [SerializeField] private float handsPerMeter = 1.2f;
-    [Tooltip("Inclinaison du corps pendant un changement de couloir (degrés).")]
+    [Tooltip("Body tilt while changing lanes (degrees).")]
     [SerializeField] private float leanAngle = 12f;
 
     public int Lane { get; private set; }
     public float Stamina { get; private set; }
     public float StaminaNormalized => Stamina / maxStamina;
     public float Height => transform.position.y;
-    /// <summary>Faux pendant les fondus, la chute et après la victoire.</summary>
+    /// <summary>False during fades, the fall and after victory.</summary>
     public bool Active { get; set; }
 
     public event Action OnExhausted;
@@ -71,7 +71,7 @@ public class LaneClimber : MonoBehaviour
 
     private void Awake()
     {
-        // Le modèle a les bras écartés : on le cale sur sa hauteur, il peut déborder jusqu'à la largeur du couloir.
+        // The model has its arms spread: we fit it by height, it may overflow up to the lane width.
         body = ModelFactory.Create("Body", transform, model, PrimitiveType.Capsule, color,
                                    new Vector3(model != null ? laneWidth : size.x, size.y, size.x));
         body.transform.localRotation = Quaternion.Euler(0f, modelYaw, 0f);
@@ -85,7 +85,7 @@ public class LaneClimber : MonoBehaviour
 
     public float LaneX(int lane) => (lane - (laneCount - 1) / 2f) * laneWidth;
 
-    /// <summary>Hitbox du grimpeur (un peu plus petite que le visuel, pour être indulgent).</summary>
+    /// <summary>Climber hitbox (a bit smaller than the visual, to be forgiving).</summary>
     public Bounds Bounds => new Bounds(transform.position, size * 0.75f);
 
     public void ResetAt(float height)
@@ -106,11 +106,11 @@ public class LaneClimber : MonoBehaviour
 
         ReadInput();
 
-        // Glisse vers son couloir.
+        // Slide toward the target lane.
         Vector3 p = transform.position;
         p.x = Mathf.MoveTowards(p.x, LaneX(Lane), laneSwitchSpeed * dt);
 
-        // Recul (choc, glissade) > étourdi > montée normale.
+        // Knockback (hit, slip) > stunned > normal climb.
         if (dropRemaining > 0f)
         {
             float d = Mathf.Min(dropRemaining, dropSpeed * dt);
@@ -126,7 +126,7 @@ public class LaneClimber : MonoBehaviour
         invulnerableTimer -= dt;
         Spend(drainPerSecond * weather.Current.drainMultiplier * dt);
 
-        // Clignote quand il est invincible.
+        // Blink while invincible.
         ModelFactory.SetVisible(body, invulnerableTimer <= 0f || Mathf.Repeat(Time.time * 10f, 1f) > 0.4f);
     }
 
@@ -137,8 +137,8 @@ public class LaneClimber : MonoBehaviour
 
     // ---------- Animation ----------
 
-    // Les mains suivent la montée réelle : elles s'arrêtent quand il est étourdi
-    // et repartent en arrière quand il glisse. Le corps penche du côté où il change de couloir.
+    // The hands follow the actual climb: they stop when he is stunned
+    // and move backward when he slips. The body leans toward the lane he is moving to.
     private void Animate()
     {
         float climbed = transform.position.y - lastY;
@@ -155,7 +155,7 @@ public class LaneClimber : MonoBehaviour
         body.transform.localRotation = Quaternion.Euler(0f, modelYaw, -lean + sway);
     }
 
-    // On déplace la main en coordonnées monde (vers le haut), quel que soit l'axe de l'os.
+    // Move the hand in world space (upward), whatever the bone's axis.
     private static void PlaceHand(Transform hand, Vector3 rest, float up)
     {
         if (hand == null) return;
@@ -179,12 +179,12 @@ public class LaneClimber : MonoBehaviour
         if (kb.rightArrowKey.wasPressedThisFrame || kb.dKey.wasPressedThisFrame) Push(1);
     }
 
-    // ---------- Effets ----------
+    // ---------- Effects ----------
 
-    /// <summary>Change de couloir (touche ou rafale). Bloqué aux bords.</summary>
+    /// <summary>Changes lane (key or gust). Blocked at the edges.</summary>
     public void Push(int direction) => Lane = Mathf.Clamp(Lane + direction, 0, laneCount - 1);
 
-    /// <summary>Pierre ou éclair : perte d'endurance, recul et court étourdissement.</summary>
+    /// <summary>Rock or lightning: stamina loss, knockback and a short stun.</summary>
     public void Hit()
     {
         if (invulnerableTimer > 0f) return;
@@ -194,7 +194,7 @@ public class LaneClimber : MonoBehaviour
         invulnerableTimer = invulnerableTime;
     }
 
-    /// <summary>Plaque mouillée : on glisse vers le bas.</summary>
+    /// <summary>Wet patch: slide down.</summary>
     public void Slip()
     {
         if (invulnerableTimer > 0f) return;

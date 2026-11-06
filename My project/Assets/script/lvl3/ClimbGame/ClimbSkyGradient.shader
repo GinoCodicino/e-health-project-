@@ -1,13 +1,13 @@
-// Ciel du mini-jeu d'escalade : un dégradé vertical (zénith → horizon → sol).
-// Les couleurs sont pilotées par ClimbCamera selon la météo et l'altitude.
+// Sky of the climbing mini-game: a vertical gradient (zenith → horizon → ground).
+// The colors are driven by ClimbCamera from the weather and the altitude.
 Shader "Skybox/ClimbGradient"
 {
     Properties
     {
-        _TopColor ("Zénith", Color) = (0.2, 0.42, 0.8, 1)
+        _TopColor ("Zenith", Color) = (0.2, 0.42, 0.8, 1)
         _HorizonColor ("Horizon", Color) = (0.55, 0.78, 0.98, 1)
-        _BottomColor ("Sous l'horizon", Color) = (0.47, 0.66, 0.83, 1)
-        _Exponent ("Étalement du dégradé", Range(0.1, 4)) = 0.6
+        _BottomColor ("Below horizon", Color) = (0.47, 0.66, 0.83, 1)
+        _Exponent ("Gradient spread", Range(0.1, 4)) = 0.6
     }
     SubShader
     {

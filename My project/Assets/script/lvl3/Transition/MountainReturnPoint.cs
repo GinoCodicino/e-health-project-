@@ -1,8 +1,8 @@
 using UnityEngine;
 
 /// <summary>
-/// Point au pied de la voie, dans la scène de la montagne.
-/// Au retour du mini-jeu d'escalade (abandon), on y replace le joueur et on fait un fondu d'entrée.
+/// Point at the foot of the route, in the mountain scene.
+/// When returning from the climbing mini-game (quit), the player is placed back here and the screen fades in.
 /// </summary>
 public class MountainReturnPoint : MonoBehaviour
 {
@@ -23,9 +23,9 @@ public class MountainReturnPoint : MonoBehaviour
         }
     }
 
-    // Pose le joueur sur le sol sous ce point. Le sol n'est pas à y = 0 :
-    // on le cherche avec un rayon vers le bas (en ignorant le joueur).
-    // Le CharacterController est coupé le temps du déplacement, sinon il écrase la position.
+    // Puts the player on the ground below this point. The ground is not at y = 0:
+    // we find it with a downward raycast (ignoring the player).
+    // The CharacterController is disabled during the move, otherwise it overwrites the position.
     private void PlacePlayer(Transform player)
     {
         Vector3 origin = transform.position + Vector3.up * 5f;

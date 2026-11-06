@@ -1,16 +1,16 @@
 using UnityEngine;
 
 /// <summary>
-/// Sprites générés en code (carré, rond) pour les effets plats et transparents
-/// (plaque mouillée, zone d'éclair, gouttes de pluie). Taille : 1 unité.
-/// Les objets 3D passent par ModelFactory.
+/// Sprites generated in code (square, circle) for flat, transparent effects
+/// (wet patch, lightning zone, raindrops). Size: 1 unit.
+/// 3D objects go through ModelFactory.
 /// </summary>
 public static class SpriteFactory
 {
     private static Sprite square, circle;
     private static Material defaultMaterial;
 
-    /// <summary>Matériau par défaut des sprites (transparent), réutilisé par les LineRenderer.</summary>
+    /// <summary>Default sprite material (transparent), reused by the LineRenderers.</summary>
     public static Material DefaultMaterial
     {
         get
@@ -64,7 +64,7 @@ public static class SpriteFactory
         }
     }
 
-    /// <summary>Crée un objet avec un SpriteRenderer (asset si fourni, sinon forme par défaut).</summary>
+    /// <summary>Creates an object with a SpriteRenderer (asset if provided, otherwise the default shape).</summary>
     public static SpriteRenderer Create(string name, Transform parent, Sprite sprite, Sprite fallback,
                                         Color color, Vector2 size, int sortingOrder)
     {
@@ -72,7 +72,7 @@ public static class SpriteFactory
         go.transform.SetParent(parent, false);
         var sr = go.AddComponent<SpriteRenderer>();
         sr.sprite = sprite != null ? sprite : fallback;
-        // Avec un vrai asset on garde ses couleurs ; la forme par défaut est teintée.
+        // A real asset keeps its colors; the default shape is tinted.
         sr.color = sprite != null ? Color.white : color;
         sr.sortingOrder = sortingOrder;
         Vector2 spriteSize = sr.sprite.bounds.size;

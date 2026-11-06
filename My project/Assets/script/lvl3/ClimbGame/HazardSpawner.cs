@@ -3,24 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-/// <summary>Visuels des dangers. Champ vide = forme de couleur par défaut.</summary>
+/// <summary>Hazard visuals. Empty field = default colored shape.</summary>
 [Serializable]
 public class HazardVisuals
 {
-    [Tooltip("Rochers 3D qui tombent (un au hasard à chaque chute).")]
+    [Tooltip("Falling 3D rocks (a random one each time).")]
     public GameObject[] rocks;
-    [Tooltip("Gourde 3D qui recharge l'endurance.")]
+    [Tooltip("3D water bottle that restores stamina.")]
     public GameObject water;
-    [Tooltip("Signal 3D affiché avant la chute d'une pierre.")]
+    [Tooltip("3D warning shown before a rock falls.")]
     public GameObject warning;
-    [Tooltip("Plaque glissante 3D (ex. neige, glace), collée à la paroi.")]
+    [Tooltip("3D slippery patch (e.g. snow, ice), stuck to the wall.")]
     public GameObject wet;
 }
 
 /// <summary>
-/// Fait apparaître les dangers selon la météo du tronçon courant :
-/// - par tranche de paroi au-dessus du grimpeur : plaques mouillées, gourdes ;
-/// - au fil du temps : pierres, éclairs, rafales (annoncées 1 s avant).
+/// Spawns hazards based on the current section's weather:
+/// - per wall slice above the climber: wet patches, water bottles;
+/// - over time: rocks, lightning, gusts (announced 1 s ahead).
 /// </summary>
 public class HazardSpawner : MonoBehaviour
 {
@@ -29,31 +29,31 @@ public class HazardSpawner : MonoBehaviour
     public ClimbCamera view;
     public HazardVisuals visuals = new HazardVisuals();
 
-    [Tooltip("Hauteur d'une tranche de paroi (m).")]
+    [Tooltip("Height of a wall slice (m).")]
     [SerializeField] private float sliceHeight = 2.5f;
-    [Tooltip("On remplit la paroi jusqu'à cette distance au-dessus du grimpeur (m).")]
+    [Tooltip("The wall is filled up to this distance above the climber (m).")]
     [SerializeField] private float spawnAhead = 9f;
     [SerializeField] private float gustWarningTime = 1f;
 
-    /// <summary>Rien n'apparaît au-dessus (le sommet).</summary>
+    /// <summary>Nothing spawns above this (the summit).</summary>
     public float TopLimit { get; set; } = float.MaxValue;
     public bool Running { get; set; }
 
-    /// <summary>Rafale annoncée : direction (-1/+1), 0 si aucune.</summary>
+    /// <summary>Incoming gust: direction (-1/+1), 0 if none.</summary>
     public int PendingGustDirection { get; private set; }
     public float GustWarning { get; private set; }
 
     private readonly List<Hazard> hazards = new List<Hazard>();
     private float nextSliceY, rockTimer, lightningTimer, gustTimer;
 
-    /// <summary>Efface tout (après une chute) et repart de la hauteur actuelle du grimpeur.</summary>
+    /// <summary>Clears everything (after a fall) and restarts from the climber's current height.</summary>
     public void ResetSpawns()
     {
         foreach (Hazard h in hazards)
             if (h != null) Destroy(h.gameObject);
         hazards.Clear();
         nextSliceY = climber.Height + 4f;
-        rockTimer = lightningTimer = gustTimer = 2f;   // un peu de répit au départ
+        rockTimer = lightningTimer = gustTimer = 2f;   // a short breather at the start
         PendingGustDirection = 0;
         GustWarning = 0f;
     }
@@ -69,8 +69,8 @@ public class HazardSpawner : MonoBehaviour
             nextSliceY += sliceHeight;
         }
 
-        rockTimer = Tick(rockTimer, w.rockRate, () => Spawn(HazardType.Rock, RandomLane(), 0f));
-        lightningTimer = Tick(lightningTimer, w.lightningRate, () => Spawn(HazardType.Lightning, RandomLane(), 0f));
+        rockTimer = Tick(rockTimer, w.rockRate, () => Spawn<RockHazard>(RandomLane(), 0f));
+        lightningTimer = Tick(lightningTimer, w.lightningRate, () => Spawn<LightningHazard>(RandomLane(), 0f));
 
         if (GustWarning > 0f)
         {
@@ -99,17 +99,17 @@ public class HazardSpawner : MonoBehaviour
         if (Random.value < w.wetChance)
         {
             wetLane = RandomLane();
-            Spawn(HazardType.Wet, wetLane, y);
+            Spawn<WetPatch>(wetLane, y);
         }
         if (Random.value < w.waterChance)
         {
             int lane = RandomLane();
             if (lane == wetLane) lane = (lane + 1) % climber.laneCount;
-            Spawn(HazardType.Water, lane, y + sliceHeight / 2f);
+            Spawn<WaterBottle>(lane, y + sliceHeight / 2f);
         }
     }
 
-    // Décompte jusqu'au prochain événement ; rate = nombre moyen par seconde.
+    // Countdown to the next event; rate = average count per second.
     private float Tick(float timer, float rate, Action spawn)
     {
         if (rate <= 0f) return 1f;
@@ -121,12 +121,12 @@ public class HazardSpawner : MonoBehaviour
 
     private int RandomLane() => Random.Range(0, climber.laneCount);
 
-    private void Spawn(HazardType type, int lane, float y)
+    private void Spawn<T>(int lane, float y) where T : Hazard
     {
-        var go = new GameObject(type.ToString());
+        var go = new GameObject(typeof(T).Name);
         go.transform.SetParent(transform, false);
-        var hazard = go.AddComponent<Hazard>();
-        hazard.Init(type, climber, view, lane, y, visuals);
+        var hazard = go.AddComponent<T>();
+        hazard.Init(climber, view, lane, y, visuals);
         hazards.Add(hazard);
     }
 }

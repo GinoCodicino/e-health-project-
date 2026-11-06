@@ -2,23 +2,23 @@ using System.Collections;
 using UnityEngine;
 
 /// <summary>
-/// Fondu au noir plein écran + message centré, dessinés avec OnGUI.
-/// Un seul par scène : transitions entre la montagne et le mini-jeu d'escalade.
+/// Full-screen fade to black + centered message, drawn with OnGUI.
+/// One per scene: transitions between the mountain and the climbing mini-game.
 /// </summary>
 public class ScreenFader : MonoBehaviour
 {
     [SerializeField] private int fontSize = 40;
 
-    /// <summary>Texte affiché au centre de l'écran (null = rien).</summary>
+    /// <summary>Text shown in the center of the screen (null = nothing).</summary>
     public string Message { get; set; }
 
     private float alpha;
     private GUIStyle style;
 
-    /// <summary>Opacité immédiate (ex. démarrer une scène en noir avant un fondu d'entrée).</summary>
+    /// <summary>Immediate opacity (e.g. start a scene in black before a fade-in).</summary>
     public void SetAlpha(float value) => alpha = Mathf.Clamp01(value);
 
-    /// <summary>Anime l'opacité du noir jusqu'à target (0 = transparent, 1 = noir).</summary>
+    /// <summary>Animates the black overlay's opacity to target (0 = transparent, 1 = black).</summary>
     public IEnumerator FadeTo(float target, float duration)
     {
         float start = alpha;

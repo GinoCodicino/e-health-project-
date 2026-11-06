@@ -308458,7 +308458,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa348be30cdf140d2993981e134ff4d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ClimbEntryZone
-  prompt: Appuie sur C pour grimper
+  prompt: Press C to climb
   fontSize: 28
   fadeDuration: 0.5
 --- !u!65 &2107423170

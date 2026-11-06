@@ -4,8 +4,12 @@ using UnityEngine;
 [RequireComponent(typeof(playerinputcontroller))]
 public class playercontroller : MonoBehaviour
 {
-    private playerinputcontroller inputController;
-    private CharacterController characterController;
+    [Header("Modalità adattatore")]
+    [Tooltip("Attivalo se il personaggio ha già il suo controller. Questo script non muoverà nulla, ma potrà bloccare i componenti indicati durante dialoghi e minigiochi.")]
+    [SerializeField] private bool soloBlocco = false;
+
+    [Tooltip("Componenti da disattivare quando canMove è false, ad esempio PlayerInput, script di interazione, arma, ecc.")]
+    [SerializeField] private Behaviour[] componentiDaBloccare;
 
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 4f;
@@ -20,8 +24,31 @@ public class playercontroller : MonoBehaviour
     [SerializeField] private float mouseSensitivity = 0.5f;
     [SerializeField] private float maxLookAngle = 80f;
 
+    private playerinputcontroller inputController;
+    private CharacterController characterController;
+
     private float cameraPitch;
     private float verticalVelocity;
+
+    private bool puoMuoversi = true;
+
+    public bool canMove
+    {
+        get => puoMuoversi;
+        set
+        {
+            puoMuoversi = value;
+
+            if (componentiDaBloccare == null)
+                return;
+
+            foreach (Behaviour componente in componentiDaBloccare)
+            {
+                if (componente != null)
+                    componente.enabled = value;
+            }
+        }
+    }
 
     private void Awake()
     {
@@ -31,14 +58,36 @@ public class playercontroller : MonoBehaviour
 
     private void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        if (pitchPivot == null && Camera.main != null)
+            pitchPivot = Camera.main.transform;
+
+        LockCursor(true);
     }
 
     private void Update()
     {
+        HandleCursor();
+
+        if (soloBlocco)
+            return;
+
+        if (!canMove)
+            return;
+
         HandleLook();
         HandleMovement();
+    }
+
+    private void HandleCursor()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+            LockCursor(false);
+
+        if (Input.GetMouseButtonDown(0) &&
+            Cursor.lockState != CursorLockMode.Locked)
+        {
+            LockCursor(true);
+        }
     }
 
     private void HandleMovement()
@@ -47,11 +96,9 @@ public class playercontroller : MonoBehaviour
 
         // Mantiene il contatto con il terreno quando non saltiamo.
         if (grounded && verticalVelocity < 0f)
-        {
             verticalVelocity = -2f;
-        }
 
-        Vector2 input = inputController.movementinputvector;
+        Vector2 input = inputController.movementInputVector;
 
         Vector3 move =
             transform.right * input.x +
@@ -94,6 +141,9 @@ public class playercontroller : MonoBehaviour
 
     private void HandleLook()
     {
+        if (Cursor.lockState != CursorLockMode.Locked)
+            return;
+
         Vector2 look = inputController.lookInputVector;
 
         float mouseX = look.x * mouseSensitivity;
@@ -111,8 +161,19 @@ public class playercontroller : MonoBehaviour
         if (pitchPivot != null)
         {
             pitchPivot.localRotation = Quaternion.Euler(
-                cameraPitch, 0f, 0f
+                cameraPitch,
+                0f,
+                0f
             );
         }
+    }
+
+    private void LockCursor(bool locked)
+    {
+        Cursor.lockState = locked
+            ? CursorLockMode.Locked
+            : CursorLockMode.None;
+
+        Cursor.visible = !locked;
     }
 }

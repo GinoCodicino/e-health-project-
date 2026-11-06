@@ -44,7 +44,7 @@ public class ClimbHud : MonoBehaviour
         const float x = 20f, y = 20f, w = 300f, h = 26f;
         GUI.color = new Color(0f, 0f, 0f, 0.6f);
         GUI.DrawTexture(new Rect(x, y, w, h), Texture2D.whiteTexture);
-        float k = climber.StaminaNormalized;
+        float k = climber.Stamina.Normalized;
         GUI.color = Color.Lerp(new Color(0.9f, 0.2f, 0.15f), new Color(0.3f, 0.85f, 0.35f), k);
         GUI.DrawTexture(new Rect(x + 3f, y + 3f, (w - 6f) * k, h - 6f), Texture2D.whiteTexture);
         GUI.color = Color.white;

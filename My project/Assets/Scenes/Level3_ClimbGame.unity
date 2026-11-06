@@ -531,6 +531,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ClimbScenery
   climber: {fileID: 1458925228}
+  view: {fileID: 0}
+  weather: {fileID: 0}
   laneMaterials:
   - {fileID: 2100000, guid: 1869fcfa481e54cd497739e5dfb48c71, type: 2}
   - {fileID: 2100000, guid: c5d1a823b1910432eb714d83fd93e676, type: 2}
@@ -568,6 +570,10 @@ MonoBehaviour:
   groundMaterial: {fileID: 2100000, guid: e37ce48de581745e58f71d0480a1ab70, type: 2}
   mountainsMinZ: 70
   fogRange: {x: 5, y: 120}
+  mountainMaterial: {fileID: 0}
+  cloudSprites: []
+  cloudDriftSpeed: 0.6
+  frontCloudAlpha: 0.2
   flagPoleMaterial: {fileID: 2100000, guid: feb530b67b06640db96818474f138c19, type: 2}
   flagClothMaterial: {fileID: 2100000, guid: 24e4cf2f59b34474c9f27112e14f30eb, type: 2}
 --- !u!1 &1133634943
@@ -669,6 +675,8 @@ MonoBehaviour:
   lead: 3
   smoothing: 5
   skySmoothing: 2
+  skyMaterial: {fileID: 0}
+  altitudeDarkening: 0.4
   distance: 15
   fieldOfView: 40
   tilt: 8
@@ -960,6 +968,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1458925229}
   - component: {fileID: 1458925228}
+  - component: {fileID: 1458925230}
   m_Layer: 0
   m_Name: Climber
   m_TagString: Untagged
@@ -984,8 +993,9 @@ MonoBehaviour:
   laneWidth: 1.6
   laneSwitchSpeed: 14
   climbSpeed: 2.2
-  maxStamina: 100
-  drainPerSecond: 2.5
+  stamina:
+    max: 100
+    drainPerSecond: 2.5
   hitCost: 20
   slipCost: 10
   hitDrop: 1.5
@@ -998,11 +1008,6 @@ MonoBehaviour:
   modelYaw: 0
   color: {r: 0.95, g: 0.45, b: 0.2, a: 1}
   size: {x: 0.9, y: 1.2}
-  leftHandBone: Arm_L
-  rightHandBone: Arm_R
-  handReach: 0.45
-  handsPerMeter: 1.2
-  leanAngle: 12
 --- !u!4 &1458925229
 Transform:
   m_ObjectHideFlags: 0
@@ -1018,6 +1023,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1458925230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1458925227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf9b952e1ed6544b6a7b2baa0b1d1c9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ClimberAnimator
+  leftHandBone: Arm_L
+  rightHandBone: Arm_R
+  handReach: 0.45
+  handsPerMeter: 1.2
+  leanAngle: 12
 --- !u!1 &1908831485
 GameObject:
   m_ObjectHideFlags: 0

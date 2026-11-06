@@ -45,13 +45,13 @@ public class ClimbGameManager : MonoBehaviour
 
     private void OnEnable()
     {
-        climber.OnExhausted += HandleExhausted;
+        climber.Stamina.OnExhausted += HandleExhausted;
         weather.OnSectionChanged += HandleSectionChanged;
     }
 
     private void OnDisable()
     {
-        climber.OnExhausted -= HandleExhausted;
+        climber.Stamina.OnExhausted -= HandleExhausted;
         weather.OnSectionChanged -= HandleSectionChanged;
     }
 

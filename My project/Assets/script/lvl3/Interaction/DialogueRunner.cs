@@ -1,14 +1,18 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 /// <summary>
 /// Shows a dialogue line by line at the bottom of the screen (E or Space: next line).
+/// Can open with a short fade to black, used to stage the scene (player facing the NPC).
 /// The player can't move or look around while it is open.
 /// Created automatically the first time a dialogue starts.
 /// </summary>
 public class DialogueRunner : MonoBehaviour
 {
+    const float FadeDuration = 0.25f;
+
     private static DialogueRunner instance;
 
     public static bool IsOpen => instance != null && instance.dialogue != null;
@@ -20,31 +24,50 @@ public class DialogueRunner : MonoBehaviour
     private string defaultSpeaker;
     private Action onFinished;
     private int index;
-    private int openedFrame, closedFrame = -1;
+    private bool shown;
+    private int shownFrame, closedFrame = -1;
     private Behaviour[] lockedPlayer;
     private GUIStyle speakerStyle, textStyle, hintStyle;
 
-    public static void Play(DialogueData data, string defaultSpeaker, Action onFinished = null)
+    /// <summary>
+    /// Plays a dialogue. With stage: fade to black, call stage (move the player, turn the NPC...),
+    /// fade back in, then show the first line.
+    /// </summary>
+    public static void Play(DialogueData data, string defaultSpeaker, Action onFinished = null, Action stage = null)
     {
         if (data == null || data.lines == null || data.lines.Length == 0) { onFinished?.Invoke(); return; }
         if (instance == null) instance = new GameObject("DialogueRunner").AddComponent<DialogueRunner>();
-        instance.Open(data, defaultSpeaker, onFinished);
+        instance.Open(data, defaultSpeaker, onFinished, stage);
     }
 
-    private void Open(DialogueData data, string speaker, Action finished)
+    private void Open(DialogueData data, string speaker, Action finished, Action stage)
     {
         dialogue = data;
         defaultSpeaker = speaker;
         onFinished = finished;
         index = 0;
-        // The key that opened the dialogue must not also skip the first line.
-        openedFrame = Time.frameCount;
+        shown = false;
         LockPlayer(true);
+        StartCoroutine(Intro(stage));
+    }
+
+    private IEnumerator Intro(Action stage)
+    {
+        if (stage != null)
+        {
+            var fader = FindFirstObjectByType<ScreenFader>();
+            if (fader != null) yield return fader.FadeTo(1f, FadeDuration);
+            stage();
+            if (fader != null) yield return fader.FadeTo(0f, FadeDuration);
+        }
+        shown = true;
+        // The key that opened the dialogue must not also skip the first line.
+        shownFrame = Time.frameCount;
     }
 
     private void Update()
     {
-        if (dialogue == null || Time.frameCount == openedFrame) return;
+        if (dialogue == null || !shown || Time.frameCount == shownFrame) return;
         var kb = Keyboard.current;
         if (kb == null || !(kb.eKey.wasPressedThisFrame || kb.spaceKey.wasPressedThisFrame)) return;
 
@@ -73,7 +96,7 @@ public class DialogueRunner : MonoBehaviour
 
     private void OnGUI()
     {
-        if (dialogue == null) return;
+        if (dialogue == null || !shown) return;
         if (textStyle == null)
         {
             textStyle = new GUIStyle(GUI.skin.label) { fontSize = 24, wordWrap = true, normal = { textColor = Color.white } };

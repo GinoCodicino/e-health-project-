@@ -1,0 +1,1 @@
+{"name":"Level02.DeerRescue.Tests","rootNamespace":"Level02.DeerRescue.Tests","references":["Level02.DeerRescue.Logic"],"includePlatforms":["Editor"],"optionalUnityReferences":["TestAssemblies"],"autoReferenced":false}

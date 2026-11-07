@@ -3,7 +3,12 @@ guid: 3fc5143fe7b254d2eb99351fe6397b72
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - player: {instanceID: 0}
+  - riverPoint: {instanceID: 0}
+  - gardenPoint: {instanceID: 0}
+  - forestBackground: {instanceID: 0}
+  - mushroomSprite: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

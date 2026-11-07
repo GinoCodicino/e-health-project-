@@ -225,11 +225,11 @@ public class ForestQuest : MonoBehaviour
     {
         string[][] branches = {
             new [] { "Your grandfather! Sixty years ago, I walked this trail with him. I was just a child.",
-                "You: Did you pick mushrooms together?", "Yes! We found many. These days the ground often stays too dry." },
-            new [] { "We have found fewer lately. Long, hot, dry spells make it harder for mushrooms to appear.",
+                "You: Did you pick mushrooms together?", "Yes! We found many. These days the ground often stays too dry, and mushrooms struggle to grow because high temperatures parch the soil, while sudden heavy rains end up damaging the surrounding vegetation." },
+            new [] { "We have found fewer lately. These days the ground often stays too dry and mushrooms struggle to grow because high temperatures parch the soil while sudden heavy rains end up damaging the surrounding vegetation.",
                 "You: Could climate change be part of the reason?", "Yes. It can change the moisture and temperatures they need." },
             new [] { "Since I was a child! I often came here with your grandfather, sixty years ago.",
-                "You: What was the forest like then?", "We found many mushrooms. The bridge was whole, and a giant pine stood by the trail." }
+                "You: What was the forest like then?", "We found many mushrooms. The bridge was whole and a giant pine stood by the trail." }
         };
         List<string> text = new List<string>(branches[branch]);
         text.Add("You: How can we help?");

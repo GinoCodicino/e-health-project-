@@ -1,0 +1,70 @@
+{
+  "title": "The herbalist's doubts",
+  "topics": [
+    {
+      "id": "climate",
+      "label": "Climate and causes",
+      "claim": "The climate has always changed. I'm not convinced that humans explain today's warming.",
+      "note": "Past natural climate changes do not rule out a human cause today. Human greenhouse-gas emissions have caused the current global warming. A claim about causes needs evidence, not just a comparison with the past.",
+      "discussion": "You said that climate has always changed and you doubt human causes today. What evidence would make you reconsider that view?",
+      "source": "IPCC AR6 Synthesis Report, 2023, SPM A.1",
+      "url": "https://www.ipcc.ch/report/ar6/syr/summary-for-policymakers/"
+    },
+    {
+      "id": "forest",
+      "label": "Mushrooms and evidence",
+      "claim": "There are fewer mushrooms here today. But how can one visit prove that climate change is the cause?",
+      "note": "Temperature and moisture influence mushroom fruiting. Research has found changes in fruiting times that differ between species and locations. One visit does not establish the cause of a local change: repeated observations and environmental records are needed. The forest story is fictional.",
+      "discussion": "You questioned whether one visit can explain the missing mushrooms. What observations should we collect before deciding what caused the change?",
+      "source": "Kauserud et al., PNAS, 2008, doi:10.1073/pnas.0709037105",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2268836/"
+    },
+    {
+      "id": "action",
+      "label": "Acting together",
+      "claim": "I doubt anything I do will matter. Isn't climate action only a job for governments and industry?",
+      "note": "Individual choices can contribute, but cannot solve climate change alone. Behaviour changes work together with collective action, public policy, infrastructure and technology. Treating personal action and institutional action as alternatives misses their connection.",
+      "discussion": "You doubt that individual action matters. Could personal choices and collective policies support each other rather than compete?",
+      "source": "IPCC AR6 WGIII, 2022, Chapter 5",
+      "url": "https://www.ipcc.ch/report/ar6/wg3/chapter/chapter-5/"
+    }
+  ],
+  "questions": [
+    {
+      "id": "q_climate",
+      "topicId": "climate",
+      "prompt": "The herbalist says: 'Climate has always changed, so humans cannot be responsible today.' Which response is best?",
+      "options": [
+        {"id": "past", "text": "Past natural changes are enough to exclude any human influence today."},
+        {"id": "evidence", "text": "Past natural changes and current human-caused warming can both be true; examine the evidence for today's causes."},
+        {"id": "weather", "text": "A single cold winter is enough to decide whether long-term warming is occurring."}
+      ],
+      "correct": "evidence",
+      "feedback": "Past variability does not exclude a different cause now. Distinguish long-term climate evidence from isolated weather events."
+    },
+    {
+      "id": "q_forest",
+      "topicId": "forest",
+      "prompt": "Few mushrooms are visible during today's visit. What is the strongest next step?",
+      "options": [
+        {"id": "observe", "text": "Compare repeated mushroom observations with temperature, moisture and rainfall records before drawing a causal conclusion."},
+        {"id": "certain", "text": "Conclude immediately that climate change is the only possible cause."},
+        {"id": "ignore", "text": "Assume climate can never affect mushroom fruiting and collect no further information."}
+      ],
+      "correct": "observe",
+      "feedback": "One observation cannot identify a cause. Environmental records and repeated observations make the explanation testable."
+    },
+    {
+      "id": "q_action",
+      "topicId": "action",
+      "prompt": "The herbalist says: 'Only governments can act, so personal choices never matter.' Which response is best?",
+      "options": [
+        {"id": "alone", "text": "Personal lifestyle changes alone can solve the whole problem, without policies or infrastructure."},
+        {"id": "nothing", "text": "There is no useful role for individuals or communities."},
+        {"id": "together", "text": "Individual and collective actions can support policies, infrastructure and technological changes; none is sufficient alone."}
+      ],
+      "correct": "together",
+      "feedback": "Personal and institutional action can reinforce each other. Climate action is not a choice between the two."
+    }
+  ]
+}

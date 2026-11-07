@@ -1,0 +1,6 @@
+{
+  "name": "Level02.BridgeQuest.Logic",
+  "rootNamespace": "Level02.BridgeMission",
+  "autoReferenced": true,
+  "noEngineReferences": true
+}

@@ -12,7 +12,7 @@ namespace Level02.DeerRescue
         double deadline,blockedUntil;
         public bool Begin(int goal,double now,double seconds)
         {
-            if(goal<3 || goal>4 || double.IsNaN(now) || double.IsInfinity(now)
+            if(goal<3 || goal>20 || double.IsNaN(now) || double.IsInfinity(now)
                 || double.IsNaN(seconds) || double.IsInfinity(seconds) || seconds<=0) return false;
             Goal=goal; Caught=0; deadline=now+seconds; blockedUntil=now; Result=FishingResult.Running; return true;
         }
@@ -37,6 +37,10 @@ namespace Level02.DeerRescue
     {
         public RescueStage Stage { get; private set; }
         public int Fish { get; private set; }
+        bool giftsClaimed;
+        public bool HasNet { get; private set; }
+        public bool HasMedicalKit { get; private set; }
+        public void GrantPeterGifts(bool completed) { if(completed && !giftsClaimed) { giftsClaimed=true; HasNet=true; HasMedicalKit=true; } }
         public bool HasAxe { get; private set; }
         public bool HasBandages { get; private set; }
         public int ClearedBranches { get; private set; }
@@ -46,11 +50,22 @@ namespace Level02.DeerRescue
         public bool AcceptRescue()
         { if(Stage!=RescueStage.WaitingForCrossing) return false; Stage=RescueStage.FindWoodcutter; return true; }
         public bool AcceptFishing()
-        { if(Stage!=RescueStage.FindWoodcutter) return false; Stage=RescueStage.CatchFish; return true; }
-        public bool FinishFishing(int fish)
-        { if(Stage!=RescueStage.CatchFish || fish<3 || fish>4) return false; Fish=fish; Stage=RescueStage.DeliverFish; return true; }
+        { if(Stage!=RescueStage.FindWoodcutter || !HasNet) return false; Stage=RescueStage.CatchFish; return true; }
+        public bool FinishFishing(int fish, int goal=10)
+        { if(Stage!=RescueStage.CatchFish || goal<3 || goal>20 || fish!=goal) return false; Fish=fish; HasNet=false; Stage=RescueStage.DeliverFish; return true; }
         public bool ExchangeFish()
         { if(Stage!=RescueStage.DeliverFish || Fish<3) return false; Fish=0; HasAxe=true; Stage=RescueStage.FreeDeer; return true; }
+        public bool CompleteRelease()
+        {
+            if(Stage!=RescueStage.FreeDeer || !HasAxe || !HasMedicalKit) return false;
+            ClearedBranches=3; HasAxe=false; HasBandages=true; Stage=RescueStage.TreatDeer; return true;
+        }
+        public bool CompleteCare()
+        {
+            if(Stage!=RescueStage.TreatDeer || !HasMedicalKit) return false;
+            HasMedicalKit=false; HasBandages=false; Stage=RescueStage.Complete; return true;
+        }
+        // Vecchie API mantenute per compatibilita; il nuovo controller usa i due metodi sopra.
         public bool HitBranch(int branch)
         {
             if(Stage!=RescueStage.FreeDeer || !HasAxe || branch!=ClearedBranches) return false;

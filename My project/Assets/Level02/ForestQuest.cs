@@ -64,6 +64,9 @@ public class ForestQuest : MonoBehaviour
     [Range(0.3f, 3f)] public float markerRadius = 1.5f;
     [Range(1f, 8f)] public float markerHeight = 4f;
     public Stage CurrentStage { get; private set; }
+    // Premi disponibili soltanto dopo funghi E riparazione del tetto.
+    public bool HasFishingNet { get { return CurrentStage == Stage.Complete; } }
+    public bool HasMedicalKit { get { return CurrentStage == Stage.Complete; } }
     public bool IsOpen { get { return uiRoot != null && uiRoot.activeSelf; } }
     public int FoundCount { get { return found; } }
 
@@ -137,7 +140,8 @@ public class ForestQuest : MonoBehaviour
         {
             CurrentStage = Stage.Complete;
             Speak(new[] { "Thank you! With these planks the roof will keep the rain out again.",
-                "Caring for a home, and for the whole forest, takes many hands. Your grandfather would be proud of you." }, CloseDialogue);
+                "Your grandfather would be proud of you. Take this fishing net and this first-aid kit as a thank-you.",
+                "The net may be useful by the river. Keep the kit with you in case an animal needs help." }, CloseDialogue);
         }
         else if (Near(transform)) OpenDialogue(player);
     }

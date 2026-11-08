@@ -113,6 +113,39 @@ public static class DeerRescueSetup
         Debug.Log("Fishing preview: this test does not award quest fish.");
     }
 
+    [MenuItem("Tools/Level 02/Deer rescue/Update existing rescue - Elena version")]
+    static void UpdateExisting()
+    {
+        if(Application.isPlaying){Debug.LogWarning("Exit Play mode first.");return;}
+        var q=Object.FindFirstObjectByType<DeerRescueController>();
+        if(q==null){Debug.LogWarning("Use Configure from existing bridge quest once, then run this update.");return;}
+        Undo.RecordObject(q,"Update rescue games");
+        if(q.fishingGame==null)q.fishingGame=q.GetComponent<RiverFishingGame>();
+        if(q.fishingGame==null)q.fishingGame=Undo.AddComponent<RiverFishingGame>(q.gameObject);
+        Undo.RecordObject(q.fishingGame,"Update fishing difficulty");
+        q.fishingGame.fishGoal=10;q.fishingGame.timeLimitSeconds=90;
+        if(q.releaseGame==null)q.releaseGame=q.GetComponent<ScrewRescueGame>();
+        if(q.releaseGame==null)q.releaseGame=Undo.AddComponent<ScrewRescueGame>(q.gameObject);
+        if(q.careGame==null)q.careGame=q.GetComponent<BacteriaBattleGame>();
+        if(q.careGame==null)q.careGame=Undo.AddComponent<BacteriaBattleGame>(q.gameObject);
+        if(q.mushroomQuest==null)q.mushroomQuest=Object.FindFirstObjectByType<ForestQuest>();
+        EditorUtility.SetDirty(q);EditorUtility.SetDirty(q.fishingGame);EditorSceneManager.MarkSceneDirty(q.gameObject.scene);
+        Selection.activeGameObject=q.gameObject;
+        Debug.Log("Rescue updated. Existing positions preserved. Assign Woodcutter Axe if the prop is a separate object.",q);
+    }
+    [MenuItem("Tools/Level 02/Deer rescue/Test screw puzzle in Play")]
+    static void PreviewScrews(){Preview(true);}
+    [MenuItem("Tools/Level 02/Deer rescue/Test kit challenge in Play")]
+    static void PreviewKit(){Preview(false);}
+    static void Preview(bool screws)
+    {
+        if(!Application.isPlaying){Debug.LogWarning("Enter Play mode first.");return;}
+        var q=Object.FindFirstObjectByType<DeerRescueController>();
+        if(q==null || q.player==null || q.player.IsGameplayBlocked){Debug.LogWarning("Configure rescue and close other UI first.");return;}
+        if(screws)q.releaseGame.Open(q.player,null);else q.careGame.Open(q.player,null);
+        Debug.Log("Preview only: no quest progress awarded.");
+    }
+
     static GameObject New(string name,Transform parent)
     {var go=new GameObject(name);Undo.RegisterCreatedObjectUndo(go,"Create deer rescue object");if(parent!=null)go.transform.SetParent(parent,false);return go;}
     static Transform Point(string name,Vector3 world,Transform parent)

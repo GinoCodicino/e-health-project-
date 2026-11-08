@@ -9,8 +9,8 @@ namespace Level02.DeerRescue
 {
     public sealed class RiverFishingGame : MonoBehaviour
     {
-        [Range(3,4)] public int fishGoal=3;
-        [Min(15)] public float timeLimitSeconds=45;
+        [Range(3,20)] public int fishGoal=10;
+        [Min(15)] public float timeLimitSeconds=90;
         [Min(200)] public float netSpeed=650;
         [Range(60,220)] public float fallSpeed=110;
         public bool IsOpen { get { return root!=null && root.activeSelf; } }
@@ -66,12 +66,12 @@ namespace Level02.DeerRescue
             ending=true; Page();
             Label("RIVER FISHING",-540,280,1080,50,32);
             Art(page.transform,RescueArtwork.Picture.Fish,0,90,210,130);
-            Label("Catch "+fishGoal+" fish in "+timeLimitSeconds.ToString("0")+" seconds.\nMove the net with A / D or the arrow keys.\nAvoid rocks, branches and litter: they briefly block your net.\nThe timer starts when you press Start.",-500,-80,1000,190,25);
+            Label("Catch "+fishGoal+" fish in "+timeLimitSeconds.ToString("0")+" seconds.\nUse Peter's net: A / D or the arrow keys.\nAvoid rocks, branches and litter: they briefly block your net.\nThe timer starts when you press Start.",-500,-80,1000,190,25);
             Button("Start",-270,-280,480,StartRound); Button("Back",270,-280,480,()=>Close(false));
         }
         void StartRound()
         {
-            fishGoal=Mathf.Clamp(fishGoal,3,4); timeLimitSeconds=Mathf.Max(15,timeLimitSeconds);
+            fishGoal=Mathf.Clamp(fishGoal,3,20); timeLimitSeconds=Mathf.Max(15,timeLimitSeconds);
             if(!round.Begin(fishGoal,Now,timeLimitSeconds)) return;
             Page(); ending=false; spawnTimer=.4f; spawnNumber=0; netX=0;
             Label("CATCH THE FISH",-540,295,1080,44,32);
@@ -102,7 +102,7 @@ namespace Level02.DeerRescue
             net.anchoredPosition=new Vector2(netX,-166);
             net.GetComponent<RescueArtwork>().color=round.IsBlocked(Now) ? new Color(.64f,.67f,.62f) : Color.white;
             spawnTimer-=dt;
-            if(spawnTimer<=0) { Spawn(); spawnTimer=1.05f; }
+            if(spawnTimer<=0) { Spawn(); spawnTimer=.85f; }
             for(int i=items.Count-1;i>=0;i--)
             {
                 FallingItem item=items[i]; float previous=item.y;
@@ -123,10 +123,10 @@ namespace Level02.DeerRescue
         }
         void Spawn()
         {
-            // Un pesce ogni due oggetti: abbastanza occasioni per raggiungere l'obiettivo.
-            bool fish=spawnNumber%2==0;
+            // Un pesce ogni quattro oggetti: tre ostacoli tra due pesci.
+            bool fish=spawnNumber%4==0;
             var kinds=new[]{RescueArtwork.Picture.Stone,RescueArtwork.Picture.Branch,RescueArtwork.Picture.Boot,RescueArtwork.Picture.Bottle};
-            RescueArtwork.Picture kind=fish ? RescueArtwork.Picture.Fish : kinds[(spawnNumber/2)%kinds.Length];
+            RescueArtwork.Picture kind=fish ? RescueArtwork.Picture.Fish : kinds[UnityEngine.Random.Range(0,kinds.Length)];
             float x=UnityEngine.Random.Range(-430f,430f);
             RescueArtwork art=Art(field,kind,x,230,fish ? 90 : 72,fish ? 62 : 74);
             art.transform.SetAsLastSibling(); net.SetAsLastSibling();

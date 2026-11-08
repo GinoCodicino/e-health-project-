@@ -1,159 +1,91 @@
-# Terza missione — Help the trapped deer
+# Aggiornamento dopo le modifiche di Elena — 8 novembre 2026
 
-Aggiunta separata per il livello 2. Non contiene copie o sostituzioni di ForestQuest, NpcDialogue o BridgeQuestController: riutilizza i personaggi e i collegamenti già esistenti. Tutti i testi di gioco sono in inglese.
+Questo pacchetto conserva la versione caricata di ForestQuest: funghi con sfondo, zoom, trascinamento e cespugli per recuperare le travi del tetto. Cambia solo il premio finale della prima missione. Dialoghi e istruzioni del gioco sono in inglese.
 
-## 1. Importazione e creazione
+## Installazione passo passo
 
-1. Esci da Play, salva la scena e fai un commit o una copia del progetto.
-2. Importa Level02_DeerRescue.unitypackage con Assets > Import Package > Custom Package. Lascia selezionati tutti i nuovi file.
-3. Aspetta la compilazione.
-4. Scegli Tools > Level 02 > Deer rescue > Configure from existing bridge quest.
-5. Il comando trova Level02_BridgeQuest e crea Level02_DeerRescue con i nuovi punti e oggetti. Non devi selezionare il ponte.
-6. Controlla e sposta i gruppi sotto elencati, poi salva con Cmd+S.
+1. Esci dal Play e salva una copia del progetto o fai un commit.
+2. Importa `Level02_Rescue_Elena_Update.unitypackage` con Assets > Import Package > Custom Package. Aggiorna gli script esistenti: non creare seconde copie con nomi diversi.
+3. Aspetta che Unity finisca la compilazione. Questo pacchetto richiede i precedenti script del progetto: MushroomUI, playercontroller, playerinputcontroller, ForestQuest/NpcDialogue e BridgeQuestController.
+4. Se il salvataggio è già configurato, usa **Tools > Level 02 > Deer rescue > Update existing rescue - Elena version**. Il comando collega i nuovi giochi e imposta 10 pesci / 90 secondi, senza ricreare gli oggetti o spostarli.
+5. Solo se non hai mai configurato la terza missione: usa prima **Configure from existing bridge quest**, poi il comando di aggiornamento.
+6. Seleziona Level02_DeerRescue. Controlla i riferimenti Player, Mushroom Quest, Bridge Quest, Encounter Point, Ranger, Fishing Point, Deer Point e Deer View. Mantieni i punti già posizionati da voi su terreno raggiungibile.
+7. Nel campo **Woodcutter Axe** trascina l'oggetto separato dell'accetta aggiunto da Elena. Quando Rowan presta l'accetta, quell'oggetto viene nascosto. Non assegnare l'intero NPC o una mesh contenente anche il personaggio.
+8. Salva la scena fuori dal Play. Non rilanciare la configurazione del primo NPC: i suoi riferimenti ai cespugli e alla casa sono già quelli di Elena.
 
-Il comando non duplica una missione già creata. Non usare Configure selected bridge e non rigenerare le missioni precedenti.
+La scena aggiornata di Elena non è inclusa: il pacchetto contiene script, istruzioni e test. Non sostituisce né casa, né ambiente del boscaiolo, né fiume.
 
-## 2. Posizionamento nella tua mappa
+## Sequenza
 
-Il comando ricava il lato di partenza dal punto di riparazione del ponte e propone le posizioni sull'altra riva. Sono posizioni iniziali: la ricerca automatica del terreno non conosce gli ostacoli né il percorso effettivamente accessibile nella tua scena.
+- Funghi → recupero travi nei cespugli → ritorno alla casa e riparazione tetto.
+- Peter ringrazia e consegna **rete e kit**. Sono due proprietà di ForestQuest; il controller del salvataggio registra i premi una sola volta nella partita.
+- Noah → Rowan → legname → puzzle del ponte → conclusione del dialogo con Noah.
+- Oltre il ponte Mia chiede aiuto → Rowan chiede 10 pesci → pesca con la rete di Peter → ritorno da Rowan per l'accetta.
+- Capriolo: puzzle della struttura di legno caduta → kit già disponibile sul posto → cura. Nessun ritorno da Peter per le bende.
 
-### Encounter_POINT_AFTER_BRIDGE
+Gli stati ripartono all'avvio del Play, come nei giochi precedenti. Non è stato aggiunto un salvataggio permanente fra sessioni.
 
-Mettilo sul sentiero oltre il ponte, sulla riva di destinazione. Ha come figlio NPC_Ranger_MOVE_TO_FAR_BANK: spostare il punto muove anche la posizione iniziale del personaggio.
+## Giochi nuovi
 
-In Play, quando entri entro Encounter Radius dal punto, Mia si avvicina al protagonista e apre la richiesta d'aiuto. Il movimento è un breve avvicinamento in linea retta, senza NavMesh o una nuova animazione di corsa. Lascia uno spazio libero e abbastanza piano tra punto e personaggio.
+### Pesca
 
-### Fishing_POINT_MOVE_TO_SAFE_BANK
+Un pesce ogni quattro oggetti: gli altri sono sassi, rami, bottiglie o scarponi. Gli ostacoli bloccano brevemente la rete, senza cancellare i pesci raccolti. Obiettivo predefinito 10 pesci, tempo 90 secondi; A/D o frecce muovono la rete. Gli oggetti continuano a cadere anche se un pesce viene perso: non serve un percorso perfetto.
 
-Mettilo sulla riva raggiungibile tornando da Rowan. Non in acqua. Contiene panchina e cartello Fishing spot: muovendo il gruppo si spostano anche questi oggetti. Controlla che la panchina e il cartello poggino sul terreno.
+### Liberazione, ispirata ai puzzle delle viti
 
-### DeerRescue_AREA_MOVE_TO_TRAIL_END
+È una versione **2D con strati e animazioni**, non una simulazione fisica 3D. Cinque assi formano i resti di una vecchia recinzione caduta insieme al pino: questo spiega la presenza delle viti. Le assi si sollevano quando togli entrambe le viti. I livelli sopra bloccano quelli sotto.
 
-Spostalo verso il fondo del percorso, oltre il ponte. Contiene il capriolo, i rami e Deer_INTERACTION_POINT. Muovendo l'intero gruppo rimane tutto collegato. Il punto d'interazione è circa due unità davanti all'animale: deve restare su suolo raggiungibile.
+Le viti del colore della scatola vanno direttamente nella scatola; gli altri colori occupano tre posti temporanei. Le scatole si svuotano automaticamente quando complete. Se la vaschetta è piena, una vite del colore sbagliato viene rifiutata e puoi riprovare con un'altra oppure riavviare. Nessun timer. Le viti ruotano e le assi escono lateralmente senza urtare il capriolo.
 
-Il capriolo è un modello provvisorio costruito con forme low poly; non è un animale animato professionale. Puoi sostituire AnimalVisual con un vostro modello, assegnando il nuovo Transform in Deer Rescue View e riposizionando la benda. In questa versione l'animale passa dalla posa sdraiata a quella in piedi, poi rimane sul posto: non viene aggiunto un percorso di fuga.
+Per controllare il puzzle: gli identificativi sono `asse*2 + estremità`; una soluzione è **8, 9, 6, 7, 4, 2, 5, 3, 0, 1**. I colori e le dipendenze sono in ScrewPuzzle.cs.
 
-## 3. Controllo dei riferimenti
+### Kit arcade
 
-Seleziona Level02_DeerRescue. Nel componente Deer Rescue Controller controlla:
-- Player: il protagonista con playercontroller.
-- Mushroom Quest: NpcDialogue di NPC_funghi (eredita ForestQuest).
-- Bridge Quest: il controller del ponte.
-- Bridge Condition: il componente che gestisce ponte rotto/riparato.
-- Encounter Point e Ranger: punto oltre il ponte e Mia.
-- Fishing Point: il gruppo del punto pesca.
-- Deer Point: il punto d'interazione davanti all'animale.
-- Deer View: il componente sul gruppo del capriolo.
-- Fishing Game: River Fishing Game sullo stesso gestore.
+Sei microbi, due colpi di disinfettante ciascuno. Il primo colpo libera una scheggia infetta: seleziona la pinzetta fucsia e rimuovila prima di dare il secondo colpo. I microbi lanciano anche altre schegge. Seleziona gli strumenti con i pulsanti oppure 1 e 2. Cinque errori o schegge sfuggite richiedono di ripetere la sfida. Il kit resta disponibile in caso di errore.
 
-Il comando prova a compilare tutti questi campi. Se rinomini Rowan o Peter, alcuni testi dei marcatori usano ancora quei nomi come stringhe: cerca Rowan e Peter in DeerRescueController.cs per adeguarli.
+La battaglia è una rappresentazione fantastica all'interno del kit. Alla vittoria Mia medica la zampa e il modello del capriolo si rialza con la benda. Non è una simulazione di cure veterinarie.
 
-## 4. Quando parte la terza missione
+## Dove modificare cosa
 
-Serve completare la missione del ponte, COMPRESO il dialogo finale di ritorno da Noah. Non basta inserire la terza asse e attraversare prima di parlargli.
+Tutti i percorsi sotto sono relativi ad Assets/Level02/.
 
-Dopo aver chiuso il dialogo finale di Noah, attraversa il ponte ed entra nel punto Encounter. Mia si avvicina e racconta del capriolo sotto i rami del vecchio pino caduto dopo le forti piogge.
+| File | Responsabilità / modifiche frequenti |
+| --- | --- |
+| MushroomQuest/Runtime/ForestQuest.cs | Gioco di Elena, dialogo di ringraziamento, HasFishingNet e HasMedicalKit al completamento del tetto. |
+| DeerRescue/Runtime/DeerRescueController.cs | Ordine delle missioni, dialoghi di Mia/Rowan, collegamenti, prestito accetta, passaggio diretto dalla liberazione alla cura. |
+| DeerRescue/Runtime/RiverFishingGame.cs | Schermata pesca, frequenza oggetti, colori e movimento. Dall'Inspector: Fish Goal, Time Limit Seconds, Net Speed, Fall Speed. |
+| DeerRescue/Logic/RescueProgress.cs | Controlli sui premi e sui passaggi della missione; impedisce di ricevere di nuovo il kit consumato. |
+| DeerRescue/Logic/ScrewPuzzle.cs | Colori, strati, tre posti temporanei, validità delle mosse. Cambiare i colori richiede ricontrollare che esista una soluzione. |
+| DeerRescue/Runtime/ScrewRescueGame.cs | Disegno della schermata e animazioni di viti e assi. |
+| DeerRescue/Logic/CareBattle.cs | Sei microbi, due colpi, limite cinque errori. |
+| DeerRescue/Runtime/BacteriaBattleGame.cs | Bersagli, schegge, selezione strumenti, ritmo. Dall'Inspector: Splinter Interval, Splinter Speed, Spray Cooldown. |
+| DeerRescue/Runtime/RescueArcadeArt.cs | Disegni procedurali di viti, assi, microbi, pinzetta, spray e schegge. |
+| DeerRescue/Runtime/RescueGamePanel.cs | Creazione delle finestre e blocco/rilascio dei comandi del giocatore. |
+| DeerRescue/Runtime/RescueArtwork.cs | Disegni precedenti del fiume, rete e capriolo, mantenuti. |
+| DeerRescue/Runtime/DeerRescueView.cs | Modello 3D del capriolo: rami rimossi, benda e animazione finale. |
+| BridgeQuest/Runtime/BridgeQuestMarker.cs | Etichetta e distanza della destinazione, ora collega anche il segnale luminoso. |
+| BridgeQuest/Runtime/QuestBeacon.cs | Anello luminoso e raggio verticale; percorso opzionale con waypoint. |
+| DeerRescue/Editor/DeerRescueSetup.cs | Comandi Tools, configurazione e prove separate. Non gira nella build. |
+| DeerRescue/Tests/Editor/RescueProgressTests.cs | Test NUnit dei premi, sequenza, pesca, soluzione del puzzle e regole del kit. |
 
-Accettando la richiesta parte l'obiettivo del taglialegna. Se chiudi o rimandi, puoi parlare nuovamente con Mia premendo E quando sei vicino.
+RescueDressingDrag.cs e le vecchie API sono conservati per non rompere riferimenti esistenti; il nuovo gioco non usa più il trascinamento della garza.
 
-## 5. Percorso completo
+## Segnali e scia luminosa
 
-1. Mia chiede aiuto oltre il ponte.
-2. Segui il marcatore fino a Rowan e premi E. Il dialogo chiede 3 pesci (o 4 se cambi Fish Goal).
-3. Raggiungi il punto Fishing spot e premi E.
-4. Completa il minigioco e premi Keep the fish.
-5. Torna da Rowan e completa il dialogo: consegni i pesci e ricevi l'accetta.
-6. Segui il marcatore al capriolo e premi E.
-7. Libera l'animale rimuovendo i tre rami.
-8. Raggiungi Peter alla casa rossa e chiedi le bende con E.
-9. Torna al capriolo, premi E e completa la medicazione.
-10. Mia conclude il dialogo e l'animale si rialza lentamente.
+Il segnale segue soltanto la destinazione della missione attiva: Noah, Rowan, ponte, pesca o capriolo. L'anello e il raggio sono disegnati a runtime, senza collider e senza modificare gli script del fiume.
 
-Un solo obiettivo della terza quest è segnalato alla volta. Accetta, pesci e bende sono oggetti logici mostrati nel contatore; non vengono aggiunti modelli in mano al personaggio.
+Per una vera scia sul terreno, aggiungi **QuestBeacon** al GameObject che contiene BridgeQuestMarker e assegna **Route Waypoints** in ordine lungo un percorso sicuro. Usa Empty GameObject appena sopra il sentiero, evitando segmenti che attraversino l'acqua. L'ultimo punto deve essere entro quattro metri dalla destinazione: la scia si nasconde quando cambia l'obiettivo, così non suggerisce una strada sbagliata. Questo aggiornamento non inventa waypoint nella vostra scena: per un percorso completo occorre controllare la scena attuale.
 
-## 6. Minigioco della pesca
+## Verifica in Unity
 
-La schermata mostra il fondale di un fiume di montagna e una rete in basso.
+Questo aggiornamento è stato controllato staticamente e la soluzione delle viti è stata simulata come riferimento. Qui non sono disponibili Unity o un compilatore C#: **compilazione, test NUnit e Play vanno eseguiti nel vostro progetto**.
 
-- Premi Start per avviare il timer.
-- Sposta la rete con A/D oppure freccia sinistra/destra. Il personaggio del mondo resta fermo mentre la schermata è aperta.
-- I pesci sono colorati e hanno pinne e coda. Sassi, rami, scarponi e bottiglie sono ostacoli.
-- Un pesce raccolto aumenta il contatore.
-- Un oggetto sbagliato blocca la rete per 0,65 secondi; non cancella i pesci già presi.
-- Mentre la rete è bloccata, anche un pesce che la raggiunge può essere perso.
-- Appaiono pesci con regolarità: non sono tutti oggetti estratti casualmente senza garanzie.
-- Devi raccogliere 3 pesci entro 45 secondi. Fish Goal può essere impostato a 4 nell'Inspector.
-- Se fallisci, Try again azzera conteggio, ostacoli e tempo.
-- Se vinci, Keep the fish conferma il risultato e aggiorna la quest. Back o Esc senza confermare non assegnano i pesci.
-- Uscire da una prova in corso annulla il tentativo.
+1. Console: nessun errore rosso dopo l'importazione.
+2. In Play usa i menu **Test fishing in Play**, **Test screw puzzle in Play**, **Test kit challenge in Play**, con tutte le altre finestre chiuse. Le prove non assegnano ricompense della missione.
+3. Controlla che 9 pesci non completino il gioco e 10 sì. Prova tempo scaduto e nuovo tentativo.
+4. Nel puzzle prova una vaschetta piena, Restart, Esc anche durante l'animazione, poi la soluzione completa.
+5. Nel kit prova strumento sbagliato, scheggia sfuggita, fallimento e ripetizione, poi vittoria.
+6. Gioca la sequenza intera: premi soltanto dopo il tetto; Noah sbloccato dopo la prima missione; niente ritorno da Peter dopo la liberazione; accetta nascosta al prestito; capriolo medicato alla vittoria.
+7. Window > General > Test Runner > EditMode: esegui Level02.DeerRescue.Tests se Unity Test Framework è installato.
 
-### Prova veloce senza ripetere tutto il livello
-
-Dopo aver creato la missione, entra in Play SENZA iniziare ancora il salvataggio. Usa Tools > Level 02 > Deer rescue > Test fishing in Play.
-Si apre soltanto la pesca: puoi provarla anche prima di completare Peter e il ponte. La prova non assegna ricompense alla quest.
-Il comando non apre un'altra schermata se sei già in un dialogo o hai già iniziato il salvataggio.
-
-## 7. Liberazione del capriolo
-
-La schermata mostra il capriolo dietro tre rami sovrapposti. Non c'è un timer.
-
-1. Seleziona il ramo superiore.
-2. Compare CUT sull'estremità sinistra, lontano dal corpo dell'animale.
-3. Clicca CUT tre volte.
-4. Il taglio si approfondisce e il ramo viene rimosso.
-5. Ripeti con gli altri due rami.
-
-Un ramo bloccato da quello superiore non conta. I colpi e i rami rimossi si conservano chiudendo la schermata nella stessa sessione. I rami vengono tolti anche dalla rappresentazione 3D nella scena. Terminata la liberazione si scopre che l'animale ha bisogno delle bende.
-
-## 8. Bende e medicazione
-
-Peter dà le bende in riconoscenza dell'aiuto ricevuto nella prima missione. Questo richiede ForestQuest.Stage.Complete, cioè anche l'annaffiatura completata.
-
-La medicazione è un piccolo puzzle illustrato:
-1. Trascina la medicazione sulla zona della zampa evidenziata.
-2. Clicca i punti 1, 2, 3 in ordine per completare la benda.
-3. La quest finisce e il modello si rialza.
-
-Non vengono mostrati sangue o ferite realistiche. La posizione evidenziata della zampa è riferita all'illustrazione UI, non alle ossa del modello 3D. La benda 3D è una forma provvisoria, modificabile sul modello.
-
-## 9. Come convivono i vecchi e i nuovi dialoghi
-
-I vecchi script non vengono sostituiti. Dopo l'accettazione del salvataggio il nuovo controller disabilita temporaneamente, solo durante Play, BridgeQuestController: in questo modo Rowan non apre anche il dialogo precedente.
-
-Quando devi chiedere le bende, prende temporaneamente in carico anche ForestQuest di Peter. I componenti mantengono il loro stato e vengono riabilitati quando non servono più o disattivi il nuovo gestore.
-
-Per questo, durante Play, potresti vedere il vecchio componente con la casella Enabled deselezionata. È intenzionale: non correggerla manualmente durante la prova. Le modifiche non vengono salvate nella scena fuori da Play.
-
-## 10. Script e modifiche future
-
-| Percorso sotto Assets/Level02/DeerRescue | Funzione |
-|---|---|
-| Runtime/DeerRescueController.cs | Sequenza, nuovo dialogo di Rowan/Peter, marcatori e schermate del capriolo |
-| Runtime/RiverFishingGame.cs | Rete, controlli, comparsa/caduta degli oggetti e interfaccia della pesca |
-| Runtime/RescueArtwork.cs | Disegni di pesci, rete, ostacoli, capriolo e benda; CanvasRenderer incluso |
-| Runtime/DeerRescueView.cs | Rami 3D, posa sdraiata, benda visibile e animazione per rialzarsi |
-| Runtime/RescueDressingDrag.cs | Trascinamento della medicazione |
-| Logic/RescueProgress.cs | Stati e regole; contiene RescueProgress e FishingRound |
-| Editor/DeerRescueSetup.cs | Creazione della missione e comando di prova rapida |
-| Tests/Editor | Test della logica |
-
-Nell'Inspector di River Fishing Game puoi cambiare Fish Goal, Time Limit Seconds, Net Speed e Fall Speed. Nel controller puoi cambiare nome di Mia, distanze, velocità d'avvicinamento e velocità del testo.
-Per cambiare la sequenza o i dialoghi cerca Intro, TalkWoodcutter, TalkPeter e Wrap. Per il disegno del fondale e degli oggetti modifica RescueArtwork. Non rimuovere RequireComponent(typeof(CanvasRenderer)).
-
-## 11. Verifica e limiti
-
-Qui non è disponibile Unity: non sono stati eseguiti compilazione, Test Runner e Play. Sono stati controllati la struttura dei file, i riferimenti alle API degli script ricevuti e il contenuto del pacchetto. I test automatici sono inclusi ma vanno eseguiti nel tuo progetto: Window > General > Test Runner > EditMode > Run All.
-
-Controlla in Play:
-- I primi due giochi funzionano ancora.
-- Mia non interviene prima della conclusione di Noah.
-- La rete prende soltanto i pesci e gli ostacoli provocano il blocco breve.
-- Una prova fallita non assegna pesci; la consegna non assegna più accette.
-- Il nuovo dialogo di Rowan/Peter si apre da solo, senza un secondo pannello sovrapposto.
-- Esc chiude le schermate e restituisce i controlli.
-- I rami si rimuovono nell'ordine previsto e il capriolo non viene liberato prima del terzo ramo.
-- Le bende arrivano soltanto dopo la liberazione e l'aiuto iniziale a Peter.
-- La medicazione richiede il trascinamento e i punti nell'ordine giusto.
-- I punti sono raggiungibili e panchina, NPC e capriolo poggiano sul terreno.
-
-Lo stato dura per la sessione: uscire da Play o ricaricare la scena ricomincia le missioni. Le nuove posizioni proposte richiedono il controllo nella tua mappa. Il modello del capriolo, la benda 3D e l'avvicinamento di Mia sono rappresentazioni semplici da rifinire con gli asset del gruppo.
+Se il vostro NpcDialogue non eredita più da ForestQuest oppure gli script della terza missione sono stati modificati dopo il pacchetto precedente, serve confrontare anche quelle versioni prima di importare. Non sostituire altri script del progetto con vecchie copie.

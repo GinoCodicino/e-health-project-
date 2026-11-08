@@ -495,6 +495,8 @@ namespace Level02.BridgeMission
             if(player!=null) player.SetUiMode(this,false);
             closeFrame=Time.frameCount;
         }
+        public bool showLegacyInventory = true;
+        public int RemainingPlanks { get { return progress.Stage==BridgeStage.RepairBridge ? progress.Planks : 0; } }
         void OnGUI()
         {
             if(!IsUnlocked || IsOpen || player==null || player.IsGameplayBlocked || closeFrame==Time.frameCount) return;
@@ -504,7 +506,7 @@ namespace Level02.BridgeMission
                 text=progress.Stage==BridgeStage.MeetFisher ? fisherName+": 'That bridge... what a mess.'\nE - Talk" : "E - Talk to "+fisherName;
             else if(Near(woodcutter)) text="E - Talk to "+woodcutterName;
             if(text!="") GUI.Box(new Rect(Screen.width/2-220,Screen.height-105,440,65),text);
-            if(progress.Stage==BridgeStage.RepairBridge) GUI.Box(new Rect(20,20,280,40),"Planks remaining: "+progress.Planks+" / 3");
+            if(showLegacyInventory && progress.Stage==BridgeStage.RepairBridge) GUI.Box(new Rect(20,20,280,40),"Planks remaining: "+progress.Planks+" / 3");
         }
         void OnDisable() { Close(); if(marker!=null) marker.Hide(); }
         void OnDestroy() { if(uiRoot!=null) Destroy(uiRoot); }

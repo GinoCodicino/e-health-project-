@@ -13,6 +13,7 @@ namespace Level02.BridgeMission
         RectTransform badge;
         TMP_Text label;
         Canvas canvas;
+        QuestBeacon beacon;
         public void Show(Transform destination,string text,Camera camera)
         {
             target = destination; caption = text; view = camera;
@@ -29,8 +30,11 @@ namespace Level02.BridgeMission
                 MushroomUI.Fill(label.rectTransform,8);
             }
             root.SetActive(target != null);
+            if(beacon==null)beacon=GetComponent<QuestBeacon>();
+            if(beacon==null)beacon=gameObject.AddComponent<QuestBeacon>();
+            beacon.Show(target);
         }
-        public void Hide() { if (root != null) root.SetActive(false); }
+        public void Hide() { if (root != null) root.SetActive(false); if(beacon!=null)beacon.Hide(); }
         void LateUpdate()
         {
             if (root == null || !root.activeSelf || target == null || view == null) return;
@@ -48,6 +52,6 @@ namespace Level02.BridgeMission
             label.text = caption+"\n"+Mathf.CeilToInt(distance)+" m"+(behind ? " - turn around" : "");
         }
         void OnDisable() { Hide(); }
-        void OnDestroy() { if (root != null) Destroy(root); }
+        void OnDestroy() { if (root != null) Destroy(root); if(beacon!=null)Destroy(beacon); }
     }
 }

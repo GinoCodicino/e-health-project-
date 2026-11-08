@@ -438489,7 +438489,7 @@ Transform:
   m_GameObject: {fileID: 1157609715}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.30451775, y: 0, z: 1.9766808}
+  m_LocalPosition: {x: 0.30451775, y: 0, z: -138.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -579943,6 +579943,8 @@ GameObject:
   - component: {fileID: 1541265102}
   - component: {fileID: 1541265101}
   - component: {fileID: 1541265100}
+  - component: {fileID: 1541265104}
+  - component: {fileID: 1541265103}
   m_Layer: 0
   m_Name: Level02_DeerRescue
   m_TagString: Untagged
@@ -579962,8 +579964,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ce533ebdef25b0a9f62eb86824c8156, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Level02.DeerRescue.RiverFishingGame
-  fishGoal: 3
-  timeLimitSeconds: 45
+  fishGoal: 10
+  timeLimitSeconds: 90
   netSpeed: 650
   fallSpeed: 110
 --- !u!114 &1541265101
@@ -579988,6 +579990,9 @@ MonoBehaviour:
   deerPoint: {fileID: 1157609716}
   deerView: {fileID: 2091387425}
   fishingGame: {fileID: 1541265100}
+  releaseGame: {fileID: 1541265104}
+  careGame: {fileID: 1541265103}
+  woodcutterAxe: {fileID: 2025749636}
   rangerName: Mia
   interactionDistance: 3
   encounterRadius: 4
@@ -580011,6 +580016,33 @@ Transform:
   - {fileID: 2091387426}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1541265103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1541265099}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0879d6c7d36d51eb8a6eb50b036307d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Level02.DeerRescue.BacteriaBattleGame
+  splinterInterval: 2.8
+  splinterSpeed: 42
+  sprayCooldown: 0.35
+--- !u!114 &1541265104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1541265099}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dea224f967f05a21a63fd65e283f005d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Level02.DeerRescue.ScrewRescueGame
 --- !u!1001 &1541469411
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -765505,6 +765537,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 1078234795338679120, guid: 8ea8ed222037d5c43947916767330d3d, type: 3}
   m_PrefabInstance: {fileID: 2025675773}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2025749636 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: d5ad072c28129aa409092fa8ee034c8e, type: 3}
+  m_PrefabInstance: {fileID: 1771305284}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2025808443
 PrefabInstance:

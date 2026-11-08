@@ -21,21 +21,13 @@ public static class ForestQuestSetup
             { Undo.RecordObject(old,"Disable old minigame"); old.enabled = false; }
         if (quest.dialoguePanel != null)
         { Undo.RecordObject(quest.dialoguePanel,"Hide old dialogue"); quest.dialoguePanel.SetActive(false); }
-        if (quest.gardenPoint == null)
-        {
-            GameObject garden = new GameObject("Quest_Garden_POINT_MOVE_ME");
-            Undo.RegisterCreatedObjectUndo(garden,"Create garden point");
-            garden.transform.position = npc.transform.position + npc.transform.right*2;
-            quest.gardenPoint = garden.transform;
-            Part("Garden soil",garden.transform,new Vector3(0,-.05f,0),new Vector3(1.4f,.1f,1.4f),new Color(.22f,.14f,.07f));
-        }
-        // Il punto del fiume non viene indovinato: va assegnato su una riva accessibile.
-        if (quest.riverPoint == null) Debug.LogWarning("Create an Empty at a safe riverbank and assign River Point on the NPC.");
+        // Il tetto si ripara davanti alla casa; l'area di ricerca si crea con il menu "Create roof search area and repair point".
+        if (quest.roofSearchArea == null) Debug.LogWarning("Run Tools > Level 02 > Create roof search area and repair point with the NPC selected.");
         EditorUtility.SetDirty(quest);
         PrefabUtility.RecordPrefabInstancePropertyModifications(quest);
         EditorSceneManager.MarkSceneDirty(npc.scene);
         Selection.activeGameObject = npc;
-        Debug.Log("Quest configured. Assign River Point, check Garden Point, then save the scene.",npc);
+        Debug.Log("Quest configured. Now create the roof search area, then save the scene.",npc);
     }
 
     [MenuItem("Tools/Level 02/Create red house behind selected NPC")]
@@ -73,6 +65,49 @@ public static class ForestQuestSetup
         Selection.activeGameObject=root;
         EditorSceneManager.MarkSceneDirty(npc.scene);
         Debug.Log("House created. Check ground contact, NPC clearance and sign position before saving.");
+    }
+
+    [MenuItem("Tools/Level 02/Create roof search area and repair point")]
+    static void RoofSetup()
+    {
+        if (Application.isPlaying) { Debug.LogWarning("Exit Play mode first."); return; }
+        GameObject npc = Selection.activeGameObject;
+        if (npc == null || !npc.scene.IsValid()) { Debug.LogError("Select NPC_funghi in the Hierarchy first."); return; }
+        NpcDialogue quest = npc.GetComponent<NpcDialogue>();
+        if (quest == null) { Debug.LogError("The selected object has no NpcDialogue component."); return; }
+        Undo.RecordObject(quest,"Configure roof quest");
+        GameObject house = GameObject.Find("Quest_RedHouse_"+npc.name);
+        if (house == null) Debug.LogWarning("Red house not found: create it first or assign House Point manually.");
+        else if (quest.housePoint == null)
+        {
+            Transform point = house.transform.Find("Quest_RoofRepair_POINT");
+            if (point == null)
+            {
+                GameObject p = new GameObject("Quest_RoofRepair_POINT");
+                Undo.RegisterCreatedObjectUndo(p,"Create roof repair point");
+                p.transform.SetParent(house.transform,false);
+                p.transform.localPosition = new Vector3(0,0,4.2f);   // davanti alla porta
+                point = p.transform;
+            }
+            quest.housePoint = point;
+        }
+        if (quest.roofSearchArea == null)
+        {
+            GameObject area = new GameObject("Quest_RoofSearchArea_MOVE_ME");
+            Undo.RegisterCreatedObjectUndo(area,"Create roof search area");
+            Transform basis = house != null ? house.transform : npc.transform;
+            // Posizione di partenza davanti alla casa, di lato: va trascinata dal lato opposto del path.
+            Vector3 pos = basis.position+basis.forward*6+npc.transform.right*12;
+            RaycastHit hit;
+            if (Physics.Raycast(pos+Vector3.up*60,Vector3.down,out hit,200f)) pos = hit.point;
+            area.transform.position = pos;
+            quest.roofSearchArea = area.transform;
+            Selection.activeGameObject = area;
+        }
+        EditorUtility.SetDirty(quest);
+        PrefabUtility.RecordPrefabInstancePropertyModifications(quest);
+        EditorSceneManager.MarkSceneDirty(npc.scene);
+        Debug.Log("Roof area created. Move Quest_RoofSearchArea_MOVE_ME in front of the house, on the opposite side of the path (the orange circle shows it when the NPC is selected), then save the scene.");
     }
     static GameObject Part(string name,Transform parent,Vector3 pos,Vector3 size,Color color)
     {

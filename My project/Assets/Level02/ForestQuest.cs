@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
@@ -10,11 +11,16 @@ using UnityEngine.UI;
 // Lo stato dura per la sessione corrente: non viene salvato su disco.
 public class ForestQuest : MonoBehaviour
 {
-    public enum Stage { Introduction, FindMushrooms, ReportMushrooms, FetchWater, ReturnWater, WaterGarden, Complete }
+    public enum Stage { Introduction, FindMushrooms, ReportMushrooms, FindRoofPieces, RepairRoof, Complete }
     [Header("Collegamenti")]
     public playercontroller player;
-    public Transform riverPoint;
-    public Transform gardenPoint;
+    [Tooltip("Centro dell'area dove si nascondono i pezzi di tetto: davanti alla casa, dal lato opposto del path. Si crea con Tools > Level 02 > Create roof search area and repair point.")]
+    public Transform roofSearchArea;
+    [Tooltip("Punto davanti alla casa dove si ripara il tetto (si trova da solo se esiste Quest_RedHouse_...).")]
+    public Transform housePoint;
+    // Campi della vecchia missione dell'acqua: non più usati, restano nascosti solo per non rompere altri script.
+    [HideInInspector] public Transform riverPoint;
+    [HideInInspector] public Transform gardenPoint;
     [Header("Personalizzazione")]
     public string speakerName = "Peter";
     public float interactionDistance = 3f;
@@ -22,8 +28,6 @@ public class ForestQuest : MonoBehaviour
     [Range(0.2f, 0.95f)] public float dialogueOpacity = 0.72f;
     [Range(3, 8)] public int minimumMushrooms = 3;
     [Range(3, 8)] public int maximumMushrooms = 5;
-    [Range(0f, 1f)] public float minimumWater = 0.50f;
-    [Range(0f, 1f)] public float maximumWater = 0.75f;
     public Sprite forestBackground;
     [Header("Trova i funghi - scena")]
     [Tooltip("Sprite del fungo da trovare (opzionale). Se vuoto usa il fungo generato da codice. Lo sfondo si imposta in Forest Background.")]
@@ -41,14 +45,24 @@ public class ForestQuest : MonoBehaviour
     [Range(0, 600)] public int decorations = 120;
     [Tooltip("Una foglia o un sasso copre in parte ogni fungo.")]
     public bool coverMushrooms = true;
-    [Header("Secchio - prova di tempismo")]
-    [Tooltip("Secondi da vuoto a pieno. Il ritorno richiede altrettanto tempo.")]
-    [Range(1f, 8f)] public float bucketTravelSeconds = 2.5f;
-    [Header("Segnale del fiume")]
-    public bool showRiverMarker = true;
-    public Color riverMarkerColor = new Color(0.15f, 0.8f, 1f);
-    [Range(0.3f, 3f)] public float riverMarkerRadius = 1.2f;
-    [Range(1f, 6f)] public float riverMarkerHeight = 2.5f;
+    [Header("Pezzi di tetto")]
+    [Tooltip("Quanti pezzi di tetto sono nascosti.")]
+    [Range(1, 6)] public int piecesToFind = 3;
+    [Tooltip("Raggio dell'area di ricerca intorno a Roof Search Area (in metri).")]
+    [Range(3f, 20f)] public float searchRadius = 8f;
+    [Tooltip("Quanti cespugli vengono creati nell'area (3 nascondono un pezzo, gli altri sono vuoti).")]
+    [Range(5, 20)] public int bushCount = 10;
+    [Tooltip("Opzionale: cespugli già presenti nella scena. Se ne assegni almeno 4 usa quelli invece di crearne di nuovi.")]
+    public Transform[] existingBushes;
+    [Tooltip("A che distanza il cespuglio giusto trema e brilla.")]
+    [Range(3f, 15f)] public float hintDistance = 7f;
+    [Tooltip("Quante pressioni di Spazio servono per scostare i rami.")]
+    [Range(4, 20)] public int pushesNeeded = 10;
+    [Header("Segnale della missione")]
+    public bool showMarker = true;
+    public Color markerColor = new Color(1f, 0.72f, 0.2f);
+    [Range(0.3f, 3f)] public float markerRadius = 1.5f;
+    [Range(1f, 8f)] public float markerHeight = 4f;
     public Stage CurrentStage { get; private set; }
     public bool IsOpen { get { return uiRoot != null && uiRoot.activeSelf; } }
     public int FoundCount { get { return found; } }
@@ -56,22 +70,20 @@ public class ForestQuest : MonoBehaviour
     GameObject uiRoot, page;
     RectTransform canvas;
     TMP_Text speech, counter, hint;
-    ForestBucketArt bucketArt;
-    TMP_Text bucketStatus;
-    RectTransform bucketCursor;
-    Button bucketAction;
-    TMP_Text bucketActionCaption;
-    bool bucketOpen, bucketRunning, bucketSucceeded;
-    float bucketElapsed;
-    GameObject riverMarker;
-    LineRenderer riverRing, riverBeam;
-    TextMeshPro riverLabel;
-    Material riverMarkerMaterial;
+    GameObject marker;
+    LineRenderer markerRing, markerBeam;
+    TextMeshPro markerLabel;
+    Material markerMaterial;
+    int piecesFound, activeBush = -1;
+    bool bushOpen;
+    float bushProgress, bushKick, bushLockUntil;
+    RectTransform bushFill;
+    string toast;
+    float toastUntil;
     Coroutine typing;
     bool isTyping, oldCursorVisible;
     CursorLockMode oldCursorLock;
     int found, target, lineIndex;
-    float water;
     string[] lines;
     Action afterLines;
     readonly HashSet<int> collected = new HashSet<int>();
@@ -92,37 +104,40 @@ public class ForestQuest : MonoBehaviour
         if (player == null) player = FindFirstObjectByType<playercontroller>();
         minimumMushrooms = Mathf.Clamp(minimumMushrooms, 3, 8);
         maximumMushrooms = Mathf.Clamp(maximumMushrooms, minimumMushrooms, 8);
-        minimumWater = Mathf.Clamp(minimumWater, 0.05f, 0.95f);
-        maximumWater = Mathf.Clamp(maximumWater, minimumWater, 1f);
+        if (housePoint == null) housePoint = FindHousePoint();
+        if (roofSearchArea == null) roofSearchArea = FallbackSearchArea();
     }
 
     protected virtual void Update()
     {
-        UpdateRiverMarker();
+        UpdateMarker();
+        UpdateBushes();
         UpdateMushroomView();
-        // Il cursore non dipende dal movimento del giocatore o da Time.timeScale.
-        if (bucketOpen && bucketRunning && IsOpen)
-        {
-            bucketElapsed += Time.unscaledDeltaTime;
-            water = Mathf.PingPong(bucketElapsed / Mathf.Max(1f, bucketTravelSeconds), 1f);
-            UpdateWater();
-        }
         Keyboard keyboard = Keyboard.current;
         if (keyboard == null || player == null) return;
         if (IsOpen)
         {
             if (keyboard.escapeKey.wasPressedThisFrame) { CloseDialogue(); return; }
+            if (bushOpen) { UpdateBushGame(keyboard); return; }
             // Spazio completa la riga; non attiva anche un pulsante selezionato.
             if (isTyping && keyboard.spaceKey.wasPressedThisFrame) ShowAll();
             return;
         }
-        if (!keyboard.eKey.wasPressedThisFrame) return;
-        if (CurrentStage == Stage.FetchWater && Near(riverPoint)) OpenBucket();
-        else if (CurrentStage == Stage.WaterGarden && Near(gardenPoint))
+        Mouse mouse = Mouse.current;
+        bool eKey = keyboard.eKey.wasPressedThisFrame;
+        bool click = mouse != null && mouse.leftButton.wasPressedThisFrame;
+        // E o clic vicino a un cespuglio: scosta i rami.
+        if (CurrentStage == Stage.FindRoofPieces && (eKey || click) && Time.unscaledTime >= bushLockUntil)
+        {
+            int bush = NearestBush();
+            if (bush >= 0) { OpenBush(bush); return; }
+        }
+        if (!eKey) return;
+        if (CurrentStage == Stage.RepairRoof && Near(housePoint))
         {
             CurrentStage = Stage.Complete;
-            Speak(new[] { "Thank you! This water helps our little garden.",
-                "Caring for the whole forest takes much more. Your grandfather would be proud of you." }, CloseDialogue);
+            Speak(new[] { "Thank you! With these planks the roof will keep the rain out again.",
+                "Caring for a home, and for the whole forest, takes many hands. Your grandfather would be proud of you." }, CloseDialogue);
         }
         else if (Near(transform)) OpenDialogue(player);
     }
@@ -148,7 +163,7 @@ public class ForestQuest : MonoBehaviour
     {
         OpenUI();
         world = null; view = null; dragging = false;
-        bucketOpen = false; bucketRunning = false;
+        bushOpen = false;
         if (typing != null) StopCoroutine(typing);
         typing = null; isTyping = false;
         if (page != null) { page.SetActive(false); Destroy(page); }
@@ -195,16 +210,17 @@ public class ForestQuest : MonoBehaviour
                 Speak(new[] { "Ready to look for the mushrooms I showed you?" }, SearchOffer); break;
             case Stage.ReportMushrooms:
                 Speak(new[] { "You found them all! Thank you.",
-                    "Could you bring some river water for my little garden? Take this bucket.",
-                    "Follow the blue marker to the river. Stop the moving pointer in the green zone to fill the bucket." },
-                    () => { CurrentStage = Stage.FetchWater; CloseDialogue(); }); break;
-            case Stage.FetchWater:
-                Speak(new[] { "Follow the blue marker to the river. Press E inside the blue ring to fill the bucket." }, CloseDialogue); break;
-            case Stage.ReturnWater:
-                Speak(new[] { "Just the right amount! Please water the little garden beside me." },
-                    () => { CurrentStage = Stage.WaterGarden; CloseDialogue(); }); break;
-            case Stage.WaterGarden:
-                Speak(new[] { "Press E beside the little garden to water it." }, CloseDialogue); break;
+                    "Now I have another problem. The long rains and the strong wind tore a section of my roof apart.",
+                    "Three wooden planks flew away and landed among the bushes in front of the house, on the other side of the path.",
+                    "Follow the marker to the area. When you get close, the right bush trembles and sparkles. Press E or click to push the branches aside.",
+                    "Bring all three planks back to the house so I can repair the roof." },
+                    () => { CurrentStage = Stage.FindRoofPieces; SetupBushes(); CloseDialogue(); }); break;
+            case Stage.FindRoofPieces:
+                Speak(new[] { "Roof pieces found: " + piecesFound + " of " + Mathf.Clamp(piecesToFind,1,6) + ".",
+                    "Look for bushes that tremble and sparkle, in front of the house on the other side of the path." }, CloseDialogue); break;
+            case Stage.RepairRoof:
+                Speak(new[] { "You have all the pieces! Please bring them to the front of the house.",
+                    "Press E there to repair the roof." }, CloseDialogue); break;
             default:
                 Speak(new[] { "Thank you for helping. Enjoy the rest of the trail!" }, CloseDialogue); break;
         }
@@ -225,11 +241,11 @@ public class ForestQuest : MonoBehaviour
     {
         string[][] branches = {
             new [] { "Your grandfather! Sixty years ago, I walked this trail with him. I was just a child.",
-                "You: Did you pick mushrooms together?", "Yes! We found many. These days the ground often stays too dry, and mushrooms struggle to grow because high temperatures parch the soil, while sudden heavy rains end up damaging the surrounding vegetation." },
-            new [] { "We have found fewer lately. These days the ground often stays too dry and mushrooms struggle to grow because high temperatures parch the soil while sudden heavy rains end up damaging the surrounding vegetation.",
+                "You: Did you pick mushrooms together?", "Yes! We found many. These days the ground often stays too dry." },
+            new [] { "We have found fewer lately. Long, hot, dry spells make it harder for mushrooms to appear.",
                 "You: Could climate change be part of the reason?", "Yes. It can change the moisture and temperatures they need." },
             new [] { "Since I was a child! I often came here with your grandfather, sixty years ago.",
-                "You: What was the forest like then?", "We found many mushrooms. The bridge was whole and a giant pine stood by the trail." }
+                "You: What was the forest like then?", "We found many mushrooms. The bridge was whole, and a giant pine stood by the trail." }
         };
         List<string> text = new List<string>(branches[branch]);
         text.Add("You: How can we help?");
@@ -501,215 +517,392 @@ public class ForestQuest : MonoBehaviour
         world.anchoredPosition = pos;
     }
     void RefreshCounter() { counter.text = "Mushrooms remaining: " + (target - found) + "     Wrong clicks: " + misses; }
-    ForestBucketArt BucketIllustration(string name, Transform parent, ForestBucketArt.Picture picture, float x, float y, float w, float h)
-    {
-        ForestBucketArt art = MushroomUI.Rect(name, parent).gameObject.AddComponent<ForestBucketArt>();
-        art.picture = picture; art.raycastTarget = false;
-        MushroomUI.Place(art.rectTransform, x, y, w, h); art.SetVerticesDirty();
-        return art;
-    }
-    void StyleBucketButton(Button button, Color tint)
-    {
-        button.GetComponent<Image>().color = new Color(1, 1, 1, 0);
-        ForestBucketArt background = BucketIllustration("Button artwork", button.transform, ForestBucketArt.Picture.Panel, 0, 0,
-            ((RectTransform)button.transform).sizeDelta.x, ((RectTransform)button.transform).sizeDelta.y);
-        background.color = tint; background.transform.SetAsFirstSibling();
-        var shadow = background.gameObject.AddComponent<Shadow>();
-        shadow.effectColor = new Color(0, 0, 0, .22f); shadow.effectDistance = new Vector2(0, -3);
-        button.targetGraphic = background;
-        TMP_Text text = button.GetComponentInChildren<TMP_Text>(); text.fontStyle = FontStyles.Bold;
-    }
-    void OpenBucket()
-    {
-        if (CurrentStage != Stage.FetchWater) return;
-        ClearPage(true);
-        bucketOpen = true;
-        page.GetComponent<Image>().color = new Color(.055f, .12f, .105f);
-        // Illustrazione di sfondo e pannello dati vengono disegnati prima dei testi.
-        BucketIllustration("Riverbank", page.transform, ForestBucketArt.Picture.Riverbank, 0, 44, 1100, 330);
-        ForestBucketArt card = BucketIllustration("Information card", page.transform, ForestBucketArt.Picture.Panel, 355, 44, 310, 278);
-        card.color = new Color(.045f, .105f, .095f, .94f);
-        TMP_Text chapter = Label("FOREST TRAIL  /  RIVER WATER", -540, 310, 1080, 22, 15);
-        chapter.color = new Color(.71f, .80f, .65f); chapter.characterSpacing = 2;
-        TMP_Text title = Label("A LITTLE WATER, A LITTLE CARE", -540, 267, 1080, 48, 32);
-        title.fontStyle = FontStyles.Bold;
-        Label("Stop the moving pointer in the green zone to fill your bucket.", -540, 224, 1080, 34, 21);
+    // ---------- Pezzi di tetto nascosti tra i cespugli ----------
+    class Bush { public Transform t; public bool hasPiece, done, generated; public Vector3 basePos; public Quaternion baseRot; public GameObject sparkle; }
+    List<Bush> bushes = new List<Bush>();
+    Material[] bushMaterials;
+    static Mesh blobMesh;
+    readonly List<Material> runtimeMaterials = new List<Material>();
 
-        bucketArt = BucketIllustration("Wooden bucket", page.transform, ForestBucketArt.Picture.Bucket, -100, 43, 330, 330);
-        TMP_Text tag = Label("WATER LEVEL", 230, 150, 250, 28, 17);
-        tag.color = new Color(.67f, .80f, .73f); tag.characterSpacing = 2;
-        counter = Label("0%", 230, 97, 250, 72, 54); counter.fontStyle = FontStyles.Bold;
-        TMP_Text range = Label("CARRY ZONE  " + Mathf.RoundToInt(minimumWater * 100) + "-" + Mathf.RoundToInt(maximumWater * 100) + "%", 230, 34, 250, 32, 18);
-        range.color = new Color(.73f, .91f, .65f);
-        bucketStatus = Label("", 230, -28, 250, 66, 21);
-
-        ForestBucketArt frame = BucketIllustration("Meter frame", page.transform, ForestBucketArt.Picture.Panel, 0, -165, 1000, 64);
-        frame.color = new Color(.025f, .075f, .065f);
-        Image track = MushroomUI.Image("TimingTrack", page.transform, new Color(.27f, .39f, .40f));
-        MushroomUI.Place(track.rectTransform, 0, -165, 960, 28); track.raycastTarget = false;
-        Image heavy = MushroomUI.Image("Too much water", track.transform, new Color(.61f, .36f, .23f));
-        heavy.rectTransform.anchorMin = new Vector2(maximumWater, 0); heavy.rectTransform.anchorMax = Vector2.one;
-        heavy.rectTransform.offsetMin = heavy.rectTransform.offsetMax = Vector2.zero; heavy.raycastTarget = false;
-        Image safe = MushroomUI.Image("AcceptableWater", track.transform, new Color(.35f, .66f, .43f));
-        safe.rectTransform.anchorMin = new Vector2(minimumWater, 0); safe.rectTransform.anchorMax = new Vector2(maximumWater, 1);
-        safe.rectTransform.offsetMin = safe.rectTransform.offsetMax = Vector2.zero; safe.raycastTarget = false;
-        for (int i = 0; i <= 10; i++)
-        {
-            Image tick = MushroomUI.Image("Scale mark", track.transform, new Color(1, 1, 1, .20f));
-            tick.raycastTarget = false;
-            tick.rectTransform.anchorMin = tick.rectTransform.anchorMax = new Vector2(i / 10f, 0);
-            tick.rectTransform.pivot = new Vector2(.5f, 0); tick.rectTransform.anchoredPosition = Vector2.zero;
-            tick.rectTransform.sizeDelta = new Vector2(2, i % 5 == 0 ? 10 : 5);
-        }
-        Image pointer = MushroomUI.Image("MovingPointer", track.transform, new Color(.94f, .96f, .83f));
-        bucketCursor = pointer.rectTransform; bucketCursor.sizeDelta = new Vector2(4, 48); pointer.raycastTarget = false;
-        ForestBucketArt drop = BucketIllustration("Pointer droplet", pointer.transform, ForestBucketArt.Picture.Droplet, 0, 36, 18, 25);
-        drop.color = new Color(.85f, .94f, .87f);
-        Label("NO WATER", -480, -212, 240, 26, 16).color = new Color(.72f, .83f, .82f);
-        float safeCenter = -480f + (minimumWater + maximumWater) * .5f * 960f;
-        TMP_Text good = Label("GOOD AMOUNT", safeCenter - 120, -212, 240, 26, 16);
-        good.alignment = TextAlignmentOptions.Center; good.color = new Color(.75f, .93f, .70f);
-        TMP_Text high = Label("TOO MUCH", 240, -212, 240, 26, 16);
-        high.alignment = TextAlignmentOptions.MidlineRight; high.color = new Color(.91f, .72f, .56f);
-        hint = Label("", -540, -251, 1080, 32, 20); hint.alignment = TextAlignmentOptions.Center;
-        bucketAction = Choice("STOP", -260, -302, 480, BucketAction);
-        bucketActionCaption = bucketAction.GetComponentInChildren<TMP_Text>();
-        StyleBucketButton(bucketAction, new Color(.30f, .52f, .36f));
-        Navigation nav = bucketAction.navigation; nav.mode = Navigation.Mode.None; bucketAction.navigation = nav;
-        Button back = Choice("Back to the forest", 260, -302, 480, CloseDialogue);
-        StyleBucketButton(back, new Color(.14f, .26f, .22f));
-        StartBucketAttempt();
-    }
-    void StartBucketAttempt()
+    Material Mat(Color color, bool unlit)
     {
-        bucketSucceeded = false;
-        bucketElapsed = 0f;
-        water = 0f;
-        bucketRunning = true;
-        bucketActionCaption.text = "STOP";
-        hint.text = "Aim for the green zone. You can retry if you miss.";
-        hint.color = Color.white;
-        UpdateWater();
+        Shader shader = Shader.Find(unlit ? "Universal Render Pipeline/Unlit" : "Universal Render Pipeline/Lit");
+        if (shader == null) shader = Shader.Find(unlit ? "Sprites/Default" : "Standard");
+        if (shader == null) shader = Shader.Find("Sprites/Default");
+        Material m = new Material(shader); m.color = color;
+        runtimeMaterials.Add(m);
+        return m;
     }
-    void BucketAction()
+    // Icosaedro a facce piatte: l'aspetto "low poly" dei cespugli e delle scintille.
+    static Mesh LowPolyBlob()
     {
-        if (!bucketOpen || !IsOpen) return;
-        if (bucketSucceeded)
+        if (blobMesh != null) return blobMesh;
+        float t = (1f + Mathf.Sqrt(5f)) / 2f;
+        Vector3[] v = { new Vector3(-1,t,0), new Vector3(1,t,0), new Vector3(-1,-t,0), new Vector3(1,-t,0),
+            new Vector3(0,-1,t), new Vector3(0,1,t), new Vector3(0,-1,-t), new Vector3(0,1,-t),
+            new Vector3(t,0,-1), new Vector3(t,0,1), new Vector3(-t,0,-1), new Vector3(-t,0,1) };
+        int[] f = { 0,11,5, 0,5,1, 0,1,7, 0,7,10, 0,10,11, 1,5,9, 5,11,4, 11,10,2, 10,7,6, 7,1,8,
+                    3,9,4, 3,4,2, 3,2,6, 3,6,8, 3,8,9, 4,9,5, 2,4,11, 6,2,10, 8,6,7, 9,8,1 };
+        Vector3[] verts = new Vector3[60]; int[] tris = new int[60];
+        for (int i = 0; i < 60; i += 3)
         {
-            // La missione avanza solo ritirando il secchio dopo il successo.
-            CurrentStage = Stage.ReturnWater;
-            CloseDialogue();
-            return;
+            Vector3 a = v[f[i]].normalized * .5f, b = v[f[i + 1]].normalized * .5f, c = v[f[i + 2]].normalized * .5f;
+            // Unity disegna il lato "orario": se la faccia guarda verso l'interno, inverte l'ordine.
+            if (Vector3.Dot(Vector3.Cross(b - a, c - a), a + b + c) < 0f) { Vector3 tmp = b; b = c; c = tmp; }
+            verts[i] = a; verts[i + 1] = b; verts[i + 2] = c;
+            tris[i] = i; tris[i + 1] = i + 1; tris[i + 2] = i + 2;
         }
-        if (!bucketRunning) { StartBucketAttempt(); return; }
-        // Usa lo stesso valore mostrato nell'ultimo frame: niente spostamenti dopo Stop.
-        bucketRunning = false;
-        if (water < minimumWater)
+        Mesh m = new Mesh(); m.name = "LowPolyBlob";
+        m.vertices = verts; m.triangles = tris; m.RecalculateNormals(); m.RecalculateBounds();
+        blobMesh = m;
+        return m;
+    }
+    Transform BuildBush(Vector3 position)
+    {
+        if (bushMaterials == null)
+            bushMaterials = new[] { Mat(new Color(.20f, .45f, .16f), false), Mat(new Color(.27f, .55f, .20f), false), Mat(new Color(.15f, .36f, .14f), false) };
+        GameObject root = new GameObject("Quest_RoofBush_Runtime");
+        root.transform.position = position;
+        root.transform.rotation = Quaternion.Euler(0, UnityEngine.Random.Range(0f, 360f), 0);
+        int blobs = UnityEngine.Random.Range(3, 6);
+        for (int i = 0; i < blobs; i++)
         {
-            hint.text = "Too little water! Try again.";
-            hint.color = new Color(1f, .76f, .43f);
-            bucketActionCaption.text = "Try again";
+            GameObject g = new GameObject("Leaves");
+            g.transform.SetParent(root.transform, false);
+            g.transform.localPosition = new Vector3(UnityEngine.Random.Range(-.55f, .55f), UnityEngine.Random.Range(.35f, .7f), UnityEngine.Random.Range(-.55f, .55f));
+            float s = UnityEngine.Random.Range(1.1f, 1.7f);
+            g.transform.localScale = new Vector3(s, s * .8f, s);
+            g.transform.localRotation = UnityEngine.Random.rotation;
+            g.AddComponent<MeshFilter>().sharedMesh = LowPolyBlob();
+            g.AddComponent<MeshRenderer>().sharedMaterial = bushMaterials[UnityEngine.Random.Range(0, bushMaterials.Length)];
         }
-        else if (water > maximumWater)
+        return root.transform;
+    }
+    // Piccole scintille low poly che compaiono sopra il cespuglio giusto quando ti avvicini.
+    GameObject BuildSparkle(Transform parent)
+    {
+        GameObject root = new GameObject("Sparkle");
+        root.transform.SetParent(parent, false);
+        root.transform.localPosition = new Vector3(0, 2.1f, 0);
+        Material m = Mat(new Color(1f, .88f, .30f), true);
+        for (int i = 0; i < 3; i++)
         {
-            hint.text = "Too much water! The bucket is too heavy. Try again.";
-            hint.color = new Color(1f, .76f, .43f);
-            bucketActionCaption.text = "Try again";
+            GameObject g = new GameObject("Spark");
+            g.transform.SetParent(root.transform, false);
+            float a = i * Mathf.PI * 2f / 3f;
+            g.transform.localPosition = new Vector3(Mathf.Cos(a) * .45f, i * .18f, Mathf.Sin(a) * .45f);
+            g.transform.localScale = Vector3.one * .2f;
+            g.AddComponent<MeshFilter>().sharedMesh = LowPolyBlob();
+            g.AddComponent<MeshRenderer>().sharedMaterial = m;
+        }
+        root.SetActive(false);
+        return root;
+    }
+    Vector3 GroundAt(Vector3 p, float fallbackY)
+    {
+        RaycastHit[] hits = Physics.RaycastAll(p + Vector3.up * 60f, Vector3.down, 150f, ~0, QueryTriggerInteraction.Ignore);
+        float y = fallbackY; bool terrainFound = false;
+        foreach (RaycastHit h in hits) if (h.collider is TerrainCollider) { y = h.point.y; terrainFound = true; break; }
+        if (!terrainFound && hits.Length > 0)
+        {
+            y = float.MaxValue;
+            foreach (RaycastHit h in hits) y = Mathf.Min(y, h.point.y);
+        }
+        return new Vector3(p.x, y, p.z);
+    }
+    Vector3 PickBushPosition(List<Vector3> placed)
+    {
+        Vector3 c = roofSearchArea.position, best = c;
+        for (int attempt = 0; attempt < 30; attempt++)
+        {
+            Vector2 r = UnityEngine.Random.insideUnitCircle * searchRadius;
+            Vector3 p = GroundAt(new Vector3(c.x + r.x, c.y, c.z + r.y), c.y);
+            best = p;
+            bool free = true;
+            foreach (Vector3 q in placed) if ((q - p).sqrMagnitude < 2.5f * 2.5f) { free = false; break; }
+            // Evita di finire dentro un albero o un sasso.
+            if (free && Physics.CheckSphere(p + Vector3.up * 1.4f, .7f, ~0, QueryTriggerInteraction.Ignore)) free = false;
+            if (free) return p;
+        }
+        return best;
+    }
+    Transform FallbackSearchArea()
+    {
+        Debug.LogWarning("Roof Search Area non assegnata: uso una posizione provvisoria. Usa Tools > Level 02 > Create roof search area and repair point e spostala davanti alla casa, dal lato opposto del path.", this);
+        GameObject go = new GameObject("Quest_RoofSearchArea_TEMP");
+        go.transform.position = transform.position + transform.right * 12f;
+        return go.transform;
+    }
+    Transform FindHousePoint()
+    {
+        GameObject house = GameObject.Find("Quest_RedHouse_" + gameObject.name);
+        if (house == null) { Debug.LogWarning("Casa rossa non trovata: assegna House Point sull'NPC.", this); return null; }
+        Transform existing = house.transform.Find("Quest_RoofRepair_POINT");
+        if (existing != null) return existing;
+        GameObject p = new GameObject("Quest_RoofRepair_POINT");
+        p.transform.SetParent(house.transform, false);
+        p.transform.localPosition = new Vector3(0, 0, 4.2f);      // davanti alla porta
+        return p.transform;
+    }
+    // Crea i cespugli (o usa i tuoi) e sceglie a caso quali nascondono un pezzo: cambia a ogni partita.
+    void SetupBushes()
+    {
+        ClearBushes();
+        piecesFound = 0;
+        if (roofSearchArea == null) roofSearchArea = FallbackSearchArea();
+        int pieces = Mathf.Clamp(piecesToFind, 1, 6);
+        List<Bush> list = new List<Bush>();
+        int usable = 0;
+        if (existingBushes != null) foreach (Transform t in existingBushes) if (t != null) usable++;
+        if (usable >= pieces + 1)
+        {
+            foreach (Transform t in existingBushes) if (t != null) list.Add(new Bush { t = t });
         }
         else
         {
-            bucketSucceeded = true;
-            hint.text = "Just right! Take the bucket back to " + speakerName + ".";
-            hint.color = new Color(.55f, 1f, .61f);
-            bucketActionCaption.text = "Take the bucket";
+            List<Vector3> placed = new List<Vector3>();
+            int total = Mathf.Max(bushCount, pieces + 3);
+            for (int i = 0; i < total; i++)
+            {
+                Vector3 p = PickBushPosition(placed);
+                placed.Add(p);
+                list.Add(new Bush { t = BuildBush(p), generated = true });
+            }
         }
-        UpdateWater();
+        List<int> order = new List<int>();
+        for (int i = 0; i < list.Count; i++) order.Add(i);
+        for (int i = order.Count - 1; i > 0; i--)
+        {
+            int j = UnityEngine.Random.Range(0, i + 1);
+            int tmp = order[i]; order[i] = order[j]; order[j] = tmp;
+        }
+        for (int k = 0; k < pieces; k++) list[order[k]].hasPiece = true;
+        foreach (Bush b in list)
+        {
+            b.basePos = b.t.position; b.baseRot = b.t.rotation;
+            if (b.hasPiece) b.sparkle = BuildSparkle(b.t);
+        }
+        bushes = list;
     }
-    void UpdateWater()
+    void ClearBushes()
     {
-        if (bucketArt != null) bucketArt.SetWater(water, bucketRunning, bucketSucceeded);
-        if (counter != null) counter.text = Mathf.RoundToInt(water * 100) + "%";
-        if (bucketStatus != null)
+        foreach (Bush b in bushes)
         {
-            bucketStatus.text = bucketRunning ? "Find the right moment.\nPress STOP on green." :
-                bucketSucceeded ? "Just right!\nReady to carry." :
-                water < minimumWater ? "Not enough water.\nGive it another try." : "Too heavy to carry.\nGive it another try.";
-            bucketStatus.color = bucketSucceeded ? new Color(.75f, .93f, .65f) : new Color(.86f, .91f, .83f);
+            if (b.sparkle != null) Destroy(b.sparkle);
+            if (b.t == null) continue;
+            if (b.generated) Destroy(b.t.gameObject);
+            else { b.t.position = b.basePos; b.t.rotation = b.baseRot; }
         }
-        if (bucketAction != null)
-            bucketAction.targetGraphic.color = bucketSucceeded ? new Color(.40f, .62f, .37f) : new Color(.30f, .52f, .36f);
-        if (bucketCursor != null)
+        bushes.Clear();
+    }
+    int NearestBush()
+    {
+        if (player == null) return -1;
+        int best = -1; float bestDistance = interactionDistance;
+        for (int i = 0; i < bushes.Count; i++)
         {
-            bucketCursor.anchorMin = bucketCursor.anchorMax = new Vector2(water, .5f);
-            bucketCursor.anchoredPosition = Vector2.zero;
+            if (bushes[i].done || bushes[i].t == null) continue;
+            float d = Vector3.Distance(player.transform.position, bushes[i].basePos);
+            if (d <= bestDistance) { bestDistance = d; best = i; }
+        }
+        return best;
+    }
+    // Il cespuglio giusto trema e brilla quando sei vicino; gli altri restano fermi.
+    void UpdateBushes()
+    {
+        bushKick = Mathf.MoveTowards(bushKick, 0f, Time.unscaledDeltaTime * 4f);
+        if (CurrentStage != Stage.FindRoofPieces || player == null) return;
+        if (bushes.Count == 0) SetupBushes();
+        for (int i = 0; i < bushes.Count; i++)
+        {
+            Bush b = bushes[i];
+            if (b.t == null) continue;
+            float d = Vector3.Distance(player.transform.position, b.basePos);
+            bool hint = b.hasPiece && !b.done && d <= hintDistance;
+            float shake = 0f;
+            if (bushOpen && i == activeBush) shake = bushKick * .12f;
+            else if (hint) shake = (0.03f + 0.06f * (1f - d / hintDistance)) * Mathf.Clamp01(Mathf.Sin(Time.time * 2.4f + i * 1.7f) * 4f);
+            Vector3 o = new Vector3(Mathf.Sin(Time.time * 45f + i), 0f, Mathf.Cos(Time.time * 41f + i)) * shake;
+            b.t.position = b.basePos + o;
+            b.t.rotation = b.baseRot * Quaternion.Euler(o.z * 30f, 0f, -o.x * 30f);
+            if (b.sparkle != null)
+            {
+                if (b.sparkle.activeSelf != hint) b.sparkle.SetActive(hint);
+                if (hint)
+                {
+                    b.sparkle.transform.Rotate(0f, 200f * Time.deltaTime, 0f);
+                    Vector3 lp = b.sparkle.transform.localPosition; lp.y = 2.1f + Mathf.Sin(Time.time * 3f + i) * .15f;
+                    b.sparkle.transform.localPosition = lp;
+                }
+            }
         }
     }
 
-    // Segnale generato soltanto durante Play. Non aggiunge collider o asset alla scena.
-    void UpdateRiverMarker()
+    // ---------- Mini-interazione: scostare i rami ----------
+    float BushRequired() { return activeBush >= 0 && activeBush < bushes.Count && bushes[activeBush].hasPiece ? 1f : 0.35f; }
+    void OpenBush(int index)
     {
-        bool visible = showRiverMarker && riverPoint != null && player != null
-            && CurrentStage == Stage.FetchWater && !IsOpen;
-        if (!visible) { if (riverMarker != null) riverMarker.SetActive(false); return; }
-        if (riverMarker == null) CreateRiverMarker();
-        riverMarker.SetActive(true);
-        riverMarker.transform.position = riverPoint.position;
-        float distance = Vector3.Distance(player.transform.position, riverPoint.position);
-        riverLabel.text = "WATER COLLECTION\n" + Mathf.CeilToInt(distance) + " m"
-            + (Near(riverPoint) ? "\n[E] Fill the bucket" : "");
-        riverLabel.transform.localPosition = Vector3.up * (riverMarkerHeight + .35f);
-        riverLabel.color = riverMarkerColor;
+        if (CurrentStage != Stage.FindRoofPieces || index < 0 || index >= bushes.Count || bushes[index].done || player == null) return;
+        ClearPage(false);
+        activeBush = index; bushProgress = 0f; bushKick = 0f;
+        bushOpen = true;
+        Label("SEARCHING THE BUSH", -550, 116, 1000, 30, 22);
+        Label("Push the branches aside! Press SPACE (or click the button) again and again.", -550, 64, 1100, 44, 22);
+        Image track = MushroomUI.Image("PushTrack", page.transform, new Color(.12f, .20f, .14f));
+        MushroomUI.Place(track.rectTransform, 0, 6, 900, 26); track.raycastTarget = false;
+        Image fill = MushroomUI.Image("PushFill", track.transform, new Color(.45f, .72f, .38f));
+        bushFill = fill.rectTransform; fill.raycastTarget = false;
+        bushFill.anchorMin = new Vector2(0, 0); bushFill.anchorMax = new Vector2(0, 1);
+        bushFill.offsetMin = bushFill.offsetMax = Vector2.zero;
+        Button push = Choice("Push the branches (Space)", -285, -103, 530, Push);
+        Navigation nav = push.navigation; nav.mode = Navigation.Mode.None; push.navigation = nav;
+        Choice("Step back", 285, -103, 530, CloseDialogue);
+        UpdateBushFill();
+    }
+    void Push()
+    {
+        if (!bushOpen || !IsOpen) return;
+        bushProgress = Mathf.Min(1f, bushProgress + 1f / Mathf.Max(3, pushesNeeded));
+        bushKick = 1f;
+    }
+    void UpdateBushFill()
+    {
+        if (bushFill != null) bushFill.anchorMax = new Vector2(Mathf.Clamp01(bushProgress / BushRequired()), 1f);
+    }
+    void UpdateBushGame(Keyboard keyboard)
+    {
+        if (activeBush < 0 || activeBush >= bushes.Count) { CloseDialogue(); return; }
+        // Nessun pulsante resta selezionato, così Spazio non lo preme una seconda volta.
+        if (EventSystem.current != null) EventSystem.current.SetSelectedGameObject(null);
+        if (keyboard.spaceKey.wasPressedThisFrame) Push();
+        // Prima controlla se è completa, poi applica il calo: altrimenti la barra arriva a ~99,7% e non finisce mai.
+        if (bushProgress >= BushRequired() - 0.02f) { FinishBush(); return; }
+        bushProgress = Mathf.Max(0f, bushProgress - 0.20f * Time.unscaledDeltaTime);
+        UpdateBushFill();
+    }
+    void FinishBush()
+    {
+        Bush b = bushes[activeBush];
+        b.done = true;
+        bushLockUntil = Time.unscaledTime + 0.6f;
+        if (b.sparkle != null) b.sparkle.SetActive(false);
+        b.t.position = b.basePos; b.t.rotation = b.baseRot;
+        CloseDialogue();
+        if (b.hasPiece)
+        {
+            piecesFound++;
+            StartCoroutine(PlankPop(b.basePos));
+            if (piecesFound >= Mathf.Clamp(piecesToFind, 1, 6))
+            {
+                CurrentStage = Stage.RepairRoof;
+                Toast("Roof plank found! All pieces collected - bring them back to the house.", 4f);
+            }
+            else Toast("Roof plank found! " + piecesFound + "/" + Mathf.Clamp(piecesToFind, 1, 6), 3f);
+        }
+        else Toast("Nothing here but leaves. Try another bush.", 2.5f);
+    }
+    IEnumerator PlankPop(Vector3 start)
+    {
+        GameObject plank = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        plank.name = "Quest_RoofPlank_Runtime";
+        Collider col = plank.GetComponent<Collider>(); if (col != null) Destroy(col);
+        plank.transform.localScale = new Vector3(.95f, .07f, .28f);
+        plank.GetComponent<Renderer>().sharedMaterial = Mat(new Color(.55f, .34f, .16f), false);
+        float t = 0f;
+        while (t < 1f)
+        {
+            t += Time.deltaTime / 0.9f;
+            Vector3 end = player != null ? player.transform.position + Vector3.up * 1.2f : start + Vector3.up * 2f;
+            plank.transform.position = Vector3.Lerp(start + Vector3.up * .9f, end, t * t) + Vector3.up * Mathf.Sin(Mathf.Clamp01(t) * Mathf.PI) * .9f;
+            plank.transform.rotation = Quaternion.Euler(t * 360f, t * 540f, 0f);
+            yield return null;
+        }
+        Destroy(plank);
+    }
+    void Toast(string text, float seconds) { toast = text; toastUntil = Time.unscaledTime + seconds; }
+
+    // ---------- Segnale in scena (anello, raggio di luce, distanza) ----------
+    // Generato soltanto durante Play. Non aggiunge collider o asset alla scena.
+    Transform MarkerTarget()
+    {
+        if (CurrentStage == Stage.FindRoofPieces) return roofSearchArea;
+        if (CurrentStage == Stage.RepairRoof) return housePoint;
+        return null;
+    }
+    bool InMarkerRange(Transform target)
+    {
+        if (target == null || player == null) return false;
+        if (CurrentStage == Stage.FindRoofPieces) return Vector3.Distance(player.transform.position, target.position) <= searchRadius;
+        return Near(target);
+    }
+    void UpdateMarker()
+    {
+        Transform target = MarkerTarget();
+        bool visible = showMarker && target != null && player != null && !IsOpen;
+        if (!visible) { if (marker != null) marker.SetActive(false); return; }
+        if (marker == null) CreateMarker();
+        marker.SetActive(true);
+        marker.transform.position = target.position;
+        float distance = Vector3.Distance(player.transform.position, target.position);
+        float radius = CurrentStage == Stage.FindRoofPieces ? Mathf.Max(searchRadius, markerRadius) : markerRadius;
+        if (CurrentStage == Stage.FindRoofPieces)
+            markerLabel.text = "ROOF PIECES " + piecesFound + "/" + Mathf.Clamp(piecesToFind, 1, 6) + "\n"
+                + (InMarkerRange(target) ? "Search the bushes" : Mathf.CeilToInt(distance) + " m");
+        else
+            markerLabel.text = "REPAIR THE ROOF\n" + Mathf.CeilToInt(distance) + " m" + (Near(target) ? "\n[E] Repair" : "");
+        markerLabel.transform.localPosition = Vector3.up * (markerHeight + .35f);
+        markerLabel.color = markerColor;
         for (int i = 0; i < 48; i++)
         {
             float angle = i * Mathf.PI * 2f / 48;
-            riverRing.SetPosition(i, new Vector3(Mathf.Cos(angle) * riverMarkerRadius, .10f, Mathf.Sin(angle) * riverMarkerRadius));
+            markerRing.SetPosition(i, new Vector3(Mathf.Cos(angle) * radius, .10f, Mathf.Sin(angle) * radius));
         }
-        riverBeam.SetPosition(0, Vector3.up * .15f);
-        riverBeam.SetPosition(1, Vector3.up * riverMarkerHeight);
-        riverRing.startColor = riverRing.endColor = riverMarkerColor;
-        riverBeam.startColor = riverBeam.endColor = riverMarkerColor;
+        markerBeam.SetPosition(0, Vector3.up * .15f);
+        markerBeam.SetPosition(1, Vector3.up * markerHeight);
+        markerRing.startColor = markerRing.endColor = markerColor;
+        markerBeam.startColor = markerBeam.endColor = markerColor;
     }
-    void CreateRiverMarker()
+    void CreateMarker()
     {
-        riverMarker = new GameObject("Quest_WaterMarker_Runtime");
+        marker = new GameObject("Quest_Marker_Runtime");
         Shader shader = Shader.Find("Universal Render Pipeline/Unlit");
         if (shader == null) shader = Shader.Find("Sprites/Default");
         if (shader != null)
         {
-            riverMarkerMaterial = new Material(shader);
-            riverMarkerMaterial.color = riverMarkerColor;
+            markerMaterial = new Material(shader);
+            markerMaterial.color = markerColor;
         }
-        riverRing = MarkerLine("GroundRing", 48, .08f, true);
-        riverBeam = MarkerLine("Beacon", 2, .07f, false);
-        GameObject text = new GameObject("WaterPointLabel");
-        text.transform.SetParent(riverMarker.transform, false);
-        riverLabel = text.AddComponent<TextMeshPro>();
-        if (MushroomUI.Font != null) riverLabel.font = MushroomUI.Font;
-        riverLabel.text = "WATER COLLECTION";
-        riverLabel.fontSize = 3f;
-        riverLabel.alignment = TextAlignmentOptions.Center;
-        riverLabel.rectTransform.sizeDelta = new Vector2(6, 2);
+        markerRing = MarkerLine("GroundRing", 48, .08f, true);
+        markerBeam = MarkerLine("Beacon", 2, .07f, false);
+        GameObject text = new GameObject("MarkerLabel");
+        text.transform.SetParent(marker.transform, false);
+        markerLabel = text.AddComponent<TextMeshPro>();
+        if (MushroomUI.Font != null) markerLabel.font = MushroomUI.Font;
+        markerLabel.text = "";
+        markerLabel.fontSize = 3f;
+        markerLabel.alignment = TextAlignmentOptions.Center;
+        markerLabel.rectTransform.sizeDelta = new Vector2(8, 3);
     }
     LineRenderer MarkerLine(string name, int count, float width, bool loop)
     {
         GameObject go = new GameObject(name);
-        go.transform.SetParent(riverMarker.transform, false);
+        go.transform.SetParent(marker.transform, false);
         LineRenderer line = go.AddComponent<LineRenderer>();
         line.useWorldSpace = false; line.positionCount = count; line.loop = loop;
         line.widthMultiplier = width;
-        if (riverMarkerMaterial != null) line.sharedMaterial = riverMarkerMaterial;
-        line.startColor = line.endColor = riverMarkerColor;
+        if (markerMaterial != null) line.sharedMaterial = markerMaterial;
+        line.startColor = line.endColor = markerColor;
         return line;
     }
     protected virtual void LateUpdate()
     {
-        if (riverMarker == null || !riverMarker.activeSelf || riverLabel == null) return;
+        if (marker == null || !marker.activeSelf || markerLabel == null) return;
         Camera camera = Camera.main;
-        if (camera != null) riverLabel.transform.rotation = camera.transform.rotation;
+        if (camera != null) markerLabel.transform.rotation = camera.transform.rotation;
     }
     public void CloseDialogue()
     {
-        bucketOpen = false; bucketRunning = false;
+        bushOpen = false;
         if (typing != null) StopCoroutine(typing);
         typing = null; isTyping = false;
         replaying = false;
@@ -720,40 +913,61 @@ public class ForestQuest : MonoBehaviour
     }
     void OnGUI()
     {
-        if (IsOpen || player == null) return;
-        if (CurrentStage == Stage.FetchWater && riverPoint != null)
+        if (player == null) return;
+        if (Time.unscaledTime < toastUntil && !string.IsNullOrEmpty(toast))
+            GUI.Box(new Rect(Screen.width / 2 - 230, Screen.height / 2 - 150, 460, 44), toast);
+        if (IsOpen) return;
+        Transform target = MarkerTarget();
+        if (target != null)
         {
-            float distance = Vector3.Distance(player.transform.position, riverPoint.position);
-            GUI.Box(new Rect(20, 20, 420, 58), "OBJECTIVE: Collect river water\nFollow the blue marker - " + Mathf.CeilToInt(distance) + " m");
+            float distance = Vector3.Distance(player.transform.position, target.position);
+            string objective = CurrentStage == Stage.FindRoofPieces
+                ? "OBJECTIVE: Find the roof pieces (" + piecesFound + "/" + Mathf.Clamp(piecesToFind, 1, 6) + ")\nFollow the marker - " + Mathf.CeilToInt(distance) + " m"
+                : "OBJECTIVE: Repair the roof\nReturn to the house - " + Mathf.CeilToInt(distance) + " m";
+            GUI.Box(new Rect(20, 20, 420, 58), objective);
             // Etichetta sullo schermo per localizzare il punto anche a distanza.
             Camera camera = Camera.main;
-            if (camera != null && !Near(riverPoint))
+            if (camera != null && !InMarkerRange(target))
             {
-                Vector3 screen = camera.WorldToScreenPoint(riverPoint.position + Vector3.up * riverMarkerHeight);
+                Vector3 screen = camera.WorldToScreenPoint(target.position + Vector3.up * markerHeight);
                 if (screen.z > 0)
                 {
                     float x = Mathf.Clamp(screen.x, 110, Screen.width - 110);
                     float y = Mathf.Clamp(Screen.height - screen.y, 95, Screen.height - 115);
-                    GUI.Box(new Rect(x - 100, y - 20, 200, 40), "WATER - " + Mathf.CeilToInt(distance) + " m");
+                    GUI.Box(new Rect(x - 100, y - 20, 200, 40), (CurrentStage == Stage.FindRoofPieces ? "ROOF PIECES - " : "HOUSE - ") + Mathf.CeilToInt(distance) + " m");
                 }
-                else GUI.Box(new Rect(Screen.width / 2 - 160, 90, 320, 35), "Turn around to find the river marker");
+                else GUI.Box(new Rect(Screen.width / 2 - 160, 90, 320, 35), "Turn around to find the marker");
             }
         }
-        string text = CurrentStage == Stage.FetchWater && Near(riverPoint) ? "E - Fill the bucket" :
-            CurrentStage == Stage.WaterGarden && Near(gardenPoint) ? "E - Water the garden" :
+        string text = CurrentStage == Stage.FindRoofPieces && NearestBush() >= 0 ? "E / Click - Search the bush" :
+            CurrentStage == Stage.RepairRoof && Near(housePoint) ? "E - Repair the roof" :
             Near(transform) ? "E - Talk to " + speakerName : "";
         if (text != "") GUI.Box(new Rect(Screen.width / 2 - 170, Screen.height - 85, 340, 42), text);
+    }
+    // Mostra nell'editor l'area di ricerca quando selezioni l'NPC.
+    void OnDrawGizmosSelected()
+    {
+        if (roofSearchArea == null) return;
+        Gizmos.color = new Color(1f, .75f, .2f);
+        Vector3 c = roofSearchArea.position;
+        for (int i = 0; i < 48; i++)
+        {
+            float a0 = i * Mathf.PI * 2f / 48f, a1 = (i + 1) * Mathf.PI * 2f / 48f;
+            Gizmos.DrawLine(c + new Vector3(Mathf.Cos(a0), .1f, Mathf.Sin(a0)) * searchRadius, c + new Vector3(Mathf.Cos(a1), .1f, Mathf.Sin(a1)) * searchRadius);
+        }
     }
     protected virtual void OnDisable()
     {
         CloseDialogue();
-        if (riverMarker != null) riverMarker.SetActive(false);
+        if (marker != null) marker.SetActive(false);
     }
     protected virtual void OnDestroy()
     {
+        ClearBushes();
         if (uiRoot != null) Destroy(uiRoot);
-        if (riverMarker != null) Destroy(riverMarker);
-        if (riverMarkerMaterial != null) Destroy(riverMarkerMaterial);
+        if (marker != null) Destroy(marker);
+        if (markerMaterial != null) Destroy(markerMaterial);
+        foreach (Material m in runtimeMaterials) if (m != null) Destroy(m);
     }
 }
 

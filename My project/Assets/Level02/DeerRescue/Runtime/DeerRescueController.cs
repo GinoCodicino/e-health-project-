@@ -179,7 +179,7 @@ namespace Level02.DeerRescue
         {
             var t=MushroomUI.Text("Text",page.transform,text,size,Color.white);
             t.rectTransform.pivot=new Vector2(0,.5f); MushroomUI.Place(t.rectTransform,x,y,w,h);
-            t.alignment=TextAlignmentOptions.MidlineLeft; t.enableWordWrapping=true; t.overflowMode=TextOverflowModes.Truncate; return t;
+            t.alignment=TextAlignmentOptions.MidlineLeft; t.textWrappingMode = TextWrappingModes.Normal; t.overflowMode=TextOverflowModes.Truncate; return t;
         }
         Button Button(string caption,float x,float y,float w,float h,Action action)
         {

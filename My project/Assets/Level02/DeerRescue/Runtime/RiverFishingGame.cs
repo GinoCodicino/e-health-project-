@@ -46,7 +46,7 @@ namespace Level02.DeerRescue
         {
             TMP_Text label=MushroomUI.Text("Text",page.transform,text,size,Color.white);
             label.rectTransform.pivot=new Vector2(0,.5f); MushroomUI.Place(label.rectTransform,x,y,w,h);
-            label.alignment=TextAlignmentOptions.MidlineLeft; label.enableWordWrapping=true;
+            label.alignment=TextAlignmentOptions.MidlineLeft; label.textWrappingMode = TextWrappingModes.Normal; ;
             return label;
         }
         void Button(string caption,float x,float y,float w,Action action)

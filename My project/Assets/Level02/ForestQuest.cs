@@ -190,7 +190,7 @@ public class ForestQuest : MonoBehaviour
         t.rectTransform.pivot = new Vector2(0f, 0.5f);
         MushroomUI.Place(t.rectTransform, x, y, w, h);
         t.alignment = TextAlignmentOptions.MidlineLeft;
-        t.enableWordWrapping = true;
+        t.textWrappingMode = TextWrappingModes.Normal;
         t.overflowMode = TextOverflowModes.Truncate;
         return t;
     }

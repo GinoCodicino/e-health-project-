@@ -1791,6 +1791,73 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6243230742205684792, guid: 48f149f77027bea45ab6b8d00db66cec, type: 3}
   m_PrefabInstance: {fileID: 516703863}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &518672711 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 8dae8aba6698a71458739b6a2d08b140, type: 3}
+  m_PrefabInstance: {fileID: 1869492905}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &518672713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 518672711}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02e45b261026efc49aa67df71fa27db6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Inventore
+  player: {fileID: 0}
+  minigioco: {fileID: 0}
+  rifugioFinale: {fileID: 0}
+  nome: L'inventore
+  interactKey: 101
+  interactDistance: 3
+  dialogoIniziale:
+  - Ehi, tu! Hai due mani libere? Perfetto, mi serve una mano.
+  - 'Mi chiamano l''inventore del bosco, ma da bambino ero solo uno che passava i pomeriggi qui a contare le specie: scoiattoli, picchi, ghiri... ogni settimana ne scoprivo una nuova.'
+  - "Poi gli alberi hanno cominciato a seccarsi o a sparire, per il caldo e per i tagli. E gli animali se ne sono andati pi\xF9 in alto, pi\xF9 lontano."
+  - "Cos\xEC ho inventato lo scuotirami: fa cadere i rami secchi, quelli che agli alberi non servono pi\xF9. Con quelli costruisco mini-rifugi: cataste di legno che fanno ombra e tana."
+  - "Tu prendi i legnetti con la cesta. Attento alle pigne, per\xF2: sono dure e non servono. Con dodici legnetti il rifugio sta in piedi."
+  dialogoPromemoria:
+  - "Muovi la cesta con le frecce, prendi i legnetti e lascia perdere le pigne. Dodici e il rifugio \xE8 pronto."
+  dialogoFinale:
+  - Dodici legnetti! Guarda, il rifugio sta in piedi.
+  - 'Qui sotto troveranno ombra nelle ore calde e una tana per l''inverno: ricci, ghiri, magari qualche uccello.'
+  - "Non basta un rifugio per salvare un bosco, ma ogni catasta \xE8 un posto dove la fauna pu\xF2 tornare."
+  - 'Sai, mi ricordi qualcuno: un escursionista con uno zaino enorme che incontrai da bambino. Mi disse di non smettere mai di guardare. Aveva ragione.'
+  dialogoPostMissione:
+  - 'Grazie ancora. Ora vado a cercare altri rami: i rifugi non si costruiscono da soli.'
+  onMissioneIniziata:
+    m_PersistentCalls:
+      m_Calls: []
+  onMissioneCompletata:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!136 &518672714
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 518672711}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1.8
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.8, z: 0}
 --- !u!1001 &533952394
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5425,7 +5492,13 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3282961845508457196, guid: 8dae8aba6698a71458739b6a2d08b140, type: 3}
       insertIndex: -1
       addedObject: {fileID: 171367948}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8dae8aba6698a71458739b6a2d08b140, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 518672714}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8dae8aba6698a71458739b6a2d08b140, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 518672713}
   m_SourcePrefab: {fileID: 100100000, guid: 8dae8aba6698a71458739b6a2d08b140, type: 3}
 --- !u!4 &1869492906 stripped
 Transform:

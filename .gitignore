@@ -67,7 +67,7 @@ My project/Assets/SceneDependencyCache*
 # Python related
 *.pyc
 LLM/venv/
-*/__pycache__/
+__pycache__/
 # Unity crash recovery scenes
 My project/Assets/_Recovery/
 My project/Assets/_Recovery.meta

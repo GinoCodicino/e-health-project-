@@ -995,10 +995,10 @@ MonoBehaviour:
   laneCount: 4
   laneWidth: 1.6
   laneSwitchSpeed: 14
-  climbSpeed: 2.2
+  climbSpeed: 3
   stamina:
     max: 100
-    drainPerSecond: 2.5
+    drainPerSecond: 2.7
   hitCost: 20
   slipCost: 10
   hitDrop: 1.5

@@ -19,7 +19,7 @@ MonoBehaviour:
     m_StripRuntimeDebugShaders: 1
   m_URPShaderStrippingSetting:
     m_Version: 0
-    m_StripUnusedPostProcessingVariantsAndResources: 1
+    m_StripUnusedPostProcessingVariantsAndResources: 0
     m_StripUnusedVariants: 1
     m_StripScreenCoordOverrideVariants: 1
     m_Strip2DUnusedVariants: 0
@@ -71,6 +71,8 @@ MonoBehaviour:
       - rid: 202439341576028164
       - rid: 202439341576028165
       - rid: 202439341576028166
+      - rid: 2682644138378395729
+      - rid: 2682644138378395730
     m_RuntimeSettings:
       m_List: []
   m_AssetVersion: 11
@@ -315,11 +317,28 @@ MonoBehaviour:
         _sixFaceSkyBoxMesh: {fileID: 4300000, guid: a80925ceebd011741b42509226cefc74, type: 2}
         _buildLightGridShader: {fileID: 7200000, guid: 16e47c1641bd0104e92b624601457bb0, type: 3}
         _solidColorShader: {fileID: 4800000, guid: 3765a7ac691541038de4d587b94ae768, type: 3}
+    - rid: 2682644138378395729
+      type: {class: ScreenSpaceAmbientOcclusionCoreResources, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.Runtime}
+      data:
+        m_RasterizationShader: {fileID: 4800000, guid: 0849e84e3d62649e8882e9d6f056a017, type: 3}
+        m_Version: 0
+    - rid: 2682644138378395730
+      type: {class: ScreenSpaceAmbientOcclusionBlueNoiseResources, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.Runtime}
+      data:
+        m_BlueNoise256Textures:
+        - {fileID: 2800000, guid: 36f118343fc974119bee3d09e2111500, type: 3}
+        - {fileID: 2800000, guid: 4b7b083e6b6734e8bb2838b0b50a0bc8, type: 3}
+        - {fileID: 2800000, guid: c06cc21c692f94f5fb5206247191eeee, type: 3}
+        - {fileID: 2800000, guid: cb76dd40fa7654f9587f6a344f125c9a, type: 3}
+        - {fileID: 2800000, guid: e32226222ff144b24bf3a5a451de54bc, type: 3}
+        - {fileID: 2800000, guid: 3302065f671a8450b82c9ddf07426f3a, type: 3}
+        - {fileID: 2800000, guid: 56a77a3e8d64f47b6afe9e3c95cb57d5, type: 3}
+        m_Version: 0
     - rid: 6852985685364965376
       type: {class: URPShaderStrippingSetting, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.Runtime}
       data:
         m_Version: 0
-        m_StripUnusedPostProcessingVariantsAndResources: 1
+        m_StripUnusedPostProcessingVariantsAndResources: 0
         m_StripUnusedVariants: 1
         m_StripScreenCoordOverrideVariants: 1
         m_Strip2DUnusedVariants: 0

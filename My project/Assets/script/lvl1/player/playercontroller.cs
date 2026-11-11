@@ -92,6 +92,16 @@ public class playercontroller : MonoBehaviour
         }
     }
 
+    /// <summary>Sets the camera's vertical angle (0 = horizontal), e.g. to face an NPC.</summary>
+    public void SetPitch(float pitch)
+    {
+        cameraPitch = Mathf.Clamp(pitch, -maxLookAngle, maxLookAngle);
+        if (pitchPivot != null)
+        {
+            pitchPivot.localRotation = Quaternion.Euler(cameraPitch, 0f, 0f);
+        }
+    }
+
     private void HandleLook()
     {
         Vector2 look = inputController.lookInputVector;

@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c11da82bd497544b39908620c118cafc, type: 3}
+  m_Name: EthanBrooks_Intro
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueData
+  lines:
+  - speaker: 
+    text: Hey! You're heading up the mountain?
+  - speaker: 
+    text: Take it slow and drink some water on the way. The weather changes fast
+      up there.
+  - speaker: 
+    text: Come back and tell me how it went!

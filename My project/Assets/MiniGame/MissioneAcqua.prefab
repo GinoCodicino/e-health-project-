@@ -1,0 +1,323 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3218225714190679134
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8308205296463760986}
+  m_Layer: 0
+  m_Name: MissioneAcqua
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8308205296463760986
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3218225714190679134}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 12.07671, y: 20, z: 12.72115}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 3141609730031548752}
+  - {fileID: 3705181334956261229}
+  - {fileID: 8954607339424445688}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3389672295078702925
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3141609730031548752}
+  - component: {fileID: 8558771651386722474}
+  - component: {fileID: 1767294079566508195}
+  m_Layer: 0
+  m_Name: PuntoTorrente
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3141609730031548752
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3389672295078702925}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.46429062, y: 0, z: -0.2211504}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8308205296463760986}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8558771651386722474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3389672295078702925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 288be3dcaf18d194aa42570585e0e42e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PuntoMinigioco
+  minigioco: {fileID: 0}
+  interactKey: 101
+  interactDistance: 3.5
+  testo: Cerca il vitellino tra le rocce
+  abilitato: 0
+  completato: 0
+--- !u!114 &1767294079566508195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3389672295078702925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d39b932b585f2c4e9a6d982854a6492, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PuntoTorrente
+  minigioco: {fileID: 1927172167290270597}
+  interactKey: 101
+  interactDistance: 3.5
+  testo: Scendi sulle rocce e raccogli l'acqua
+  abilitato: 0
+  completato: 0
+--- !u!1 &5498579512487816412
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8954607339424445688}
+  - component: {fileID: 4219087390254697313}
+  - component: {fileID: 7014691043215917233}
+  - component: {fileID: 5516002290888470824}
+  - component: {fileID: 6941933695419620633}
+  m_Layer: 0
+  m_Name: Anziana
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8954607339424445688
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5498579512487816412}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -3.46671, y: 1.2199993, z: -0.021150589}
+  m_LocalScale: {x: 0.9, y: 0.8, z: 0.9}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8308205296463760986}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &4219087390254697313
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5498579512487816412}
+  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &7014691043215917233
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5498579512487816412}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &5516002290888470824
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5498579512487816412}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6941933695419620633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5498579512487816412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7ae4b922b0b5f648b3d81d448e93810, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Anziana
+  player: {fileID: 0}
+  punto: {fileID: 1767294079566508195}
+  nome: La signora della baita
+  interactKey: 101
+  interactDistance: 3
+  dialogoIniziale:
+  - Buongiorno, ragazzo. Non sei di queste parti, vero?
+  - "Vedi quel rigagnolo laggi\xF9? Quando ero giovane era un torrente vero, largo
+    e rumoroso. Scendeva dal ghiacciaio e non finiva mai."
+  - "Adesso il ghiacciaio si \xE8 ritirato, in alto, e l'acqua non arriva quasi pi\xF9.
+    Non ne ho abbastanza nemmeno per cucinare."
+  - "Se riesci a riempirmi questo secchio, te ne sar\xF2 grata. Ma attento alle rocce:
+    scivolano, e l'acqua \xE8 poca e fangosa."
+  dialogoPromemoria:
+  - "Il torrente \xE8 l\xEC sotto. Scendi piano e non prendere il fango: quello non
+    si beve."
+  dialogoFinale:
+  - "Acqua pulita... non ne vedevo cos\xEC da tanto tempo."
+  - Grazie, ragazzo. Una volta bastava allungare una mano per berne quanta ne volevi.
+--- !u!1 &5934410054169265145
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3705181334956261229}
+  - component: {fileID: 1927172167290270597}
+  m_Layer: 0
+  m_Name: MinigiocoTorrente
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3705181334956261229
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5934410054169265145}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.07670975, y: 0, z: 1.2788496}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8308205296463760986}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1927172167290270597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5934410054169265145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2681c4df90d8e5242981308b851d38c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::QTEAcqua
+  goccieMax: 12
+  scivolateMax: 3
+  fangoMax: 3
+  acquaPerGoccia: 16
+  acquaPerFango: 8
+  acquaPersaScivolata: 20
+  tempoPassoIniziale: 1.4
+  tempoPassoFinale: 0.9
+  velocitaIniziale: 0.9
+  velocitaFinale: 1.8
+  zonaPulitaIniziale: 0.18
+  zonaPulitaFinale: 0.1
+  margineFango: 0.12
+  tempoMaxGoccia: 5
+  ricordoNonno: "Dal taccuino del nonno:\n\xABMi fermai alla baita di una giovane
+    del posto. Mi offr\xEC un pranzo abbondante, ma rifiutai: mi bast\xF2 l'acqua
+    del torrente, freschissima e abbondante, bevuta a grandi sorsi.\xBB"
+  presente: "Oggi il torrente \xE8 un rigagnolo fangoso. Riempi il secchio goccia
+    dopo goccia, senza scivolare."
+  istruzioni: "[A] o [D] = passo sulla roccia (premi il tasto indicato in tempo)\n[SPAZIO]
+    = raccogli la goccia quando l'indicatore \xE8 nel verde\nAttenzione al fango!"
+  player: {fileID: 0}
+  onVittoria:
+    m_PersistentCalls:
+      m_Calls: []
+  onSconfitta:
+    m_PersistentCalls:
+      m_Calls: []

@@ -1809,7 +1809,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Inventore
   player: {fileID: 0}
-  minigioco: {fileID: 0}
+  minigioco: {fileID: 897169608}
   rifugioFinale: {fileID: 0}
   nome: L'inventore
   interactKey: 101
@@ -3015,6 +3015,74 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2867448227583131401, guid: 56a1937f21c8f1f41badc14d294150f6, type: 3}
   m_PrefabInstance: {fileID: 880984797}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &897169607
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1958636871156250679, guid: cd767a77cf9d0b84c8b1626fea9c0807, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 79.67394
+      objectReference: {fileID: 0}
+    - target: {fileID: 1958636871156250679, guid: cd767a77cf9d0b84c8b1626fea9c0807, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 8.79195
+      objectReference: {fileID: 0}
+    - target: {fileID: 1958636871156250679, guid: cd767a77cf9d0b84c8b1626fea9c0807, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 70.89873
+      objectReference: {fileID: 0}
+    - target: {fileID: 1958636871156250679, guid: cd767a77cf9d0b84c8b1626fea9c0807, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1958636871156250679, guid: cd767a77cf9d0b84c8b1626fea9c0807, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1958636871156250679, guid: cd767a77cf9d0b84c8b1626fea9c0807, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1958636871156250679, guid: cd767a77cf9d0b84c8b1626fea9c0807, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1958636871156250679, guid: cd767a77cf9d0b84c8b1626fea9c0807, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1958636871156250679, guid: cd767a77cf9d0b84c8b1626fea9c0807, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1958636871156250679, guid: cd767a77cf9d0b84c8b1626fea9c0807, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6428704162036279246, guid: cd767a77cf9d0b84c8b1626fea9c0807, type: 3}
+      propertyPath: m_Name
+      value: MinigiocoLegnetti
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: cd767a77cf9d0b84c8b1626fea9c0807, type: 3}
+--- !u!114 &897169608 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 456659479673726835, guid: cd767a77cf9d0b84c8b1626fea9c0807, type: 3}
+  m_PrefabInstance: {fileID: 897169607}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88fcf5be7fa0e9c428b8c2183007ab4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RaccoltaLegnetti
 --- !u!1001 &900298108
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6534,3 +6602,4 @@ SceneRoots:
   - {fileID: 796036918}
   - {fileID: 155784764}
   - {fileID: 1677336172}
+  - {fileID: 897169607}

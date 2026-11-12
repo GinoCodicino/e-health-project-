@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+// Mantiene i nomi usati dal PlayerInput esistente (Send Messages).
 public class playerinputcontroller : MonoBehaviour
 {
     public Vector2 movementInputVector { get; private set; }
@@ -9,6 +10,8 @@ public class playerinputcontroller : MonoBehaviour
 
     private bool jumpRequested;
     private bool interactRequested;
+    private bool gameplayInputEnabled = true;
+    private static int escapeConsumedFrame = -1;
 
     private void Awake()
     {
@@ -17,31 +20,29 @@ public class playerinputcontroller : MonoBehaviour
             playerInput.SwitchCurrentActionMap("Player");
     }
 
-    private void OnMove(InputValue inputValue)
+    private void OnMove(InputValue value)
     {
-        movementInputVector = inputValue.Get<Vector2>();
+        movementInputVector = gameplayInputEnabled ? value.Get<Vector2>() : Vector2.zero;
     }
 
-    private void OnLook(InputValue inputValue)
+    private void OnLook(InputValue value)
     {
-        lookInputVector = inputValue.Get<Vector2>();
+        lookInputVector = gameplayInputEnabled ? value.Get<Vector2>() : Vector2.zero;
     }
 
-    private void OnSprint(InputValue inputValue)
+    private void OnSprint(InputValue value)
     {
-        sprintHeld = inputValue.isPressed;
+        sprintHeld = gameplayInputEnabled && value.isPressed;
     }
 
-    private void OnJump(InputValue inputValue)
+    private void OnJump(InputValue value)
     {
-        if (inputValue.isPressed)
-            jumpRequested = true;
+        if (gameplayInputEnabled && value.isPressed) jumpRequested = true;
     }
 
-    private void OnInteract(InputValue inputValue)
+    private void OnInteract(InputValue value)
     {
-        if (inputValue.isPressed)
-            interactRequested = true;
+        if (gameplayInputEnabled && value.isPressed) interactRequested = true;
     }
 
     public bool ConsumeJumpRequest()
@@ -58,7 +59,14 @@ public class playerinputcontroller : MonoBehaviour
         return requested;
     }
 
-    private void OnDisable()
+    public void SetGameplayInputEnabled(bool value)
+    {
+        if (gameplayInputEnabled == value) return;
+        gameplayInputEnabled = value;
+        ClearInput();
+    }
+
+    public void ClearInput()
     {
         movementInputVector = Vector2.zero;
         lookInputVector = Vector2.zero;
@@ -66,4 +74,18 @@ public class playerinputcontroller : MonoBehaviour
         jumpRequested = false;
         interactRequested = false;
     }
+
+    // Impedisce che lo stesso ESC chiuda due pannelli nello stesso frame.
+    public static bool ConsumeEscape()
+    {
+        if (Keyboard.current == null || !Keyboard.current.escapeKey.wasPressedThisFrame
+            || escapeConsumedFrame == Time.frameCount) return false;
+        escapeConsumedFrame = Time.frameCount;
+        return true;
+    }
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ResetStaticState() { escapeConsumedFrame = -1; }
+
+    private void OnDisable() { ClearInput(); }
 }

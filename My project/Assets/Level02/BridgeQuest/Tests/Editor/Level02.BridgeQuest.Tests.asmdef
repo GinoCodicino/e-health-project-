@@ -1,0 +1,8 @@
+{
+  "name": "Level02.BridgeQuest.Tests",
+  "rootNamespace": "Level02.BridgeMission.Tests",
+  "references": ["Level02.BridgeQuest.Logic"],
+  "includePlatforms": ["Editor"],
+  "optionalUnityReferences": ["TestAssemblies"],
+  "autoReferenced": false
+}

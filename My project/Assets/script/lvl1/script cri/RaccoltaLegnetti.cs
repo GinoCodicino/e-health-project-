@@ -41,7 +41,7 @@ public class RaccoltaLegnetti : MonoBehaviour
         "[← →] oppure [A] [D] = muovi la cesta\nRaccogli i legnetti per costruire il rifugio. Evita le pigne: non servono!";
 
     [Header("Riferimenti")]
-    public PlayerFPS player;
+    public playercontroller player;
 
     [Header("Eventi")]
     public UnityEvent onVittoria;
@@ -102,7 +102,7 @@ public class RaccoltaLegnetti : MonoBehaviour
         }
 
         if (player == null && Camera.main != null)
-            player = Camera.main.GetComponentInParent<PlayerFPS>();
+            player = Camera.main.GetComponentInParent<playercontroller>();
 
         canvasGO.SetActive(true);
         if (player != null) player.canMove = false;

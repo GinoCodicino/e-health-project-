@@ -8,11 +8,19 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene("Scene_lvl1");
     }
 
+    [SerializeField] private GameObject settingsPopup;
+
     public void OpenSettings()
     {
-        Debug.Log("Apri il pannello impostazioni");
-        // Qui potrai attivare un pannello Settings
+        settingsPopup.transform.SetAsLastSibling();
+        settingsPopup.SetActive(true);
     }
+
+    public void CloseSettings()
+    {
+        settingsPopup.SetActive(false);
+    }
+
 
     public void QuitGame()
     {

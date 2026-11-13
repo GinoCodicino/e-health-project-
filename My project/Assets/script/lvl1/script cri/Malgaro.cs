@@ -8,7 +8,7 @@ public class Malgaro : MonoBehaviour
     public string nome = "Il malgaro";
     public KeyCode interactKey = KeyCode.E;
     public float interactDistance = 3f;
-    [SerializeField] float orientamentoModello = 180f;
+    [SerializeField] float orientamentoModello = 0f;
 
     [TextArea(2, 4)]
     public string[] dialogoIniziale = new string[]

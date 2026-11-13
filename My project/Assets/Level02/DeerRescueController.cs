@@ -229,7 +229,7 @@ namespace Level02.DeerRescue
                 Speak(name,new[]{"A deer is trapped? I can lend you my axe.","Could you bring me "+fishingGame.fishGoal+" fish from the river in exchange? There is a fishing spot by the bench.",
                     "You: I will catch them and come straight back."},()=>{progress.AcceptFishing();Close();});
             else
-                Speak(name,new[]{"Thank you for the fish. Here is the axe.","Use it on the loose timber. Follow the coloured cut marks. Remove the loose timber layer by layer, away from the deer."},()=>{if(progress.ExchangeFish() && woodcutterAxe!=null)woodcutterAxe.SetActive(false);Close();});
+                Speak(name,new[]{"Thank you for the fish. Here is the axe.","We can use this rope to move the fallen tree. Meet me by the deer and we will pull together."},()=>{if(progress.ExchangeFish() && woodcutterAxe!=null)woodcutterAxe.SetActive(false);Close();});
         }
         void FishingFinished(bool won,int fish)
         {

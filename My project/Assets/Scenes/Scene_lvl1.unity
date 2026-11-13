@@ -3652,8 +3652,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterWalkAnimation
   minimumWalkSpeed: 0.05
-  horizontalSpeed: 0
-  walkingDetected: 0
 --- !u!1001 &949521214
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4115,8 +4113,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 80.97954, y: 50.67256, z: 146.55518}
-  m_Center: {x: -21.882782, y: 20.33628, z: -68.27759}
+  m_Size: {x: 80.97954, y: 50.67256, z: 41.432575}
+  m_Center: {x: -21.882736, y: 20.33628, z: -15.716288}
 --- !u!4 &1183270191
 Transform:
   m_ObjectHideFlags: 0
@@ -4125,13 +4123,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1183270188}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 26, y: 5, z: -174}
+  m_LocalRotation: {x: -0, y: -0.016314456, z: -0, w: 0.99986696}
+  m_LocalPosition: {x: 42.08673, y: 5, z: -174.54814}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -1.87, z: 0}
 --- !u!114 &1183270192
 MonoBehaviour:
   m_ObjectHideFlags: 0

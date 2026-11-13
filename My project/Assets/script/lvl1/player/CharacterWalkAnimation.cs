@@ -3,12 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class CharacterWalkAnimation : MonoBehaviour
 {
-    [Header("Impostazioni")]
     [SerializeField] private float minimumWalkSpeed = 0.05f;
-
-    [Header("Debug - osserva questi valori durante Play")]
-    [SerializeField] private float horizontalSpeed;
-    [SerializeField] private bool walkingDetected;
 
     private Animator animator;
     private Vector3 previousPosition;
@@ -24,26 +19,20 @@ public class CharacterWalkAnimation : MonoBehaviour
     private void OnEnable()
     {
         previousPosition = transform.position;
-        horizontalSpeed = 0f;
-        walkingDetected = false;
     }
 
     private void LateUpdate()
     {
-        Vector3 currentPosition = transform.position;
-        Vector3 displacement = currentPosition - previousPosition;
+        Vector3 displacement = transform.position - previousPosition;
 
-        // Ignora lo spostamento verticale.
+        // Non considerare salti o cadute come camminata.
         displacement.y = 0f;
 
-        horizontalSpeed = Time.deltaTime > 0f
-            ? displacement.magnitude / Time.deltaTime
-            : 0f;
+        float speed = displacement.magnitude
+                    / Mathf.Max(Time.deltaTime, 0.000001f);
 
-        walkingDetected = horizontalSpeed > minimumWalkSpeed;
+        animator.SetBool(IsWalking, speed > minimumWalkSpeed);
 
-        animator.SetBool(IsWalking, walkingDetected);
-
-        previousPosition = currentPosition;
+        previousPosition = transform.position;
     }
 }

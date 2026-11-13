@@ -20,6 +20,12 @@ public class DialogueRunner : MonoBehaviour
     /// <summary>Open, or closed this frame (the closing key must not reopen a dialogue).</summary>
     public static bool IsBusy => IsOpen || (instance != null && instance.closedFrame == Time.frameCount);
 
+    /// <summary>A line appears on screen. bool = true when the NPC who started the dialogue is speaking.</summary>
+    public static event Action<DialogueLine, bool> LineShown;
+
+    /// <summary>The dialogue was closed.</summary>
+    public static event Action Closed;
+
     private DialogueData dialogue;
     private string defaultSpeaker;
     private Action onFinished;
@@ -63,6 +69,14 @@ public class DialogueRunner : MonoBehaviour
         shown = true;
         // The key that opened the dialogue must not also skip the first line.
         shownFrame = Time.frameCount;
+        AnnounceLine();
+    }
+
+    private void AnnounceLine()
+    {
+        DialogueLine line = dialogue.lines[index];
+        bool npcSpeaking = string.IsNullOrEmpty(line.speaker) || line.speaker == defaultSpeaker;
+        LineShown?.Invoke(line, npcSpeaking);
     }
 
     private void Update()
@@ -72,11 +86,12 @@ public class DialogueRunner : MonoBehaviour
         if (kb == null || !(kb.eKey.wasPressedThisFrame || kb.spaceKey.wasPressedThisFrame)) return;
 
         index++;
-        if (index < dialogue.lines.Length) return;
+        if (index < dialogue.lines.Length) { AnnounceLine(); return; }
 
         dialogue = null;
         closedFrame = Time.frameCount;
         LockPlayer(false);
+        Closed?.Invoke();
         var finished = onFinished;
         onFinished = null;
         finished?.Invoke();

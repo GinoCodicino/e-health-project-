@@ -20,6 +20,12 @@ public class Npc : MonoBehaviour, IInteractable
     [Tooltip("Called at the end of the dialogue (give an item, unlock a path...).")]
     public UnityEvent onDialogueFinished;
 
+    /// <summary>The dialogue with this NPC starts (screen is black, the NPC faces the player).</summary>
+    public event System.Action DialogueStarted;
+    /// <summary>The dialogue with this NPC is over.</summary>
+    public event System.Action DialogueEnded;
+
+    public string DisplayName => displayName;
     public string Prompt => $"Press E to talk to {displayName}";
     public Transform Point => transform;
     public bool CanInteract => isActiveAndEnabled && dialogue != null;
@@ -29,7 +35,13 @@ public class Npc : MonoBehaviour, IInteractable
 
     public void Interact(PlayerInteractor interactor)
     {
-        DialogueRunner.Play(dialogue, displayName, onDialogueFinished.Invoke, () => FaceEachOther(interactor.transform));
+        DialogueRunner.Play(dialogue, displayName, Finish, () => { FaceEachOther(interactor.transform); DialogueStarted?.Invoke(); });
+    }
+
+    private void Finish()
+    {
+        DialogueEnded?.Invoke();
+        onDialogueFinished.Invoke();
     }
 
     // Called while the screen is black: the player stands in front of the NPC, on the side he came from.

@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 843e96d070df0e8499f362b1d12458be
+timeCreated: 1593721030
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 15600000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 162856
+  packageName: Fence Layout Tool
+  packageVersion: 1.3
+  assetPath: Assets/PolygonPi/FenceLayout/Example/ExampleTerrain2018.asset
+  uploadId: 454014

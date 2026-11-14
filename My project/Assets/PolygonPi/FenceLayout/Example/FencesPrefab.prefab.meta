@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: ffa1d3d761e5eff468dffd01f0c94d77
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 162856
+  packageName: Fence Layout Tool
+  packageVersion: 1.3
+  assetPath: Assets/PolygonPi/FenceLayout/Example/FencesPrefab.prefab
+  uploadId: 454014

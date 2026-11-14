@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 254fa9f855dcc914da4ffb2260edfa6e
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 162856
+  packageName: Fence Layout Tool
+  packageVersion: 1.3
+  assetPath: Assets/PolygonPi/FenceLayout/Example/WoodMat.mat
+  uploadId: 454014

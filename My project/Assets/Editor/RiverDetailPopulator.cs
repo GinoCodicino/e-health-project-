@@ -128,11 +128,88 @@ public sealed class RiverDetailPopulator : EditorWindow
     private Map map;
     private string message = "Assegna Terrain, Water Plane e i prefab. Poi premi ANALIZZA.";
     private MessageType messageType = MessageType.Info;
+    private bool densePresetMode;
 
     [MenuItem("Tools/Fiume/Decora fondo e rive")]
     public static void OpenWindow()
     {
-        GetWindow<RiverDetailPopulator>("Decora fiume").minSize = new Vector2(390, 430);
+        RiverDetailPopulator window = GetWindow<RiverDetailPopulator>("Decora fiume");
+        if (window.densePresetMode)
+            window.ApplyStandardPreset();
+        window.densePresetMode = false;
+        window.minSize = new Vector2(390, 430);
+    }
+
+    [MenuItem("Tools/Fiume/Decora fondale fitto")]
+    public static void OpenDenseWindow()
+    {
+        RiverDetailPopulator window = GetWindow<RiverDetailPopulator>("Decora fondale fitto");
+        window.densePresetMode = true;
+        window.ApplyDensePreset();
+        window.minSize = new Vector2(390, 430);
+        window.Repaint();
+    }
+
+    private void ApplyDensePreset()
+    {
+        denseBed = true;
+        pebbleStep = 0.9f;
+        bedCoverage = 1f;
+        maximumPebbles = 60000;
+
+        bed.maximum = 4500;
+        bed.size = new Vector2(0.7f, 1.8f);
+
+        banks.maximum = 500;
+        banks.size = new Vector2(1.4f, 4.5f);
+
+        flowers.maximum = 1200;
+        flowers.size = new Vector2(0.25f, 0.75f);
+
+        grass.maximum = 900;
+        grass.size = new Vector2(0.35f, 1.1f);
+
+        ferns.maximum = 700;
+        ferns.size = new Vector2(0.45f, 1.6f);
+
+        driftwood.maximum = 90;
+        driftwood.size = new Vector2(1.0f, 3.8f);
+
+        aquaticPlants.maximum = 350;
+        aquaticPlants.size = new Vector2(0.3f, 1.1f);
+
+        map = null;
+        message = "Preset fondale fitto applicato. Controlla i prefab e premi ANALIZZA.";
+        messageType = MessageType.Info;
+    }
+
+    private void ApplyStandardPreset()
+    {
+        denseBed = true;
+        pebbleStep = 2.4f;
+        bedCoverage = 0.98f;
+        maximumPebbles = 40000;
+
+        bed.maximum = 1800;
+        bed.size = new Vector2(0.35f, 0.85f);
+
+        banks.maximum = 150;
+        banks.size = new Vector2(0.8f, 2.3f);
+
+        flowers.maximum = 450;
+        flowers.size = new Vector2(0.2f, 0.5f);
+
+        grass.maximum = 250;
+        grass.size = new Vector2(0.3f, 0.8f);
+
+        ferns.maximum = 200;
+        ferns.size = new Vector2(0.35f, 1.2f);
+
+        driftwood.maximum = 25;
+        driftwood.size = new Vector2(0.8f, 2.5f);
+
+        aquaticPlants.maximum = 180;
+        aquaticPlants.size = new Vector2(0.25f, 0.8f);
     }
 
     private void OnEnable() { SceneView.duringSceneGui += DrawPreview; }
@@ -141,7 +218,15 @@ public sealed class RiverDetailPopulator : EditorWindow
     private void OnGUI()
     {
         scroll = EditorGUILayout.BeginScrollView(scroll);
-        EditorGUILayout.LabelField("Fiume V2: fondo fitto e habitat", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField(
+            densePresetMode ? "Fiume V2: decorazione del fondale fitto" : "Fiume V2: fondo fitto e habitat",
+            EditorStyles.boldLabel);
+        if (densePresetMode)
+        {
+            EditorGUILayout.HelpBox(
+                "Modalita' fondale fitto: usa piu' rocce, rocce piu' grandi, molti piu' legnetti " +
+                "e una vegetazione piu' abbondante sulla riva.", MessageType.Warning);
+        }
         EditorGUILayout.HelpBox("Lavora fuori dal Play Mode. Usa prefab dal Project. " +
             "Le dimensioni vengono normalizzate: anche un prefab grande puo' diventare un sassolino.", MessageType.Info);
 

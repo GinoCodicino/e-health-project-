@@ -20,6 +20,7 @@ numpy==2.2.6
 packaging==26.3
 pillow==12.3.0
 Pygments==2.21.0
+pypdf==7.1.0
 PyYAML==6.0.3
 regex==2026.9.29
 rich==15.0.0

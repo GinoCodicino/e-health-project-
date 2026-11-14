@@ -1,0 +1,38 @@
+[
+ {
+  "id": "trend",
+  "dimension": "trend",
+  "ethan_line": "The climate has always changed. Ice ages, warm periods... What we see on this mountain is just another swing.",
+  "query": "global surface temperature increased faster since 1970 than any other 50-year period observed warming"
+ },
+ {
+  "id": "attribution",
+  "dimension": "attribution",
+  "ethan_line": "Sure, it's a bit warmer. But blaming humans? The sun, the oceans, volcanoes... Nobody can prove it's us.",
+  "query": "human-caused warming natural solar volcanic drivers internal variability greenhouse gases contributed"
+ },
+ {
+  "id": "impact",
+  "dimension": "impact",
+  "ethan_line": "One or two degrees warmer? Honestly, that's no big deal. We adapt, we always have.",
+  "query": "risks escalate with every increment of global warming limits to adaptation losses and damages"
+ },
+ {
+  "id": "response",
+  "dimension": "response",
+  "ethan_line": "Even if it's true, one person changes nothing. And these climate policies just cost everybody money.",
+  "query": "demand-side mitigation lifestyle behaviour consumption emissions reduction potential"
+ },
+ {
+  "id": "technology",
+  "dimension": "response",
+  "ethan_line": "Technology will fix this. Give the engineers a few years, we don't need to change how we live.",
+  "query": "unit costs solar wind batteries decreased low-emission technologies adoption lags"
+ },
+ {
+  "id": "weather",
+  "dimension": "impact",
+  "ethan_line": "You want to climb up there? Storms, heat waves... the weather on a mountain has always been wild.",
+  "query": "extreme heat events weather and climate extremes increased every region hazards"
+ }
+]

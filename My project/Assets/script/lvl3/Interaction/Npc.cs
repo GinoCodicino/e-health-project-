@@ -16,6 +16,10 @@ public class Npc : MonoBehaviour, IInteractable
     [SerializeField] private bool turnToPlayer = true;
     [Tooltip("Correction if the model doesn't face its forward axis (degrees).")]
     [SerializeField] private float modelYawOffset = 0f;
+    [Tooltip("Optional: where the player stands during the dialogue (e.g. in front of a seated NPC). Empty = on the side he came from.")]
+    [SerializeField] private Transform talkSpot;
+    [Tooltip("Camera pitch of the player during the dialogue (degrees, positive = looking down, for a seated NPC).")]
+    [SerializeField] private float talkPitch = 0f;
 
     [Tooltip("Called at the end of the dialogue (give an item, unlock a path...).")]
     public UnityEvent onDialogueFinished;
@@ -47,14 +51,16 @@ public class Npc : MonoBehaviour, IInteractable
     // Called while the screen is black: the player stands in front of the NPC, on the side he came from.
     private void FaceEachOther(Transform player)
     {
-        Vector3 away = player.position - transform.position;
+        Vector3 spot = talkSpot != null ? talkSpot.position : player.position;
+        Vector3 away = spot - transform.position;
         away.y = 0f;
         away = away.sqrMagnitude > 0.001f ? away.normalized : transform.forward;
+        if (talkSpot == null) spot = transform.position + away * talkDistance;
 
         float playerYaw = Quaternion.LookRotation(-away).eulerAngles.y;
-        PlayerPlacement.PlaceOnGround(player, transform.position + away * talkDistance, playerYaw);
+        PlayerPlacement.PlaceOnGround(player, spot, playerYaw);
         var controller = player.GetComponent<playercontroller>();
-        if (controller != null) controller.SetPitch(0f);
+        if (controller != null) controller.SetPitch(talkPitch);
 
         if (turnToPlayer)
             transform.rotation = Quaternion.LookRotation(away) * Quaternion.Euler(0f, modelYawOffset, 0f);

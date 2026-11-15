@@ -36,6 +36,9 @@ public class NpcTalkAnimator : MonoBehaviour
     [Tooltip("Chest pushed forward while talking (degrees, negative = leaning back, sure of himself).")]
     [SerializeField] private float talkLean = -3f;
     [SerializeField] private ListeningPose listeningPose = ListeningPose.HandsTogether;
+    [Tooltip("Turn the head toward the player during the dialogue (for an NPC that doesn't turn its body, e.g. seated).")]
+    [SerializeField] private bool lookAtPlayer = true;
+    [SerializeField] private float maxHeadYaw = 60f;
 
     [Header("Blending")]
     [Tooltip("Seconds to blend in and out of the dialogue animation.")]
@@ -147,6 +150,7 @@ public class NpcTalkAnimator : MonoBehaviour
         if (s == TalkState.Talking) TalkPose(t, out spineP, out spinePitch, out headEuler, out lP, out rP, out lRot, out rRot);
         else ListenPose(t, out spineP, out spinePitch, out headEuler, out lP, out rP, out lRot, out rRot);
 
+        headEuler.y += PlayerYaw();
         spine.localPosition = Vector3.Lerp(spine.localPosition, spineRestPos + spineP, w);
         spine.localRotation = Quaternion.Slerp(spine.localRotation, spineRestRot * Quaternion.Euler(spinePitch, 0f, 0f), w);
         head.localRotation = Quaternion.Slerp(head.localRotation, headRestRot * Quaternion.Euler(headEuler), w);
@@ -229,6 +233,23 @@ public class NpcTalkAnimator : MonoBehaviour
         spineP = new Vector3(0f, breath * 0.03f, 0f);
         spinePitch = talkLean * 0.5f;
         lRot = rRot = Vector3.zero;
+    }
+
+    private Transform player;
+
+    // Angle (degrees) to turn the head toward the player, 0 if the NPC already faces him.
+    private float PlayerYaw()
+    {
+        if (!lookAtPlayer || !Application.isPlaying) return 0f;
+        if (player == null)
+        {
+            var controller = FindAnyObjectByType<playercontroller>();
+            if (controller == null) return 0f;
+            player = controller.transform;
+        }
+        Vector3 local = transform.InverseTransformDirection(player.position - transform.position);
+        if (new Vector2(local.x, local.z).sqrMagnitude < 0.0001f) return 0f;
+        return Mathf.Clamp(Mathf.Atan2(local.x, local.z) * Mathf.Rad2Deg, -maxHeadYaw, maxHeadYaw);
     }
 
     private float Hash(int n)

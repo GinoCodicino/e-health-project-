@@ -1,21 +1,37 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 /// <summary>
-/// Shows a dialogue line by line at the bottom of the screen (E or Space: next line).
-/// When a line has choices, the player answers with 1, 2 or 3: his line and the NPC's reaction follow,
+/// Shows a dialogue line by line in a panel at the bottom of the screen, with the look of the level 2
+/// dialogues (MushroomUI: dark green panel, TextMeshPro, green buttons, text typed letter by letter).
+/// E / Space or the Next button: show the whole line, then the next one.
+/// When a line has choices, the player answers with 1, 2, 3 or a click: his line and the NPC's reaction follow,
 /// and the answers add up to pick the ending.
 /// Can open with a short fade to black, used to stage the scene (player facing the NPC).
-/// The player can't move or look around while it is open.
+/// The player can't move or look around while it is open; the mouse cursor is free to click.
 /// Created automatically the first time a dialogue starts.
 /// </summary>
 public class DialogueRunner : MonoBehaviour
 {
     const float FadeDuration = 0.25f;
+    const float TypingDelay = 0.018f; // seconds per letter
     const string PlayerName = "You";
+
+    // panel layout, in the 1280x720 reference of MushroomUI.Canvas
+    const float PanelWidth = 1100f, PanelHeight = 210f, PanelHeightWithChoices = 306f;
+    const float TextLeft = -520f, TextWidth = 1040f, ButtonHeight = 40f, ButtonGap = 6f;
+
+    static readonly Color PanelColor = new Color(0.025f, 0.065f, 0.04f, 0.85f);
+    static readonly Color ButtonColor = new Color(0.20f, 0.35f, 0.23f);
+    static readonly Color NpcNameColor = new Color(1f, 0.85f, 0.4f);
+    static readonly Color PlayerNameColor = new Color(0.62f, 0.9f, 0.62f);
+    static readonly Color SourceColor = new Color(0.6f, 0.85f, 1f, 0.9f);
+    static readonly Color HintColor = new Color(1f, 1f, 1f, 0.55f);
 
     private static DialogueRunner instance;
 
@@ -41,7 +57,16 @@ public class DialogueRunner : MonoBehaviour
     private bool shown, endingAdded;
     private int shownFrame, closedFrame = -1;
     private Behaviour[] lockedPlayer;
-    private GUIStyle speakerStyle, textStyle, hintStyle, sourceStyle, choiceStyle;
+    private CursorLockMode oldCursorLock;
+    private bool oldCursorVisible;
+
+    // interface
+    private GameObject uiRoot;
+    private RectTransform canvas, panel;
+    private TMP_Text speakerText, speechText, sourceText, hintText;
+    private readonly List<GameObject> buttons = new List<GameObject>();
+    private Coroutine typing;
+    private bool isTyping;
 
     private DialogueLine Current => lines[index];
     private bool WaitingForChoice => Current.choices != null && Current.choices.Length > 0;
@@ -57,10 +82,13 @@ public class DialogueRunner : MonoBehaviour
         instance.Open(data, defaultSpeaker, onFinished, stage);
     }
 
-    /// <summary>Same as E / Space (for buttons, a gamepad or tests). Ignored while an answer is expected.</summary>
+    /// <summary>Same as E / Space: shows the whole line if it is being typed, otherwise the next line.
+    /// Ignored while an answer is expected.</summary>
     public static void Continue()
     {
-        if (IsOpen && instance.shown && !instance.WaitingForChoice) instance.Next();
+        if (!IsOpen || !instance.shown || instance.WaitingForChoice && !instance.isTyping) return;
+        if (instance.isTyping) instance.ShowWholeLine();
+        else instance.Next();
     }
 
     /// <summary>Same as the keys 1, 2, 3 (number = 0, 1, 2). Ignored if no answer is expected.</summary>
@@ -103,12 +131,15 @@ public class DialogueRunner : MonoBehaviour
         shown = true;
         // The key that opened the dialogue must not also skip the first line.
         shownFrame = Time.frameCount;
-        AnnounceLine();
+        BuildInterface();
+        uiRoot.SetActive(true);
+        ShowLine();
     }
 
-    private void AnnounceLine()
+    private void ShowLine()
     {
         bool npcSpeaking = string.IsNullOrEmpty(Current.speaker) || Current.speaker == defaultSpeaker;
+        DrawLine(npcSpeaking);
         LineShown?.Invoke(Current, npcSpeaking);
     }
 
@@ -118,12 +149,8 @@ public class DialogueRunner : MonoBehaviour
         var kb = Keyboard.current;
         if (kb == null) return;
 
-        if (WaitingForChoice)
-        {
-            Answer(PickedChoice(kb));
-            return;
-        }
-        if (kb.eKey.wasPressedThisFrame || kb.spaceKey.wasPressedThisFrame) Continue();
+        if (kb.eKey.wasPressedThisFrame || kb.spaceKey.wasPressedThisFrame) { Continue(); return; }
+        if (WaitingForChoice && !isTyping) Answer(PickedChoice(kb));
     }
 
     private static int PickedChoice(Keyboard kb)
@@ -148,10 +175,12 @@ public class DialogueRunner : MonoBehaviour
     {
         index++;
         if (index >= lines.Count && !endingAdded) AddEnding();
-        if (index < lines.Count) { AnnounceLine(); return; }
+        if (index < lines.Count) { ShowLine(); return; }
 
+        StopTyping();
         dialogue = null;
         closedFrame = Time.frameCount;
+        if (uiRoot != null) uiRoot.SetActive(false);
         LockPlayer(false);
         Closed?.Invoke();
         var finished = onFinished;
@@ -169,8 +198,24 @@ public class DialogueRunner : MonoBehaviour
         if (best != null) lines.Add(new DialogueLine { text = best.text });
     }
 
+    private bool IsLastLine => index >= lines.Count - 1 && (endingAdded || dialogue.endings == null || dialogue.endings.Length == 0);
+
+    // The player stops moving and the mouse cursor is freed to click the buttons.
     private void LockPlayer(bool locked)
     {
+        if (locked)
+        {
+            oldCursorLock = Cursor.lockState;
+            oldCursorVisible = Cursor.visible;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            Cursor.lockState = oldCursorLock;
+            Cursor.visible = oldCursorVisible;
+        }
+
         if (lockedPlayer == null)
         {
             var controller = FindFirstObjectByType<playercontroller>();
@@ -181,43 +226,136 @@ public class DialogueRunner : MonoBehaviour
             if (b != null) b.enabled = !locked;
     }
 
-    private void OnGUI()
+    // ---------------- interface ----------------
+
+    private void BuildInterface()
     {
-        if (dialogue == null || !shown) return;
-        if (textStyle == null)
-        {
-            textStyle = new GUIStyle(GUI.skin.label) { fontSize = 24, wordWrap = true, normal = { textColor = Color.white } };
-            speakerStyle = new GUIStyle(textStyle) { fontStyle = FontStyle.Bold, normal = { textColor = new Color(1f, 0.85f, 0.4f) } };
-            hintStyle = new GUIStyle(textStyle) { fontSize = 16, alignment = TextAnchor.LowerRight, normal = { textColor = new Color(1f, 1f, 1f, 0.6f) } };
-            sourceStyle = new GUIStyle(textStyle) { fontSize = 15, fontStyle = FontStyle.Italic, alignment = TextAnchor.LowerLeft, normal = { textColor = new Color(0.6f, 0.85f, 1f, 0.9f) } };
-            choiceStyle = new GUIStyle(textStyle) { fontSize = 20, normal = { textColor = new Color(0.85f, 0.95f, 1f) } };
-        }
+        if (uiRoot != null) return;
+        canvas = MushroomUI.Canvas("Dialogue_UI");
+        canvas.SetParent(transform, false);
+        uiRoot = canvas.gameObject;
 
+        Image background = MushroomUI.Image("Panel", canvas, PanelColor);
+        panel = background.rectTransform;
+        panel.anchorMin = panel.anchorMax = new Vector2(0.5f, 0f);
+        panel.pivot = new Vector2(0.5f, 0f);
+        panel.anchoredPosition = new Vector2(0f, 20f);
+
+        speakerText = Label("Speaker", 22f, NpcNameColor);
+        speakerText.fontStyle = FontStyles.Bold;
+        speechText = Label("Speech", 23f, Color.white);
+        speechText.alignment = TextAlignmentOptions.TopLeft;
+        sourceText = Label("Source", 16f, SourceColor);
+        sourceText.fontStyle = FontStyles.Italic;
+        hintText = Label("Hint", 15f, HintColor);
+        hintText.alignment = TextAlignmentOptions.MidlineRight;
+        uiRoot.SetActive(false);
+    }
+
+    private TMP_Text Label(string name, float size, Color color)
+    {
+        TMP_Text text = MushroomUI.Text(name, panel, "", size, color);
+        text.rectTransform.pivot = new Vector2(0f, 0.5f);
+        text.alignment = TextAlignmentOptions.MidlineLeft;
+        text.textWrappingMode = TextWrappingModes.Normal;
+        text.overflowMode = TextOverflowModes.Overflow;
+        return text;
+    }
+
+    private static void Place(TMP_Text text, float top, float height, float panelHeight)
+    {
+        // top = distance from the top of the panel
+        MushroomUI.Place(text.rectTransform, TextLeft, panelHeight / 2f - top - height / 2f, TextWidth, height);
+    }
+
+    private void DrawLine(bool npcSpeaking)
+    {
         DialogueLine line = Current;
-        string speaker = string.IsNullOrEmpty(line.speaker) ? defaultSpeaker : line.speaker;
         bool choosing = WaitingForChoice;
-        float choicesHeight = choosing ? 34f * line.choices.Length + 10f : 0f;
+        float height = choosing ? PanelHeightWithChoices : PanelHeight;
+        panel.sizeDelta = new Vector2(PanelWidth, height);
 
-        float w = Mathf.Min(900f, Screen.width - 40f), h = 170f + choicesHeight;
-        var box = new Rect((Screen.width - w) / 2f, Screen.height - h - 30f, w, h);
-        GUI.color = new Color(0f, 0f, 0f, 0.75f);
-        GUI.DrawTexture(box, Texture2D.whiteTexture);
-        GUI.color = Color.white;
+        speakerText.text = npcSpeaking ? defaultSpeaker : line.speaker;
+        speakerText.color = npcSpeaking ? NpcNameColor : PlayerNameColor;
+        Place(speakerText, 10f, 28f, height);
+        Place(speechText, 40f, 88f, height);
+        sourceText.text = string.IsNullOrEmpty(line.source) ? "" : "Source: " + line.source;
+        Place(sourceText, 130f, 20f, height);
 
-        var inner = new Rect(box.x + 20f, box.y + 14f, box.width - 40f, box.height - 28f);
-        GUI.Label(new Rect(inner.x, inner.y, inner.width, 32f), speaker, speakerStyle);
-        GUI.Label(new Rect(inner.x, inner.y + 36f, inner.width, 170f - 64f), line.text, textStyle);
-
+        foreach (var button in buttons) Destroy(button);
+        buttons.Clear();
         if (choosing)
         {
-            float y = inner.y + 170f - 28f;
-            for (int i = 0; i < line.choices.Length; i++, y += 34f)
-                GUI.Label(new Rect(inner.x, y, inner.width, 32f), $"{i + 1}.  {line.choices[i].label}", choiceStyle);
-            GUI.Label(inner, "1 / 2 / 3: answer", hintStyle);
-            return;
+            for (int i = 0; i < line.choices.Length; i++)
+            {
+                int number = i;
+                float y = height / 2f - 158f - i * (ButtonHeight + ButtonGap) - ButtonHeight / 2f;
+                AddButton($"{i + 1}.  {line.choices[i].label}", 0f, y, TextWidth, () => Answer(number), TextAlignmentOptions.MidlineLeft);
+            }
+            hintText.text = "";
         }
-        if (!string.IsNullOrEmpty(line.source)) GUI.Label(inner, "Source: " + line.source, sourceStyle);
-        GUI.Label(inner, index < lines.Count - 1 || !endingAdded && dialogue.endings != null && dialogue.endings.Length > 0
-            ? "E / Space: next" : "E / Space: close", hintStyle);
+        else
+        {
+            float y = -height / 2f + 14f + ButtonHeight / 2f;
+            AddButton(IsLastLine ? "Close" : "Next", TextWidth / 2f - 110f, y, 220f, () => Continue(), TextAlignmentOptions.Center);
+            hintText.text = IsLastLine ? "E / Space: close" : "E / Space: next";
+            MushroomUI.Place(hintText.rectTransform, TextLeft, y, TextWidth - 240f, ButtonHeight);
+        }
+        SetButtonsInteractable(false);
+        Type(line.text);
+    }
+
+    private void AddButton(string caption, float x, float y, float width, Action action, TextAlignmentOptions alignment)
+    {
+        Button button = MushroomUI.Button("Button", panel, caption, ButtonColor, out TMP_Text label);
+        label.color = Color.white;
+        label.fontSize = 20;
+        label.alignment = alignment;
+        label.margin = new Vector4(14f, 0f, 14f, 0f);
+        label.overflowMode = TextOverflowModes.Overflow;
+        MushroomUI.Place((RectTransform)button.transform, x, y, width, ButtonHeight);
+        button.onClick.AddListener(() => action());
+        buttons.Add(button.gameObject);
+    }
+
+    // The choices can only be clicked once the question is fully written; Next also works while typing.
+    private void SetButtonsInteractable(bool interactable)
+    {
+        if (!WaitingForChoice) return;
+        foreach (var button in buttons) button.GetComponent<Button>().interactable = interactable;
+    }
+
+    private void Type(string text)
+    {
+        StopTyping();
+        speechText.text = text;
+        speechText.maxVisibleCharacters = 0;
+        speechText.ForceMeshUpdate();
+        typing = StartCoroutine(TypeLetters(speechText.textInfo.characterCount));
+    }
+
+    private IEnumerator TypeLetters(int count)
+    {
+        isTyping = true;
+        for (int i = 0; i <= count; i++)
+        {
+            speechText.maxVisibleCharacters = i;
+            yield return new WaitForSecondsRealtime(TypingDelay);
+        }
+        ShowWholeLine();
+    }
+
+    private void ShowWholeLine()
+    {
+        StopTyping();
+        speechText.maxVisibleCharacters = int.MaxValue;
+        SetButtonsInteractable(true);
+    }
+
+    private void StopTyping()
+    {
+        if (typing != null) StopCoroutine(typing);
+        typing = null;
+        isTyping = false;
     }
 }

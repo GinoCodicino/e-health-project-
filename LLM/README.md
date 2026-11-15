@@ -58,3 +58,38 @@ Tests of `RAG.py` on fake pages (no PDF, no model). Run them with:
 cd LLM
 pytest test_rag.py -v
 ```
+# Ethan Brooks: the LLM in persona mode
+
+Everything about Ethan (questions, answers, logs) is in the `Ethan/` folder:
+- `questions/`: the questions we ask him, written by hand (`interview.json`, `beliefs.json`, `playtest.json`);
+- `answers/`: what the LLM generated, one JSON file per step;
+- `log/`: every prompt and answer, with a timestamp (`AnswerStore`).
+
+Run the three steps from the `LLM` folder, in this order:
+
+```bash
+python run_interview.py       # Ethan answers the interview -> answers/interview.json, requirements.json, side_quests.json
+python generate_beliefs.py    # Ethan says what he believes, the analyst writes the IPCC words to search -> answers/beliefs.json
+python generate_dialogues.py  # the dialogue variants, from the kept beliefs -> answers/dialogue.json
+python run_playtest.py        # Ethan rates statements, "plays" and answers the test -> answers/playtest.json
+```
+
+## Review
+
+Each generated text has a `status`: `to_review`, `kept`, `edited` or `rejected`. Open the JSON file and change it by hand; if you change the text, put the new one in `edited_text` and set the status to `edited`. `note` is free for the reason.
+- `generate_dialogues.py` uses the answer to Q6 (how to talk to Ethan) only if it was kept or edited.
+- `generate_dialogues.py` only uses the beliefs that were kept or edited.
+- `run_playtest.py` only uses the dialogue variants that were kept or edited.
+
+To count what was kept, edited and rejected (for the report):
+
+```bash
+python review_stats.py
+```
+
+## The files
+
+- `Interview.py`: the interview (`PersonaInterview`), the functional requirements (`RequirementWriter`), the side quest ideas (`SideQuestWriter`) and `GenerationRecord`, the generated text with its review status.
+- `Dialogues.py`: Ethan's beliefs (`BeliefWriter`, written by the LLM in persona mode), then the player's answers (fact, question, empathy) and Ethan's reactions for each kept belief, with the IPCC facts; then Ethan's last words before the climb.
+- `Playtest.py`: Ethan rates our statements (1 to 7, higher = more skeptical) before and after playing, and answers the test questions. The statements are our own, one per dimension of the CCS-Q, not the official questionnaire.
+- `test_interview.py`, `test_dialogues.py`, `test_playtest.py`: tests with fake models (`pytest -v`).

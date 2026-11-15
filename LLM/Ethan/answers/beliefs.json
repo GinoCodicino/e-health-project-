@@ -1,0 +1,317 @@
+{
+ "run": {
+  "model": "Qwen/Qwen3-0.6B",
+  "temperature": 0.8,
+  "seed": 42,
+  "prompt_version": "2",
+  "generated_at": "2026-11-14 21:36:13"
+ },
+ "items": [
+  {
+   "id": "B1-V1",
+   "source": "B1",
+   "text": "I think the climate is indeed warming faster than it used to be, but it's not as much as I think. I'm not sure if the scale is right, but I believe that the changes we're seeing are real. I don't believe that human actions are the main cause, but I know that climate change is happening.",
+   "prompt": "A player of a video game meets you at the base camp of a mountain whose glacier has disappeared and asks you a question. Say what you really think, as yourself, in the first person, in one or two short sentences, the way you would say it to a stranger. Stay consistent with your biography, your quote and your climate behaviour.\n\nQuestion: Is the climate warming faster today than it did in the past?\nYou:",
+   "data": {
+    "dimension": "trend",
+    "query": "warming faster, human actions, climate change, scale, real, changes, main cause, human",
+    "facts": [
+     "B.1.5",
+     "B.7.3"
+    ]
+   },
+   "status": "rejected",
+   "edited_text": "",
+   "note": "out of character: sounds convinced or off-topic"
+  },
+  {
+   "id": "B1-V2",
+   "source": "B1",
+   "text": "I think the climate is warming faster today than in the past because the data shows more rapid changes, and I believe that human activities are playing a bigger role than previously thought.",
+   "prompt": "A player of a video game meets you at the base camp of a mountain whose glacier has disappeared and asks you a question. Say what you really think, as yourself, in the first person, in one or two short sentences, the way you would say it to a stranger. Stay consistent with your biography, your quote and your climate behaviour.\n\nQuestion: Is the climate warming faster today than it did in the past?\nYou:",
+   "data": {
+    "dimension": "trend",
+    "query": "climate change, human activities, rapid changes, IPCC report, data, warming, facts, climate skepticism.",
+    "facts": [
+     "A.1",
+     "A.2"
+    ]
+   },
+   "status": "rejected",
+   "edited_text": "",
+   "note": "out of character: sounds convinced or off-topic"
+  },
+  {
+   "id": "B1-V3",
+   "source": "B1",
+   "text": "I think the climate is warming faster today than it used to be, but I don't think that's the main factor, Ethan. I prefer to look at the numbers and not the feelings.",
+   "prompt": "A player of a video game meets you at the base camp of a mountain whose glacier has disappeared and asks you a question. Say what you really think, as yourself, in the first person, in one or two short sentences, the way you would say it to a stranger. Stay consistent with your biography, your quote and your climate behaviour.\n\nQuestion: Is the climate warming faster today than it did in the past?\nYou:",
+   "data": {
+    "dimension": "trend",
+    "query": "climate warming, IPCC report, main factor, numbers, skeptic, climate, factor, report, facts.",
+    "facts": [
+     "B.7.1",
+     "C.7.2"
+    ]
+   },
+   "status": "edited",
+   "edited_text": "Sure, it's warming a bit faster than it used to, but I don't think we're the main factor. I look at numbers, not feelings.",
+   "note": "opening line of the final dialogue"
+  },
+  {
+   "id": "B2-V1",
+   "source": "B2",
+   "text": "I think the answer is that it's not human-caused, but rather natural processes that we're not aware of. I don't believe that the world is going to change with just any single human action.",
+   "prompt": "A player of a video game meets you at the base camp of a mountain whose glacier has disappeared and asks you a question. Say what you really think, as yourself, in the first person, in one or two short sentences, the way you would say it to a stranger. Stay consistent with your biography, your quote and your climate behaviour.\n\nQuestion: Who or what is causing the warming people talk about?\nYou:",
+   "data": {
+    "dimension": "attribution",
+    "query": "climate change, natural processes, human actions, IPCC report, human-caused, climate change, natural processes, IPCC, climate change.",
+    "facts": [
+     "B.1.5",
+     "A.1.2"
+    ]
+   },
+   "status": "edited",
+   "edited_text": "It's not human-caused. It's natural processes we don't fully understand yet, and no single human action is going to change the world.",
+   "note": "opening line of the final dialogue"
+  },
+  {
+   "id": "B2-V2",
+   "source": "B2",
+   "text": "I think the warming is happening because of human actions, not just natural factors. I doubt the institutions are exaggerating the risks and expect economic and technological progress to solve the problems.",
+   "prompt": "A player of a video game meets you at the base camp of a mountain whose glacier has disappeared and asks you a question. Say what you really think, as yourself, in the first person, in one or two short sentences, the way you would say it to a stranger. Stay consistent with your biography, your quote and your climate behaviour.\n\nQuestion: Who or what is causing the warming people talk about?\nYou:",
+   "data": {
+    "dimension": "attribution",
+    "query": "warming, human, climate, institutions, risk, economic, technological, progress",
+    "facts": [
+     "A.3.1",
+     "C.2.4"
+    ]
+   },
+   "status": "rejected",
+   "edited_text": "",
+   "note": "out of character: sounds convinced or off-topic"
+  },
+  {
+   "id": "B2-V3",
+   "source": "B2",
+   "text": "I'm not sure who or what is causing the warming, but I believe it's not just human actions. It's more about natural processes and the way we're not really listening to the science.",
+   "prompt": "A player of a video game meets you at the base camp of a mountain whose glacier has disappeared and asks you a question. Say what you really think, as yourself, in the first person, in one or two short sentences, the way you would say it to a stranger. Stay consistent with your biography, your quote and your climate behaviour.\n\nQuestion: Who or what is causing the warming people talk about?\nYou:",
+   "data": {
+    "dimension": "attribution",
+    "query": "climate change, human activities, natural processes, science, warming, climate, IPCC, facts.",
+    "facts": [
+     "B.1.5",
+     "B.3.3"
+    ]
+   },
+   "status": "kept",
+   "edited_text": "",
+   "note": "in character: skeptical"
+  },
+  {
+   "id": "B3-V1",
+   "source": "B3",
+   "text": "I think climate change is a serious problem for both people and the mountain, but I don't believe it's going to be fixed. The scale of today's warming and the human-caused factors aren't the same as in the past, and I think individual actions won't make a difference. I still believe the climate has changed, but I'm not convinced that people's lifestyle changes will be enough.",
+   "prompt": "A player of a video game meets you at the base camp of a mountain whose glacier has disappeared and asks you a question. Say what you really think, as yourself, in the first person, in one or two short sentences, the way you would say it to a stranger. Stay consistent with your biography, your quote and your climate behaviour.\n\nQuestion: Is climate change a serious problem, for people and for a mountain like this one?\nYou:",
+   "data": {
+    "dimension": "impact",
+    "query": "climate change, human-caused factors, warming, mountain, people, individual actions, climate has changed.",
+    "facts": [
+     "A.1.2",
+     "A.2.6"
+    ]
+   },
+   "status": "rejected",
+   "edited_text": "",
+   "note": "out of character: sounds convinced or off-topic"
+  },
+  {
+   "id": "B3-V2",
+   "source": "B3",
+   "text": "I think climate change is a serious problem for the planet and for the mountain we're talking about, even if it's a small one like this. I doubt the scale is as big as people think, and I don't believe that individual actions will make a big difference in slowing it down. I'm confident in the facts and skeptical of the claims made by those who think it's a bigger issue.",
+   "prompt": "A player of a video game meets you at the base camp of a mountain whose glacier has disappeared and asks you a question. Say what you really think, as yourself, in the first person, in one or two short sentences, the way you would say it to a stranger. Stay consistent with your biography, your quote and your climate behaviour.\n\nQuestion: Is climate change a serious problem, for people and for a mountain like this one?\nYou:",
+   "data": {
+    "dimension": "impact",
+    "query": "climate change, mountain, individual, scale, facts, IPCC, claim",
+    "facts": [
+     "A.2.6",
+     "A.3.5"
+    ]
+   },
+   "status": "rejected",
+   "edited_text": "",
+   "note": "out of character: sounds convinced or off-topic"
+  },
+  {
+   "id": "B3-V3",
+   "source": "B3",
+   "text": "I think climate change is a serious problem, though I doubt the scale and human causes are as large as some people think. I'm not convinced that individual actions matter much, but I respect that the planet is changing.",
+   "prompt": "A player of a video game meets you at the base camp of a mountain whose glacier has disappeared and asks you a question. Say what you really think, as yourself, in the first person, in one or two short sentences, the way you would say it to a stranger. Stay consistent with your biography, your quote and your climate behaviour.\n\nQuestion: Is climate change a serious problem, for people and for a mountain like this one?\nYou:",
+   "data": {
+    "dimension": "impact",
+    "query": "climate change, human causes, individual actions, planet, scale, problem, serious, change.",
+    "facts": [
+     "B.1.5",
+     "A.2.6"
+    ]
+   },
+   "status": "kept",
+   "edited_text": "",
+   "note": "in character: skeptical"
+  },
+  {
+   "id": "B4-V1",
+   "source": "B4",
+   "text": "I think people like me can definitely do something about climate change, and climate policies are worth their cost.",
+   "prompt": "A player of a video game meets you at the base camp of a mountain whose glacier has disappeared and asks you a question. Say what you really think, as yourself, in the first person, in one or two short sentences, the way you would say it to a stranger. Stay consistent with your biography, your quote and your climate behaviour.\n\nQuestion: Can people like you do anything about climate change, and are climate policies worth their cost?\nYou:",
+   "data": {
+    "dimension": "response",
+    "query": "climate change, climate policies, cost, facts, IPCC, climate skeptic, climate change mitigation, climate policies effectiveness, climate change impact, climate change mitigation strategies, climate policies effectiveness",
+    "facts": [
+     "C.2.2",
+     "C.2.4"
+    ]
+   },
+   "status": "rejected",
+   "edited_text": "",
+   "note": "out of character: sounds convinced or off-topic"
+  },
+  {
+   "id": "B4-V2",
+   "source": "B4",
+   "text": "I think I can do a lot about climate change, but I don't think climate policies are worth their cost. I doubt that lifestyle changes will solve it, but I'm not sure what to do about it.",
+   "prompt": "A player of a video game meets you at the base camp of a mountain whose glacier has disappeared and asks you a question. Say what you really think, as yourself, in the first person, in one or two short sentences, the way you would say it to a stranger. Stay consistent with your biography, your quote and your climate behaviour.\n\nQuestion: Can people like you do anything about climate change, and are climate policies worth their cost?\nYou:",
+   "data": {
+    "dimension": "response",
+    "query": "climate change, climate policies, lifestyle changes, cost, solutions, climate change, climate change.",
+    "facts": [
+     "C.6.5",
+     "C.5"
+    ]
+   },
+   "status": "kept",
+   "edited_text": "",
+   "note": "in character: skeptical"
+  },
+  {
+   "id": "B4-V3",
+   "source": "B4",
+   "text": "I think I can do something about climate change, and I believe climate policies are worth their cost.",
+   "prompt": "A player of a video game meets you at the base camp of a mountain whose glacier has disappeared and asks you a question. Say what you really think, as yourself, in the first person, in one or two short sentences, the way you would say it to a stranger. Stay consistent with your biography, your quote and your climate behaviour.\n\nQuestion: Can people like you do anything about climate change, and are climate policies worth their cost?\nYou:",
+   "data": {
+    "dimension": "response",
+    "query": "climate change, climate policies, cost, IPCC, AR6, facts, claim, climate skeptic",
+    "facts": [
+     "C.2.4",
+     "C.2"
+    ]
+   },
+   "status": "rejected",
+   "edited_text": "",
+   "note": "out of character: sounds convinced or off-topic"
+  },
+  {
+   "id": "B5-V1",
+   "source": "B5",
+   "text": "I don\u2019t think technology alone can solve climate change, but I believe individual lifestyle changes are important. I\u2019d say: \"Can technology solve climate change without people changing how they live?",
+   "prompt": "A player of a video game meets you at the base camp of a mountain whose glacier has disappeared and asks you a question. Say what you really think, as yourself, in the first person, in one or two short sentences, the way you would say it to a stranger. Stay consistent with your biography, your quote and your climate behaviour.\n\nQuestion: Can technology solve climate change without people changing how they live?\nYou:",
+   "data": {
+    "dimension": "response",
+    "query": "technology, climate, change, solve, individual, lifestyle, change, facts",
+    "facts": [
+     "C.5.4",
+     "A.1"
+    ]
+   },
+   "status": "rejected",
+   "edited_text": "",
+   "note": "out of character: sounds convinced or off-topic"
+  },
+  {
+   "id": "B5-V2",
+   "source": "B5",
+   "text": "I think the question is pointing out that climate change is a complex issue that requires more than just technology, because we can't ignore the impact on our daily lives. I wonder if there's a way to balance progress with sustainability.",
+   "prompt": "A player of a video game meets you at the base camp of a mountain whose glacier has disappeared and asks you a question. Say what you really think, as yourself, in the first person, in one or two short sentences, the way you would say it to a stranger. Stay consistent with your biography, your quote and your climate behaviour.\n\nQuestion: Can technology solve climate change without people changing how they live?\nYou:",
+   "data": {
+    "dimension": "response",
+    "query": "climate change, technology, daily life, sustainability, balance, complex, issue, progress",
+    "facts": [
+     "C.7.6",
+     "B.2.3"
+    ]
+   },
+   "status": "rejected",
+   "edited_text": "",
+   "note": "out of character: sounds convinced or off-topic"
+  },
+  {
+   "id": "B5-V3",
+   "source": "B5",
+   "text": "I think technology can solve climate change without people changing their lives if they adopt sustainable practices. However, the scale of the problem and the speed at which we can act will determine its impact. As a skeptic, I believe that too much reliance on technology might not address the underlying issues.",
+   "prompt": "A player of a video game meets you at the base camp of a mountain whose glacier has disappeared and asks you a question. Say what you really think, as yourself, in the first person, in one or two short sentences, the way you would say it to a stranger. Stay consistent with your biography, your quote and your climate behaviour.\n\nQuestion: Can technology solve climate change without people changing how they live?\nYou:",
+   "data": {
+    "dimension": "response",
+    "query": "- AR6, sustainable practices, technology, climate change, impact, scale, speed, underlying issues",
+    "facts": [
+     "C.4",
+     "C.7"
+    ]
+   },
+   "status": "rejected",
+   "edited_text": "",
+   "note": "out of character: sounds convinced or off-topic"
+  },
+  {
+   "id": "B6-V1",
+   "source": "B6",
+   "text": "I think that's just a natural occurrence, and I wouldn't call it climate change. The climate has always changed, but I'm not convinced reorganizing everyone's life will fix it.",
+   "prompt": "A player of a video game meets you at the base camp of a mountain whose glacier has disappeared and asks you a question. Say what you really think, as yourself, in the first person, in one or two short sentences, the way you would say it to a stranger. Stay consistent with your biography, your quote and your climate behaviour.\n\nQuestion: The weather on this mountain is getting wild: storms, heat, falling rocks. Is that climate change?\nYou:",
+   "data": {
+    "dimension": "impact",
+    "query": "climate change, natural occurrence, reorganizing, life, climate, change, facts, IPCC, report.",
+    "facts": [
+     "A.2.5",
+     "B.1.5"
+    ]
+   },
+   "status": "kept",
+   "edited_text": "",
+   "note": "in character: skeptical"
+  },
+  {
+   "id": "B6-V2",
+   "source": "B6",
+   "text": "I'm not convinced reorganizing everyone's life is going to fix it. The climate has always changed, and I doubt that individual action will matter enough to address the scale of the issue.",
+   "prompt": "A player of a video game meets you at the base camp of a mountain whose glacier has disappeared and asks you a question. Say what you really think, as yourself, in the first person, in one or two short sentences, the way you would say it to a stranger. Stay consistent with your biography, your quote and your climate behaviour.\n\nQuestion: The weather on this mountain is getting wild: storms, heat, falling rocks. Is that climate change?\nYou:",
+   "data": {
+    "dimension": "impact",
+    "query": "climate change, individual action, scale, reorganizing, issue, reorganizing, reorganizing, reorganizing, reorganizing, reorganizing",
+    "facts": [
+     "C.4",
+     "C.1.3"
+    ]
+   },
+   "status": "kept",
+   "edited_text": "",
+   "note": "opening line of the final dialogue"
+  },
+  {
+   "id": "B6-V3",
+   "source": "B6",
+   "text": "I think that\u2019s just the weather, not climate change. The glaciers disappearing and the wild weather are part of the natural changes we're experiencing, but I'm not convinced that it's climate change. The climate is always changing, and I don't see how organizing people\u2019s lives can fix it.",
+   "prompt": "A player of a video game meets you at the base camp of a mountain whose glacier has disappeared and asks you a question. Say what you really think, as yourself, in the first person, in one or two short sentences, the way you would say it to a stranger. Stay consistent with your biography, your quote and your climate behaviour.\n\nQuestion: The weather on this mountain is getting wild: storms, heat, falling rocks. Is that climate change?\nYou:",
+   "data": {
+    "dimension": "impact",
+    "query": "glaciers disappearing, climate change, natural changes, weather, natural changes, climate change, changing, people's lives, climate change",
+    "facts": [
+     "A.2.2",
+     "A.2"
+    ]
+   },
+   "status": "edited",
+   "edited_text": "That's just the weather, not climate change. Glaciers come and go, the climate has always changed, and I don't see how organizing people's lives would fix it.",
+   "note": "opening line of the final dialogue"
+  }
+ ]
+}

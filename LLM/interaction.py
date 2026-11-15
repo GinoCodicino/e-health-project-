@@ -7,17 +7,21 @@ EXAMPLE_PLAYER_TEXT = "Why do you take the plane for every trip, with what is ha
 EXAMPLE_ANSWER = "Because I have clients to see, that's my job. One flight won't change the weather, and nobody is going to ground me over it."
 
 
-def build_input_text(player_text, statements):
-    """Put the scene, the facts of the report and what the player says in one prompt for the persona."""
+def build_input_text(player_text, statements, said="", hint=""):
+    """Put the scene, the facts of the report and what the player says in one prompt for the persona.
+    said: what the persona said just before; hint: how the persona should react this time."""
     facts = "\n".join(f"[{statement.id}] {statement.text}" for statement in statements)
+    before = f'You just said: "{said}"\n' if said else ""
+    reaction = f"{hint}\n" if hint else ""
     return (
-        f"{SITUATION}\n"
+        f"{SITUATION}\n{before}"
         f"Facts from the IPCC report (the player may bring them up):\n{facts}\n\n"
         "You are in a real conversation. Speak in the first person to the player (\"I\", \"you\"). "
         "Never talk about \"the player\" in the third person, never analyse or comment, "
         "just answer what the player said, in at most three short sentences. "
         "If the player criticises something you did, react to that criticism first. "
-        "Keep your own doubts and do not invent facts, figures or sources.\n\n"
+        "Keep your own doubts and do not invent facts, figures or sources.\n"
+        f"{reaction}\n"
         "Example\n"
         f"Player: \"{EXAMPLE_PLAYER_TEXT}\"\n"
         f"You: \"{EXAMPLE_ANSWER}\"\n\n"

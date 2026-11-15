@@ -1,0 +1,14 @@
+[
+ {"id": "Q1", "topic": "attitude", "text": "When you hear \"climate change\", what is the first thing that comes to your mind?"},
+ {"id": "Q2", "topic": "attitude", "text": "Would you play a video game about climate change? What would make you stop playing after five minutes?"},
+ {"id": "Q3", "topic": "attitude", "text": "What kind of message in a game would make you feel lectured or manipulated?"},
+ {"id": "Q4", "topic": "trust", "text": "What would you need to see in a game to trust a fact about the climate?"},
+ {"id": "Q5", "topic": "trust", "text": "Which sources do you trust about the climate, and which ones do you not trust?"},
+ {"id": "Q6", "topic": "trust", "text": "If a game character disagrees with you, how should they talk to you so that you keep listening?"},
+ {"id": "Q7", "topic": "dialogue", "text": "What would make a conversation with a game character feel real to you?"},
+ {"id": "Q8", "topic": "dialogue", "text": "Would you rather choose between answers or write your own? Why?"},
+ {"id": "Q9", "topic": "quests", "text": "This mountain used to be covered with ice and now there is none. What would you want to find out up there?"},
+ {"id": "Q10", "topic": "quests", "text": "What small challenge at the base camp would make you think about the climate without feeling like homework?"},
+ {"id": "Q11", "topic": "quests", "text": "What would make reaching the summit feel rewarding to you?"},
+ {"id": "Q12", "topic": "change", "text": "What could actually make you change your mind about one of your opinions on climate?"}
+]

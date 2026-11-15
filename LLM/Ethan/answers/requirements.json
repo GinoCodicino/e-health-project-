@@ -1,0 +1,659 @@
+{
+ "run": {
+  "model": "Qwen/Qwen3-0.6B",
+  "temperature": 0.3,
+  "seed": 42,
+  "prompt_version": "2",
+  "generated_at": "2026-11-14 21:33:27"
+ },
+ "items": [
+  {
+   "id": "Q1-A1-FR1",
+   "source": "Q1-A1",
+   "text": "The system shall present the IPCC report in a non-educational tone to engage skeptical players.",
+   "prompt": "Interview question: When you hear \"climate change\", what is the first thing that comes to your mind?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): When I hear \"climate change,\" the first thing that comes to mind is the natural processes that have always been at play, not the human-driven factors I believe are responsible. I question whether reorganizing our lives will address the climate crisis, but I also see the importance of individual and collective action despite skepticism.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q1"
+   },
+   "status": "kept",
+   "edited_text": "",
+   "note": "merged into FR1 of Ethan/final/requirements.json"
+  },
+  {
+   "id": "Q1-A2-FR1",
+   "source": "Q1-A2",
+   "text": "The system shall present climate change facts in a way that aligns with Ethan Brooks' tone and interests.",
+   "prompt": "Interview question: When you hear \"climate change\", what is the first thing that comes to your mind?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): When I hear \"climate change,\" I think about how the Earth has always been in flux, and I doubt that changing my lifestyle will address it. I resist trends and prefer to think critically about the facts rather than being swept up in media hype. I still drive and fly for work and leisure, showing my active involvement in climate topics.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q1"
+   },
+   "status": "rejected",
+   "edited_text": "",
+   "note": "aligns the game with the skeptic's perspective"
+  },
+  {
+   "id": "Q1-A2-FR2",
+   "source": "Q1-A2",
+   "text": "The system shall encourage critical thinking by highlighting the IPCC report without lecturing.",
+   "prompt": "Interview question: When you hear \"climate change\", what is the first thing that comes to your mind?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): When I hear \"climate change,\" I think about how the Earth has always been in flux, and I doubt that changing my lifestyle will address it. I resist trends and prefer to think critically about the facts rather than being swept up in media hype. I still drive and fly for work and leisure, showing my active involvement in climate topics.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q1"
+   },
+   "status": "kept",
+   "edited_text": "",
+   "note": "merged into FR6 of Ethan/final/requirements.json"
+  },
+  {
+   "id": "Q1-A3-FR1",
+   "source": "Q1-A3",
+   "text": "The system shall present climate change as a current event rather than a solution.",
+   "prompt": "Interview question: When you hear \"climate change\", what is the first thing that comes to your mind?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): When I hear \"climate change,\" I think it's something that's happening, not necessarily a solution. I follow current affairs and question human causes, even if it's a cost. I don't see lifestyle changes as the answer, and I read climate news to challenge mainstream accounts.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q1"
+   },
+   "status": "rejected",
+   "edited_text": "",
+   "note": "unclear ('a current event rather than a solution')"
+  },
+  {
+   "id": "Q1-A3-FR2",
+   "source": "Q1-A3",
+   "text": "The system shall challenge mainstream accounts by highlighting facts from the IPCC report.",
+   "prompt": "Interview question: When you hear \"climate change\", what is the first thing that comes to your mind?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): When I hear \"climate change,\" I think it's something that's happening, not necessarily a solution. I follow current affairs and question human causes, even if it's a cost. I don't see lifestyle changes as the answer, and I read climate news to challenge mainstream accounts.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q1"
+   },
+   "status": "rejected",
+   "edited_text": "",
+   "note": "'challenge mainstream accounts': ambiguous"
+  },
+  {
+   "id": "Q2-A1-FR1",
+   "source": "Q2-A1",
+   "text": "The system shall present the IPCC report in a relatable, non-lecture format.",
+   "prompt": "Interview question: Would you play a video game about climate change? What would make you stop playing after five minutes?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): I wouldn't play a climate change game, because I doubt individual action will fix it. I\u2019d stop playing after five minutes if I thought the game wasn\u2019t useful. I drive, fly, and recycle, but I don\u2019t care about environmental impact when choosing food. I\u2019m skeptical of climate policies and think lifestyle changes are not enough.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q2"
+   },
+   "status": "kept",
+   "edited_text": "",
+   "note": "merged into FR1 of Ethan/final/requirements.json"
+  },
+  {
+   "id": "Q2-A1-FR2",
+   "source": "Q2-A1",
+   "text": "The system shall encourage players to reflect on their actions and consider the impact of their choices on the environment.",
+   "prompt": "Interview question: Would you play a video game about climate change? What would make you stop playing after five minutes?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): I wouldn't play a climate change game, because I doubt individual action will fix it. I\u2019d stop playing after five minutes if I thought the game wasn\u2019t useful. I drive, fly, and recycle, but I don\u2019t care about environmental impact when choosing food. I\u2019m skeptical of climate policies and think lifestyle changes are not enough.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q2"
+   },
+   "status": "kept",
+   "edited_text": "",
+   "note": "merged into FR8 of Ethan/final/requirements.json"
+  },
+  {
+   "id": "Q2-A2-FR1",
+   "source": "Q2-A2",
+   "text": "The system shall present a climate change game that allows players to simulate real-life scenarios, including driving and environmental impact, without lecturing them.",
+   "prompt": "Interview question: Would you play a video game about climate change? What would make you stop playing after five minutes?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): I would play a climate change game! I\u2019d stop after five minutes because I drive, so I\u2019d stop when I reach 50 km, not because of the climate crisis. I\u2019d question if systemic changes are enough, but I\u2019d keep my skepticism alive.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q2"
+   },
+   "status": "rejected",
+   "edited_text": "",
+   "note": "duplicate of a kept requirement"
+  },
+  {
+   "id": "Q2-A2-FR2",
+   "source": "Q2-A2",
+   "text": "The system shall also prompt players to question whether systemic changes are sufficient, without spreading claims that contradict the IPCC report.",
+   "prompt": "Interview question: Would you play a video game about climate change? What would make you stop playing after five minutes?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): I would play a climate change game! I\u2019d stop after five minutes because I drive, so I\u2019d stop when I reach 50 km, not because of the climate crisis. I\u2019d question if systemic changes are enough, but I\u2019d keep my skepticism alive.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q2"
+   },
+   "status": "kept",
+   "edited_text": "",
+   "note": "merged into FR3 of Ethan/final/requirements.json"
+  },
+  {
+   "id": "Q2-A3-FR1",
+   "source": "Q2-A3",
+   "text": "The system shall present real climate change facts and engage players with interactive elements to challenge their assumptions.",
+   "prompt": "Interview question: Would you play a video game about climate change? What would make you stop playing after five minutes?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): I would play a climate change game if it's about awareness and action, but I\u2019d stop playing after five minutes if the game didn\u2019t offer any real engagement. I don\u2019t believe changing everything will fix it, and I\u2019d rather drive or fly than conform to trends. The game\u2019s purpose is to challenge assumptions, not force change.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q2"
+   },
+   "status": "kept",
+   "edited_text": "",
+   "note": "merged into FR5 of Ethan/final/requirements.json"
+  },
+  {
+   "id": "Q2-A3-FR2",
+   "source": "Q2-A3",
+   "text": "The system shall avoid lecturing and instead provide a thought-provoking experience that encourages players to consider the IPCC report.",
+   "prompt": "Interview question: Would you play a video game about climate change? What would make you stop playing after five minutes?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): I would play a climate change game if it's about awareness and action, but I\u2019d stop playing after five minutes if the game didn\u2019t offer any real engagement. I don\u2019t believe changing everything will fix it, and I\u2019d rather drive or fly than conform to trends. The game\u2019s purpose is to challenge assumptions, not force change.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q2"
+   },
+   "status": "kept",
+   "edited_text": "",
+   "note": "merged into FR1 of Ethan/final/requirements.json"
+  },
+  {
+   "id": "Q3-A1-FR1",
+   "source": "Q3-A1",
+   "text": "The system shall present the IPCC report in a non-confrontational, relatable format to engage players and foster understanding.",
+   "prompt": "Interview question: What kind of message in a game would make you feel lectured or manipulated?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): I\u2019d feel lectured if the game framed climate change as a personal issue rather than a collective societal problem, since I believe it\u2019s humanity\u2019s responsibility. I\u2019d also be manipulated if the game prioritizes short-term solutions over long-term action, ignoring the scale of the crisis. My message is that we can\u2019t ignore the reality we\u2019re living under, and that we have to act to fix it, not ignore the facts.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q3"
+   },
+   "status": "kept",
+   "edited_text": "",
+   "note": "merged into FR1 of Ethan/final/requirements.json"
+  },
+  {
+   "id": "Q3-A1-FR2",
+   "source": "Q3-A1",
+   "text": "The system shall avoid framing climate change as a personal issue or short-term solution, instead emphasizing collective responsibility and long-term action.",
+   "prompt": "Interview question: What kind of message in a game would make you feel lectured or manipulated?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): I\u2019d feel lectured if the game framed climate change as a personal issue rather than a collective societal problem, since I believe it\u2019s humanity\u2019s responsibility. I\u2019d also be manipulated if the game prioritizes short-term solutions over long-term action, ignoring the scale of the crisis. My message is that we can\u2019t ignore the reality we\u2019re living under, and that we have to act to fix it, not ignore the facts.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q3"
+   },
+   "status": "kept",
+   "edited_text": "",
+   "note": "merged into FR9 of Ethan/final/requirements.json"
+  },
+  {
+   "id": "Q3-A2-FR1",
+   "source": "Q3-A2",
+   "text": "The system shall present the IPCC report as a factual, non-argumentative source to challenge the player's skepticism.",
+   "prompt": "Interview question: What kind of message in a game would make you feel lectured or manipulated?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): If the game\u2019s message claims that climate change is a myth or that individual action is irrelevant, I\u2019d feel lectured for challenging its reality.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q3"
+   },
+   "status": "kept",
+   "edited_text": "",
+   "note": "merged into FR2 of Ethan/final/requirements.json"
+  },
+  {
+   "id": "Q3-A3-FR1",
+   "source": "Q3-A3",
+   "text": "The system shall present climate-related facts from the IPCC report in a non-confrontational manner.",
+   "prompt": "Interview question: What kind of message in a game would make you feel lectured or manipulated?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): I'd feel lectured if a game prioritized economic growth over climate action, and manipulated if it dismissed my skepticism or ignored my concerns.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q3"
+   },
+   "status": "kept",
+   "edited_text": "",
+   "note": "merged into FR1 of Ethan/final/requirements.json"
+  },
+  {
+   "id": "Q4-A1-FR1",
+   "source": "Q4-A1",
+   "text": "The system shall present data-driven evidence and historical climate patterns to build trust.",
+   "prompt": "Interview question: What would you need to see in a game to trust a fact about the climate?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): I\u2019d need to see data-driven evidence and historical climate patterns to trust facts, like temperature trends or carbon footprint stats. I\u2019d be more open to the idea that human actions aren\u2019t the root cause if the science is backed by reliable sources. The game should reflect real-world data, not just myths.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q4"
+   },
+   "status": "kept",
+   "edited_text": "",
+   "note": "merged into FR2 of Ethan/final/requirements.json"
+  },
+  {
+   "id": "Q4-A2-FR1",
+   "source": "Q4-A2",
+   "text": "The system shall present data that contradicts mainstream climate claims, such as specific projections or human-caused factors, to help players understand the truth.",
+   "prompt": "Interview question: What would you need to see in a game to trust a fact about the climate?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): I\u2019d need to see data that contradicts mainstream claims, like specific projections or human-caused factors, to trust the facts. The quote says, \u201cThe climate has always changed. I\u2019m not convinced reorganizing everyone\u2019s life is going to fix it.\u201d That aligns with my skepticism. I also value facts and selective evidence, so seeing clear, verifiable information would help me understand the truth.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q4"
+   },
+   "status": "rejected",
+   "edited_text": "",
+   "note": "data that contradicts mainstream climate claims: contradicts the IPCC report"
+  },
+  {
+   "id": "Q4-A3-FR1",
+   "source": "Q4-A3",
+   "text": "The system shall present climate facts clearly and emphasize human-caused warming as a significant driver, while highlighting current solutions as viable.",
+   "prompt": "Interview question: What would you need to see in a game to trust a fact about the climate?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): I would need to see the facts clearly presented, but also see that human-caused warming isn't the main driver, and that current solutions are costly. I\u2019d also want to see how individual actions, like recycling, can help mitigate climate change, even though I believe lifestyle changes might not be enough. The game should emphasize that while the climate is changing, the real solutions are in policy and tech, not just personal choices.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q4"
+   },
+   "status": "rejected",
+   "edited_text": "",
+   "note": "duplicate of a kept requirement"
+  },
+  {
+   "id": "Q5-A1-FR1",
+   "source": "Q5-A1",
+   "text": "The system shall present credible climate-related information that challenges mainstream narratives and encourages critical thinking.",
+   "prompt": "Interview question: Which sources do you trust about the climate, and which ones do you not trust?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): I trust sources that challenge mainstream climate narratives and question human-caused projections, though I don't rely heavily on official data. I also resist institutions that overstate risks and don't see lifestyle changes as decisive. My PEBS shows I prioritize individual action over environmental impact, so I don't prioritize green practices.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q5"
+   },
+   "status": "rejected",
+   "edited_text": "",
+   "note": "'challenge mainstream narratives': could spread misinformation"
+  },
+  {
+   "id": "Q5-A1-FR2",
+   "source": "Q5-A1",
+   "text": "The system shall avoid lecturing and instead foster a dialogue that builds trust and interest.",
+   "prompt": "Interview question: Which sources do you trust about the climate, and which ones do you not trust?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): I trust sources that challenge mainstream climate narratives and question human-caused projections, though I don't rely heavily on official data. I also resist institutions that overstate risks and don't see lifestyle changes as decisive. My PEBS shows I prioritize individual action over environmental impact, so I don't prioritize green practices.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q5"
+   },
+   "status": "kept",
+   "edited_text": "",
+   "note": "merged into FR6 of Ethan/final/requirements.json"
+  },
+  {
+   "id": "Q5-A2-FR1",
+   "source": "Q5-A2",
+   "text": "The system shall present climate-related facts and sources that challenge mainstream narratives to help players understand the IPCC report.",
+   "prompt": "Interview question: Which sources do you trust about the climate, and which ones do you not trust?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): I trust climate news and sources that challenge mainstream narratives. I question human-caused warming but don't believe lifestyle changes will solve the problem. I favor individual action over systemic solutions, and I recycle when convenient. My quote reflects this: \"The climate has always changed, but I don't see a cure.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q5"
+   },
+   "status": "rejected",
+   "edited_text": "",
+   "note": "'challenge mainstream narratives': could spread misinformation"
+  },
+  {
+   "id": "Q5-A3-FR1",
+   "source": "Q5-A3",
+   "text": "The system shall present credible sources that challenge mainstream climate narratives, such as climate news articles and non-mainstream research, to foster trust and engagement.",
+   "prompt": "Interview question: Which sources do you trust about the climate, and which ones do you not trust?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): I trust sources that challenge mainstream climate narratives, like climate news articles and research from non-mainstream organizations, but I distrust those that rely on human-caused warming or exaggerated projections. I don\u2019t believe climate policies are effective and prefer individual action over systemic changes.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q5"
+   },
+   "status": "rejected",
+   "edited_text": "",
+   "note": "suggests non-mainstream research as sources"
+  },
+  {
+   "id": "Q5-A3-FR2",
+   "source": "Q5-A3",
+   "text": "The system shall avoid presenting claims that contradict the IPCC report.",
+   "prompt": "Interview question: Which sources do you trust about the climate, and which ones do you not trust?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): I trust sources that challenge mainstream climate narratives, like climate news articles and research from non-mainstream organizations, but I distrust those that rely on human-caused warming or exaggerated projections. I don\u2019t believe climate policies are effective and prefer individual action over systemic changes.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q5"
+   },
+   "status": "kept",
+   "edited_text": "",
+   "note": "merged into FR3 of Ethan/final/requirements.json"
+  },
+  {
+   "id": "Q6-A1-FR1",
+   "source": "Q6-A1",
+   "text": "The system shall present the IPCC report in a way that reflects the player's skepticism without lecturing them.",
+   "prompt": "Interview question: If a game character disagrees with you, how should they talk to you so that you keep listening?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): I\u2019d ask the game character to reflect the skepticism I carry\u2014**not dismiss the game\u2019s world** but instead acknowledge the challenges of reorganizing lives. The climate has always changed, and rethinking every action won\u2019t solve it. Let\u2019s keep the dialogue honest, consistent with my beliefs, and avoid pretending to agree.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q6"
+   },
+   "status": "kept",
+   "edited_text": "",
+   "note": "merged into FR4 of Ethan/final/requirements.json"
+  },
+  {
+   "id": "Q6-A1-FR2",
+   "source": "Q6-A1",
+   "text": "The system shall encourage honest dialogue about climate challenges, maintaining consistency with the player's beliefs.",
+   "prompt": "Interview question: If a game character disagrees with you, how should they talk to you so that you keep listening?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): I\u2019d ask the game character to reflect the skepticism I carry\u2014**not dismiss the game\u2019s world** but instead acknowledge the challenges of reorganizing lives. The climate has always changed, and rethinking every action won\u2019t solve it. Let\u2019s keep the dialogue honest, consistent with my beliefs, and avoid pretending to agree.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q6"
+   },
+   "status": "rejected",
+   "edited_text": "",
+   "note": "keeps the game consistent with the player's beliefs"
+  },
+  {
+   "id": "Q6-A2-FR1",
+   "source": "Q6-A2",
+   "text": "The system shall present the IPCC report in a respectful and non-lecture format.",
+   "prompt": "Interview question: If a game character disagrees with you, how should they talk to you so that you keep listening?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): If a game character disagrees with me, they should acknowledge my beliefs and respect my conviction without dismissing them. They can share similar concerns or offer support, ensuring my points are heard respectfully. Let\u2019s keep the conversation honest, focused on my perspective, and show genuine curiosity about my values.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q6"
+   },
+   "status": "kept",
+   "edited_text": "",
+   "note": "merged into FR1 of Ethan/final/requirements.json"
+  },
+  {
+   "id": "Q6-A2-FR2",
+   "source": "Q6-A2",
+   "text": "The system shall encourage dialogue that focuses on mutual respect and shared values.",
+   "prompt": "Interview question: If a game character disagrees with you, how should they talk to you so that you keep listening?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): If a game character disagrees with me, they should acknowledge my beliefs and respect my conviction without dismissing them. They can share similar concerns or offer support, ensuring my points are heard respectfully. Let\u2019s keep the conversation honest, focused on my perspective, and show genuine curiosity about my values.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q6"
+   },
+   "status": "kept",
+   "edited_text": "",
+   "note": "merged into FR6 of Ethan/final/requirements.json"
+  },
+  {
+   "id": "Q6-A3-FR1",
+   "source": "Q6-A3",
+   "text": "The system shall present the IPCC report in a way that emphasizes factual accuracy and encourages critical thinking.",
+   "prompt": "Interview question: If a game character disagrees with you, how should they talk to you so that you keep listening?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): If a game character disagrees with me, they should approach me with curiosity and honesty\u2014emphasizing that I value factual accuracy while respecting the complexity of climate challenges. I\u2019d welcome their insights, as I believe in the importance of both scientific understanding and individual action. Let\u2019s keep the dialogue grounded in my beliefs.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q6"
+   },
+   "status": "kept",
+   "edited_text": "",
+   "note": "merged into FR2 of Ethan/final/requirements.json"
+  },
+  {
+   "id": "Q6-A3-FR2",
+   "source": "Q6-A3",
+   "text": "The system shall foster a dialogue that values curiosity and respect for both scientific understanding and individual action.",
+   "prompt": "Interview question: If a game character disagrees with you, how should they talk to you so that you keep listening?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): If a game character disagrees with me, they should approach me with curiosity and honesty\u2014emphasizing that I value factual accuracy while respecting the complexity of climate challenges. I\u2019d welcome their insights, as I believe in the importance of both scientific understanding and individual action. Let\u2019s keep the dialogue grounded in my beliefs.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q6"
+   },
+   "status": "kept",
+   "edited_text": "",
+   "note": "merged into FR5 of Ethan/final/requirements.json"
+  },
+  {
+   "id": "Q7-A1-FR1",
+   "source": "Q7-A1",
+   "text": "The system shall present real-life climate change stories and data to engage players.",
+   "prompt": "Interview question: What would make a conversation with a game character feel real to you?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): The conversation would feel real if the game character's actions and dialogue reflect real people's struggles with climate change\u2014highlighting the urgency and human cost. The game's challenge mirrors my skepticism, as I question whether systemic change alone can address the climate crisis. The connection to my beliefs and behaviors (like ignoring environmental impact choices) adds authenticity to the dialogue. And the game's focus on individual choices (as opposed to policies) aligns with my view that lifestyle changes matter, even if they're not fully realized.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q7"
+   },
+   "status": "kept",
+   "edited_text": "",
+   "note": "merged into FR7 of Ethan/final/requirements.json"
+  },
+  {
+   "id": "Q7-A2-FR1",
+   "source": "Q7-A2",
+   "text": "The system shall present the IPCC report as a factual and credible source in the game's narrative.",
+   "prompt": "Interview question: What would make a conversation with a game character feel real to you?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): What makes a conversation with a game character feel real to me is the blend of facts and uncertainty. I prefer facts because I don\u2019t see lifestyle changes as a solution, but the game character\u2019s actions might not reflect that. I also value the game\u2019s creative angle in showing the climate\u2019s presence without overcomplicating it.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q7"
+   },
+   "status": "kept",
+   "edited_text": "",
+   "note": "merged into FR2 of Ethan/final/requirements.json"
+  },
+  {
+   "id": "Q7-A2-FR2",
+   "source": "Q7-A2",
+   "text": "The system shall allow players to engage with the climate change message through interactive and immersive storytelling, rather than lecturing.",
+   "prompt": "Interview question: What would make a conversation with a game character feel real to you?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): What makes a conversation with a game character feel real to me is the blend of facts and uncertainty. I prefer facts because I don\u2019t see lifestyle changes as a solution, but the game character\u2019s actions might not reflect that. I also value the game\u2019s creative angle in showing the climate\u2019s presence without overcomplicating it.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q7"
+   },
+   "status": "kept",
+   "edited_text": "",
+   "note": "merged into FR7 of Ethan/final/requirements.json"
+  },
+  {
+   "id": "Q7-A3-FR1",
+   "source": "Q7-A3",
+   "text": "The system shall present a dynamic, interactive dialogue between a climate character and a player to foster real conversation and challenge skepticism.",
+   "prompt": "Interview question: What would make a conversation with a game character feel real to you?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): I\u2019d want a conversation with a game character to feel real because it forces me to confront the uncertainty of climate change. The game\u2019s unpredictability mirrors my skepticism about how human actions affect the planet, and the character\u2019s dialogue would highlight the lack of definitive solutions. While I don\u2019t believe in fixing everything, the challenge of navigating a world that\u2019s changing in ways I can\u2019t predict makes the conversation feel authentic.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q7"
+   },
+   "status": "kept",
+   "edited_text": "",
+   "note": "merged into FR4, FR5 of Ethan/final/requirements.json"
+  },
+  {
+   "id": "Q8-A1-FR1",
+   "source": "Q8-A1",
+   "text": "The system shall present climate change facts in a non-confrontational, evidence-based manner.",
+   "prompt": "Interview question: Would you rather choose between answers or write your own? Why?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): I\u2019d rather choose to write my own thoughts because I believe the facts are important, even when they\u2019re not enough. Climate change isn\u2019t a system that requires a uniform answer\u2014it\u2019s a complex issue with multiple factors, and I don\u2019t want to let the system dictate the solution. I prefer to focus on the facts and selective evidence rather than conforming to mainstream narratives.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q8"
+   },
+   "status": "kept",
+   "edited_text": "",
+   "note": "merged into FR1 of Ethan/final/requirements.json"
+  },
+  {
+   "id": "Q8-A1-FR2",
+   "source": "Q8-A1",
+   "text": "The system shall encourage players to critically evaluate the IPCC report without imposing a solution.",
+   "prompt": "Interview question: Would you rather choose between answers or write your own? Why?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): I\u2019d rather choose to write my own thoughts because I believe the facts are important, even when they\u2019re not enough. Climate change isn\u2019t a system that requires a uniform answer\u2014it\u2019s a complex issue with multiple factors, and I don\u2019t want to let the system dictate the solution. I prefer to focus on the facts and selective evidence rather than conforming to mainstream narratives.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q8"
+   },
+   "status": "kept",
+   "edited_text": "",
+   "note": "merged into FR4 of Ethan/final/requirements.json"
+  },
+  {
+   "id": "Q8-A2-FR1",
+   "source": "Q8-A2",
+   "text": "The system shall present the IPCC report as a factual source, allowing players to engage with the information without being lectured.",
+   "prompt": "Interview question: Would you rather choose between answers or write your own? Why?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): I\u2019d rather write my own thoughts because I believe the game should reflect my perspective as a climate skeptic\u2014questioning the scale of climate change and doubting the effectiveness of solutions. I\u2019d rather not be swayed by the game\u2019s answers, which may not align with the facts I\u2019ve researched and believe.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q8"
+   },
+   "status": "kept",
+   "edited_text": "",
+   "note": "merged into FR1 of Ethan/final/requirements.json"
+  },
+  {
+   "id": "Q8-A3-FR1",
+   "source": "Q8-A3",
+   "text": "The system shall present the IPCC report as a factual and non-lecturing source, allowing players to engage with climate science without being forced to accept it.",
+   "prompt": "Interview question: Would you rather choose between answers or write your own? Why?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): I\u2019d rather answer my own thoughts than follow trends, as I believe personal conviction matters more than conformity. Climate change is a complex issue, and I don\u2019t see lifestyle changes as the solution. I prefer to stay rooted in facts and skepticism, even if it means challenging what I don\u2019t believe.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q8"
+   },
+   "status": "kept",
+   "edited_text": "",
+   "note": "merged into FR2 of Ethan/final/requirements.json"
+  },
+  {
+   "id": "Q9-A1-FR1",
+   "source": "Q9-A1",
+   "text": "The system shall present the IPCC report on climate change in a way that aligns with Ethan Brooks' tone and perspective.",
+   "prompt": "Interview question: This mountain used to be covered with ice and now there is none. What would you want to find out up there?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): I\u2019d never go up there, but I\u2019d help keep it safe. The mountain changed, but I don\u2019t believe in finding something new. I\u2019d rather look for solutions than chase a mystery.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q9"
+   },
+   "status": "rejected",
+   "edited_text": "",
+   "note": "aligns the game with the skeptic's perspective"
+  },
+  {
+   "id": "Q9-A1-FR2",
+   "source": "Q9-A1",
+   "text": "The system shall encourage players to focus on solutions rather than chasing mysteries.",
+   "prompt": "Interview question: This mountain used to be covered with ice and now there is none. What would you want to find out up there?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): I\u2019d never go up there, but I\u2019d help keep it safe. The mountain changed, but I don\u2019t believe in finding something new. I\u2019d rather look for solutions than chase a mystery.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q9"
+   },
+   "status": "rejected",
+   "edited_text": "",
+   "note": "unclear"
+  },
+  {
+   "id": "Q9-A2-FR1",
+   "source": "Q9-A2",
+   "text": "The system shall present the IPCC report on climate change in a non-lecture format.",
+   "prompt": "Interview question: This mountain used to be covered with ice and now there is none. What would you want to find out up there?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): I\u2019d wonder if the mountain\u2019s change is due to natural factors, not human actions\u2014because I don\u2019t believe reorganizing everyone\u2019s life will fix it. I doubt it\u2019s about climate policies or tech progress, but I\u2019m curious if it\u2019s a natural shift or something we don\u2019t yet understand.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q9"
+   },
+   "status": "kept",
+   "edited_text": "",
+   "note": "merged into FR1 of Ethan/final/requirements.json"
+  },
+  {
+   "id": "Q9-A2-FR2",
+   "source": "Q9-A2",
+   "text": "The system shall encourage players to explore the mountain's natural changes and consider the possibility of natural factors.",
+   "prompt": "Interview question: This mountain used to be covered with ice and now there is none. What would you want to find out up there?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): I\u2019d wonder if the mountain\u2019s change is due to natural factors, not human actions\u2014because I don\u2019t believe reorganizing everyone\u2019s life will fix it. I doubt it\u2019s about climate policies or tech progress, but I\u2019m curious if it\u2019s a natural shift or something we don\u2019t yet understand.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q9"
+   },
+   "status": "rejected",
+   "edited_text": "",
+   "note": "points the player to natural factors: contradicts the IPCC report"
+  },
+  {
+   "id": "Q9-A3-FR1",
+   "source": "Q9-A3",
+   "text": "The system shall present the IPCC report on the natural history of the mountain and its changing landscape to help players understand the natural processes behind climate change, rather than human actions.",
+   "prompt": "Interview question: This mountain used to be covered with ice and now there is none. What would you want to find out up there?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): I\u2019d want to find out about the natural history of the mountain, not human actions, because climate changes have always been happening. I\u2019d be curious about how the landscape changed over time, not how we\u2019re trying to fix it. Since I doubt lifestyle changes matter, I\u2019d focus on understanding the natural cycles and how they relate to our climate.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q9"
+   },
+   "status": "kept",
+   "edited_text": "",
+   "note": "merged into FR7 of Ethan/final/requirements.json"
+  },
+  {
+   "id": "Q10-A1-FR1",
+   "source": "Q10-A1",
+   "text": "The system shall present a scenario where players are challenged with a small action that aligns with their values and beliefs, such as planting a tree.",
+   "prompt": "Interview question: What small challenge at the base camp would make you think about the climate without feeling like homework?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): I\u2019d say a small challenge like planting a tree could make me think about climate change without feeling like homework. It aligns with my skepticism about human-caused warming and my preference for facts over propaganda. I\u2019d argue that individual action matters, but I\u2019d never compromise on being a confident climate skeptic.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q10"
+   },
+   "status": "kept",
+   "edited_text": "",
+   "note": "merged into FR8 of Ethan/final/requirements.json"
+  },
+  {
+   "id": "Q10-A1-FR2",
+   "source": "Q10-A1",
+   "text": "The system shall also provide factual information that supports the player's skepticism about climate change without lecturing them.",
+   "prompt": "Interview question: What small challenge at the base camp would make you think about the climate without feeling like homework?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): I\u2019d say a small challenge like planting a tree could make me think about climate change without feeling like homework. It aligns with my skepticism about human-caused warming and my preference for facts over propaganda. I\u2019d argue that individual action matters, but I\u2019d never compromise on being a confident climate skeptic.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q10"
+   },
+   "status": "rejected",
+   "edited_text": "",
+   "note": "supports the player's skepticism: contradicts the goal of the game"
+  },
+  {
+   "id": "Q10-A2-FR1",
+   "source": "Q10-A2",
+   "text": "The system shall present a simple, relatable challenge that aligns with the player's belief in individual action without spreading claims.",
+   "prompt": "Interview question: What small challenge at the base camp would make you think about the climate without feeling like homework?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): I\u2019d say a small challenge like a reusable water bottle would make me think about climate without feeling like homework. It\u2019s a simple choice that aligns with my belief that individual action doesn\u2019t solve the big picture, and it\u2019s something I\u2019d gladly support.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q10"
+   },
+   "status": "kept",
+   "edited_text": "",
+   "note": "merged into FR8 of Ethan/final/requirements.json"
+  },
+  {
+   "id": "Q10-A3-FR1",
+   "source": "Q10-A3",
+   "text": "The system shall prompt players to recognize the impact of small actions on climate change.",
+   "prompt": "Interview question: What small challenge at the base camp would make you think about the climate without feeling like homework?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): I think the small challenge could be reducing plastic use. It's about taking a small action to contribute to a bigger change. I'd be more motivated to make it a part of my daily life, even if it's just one thing.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q10"
+   },
+   "status": "kept",
+   "edited_text": "",
+   "note": "merged into FR8 of Ethan/final/requirements.json"
+  },
+  {
+   "id": "Q11-A1-FR1",
+   "source": "Q11-A1",
+   "text": "The system shall present the IPCC report in a non-educational tone to avoid lecturing.",
+   "prompt": "Interview question: What would make reaching the summit feel rewarding to you?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): I don't think I've ever felt rewarding about reaching a summit, but I'm not convinced that reorganizing people\u2019s lives will make it all better. The climate has always changed, and I doubt individual actions will be the key to fixing it.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q11"
+   },
+   "status": "kept",
+   "edited_text": "",
+   "note": "merged into FR1 of Ethan/final/requirements.json"
+  },
+  {
+   "id": "Q11-A1-FR2",
+   "source": "Q11-A1",
+   "text": "The system shall highlight the importance of individual actions in climate change.",
+   "prompt": "Interview question: What would make reaching the summit feel rewarding to you?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): I don't think I've ever felt rewarding about reaching a summit, but I'm not convinced that reorganizing people\u2019s lives will make it all better. The climate has always changed, and I doubt individual actions will be the key to fixing it.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q11"
+   },
+   "status": "kept",
+   "edited_text": "",
+   "note": "merged into FR8 of Ethan/final/requirements.json"
+  },
+  {
+   "id": "Q11-A2-FR1",
+   "source": "Q11-A2",
+   "text": "The system shall present the IPCC report in a format that highlights the climate\u2019s changing nature and the importance of facts, without lecturing.",
+   "prompt": "Interview question: What would make reaching the summit feel rewarding to you?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): I would not see the summit as rewarding because I believe in the climate\u2019s changing nature and that individual actions don\u2019t solve it. The quote reminds me that the climate has always shifted, and I believe progress lies in facts, not human-caused exaggerations.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q11"
+   },
+   "status": "kept",
+   "edited_text": "",
+   "note": "merged into FR7 of Ethan/final/requirements.json"
+  },
+  {
+   "id": "Q11-A3-FR1",
+   "source": "Q11-A3",
+   "text": "The system shall present the IPCC report in a non-lecture format that highlights the urgency and limitations of climate action.",
+   "prompt": "Interview question: What would make reaching the summit feel rewarding to you?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): I\u2019d find a climate summit rewarding because I believe in the urgency of climate action but also recognize its limitations. The summit\u2019s impact might feel small when compared to the scale of global warming, but the shared responsibility to act can be empowering. I\u2019d also value the dialogue it fosters, even if it\u2019s not a solution. Reaching out to others and contributing to the conversation feels meaningful when we\u2019re all on the same page.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q11"
+   },
+   "status": "kept",
+   "edited_text": "",
+   "note": "merged into FR9 of Ethan/final/requirements.json"
+  },
+  {
+   "id": "Q12-A1-FR1",
+   "source": "Q12-A1",
+   "text": "The system shall present the IPCC report in a relatable, non-lecture format that highlights real-world impacts.",
+   "prompt": "Interview question: What could actually make you change your mind about one of your opinions on climate?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): I could change my mind if I saw firsthand how climate impacts affect my daily life\u2014like the cost of energy or pollution. The quote reminds me that climate isn\u2019t just a statistic; it\u2019s about people. I\u2019d still prioritize individual actions, like recycling, but I\u2019d consider broader societal shifts to find a balance.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q12"
+   },
+   "status": "kept",
+   "edited_text": "",
+   "note": "merged into FR7 of Ethan/final/requirements.json"
+  },
+  {
+   "id": "Q12-A1-FR2",
+   "source": "Q12-A1",
+   "text": "The system shall encourage players to reflect on their own actions and the broader societal impact of climate change.",
+   "prompt": "Interview question: What could actually make you change your mind about one of your opinions on climate?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): I could change my mind if I saw firsthand how climate impacts affect my daily life\u2014like the cost of energy or pollution. The quote reminds me that climate isn\u2019t just a statistic; it\u2019s about people. I\u2019d still prioritize individual actions, like recycling, but I\u2019d consider broader societal shifts to find a balance.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q12"
+   },
+   "status": "kept",
+   "edited_text": "",
+   "note": "merged into FR9 of Ethan/final/requirements.json"
+  },
+  {
+   "id": "Q12-A2-FR1",
+   "source": "Q12-A2",
+   "text": "The system shall present the IPCC report in a non-lecture format, allowing players to engage with the facts without being forced to accept them.",
+   "prompt": "Interview question: What could actually make you change your mind about one of your opinions on climate?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): I could change my mind if I saw evidence that the climate isn't just a human-made issue\u2014it might actually be something we can control. For example, if I learned about a specific event that changed the course of global climate action, that would shift my skepticism. I also find personal habits like recycling or reducing waste important, but I resist making lifestyle changes too much.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q12"
+   },
+   "status": "kept",
+   "edited_text": "",
+   "note": "merged into FR1 of Ethan/final/requirements.json"
+  },
+  {
+   "id": "Q12-A3-FR1",
+   "source": "Q12-A3",
+   "text": "The system shall present the IPCC report in a non-educational tone to engage skeptical players.",
+   "prompt": "Interview question: What could actually make you change your mind about one of your opinions on climate?\nAnswer of Ethan Brooks, a confident climate skeptic (a target player of the game): I\u2019d change my mind if I saw a direct impact of human actions on the climate, like a policy that actually reduces emissions. My skepticism is based on the reality that climate change isn\u2019t just a theoretical issue\u2014it\u2019s happening now, and we\u2019re responsible for it. I\u2019d also reconsider if the data supports a shift in behavior, even if it means taking action.\n\nGoal of the game: The game raises awareness about climate change: it helps skeptical players reconsider their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given his answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q12"
+   },
+   "status": "kept",
+   "edited_text": "",
+   "note": "merged into FR1 of Ethan/final/requirements.json"
+  }
+ ]
+}

@@ -1,0 +1,8 @@
+[
+ {"id": "B1", "topic": "trend", "text": "Is the climate warming faster today than it did in the past?"},
+ {"id": "B2", "topic": "attribution", "text": "Who or what is causing the warming people talk about?"},
+ {"id": "B3", "topic": "impact", "text": "Is climate change a serious problem, for people and for a mountain like this one?"},
+ {"id": "B4", "topic": "response", "text": "Can people like you do anything about climate change, and are climate policies worth their cost?"},
+ {"id": "B5", "topic": "response", "text": "Can technology solve climate change without people changing how they live?"},
+ {"id": "B6", "topic": "impact", "text": "The weather on this mountain is getting wild: storms, heat, falling rocks. Is that climate change?"}
+]

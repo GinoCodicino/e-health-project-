@@ -1,0 +1,15 @@
+MURI SOSTITUTIVI PER LE DUE BAITE IN PIETRA E LEGNO
+Stessa muratura del mulino v3: grandi pietre sfaccettate, rilievo 5-9 cm, tre grigi e nucleo continuo. Materiali a colori pieni: non texture fotografica. Normali esplicite.
+
+BAITA GRANDE: corpo 10 x 8 m, muri piano terra da Y=0 a Y=2.7. Compatibile geometricamente con la versione iniziale e la v2 con tetto in pietra.
+BAITA COMPATTA: corpo 7 x 6 m, muri piano terra da Y=0 a Y=2.4.
+Fronte -Z, Y verticale. Non includono piani interrati o frontoni, perche quelli originali sono in legno.
+
+IMPORTAZIONE
+Estrarre e copiare insieme OBJ e relativo MTL in Assets. Duplicare prima le baite nella scena come backup.
+Nella baita grande disattivare SOLO GroundFloor e tutti gli Stonework.
+Nella baita compatta disattivare SOLO GroundFloor e tutti gli Stonework.
+I nomi possono avere suffissi numerici. NON disattivare UpperFloor, TimberPlanks, HorizontalBoards, Gables, gradini o altri dettagli.
+Inserire la muratura corretta sotto lo stesso contenitore e copiare il Transform locale del vecchio modello (non quello di una finestra). Se il vecchio modello e a posizione e rotazione zero e scala uno, usare gli stessi valori. Verificare la stessa scala di importazione.
+Per modificare figli di un prefab puo servire Unpack Prefab. Conservare finestre, porta, tetto e balconi originali.
+Modelli pieni solo per esterni, senza aperture visitabili, collider o UV per texture; nessun tetto o accessorio incluso. URP/HDRP puo richiedere conversione o riassegnazione dei materiali.

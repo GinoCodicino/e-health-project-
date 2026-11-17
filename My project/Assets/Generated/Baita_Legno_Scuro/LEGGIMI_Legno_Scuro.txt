@@ -1,0 +1,7 @@
+BAITA IN LEGNO SCURO - LOW POLY
+Due piani; corpo 7.6 x 6.4 m; colmo circa 6.9 m; tetto 9.1 x 7.9 m.
+Rivestimento interamente in legno scuro, inclusi piano terra, gradini e copertura a scandole di legno. Nessun basamento in pietra o camino.
+Balcone corto a destra, ingresso centrale con piccola pensilina senza colonne a terra.
+Y verticale, base Y=0, fronte -Z. Solo esterni; nessun interno, collider o terreno.
+Estrarre lo ZIP e importare OBJ e MTL insieme nella stessa cartella Assets in Unity.
+Materiali a colori pieni senza texture; in URP/HDRP potrebbe servire convertire o riassegnare i materiali. Non e un prefab o unitypackage.

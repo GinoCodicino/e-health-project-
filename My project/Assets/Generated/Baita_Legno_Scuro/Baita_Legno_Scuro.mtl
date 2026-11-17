@@ -1,0 +1,70 @@
+newmtl Timber
+Kd 0.230 0.105 0.045
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl TimberWarm
+Kd 0.310 0.145 0.055
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl TimberDark
+Kd 0.130 0.055 0.022
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Frame
+Kd 0.105 0.043 0.018
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Glass
+Kd 0.130 0.390 0.480
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Iron
+Kd 0.120 0.130 0.140
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Shingle0
+Kd 0.140 0.068 0.029
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Shingle1
+Kd 0.158 0.077 0.033
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Shingle2
+Kd 0.176 0.086 0.037
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Shingle3
+Kd 0.194 0.095 0.041
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+

@@ -1,0 +1,7 @@
+BAITA ALPINA COMPATTA - variante del villaggio
+Corpo 7 x 6 metri; due piani; colmo circa 6.6 m, camino circa 7.05 m.
+Ingombro massimo tetto 8.5 x 7.5 metri. Y verticale, base Y=0, fronte -Z.
+Palette coerente con baita v2, pietra al piano terra e legno sopra, tetto a lastre di pietra scura.
+Varianti: balcone corto sul lato sinistro della facciata, ingresso decentrato a destra, camino a sinistra; nessuna colonna a terra davanti alla porta.
+Modello esterno senza interni, collider, terreno o porte apribili. Colori pieni, senza texture.
+Estrarre e importare OBJ e MTL insieme nella medesima cartella Assets. Per URP/HDRP potrebbe servire convertire o riassegnare i materiali. Non e un unitypackage.

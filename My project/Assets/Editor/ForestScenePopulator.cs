@@ -996,7 +996,6 @@ public class ForestScenePopulator : EditorWindow
         List<Collider> blockers = GetColliders(mountains, false);
         Physics.SyncTransforms();
         if (ground.Count == 0) { status = "Indica Terrain e Ground con Collider attivi nella scena corrente."; return; }
-        if (blockers.Count == 0) { status = "Indica le montagne e verifica che abbiano Collider attivi aderenti alla geometria."; return; }
         foreach (GameObject mountain in mountains)
         {
             if (mountain != null && (!ValidSceneObject(mountain) ||
@@ -1004,7 +1003,6 @@ public class ForestScenePopulator : EditorWindow
             { status = "La montagna '" + mountain.name + "' non ha un Collider attivo nella scena corrente."; return; }
         }
         List<Rect> reserved = PathFootprints();
-        if (reserved.Count == 0) { status = "Indica i Path Piece o il loro contenitore per tenere libero il percorso."; return; }
 
         Category[] categories = { groundPatches, trees, rocks, grass, flowers };
         var templates = new List<Template>[categories.Length];

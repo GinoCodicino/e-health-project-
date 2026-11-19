@@ -47,8 +47,22 @@ namespace Level02.DeerRescue
         public int HitsOnBranch { get; private set; }
         public bool DressingPlaced { get; private set; }
         public int WrapSteps { get; private set; }
+
         public bool AcceptRescue()
-        { if(Stage!=RescueStage.WaitingForCrossing) return false; Stage=RescueStage.FindWoodcutter; return true; }
+        {
+            if (Stage != RescueStage.WaitingForCrossing)
+                return false;
+
+            // Il kit viene fornito direttamente per questo salvataggio.
+            giftsClaimed = true;
+            HasMedicalKit = true;
+            HasNet = false;
+            HasAxe = false;
+            Fish = 0;
+
+            Stage = RescueStage.FreeDeer;
+            return true;
+        }
         public bool AcceptFishing()
         { if(Stage!=RescueStage.FindWoodcutter || !HasNet) return false; Stage=RescueStage.CatchFish; return true; }
         public bool FinishFishing(int fish, int goal=10)
@@ -57,8 +71,13 @@ namespace Level02.DeerRescue
         { if(Stage!=RescueStage.DeliverFish || Fish<3) return false; Fish=0; HasAxe=true; Stage=RescueStage.FreeDeer; return true; }
         public bool CompleteRelease()
         {
-            if(Stage!=RescueStage.FreeDeer || !HasAxe || !HasMedicalKit) return false;
-            ClearedBranches=3; HasAxe=false; HasBandages=true; Stage=RescueStage.TreatDeer; return true;
+            if (Stage != RescueStage.FreeDeer || !HasMedicalKit)
+                return false;
+
+            ClearedBranches = 3;
+            HasBandages = true;
+            Stage = RescueStage.TreatDeer;
+            return true;
         }
         public bool CompleteCare()
         {

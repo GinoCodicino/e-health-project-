@@ -20,14 +20,14 @@ namespace Level02.DeerRescue
         [Header("Punti del terzo gioco")]
         public Transform encounterPoint;
         public Transform ranger;
-        public Transform fishingPoint;
+       
         public Transform deerPoint;
         public DeerRescueView deerView;
-        public RiverFishingGame fishingGame;
+   
         public ScrewRescueGame releaseGame;
         public BacteriaBattleGame careGame;
         [Tooltip("Trascina qui SOLO il modello dell accetta di Rowan, se separato.")]
-        public GameObject woodcutterAxe;
+       
         public string rangerName="Mia";
         public float interactionDistance=3;
         public float encounterRadius=4;
@@ -40,7 +40,7 @@ namespace Level02.DeerRescue
         BridgeQuestMarker marker;
         Camera view;
         bool encounterStarted,encounterArrived;
-        bool ownsBridgeNpc,ownsPeterNpc;
+        
         GameObject uiRoot,page;
         RectTransform canvas;
         TMP_Text speech;
@@ -57,8 +57,7 @@ namespace Level02.DeerRescue
             if(bridgeCondition==null && bridgeQuest!=null) bridgeCondition=bridgeQuest.bridge;
             if(mushroomQuest==null && bridgeQuest!=null) mushroomQuest=bridgeQuest.mushroomQuest;
             if(mushroomQuest==null) mushroomQuest=FindFirstObjectByType<ForestQuest>();
-            if(fishingGame==null) fishingGame=GetComponent<RiverFishingGame>();
-            if(fishingGame==null) fishingGame=gameObject.AddComponent<RiverFishingGame>();
+            
             if(releaseGame==null)releaseGame=GetComponent<ScrewRescueGame>();
             if(releaseGame==null)releaseGame=gameObject.AddComponent<ScrewRescueGame>();
             if(careGame==null)careGame=GetComponent<BacteriaBattleGame>();
@@ -75,8 +74,12 @@ namespace Level02.DeerRescue
         void Update()
         {
             if(player==null) return;
-            progress.GrantPeterGifts(mushroomQuest!=null && mushroomQuest.HasFishingNet && mushroomQuest.HasMedicalKit);
-            SyncNpcOwnership();
+            progress.GrantPeterGifts(
+                mushroomQuest != null &&
+                mushroomQuest.HasFishingNet &&
+                mushroomQuest.HasMedicalKit
+            );
+            
             if(bridgeQuest!=null)bridgeQuest.showLegacyInventory=false;
             equipment.Show(progress.HasAxe,progress.HasMedicalKit,progress.HasNet,progress.Fish,
                 bridgeQuest==null?0:bridgeQuest.RemainingPlanks,!IsOpen && !player.IsGameplayBlocked);
@@ -87,7 +90,7 @@ namespace Level02.DeerRescue
                 if(isTyping && Keyboard.current!=null && Keyboard.current.spaceKey.wasPressedThisFrame) ShowAll();
                 return;
             }
-            if(player.IsGameplayBlocked || fishingGame.IsOpen || releaseGame.IsOpen || careGame.IsOpen || closedFrame==Time.frameCount) { marker.Hide(); return; }
+            if(player.IsGameplayBlocked ||  releaseGame.IsOpen || careGame.IsOpen || closedFrame==Time.frameCount) { marker.Hide(); return; }
             if(progress.Stage==RescueStage.WaitingForCrossing)
             {
                 marker.Hide();
@@ -112,15 +115,10 @@ namespace Level02.DeerRescue
             if(!PressE()) return;
             switch(progress.Stage)
             {
-                case RescueStage.FindWoodcutter:
-                case RescueStage.DeliverFish:
-                    if(bridgeQuest!=null && Near(bridgeQuest.woodcutter)) TalkWoodcutter(); break;
-                case RescueStage.CatchFish:
-                    if(Near(fishingPoint) && progress.HasNet) fishingGame.Open(player,FishingFinished); break;
+                
                 case RescueStage.FreeDeer:
                     if(Near(deerPoint)) OpenRelease(); break;
-                case RescueStage.GetBandages:
-                    if(mushroomQuest!=null && mushroomQuest.CurrentStage==ForestQuest.Stage.Complete && Near(mushroomQuest.transform)) TalkPeter(); break;
+                
                 case RescueStage.TreatDeer:
                     if(Near(deerPoint)) OpenTreatment(); break;
                 case RescueStage.Complete:
@@ -128,34 +126,17 @@ namespace Level02.DeerRescue
             }
         }
         // Prende temporaneamente in carico le interazioni, mantenendo intatti gli script precedenti.
-        void SyncNpcOwnership()
-        {
-            bool active=progress.Stage!=RescueStage.WaitingForCrossing && progress.Stage!=RescueStage.Complete;
-            if(active && bridgeQuest!=null && bridgeQuest.enabled)
-            { ownsBridgeNpc=true; bridgeQuest.enabled=false; }
-            else if(!active && ownsBridgeNpc && bridgeQuest!=null)
-            { ownsBridgeNpc=false; bridgeQuest.enabled=true; }
-            bool needsPeter=progress.Stage==RescueStage.GetBandages && mushroomQuest!=null && mushroomQuest.CurrentStage==ForestQuest.Stage.Complete;
-            if(needsPeter && mushroomQuest.enabled) { ownsPeterNpc=true; mushroomQuest.enabled=false; }
-            else if(!needsPeter && ownsPeterNpc && mushroomQuest!=null) { ownsPeterNpc=false; mushroomQuest.enabled=true; }
-        }
-        void RestoreNpcOwnership()
-        {
-            if(ownsBridgeNpc && bridgeQuest!=null) bridgeQuest.enabled=true;
-            if(ownsPeterNpc && mushroomQuest!=null) mushroomQuest.enabled=true;
-            ownsBridgeNpc=false;ownsPeterNpc=false;
-        }
+        
+
         bool PressE() { return Keyboard.current!=null && Keyboard.current.eKey.wasPressedThisFrame; }
         void UpdateMarker()
         {
             Transform target=null; string text="";
             switch(progress.Stage)
             {
-                case RescueStage.FindWoodcutter: target=bridgeQuest==null ? null : bridgeQuest.woodcutter; text="Ask Rowan for an axe"; break;
-                case RescueStage.CatchFish: target=fishingPoint; text="Catch fish for Rowan"; break;
-                case RescueStage.DeliverFish: target=bridgeQuest==null ? null : bridgeQuest.woodcutter; text="Exchange fish for the axe"; break;
+                
                 case RescueStage.FreeDeer: target=deerPoint; text="Free the trapped deer"; break;
-                case RescueStage.GetBandages: target=mushroomQuest==null ? null : mushroomQuest.transform; text="Ask Peter for bandages"; break;
+                
                 case RescueStage.TreatDeer: target=deerPoint; text="Help the injured deer"; break;
             }
             marker.Show(target,text,view);
@@ -211,32 +192,49 @@ namespace Level02.DeerRescue
         }
         void ShowAll() {if(typing!=null)StopCoroutine(typing);typing=null;isTyping=false;if(speech!=null)speech.maxVisibleCharacters=int.MaxValue;}
         void Next() {if(isTyping){ShowAll();return;}if(++lineIndex<lines.Length)TypeLine();else afterLines?.Invoke();}
+
         void Intro()
         {
-            Speak(rangerName,new[]{"Please, can you help? A deer is trapped under fallen branches further along the trail!",
-                "The heavy rain brought down the old pine and a wooden fence. The deer cannot get out.",
-                "You: The woodcutter may be able to lend us an axe.","You already have Peter's first-aid kit. Ask Rowan for tools; I will stay with the deer."},()=>
+            Speak(rangerName, new[]
             {
-                Page(false);Label(rangerName,-550,116,1000,32,22);Label("Will you help the trapped deer?",-550,30,1100,90);
-                Button("I will ask the woodcutter.",-280,-104,520,46,()=>{progress.AcceptRescue();Close();});
-                Button("I will come back.",280,-104,520,46,Close);
+        "Please, can you help? A deer is trapped under a fallen tree!",
+        "The heavy rain brought down the old pine. The deer cannot get out.",
+        "We can move the trunk together with this rope.",
+        "I have a first-aid kit with me. Once the deer is free, we can treat its injured leg."
+    },
+            () =>
+            {
+                Page(false);
+
+                Label(rangerName, -550, 116, 1000, 32, 22);
+                Label(
+                    "Will you help me pull the trunk away?",
+                    -550, 30, 1100, 90
+                );
+
+                Button(
+                    "Let's pull together!",
+                    -280, -104, 520, 46,
+                    () =>
+                    {
+                        if (!progress.AcceptRescue())
+                            return;
+
+                        Close();
+                        OpenRelease();
+                    }
+                );
+
+                Button(
+                    "I will come back.",
+                    280, -104, 520, 46,
+                    Close
+                );
             });
         }
-        void TalkWoodcutter()
-        {
-            string name=bridgeQuest==null ? "Rowan" : bridgeQuest.woodcutterName;
-            if(progress.Stage==RescueStage.FindWoodcutter)
-                Speak(name,new[]{"A deer is trapped? I can lend you my axe.","Could you bring me "+fishingGame.fishGoal+" fish from the river in exchange? There is a fishing spot by the bench.",
-                    "You: I will catch them and come straight back."},()=>{progress.AcceptFishing();Close();});
-            else
-                Speak(name,new[]{"Thank you for the fish. Here is the axe.","We can use this rope to move the fallen tree. Meet me by the deer and we will pull together."},()=>{if(progress.ExchangeFish() && woodcutterAxe!=null)woodcutterAxe.SetActive(false);Close();});
-        }
-        void FishingFinished(bool won,int fish)
-        {
-            if(!isActiveAndEnabled) return;
-            closedFrame=Time.frameCount;
-            if(won) progress.FinishFishing(fish,fishingGame.fishGoal);
-        }
+
+   
+
         void OpenRelease()
         {
             releaseGame.Open(player,won=>
@@ -244,11 +242,14 @@ namespace Level02.DeerRescue
                 closedFrame=Time.frameCount;
                 if(!won || !progress.CompleteRelease())return;
                 if(deerView!=null)deerView.Free();
-                Speak(rangerName,new[]{"The deer is free! Its leg is hurt, but you already have Peter's kit.",
-                    "Let's open the kit here. There is no need to go back to the red house."},OpenTreatment);
+                Speak(rangerName, new[]
+                {
+                    "The deer is free! Its leg is hurt.",
+                    "Let's use my first-aid kit to help it."
+                }, OpenTreatment);
             });
         }
-        void TalkPeter() { } // Compatibilita con il vecchio stato, non usato dalla nuova sequenza.
+       
         void OpenTreatment()
         {
             Close();
@@ -275,10 +276,10 @@ namespace Level02.DeerRescue
             if(IsOpen || player==null || player.IsGameplayBlocked) return;
             string text="";
             if(progress.Stage==RescueStage.WaitingForCrossing && encounterArrived && Near(ranger))text="E - Talk to "+rangerName;
-            else if((progress.Stage==RescueStage.FindWoodcutter || progress.Stage==RescueStage.DeliverFish) && bridgeQuest!=null && Near(bridgeQuest.woodcutter))text="E - Ask about the rescue";
-            else if(progress.Stage==RescueStage.CatchFish && Near(fishingPoint))text="E - Start fishing";
+            
+            
             else if(progress.Stage==RescueStage.FreeDeer && Near(deerPoint))text="E - Free the deer";
-            else if(progress.Stage==RescueStage.GetBandages && mushroomQuest!=null && Near(mushroomQuest.transform))text="E - Ask for bandages";
+            
             else if(progress.Stage==RescueStage.TreatDeer && Near(deerPoint))text="E - Help the injured deer";
             if(text!="")GUI.Box(new Rect(Screen.width/2-220,Screen.height-95,440,50),text);
 
@@ -287,10 +288,10 @@ namespace Level02.DeerRescue
         {
             Close();if(marker!=null)marker.Hide();if(equipment!=null)equipment.Hide();
             if(bridgeQuest!=null)bridgeQuest.showLegacyInventory=true;
-            if(fishingGame!=null && fishingGame.IsOpen)fishingGame.Close(false);
+            
             if(releaseGame!=null && releaseGame.IsOpen)releaseGame.Close();
             if(careGame!=null && careGame.IsOpen)careGame.Close();
-            RestoreNpcOwnership();
+   
         }
         void OnDestroy() {if(uiRoot!=null)Destroy(uiRoot);}
     }

@@ -45,9 +45,10 @@ public class CloudLayer : SceneryLayer
     public override void Tick(float dt)
     {
         if (clouds.Count == 0) return;
-        Color horizon = Scenery.View != null ? Scenery.View.HorizonColor : RenderSettings.fogColor;
-        // In bad weather the horizon darkens: the clouds turn gray with it.
-        Color tint = Color.Lerp(Color.white, horizon * 1.3f, 0.3f);
+        Color horizon = Scenery.View != null ? Scenery.View.FogColor : RenderSettings.fogColor;
+        // Clouds lit by the sunset, a bit lighter than the distance; in bad weather they darken with it.
+        Color glow = Scenery.View != null ? Scenery.View.HorizonColor : horizon;
+        Color tint = Color.Lerp(horizon * 1.35f, glow, 0.35f);
 
         foreach (var c in clouds)
         {

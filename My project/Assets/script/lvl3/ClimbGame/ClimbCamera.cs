@@ -3,7 +3,8 @@ using UnityEngine;
 /// <summary>
 /// Mini-game camera: with slight perspective and a slight low angle, it follows the climber
 /// while looking a bit above him (to see hazards coming).
-/// It sets the gradient sky (skybox) and the fog from the current section and the altitude.
+/// It sets the sky (skybox) and the fog from the current section and the altitude. The sky is the
+/// level's Farland Skies sunset (stars, clouds, sun) when given, otherwise a simple gradient.
 /// Also provides the visible area on the gameplay plane (z = 0), used by the hazards.
 /// </summary>
 [RequireComponent(typeof(Camera))]
@@ -18,7 +19,7 @@ public class ClimbCamera : MonoBehaviour
     [SerializeField] private float skySmoothing = 2f;
 
     [Header("Sky")]
-    [Tooltip("Sky material (Skybox/ClimbGradient shader). Empty = Resources/ClimbSky.")]
+    [Tooltip("Sky material: the level's Farland Skies sky (L3_SunsetSkybox) or Skybox/ClimbGradient. Empty = Resources/ClimbSky.")]
     [SerializeField] private Material skyMaterial;
     [Tooltip("The higher you climb, the darker the zenith (0 = no effect, 1 = black at the summit).")]
     [Range(0f, 1f)] [SerializeField] private float altitudeDarkening = 0.4f;
@@ -37,7 +38,9 @@ public class ClimbCamera : MonoBehaviour
     // Read by ClimbGameManager.Awake, which may run before ours: fetched on demand.
     private Camera cam;
     private Material sky;           // copy of the material: the asset is not modified
-    private Color horizonColor, topColor;
+    private Color horizonColor, topColor, fogColor;
+    private float stars = 1f;
+    private Color starsTint = new Color(0.8f, 0.8f, 0.9f, 0.8f);
     public Camera Cam => cam != null ? cam : cam = GetComponent<Camera>();
 
     /// <summary>Altitude being looked at (screen center on the wall).</summary>
@@ -68,6 +71,7 @@ public class ClimbCamera : MonoBehaviour
         if (source != null && source.shader.isSupported)
         {
             sky = new Material(source);
+            if (sky.HasProperty(StarsTintId)) starsTint = sky.GetColor(StarsTintId);
             RenderSettings.skybox = sky;
             Cam.clearFlags = CameraClearFlags.Skybox;
         }
@@ -86,6 +90,8 @@ public class ClimbCamera : MonoBehaviour
         {
             horizonColor = weather.Current.sky;
             topColor = weather.Current.SkyTop;
+            fogColor = weather.Current.Fog;
+            stars = weather.Current.stars;
             ApplySky();
         }
     }
@@ -101,6 +107,8 @@ public class ClimbCamera : MonoBehaviour
             float s = skySmoothing * Time.deltaTime;
             horizonColor = Color.Lerp(horizonColor, weather.Current.sky, s);
             topColor = Color.Lerp(topColor, weather.Current.SkyTop, s);
+            fogColor = Color.Lerp(fogColor, weather.Current.Fog, s);
+            stars = Mathf.Lerp(stars, weather.Current.stars, s);
             ApplySky();
         }
     }
@@ -112,26 +120,46 @@ public class ClimbCamera : MonoBehaviour
         transform.SetPositionAndRotation(new Vector3(0f, FocusY - below, -distance), Quaternion.Euler(-tilt, 0f, 0f));
     }
 
-    // The fog takes the horizon color: the background mountains blend into it.
+    // The background mountains blend into the fog color, like the far mountains of the base camp.
     private void ApplySky()
     {
         Cam.backgroundColor = horizonColor;
-        RenderSettings.fogColor = horizonColor;
+        RenderSettings.fogColor = fogColor;
         if (sky == null) return;
 
         float altitude = MaxY < float.MaxValue ? Mathf.Clamp01(FocusY / MaxY) : 0f;
         Color top = Color.Lerp(topColor, Color.black, altitude * altitudeDarkening);
         sky.SetColor(TopId, top);
-        sky.SetColor(HorizonId, horizonColor);
-        sky.SetColor(BottomId, horizonColor * 0.85f);
+        if (sky.HasProperty(MiddleId))
+        {
+            // Farland Skies: zenith / horizon glow / below the horizon, and its own clouds.
+            sky.SetColor(MiddleId, horizonColor);
+            sky.SetColor(BottomId, fogColor * 0.72f);
+            Color clouds = fogColor * 0.5f;
+            clouds.a = 1f;
+            sky.SetColor(CloudsTintId, clouds);
+            Color tint = starsTint;
+            tint.a *= stars;
+            sky.SetColor(StarsTintId, tint);
+        }
+        else
+        {
+            sky.SetColor(HorizonId, horizonColor);
+            sky.SetColor(BottomId, horizonColor * 0.85f);
+        }
     }
 
-    /// <summary>Current horizon color (to tint distant clouds).</summary>
+    /// <summary>Current horizon color.</summary>
     public Color HorizonColor => horizonColor;
+    /// <summary>Current distance color (fog), to tint distant clouds.</summary>
+    public Color FogColor => fogColor;
 
     private static readonly int TopId = Shader.PropertyToID("_TopColor");
     private static readonly int HorizonId = Shader.PropertyToID("_HorizonColor");
     private static readonly int BottomId = Shader.PropertyToID("_BottomColor");
+    private static readonly int MiddleId = Shader.PropertyToID("_MiddleColor");
+    private static readonly int CloudsTintId = Shader.PropertyToID("_CloudsTint");
+    private static readonly int StarsTintId = Shader.PropertyToID("_StarsTint");
 
     private float TargetY() => Mathf.Min(climber.Height + lead, MaxY);
 }

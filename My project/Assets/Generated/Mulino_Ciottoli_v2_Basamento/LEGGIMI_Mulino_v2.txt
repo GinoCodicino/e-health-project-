@@ -1,0 +1,7 @@
+MULINO V2 - CIOTTOLI SCURI E BASAMENTO CIECO
+Tre tonalita di grigio neutro scuro per tutti i ciottoli, malta scurita.
+Aggiunta estensione cieca sotto il fabbricato, senza finestre o porte, da Y=-2.4 a Y=0. Solo volume esterno, non un piano interno visitabile.
+Geometria precedente ricreata dal codice originale: ingresso e ruota restano alle quote precedenti; Y=0 e ancora il piano esterno originale.
+Non appoggiare automaticamente il fondo del modello sul terreno: il basamento serve a essere interrato. Non include un basamento sotto il supporto esterno della ruota.
+Corpo 8.4 x 6.4 m; fronte -Z; tetto e ruota invariati. Nessun collider, acqua, terreno o animazione.
+Estrarre lo ZIP, importare insieme OBJ e MTL nella stessa cartella Assets. Materiali a colori pieni; URP/HDRP puo richiedere conversione o riassegnazione. Non e un prefab/unitypackage.

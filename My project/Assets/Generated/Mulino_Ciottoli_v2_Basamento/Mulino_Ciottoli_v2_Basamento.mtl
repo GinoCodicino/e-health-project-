@@ -1,0 +1,91 @@
+newmtl Mortar
+Kd 0.300 0.310 0.310
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Wood
+Kd 0.310 0.145 0.055
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl WoodLight
+Kd 0.460 0.250 0.100
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl WoodDark
+Kd 0.160 0.067 0.025
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Glass
+Kd 0.160 0.380 0.430
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Iron
+Kd 0.140 0.160 0.160
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Pebble0
+Kd 0.290 0.300 0.310
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Pebble1
+Kd 0.360 0.370 0.380
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Pebble2
+Kd 0.430 0.440 0.450
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Shingle0
+Kd 0.190 0.095 0.038
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Shingle1
+Kd 0.215 0.108 0.044
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Shingle2
+Kd 0.240 0.121 0.050
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Shingle3
+Kd 0.265 0.134 0.056
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+

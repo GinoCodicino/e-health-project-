@@ -1,9 +1,9 @@
 import os
 
-from Interview import REVIEW_STATUSES, RecordStore
+from pipeline.Interview import REVIEW_STATUSES, RecordStore
 
 FOLDER = "Ethan"
-FILES = ("interview.json", "requirements.json", "side_quests.json", "dialogue.json", "playtest.json")
+FILES = ("interview.json", "requirements.json", "side_quests.json", "dialogue.json")
 
 
 def review_stats(folder):

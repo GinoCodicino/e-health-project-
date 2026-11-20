@@ -2,10 +2,10 @@ import os
 
 import torch
 
-from Dialogues import SCRIPTWRITER, DialogueWriter, beliefs_from_records, in_game
-from Interview import RecordStore, run_info
-from LLM import AnswerStore, LLMGeneration, LLMLoader, PersonaLoader
-from RAG import FactBase, Retriever
+from pipeline.Dialogues import SCRIPTWRITER, DialogueWriter, beliefs_from_records, in_game
+from pipeline.Interview import RecordStore, run_info
+from core.LLM import AnswerStore, LLMGeneration, LLMLoader, PersonaLoader
+from core.RAG import FactBase, Retriever
 
 FOLDER = "Ethan"
 FACT_FILE = "facts/ipcc_ar6_syr_spm.json"

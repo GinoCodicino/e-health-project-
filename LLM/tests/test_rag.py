@@ -4,11 +4,11 @@ Tests of the classes of RAG.py.
 No real PDF is read: StatementParser receives the text of fake pages.
 The tests run in a temporary folder (the real fact base is not touched).
 
-Run with: pytest test_rag.py -v
+Run with: pytest tests/test_rag.py -v
 """
 import pytest
 
-from RAG import FactBase, Retriever, Statement, StatementParser, remove_footnote_marks, tidy_spaces, tokenize
+from core.RAG import FactBase, Retriever, Statement, StatementParser, remove_footnote_marks, tidy_spaces, tokenize
 
 # page with a headline statement (id alone on its line), a detailed statement, and footnotes
 PAGE_A = """Summary for Policymakers

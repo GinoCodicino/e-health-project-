@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 import uvicorn
-from LLM import AnswerStore, LLMGeneration, LLMLoader, PersonaLoader
+from core.LLM import AnswerStore, LLMGeneration, LLMLoader, PersonaLoader
 
 app = FastAPI()
 

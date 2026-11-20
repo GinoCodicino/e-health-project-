@@ -4,7 +4,7 @@ Tests des classes de LLM.py.
 Aucun vrai modèle n'est chargé : LLMGeneration reçoit un faux LoadedLLM.
 Les tests tournent dans un dossier temporaire (les vrais output_* ne bougent pas).
 
-Lancer avec : pytest test_llm.py -v
+Lancer avec : pytest tests/test_llm.py -v
 """
 import json
 from unittest.mock import MagicMock
@@ -12,8 +12,8 @@ from unittest.mock import MagicMock
 import pytest
 import torch
 
-import LLM
-from LLM import AnswerStore, LLMGeneration, LLMLoader, LoadedLLM, Persona, PersonaLoader
+from core import LLM
+from core.LLM import AnswerStore, LLMGeneration, LLMLoader, LoadedLLM, Persona, PersonaLoader
 
 PERSONA_DATA = {"id": "persona_99", "name": "Test Person"}
 

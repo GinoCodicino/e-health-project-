@@ -3,19 +3,19 @@ Tests of Dialogues.py.
 
 No real model is loaded: DialogueWriter receives fake LLMGeneration objects.
 
-Run with: pytest test_dialogues.py -v
+Run with: pytest tests/test_dialogues.py -v
 """
 import json
 from unittest.mock import MagicMock
 
-from Dialogues import (
+from pipeline.Dialogues import (
     CHOICES, ENDINGS, Belief, BeliefLoader, BeliefWriter, DialogueWriter, beliefs_from_records, copies_example, in_game,
     numbers_not_in,
 )
-from LLM import Persona
-from Interview import GenerationRecord, InterviewQuestion
-from interaction import EXAMPLE_ANSWER
-from RAG import Retriever, Statement
+from core.LLM import Persona
+from pipeline.Interview import GenerationRecord, InterviewQuestion
+from core.interaction import EXAMPLE_ANSWER
+from core.RAG import Retriever, Statement
 
 BELIEF = Belief("attribution", "attribution", "Nobody can prove it's us.", "human-caused warming")
 STATEMENTS = [

@@ -1,4 +1,4 @@
-from RAG import FactBase
+from core.RAG import FactBase
 
 
 def build_fact_base(pdf_file, output_file):

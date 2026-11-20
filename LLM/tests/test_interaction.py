@@ -3,12 +3,12 @@ Tests of interaction.py.
 
 No real model is loaded: interact receives a fake LLMGeneration.
 
-Run with: pytest test_interaction.py -v
+Run with: pytest tests/test_interaction.py -v
 """
 from unittest.mock import MagicMock
 
-from interaction import build_input_text, interact
-from RAG import Retriever, Statement
+from core.interaction import build_input_text, interact
+from core.RAG import Retriever, Statement
 
 STATEMENTS = [
     Statement("A.1", "Human activities have unequivocally caused global warming", 10, "{2.1}"),

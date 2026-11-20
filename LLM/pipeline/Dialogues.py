@@ -2,9 +2,9 @@ from dataclasses import dataclass
 import json
 import re
 
-from Interview import GenerationRecord, clean_answer, without_thinking
-from interaction import EXAMPLE_ANSWER, build_input_text
-from LLM import Persona
+from pipeline.Interview import GenerationRecord, clean_answer, without_thinking
+from core.interaction import EXAMPLE_ANSWER, build_input_text
+from core.LLM import Persona
 
 
 @dataclass

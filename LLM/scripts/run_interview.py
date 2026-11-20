@@ -2,9 +2,9 @@ import os
 
 import torch
 
-from Interview import ANALYST, PersonaInterview, QuestionLoader, RecordStore, RequirementWriter, SideQuestWriter, run_info
-from LLM import AnswerStore, LLMGeneration, LLMLoader, PersonaLoader
-from RAG import FactBase, Retriever
+from pipeline.Interview import ANALYST, PersonaInterview, QuestionLoader, RecordStore, RequirementWriter, SideQuestWriter, run_info
+from core.LLM import AnswerStore, LLMGeneration, LLMLoader, PersonaLoader
+from core.RAG import FactBase, Retriever
 
 FOLDER = "Ethan"
 FACT_FILE = "facts/ipcc_ar6_syr_spm.json"

@@ -4,7 +4,7 @@ import json
 import os
 import re
 
-from LLM import Persona
+from core.LLM import Persona
 
 PROMPT_VERSION = "3"
 NO_THINK = " /no_think"  # Qwen3 answers directly, without its <think> reasoning (faster, never cut in the middle)

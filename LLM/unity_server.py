@@ -88,7 +88,7 @@ def load_real_model(persona_number: int) -> Any:
         raise FileNotFoundError(f"Missing persona: {persona_path}")
     from types import SimpleNamespace
 
-    from LLM import AnswerStore, LLMLoader, PersonaLoader
+    from core.LLM import AnswerStore, LLMLoader, PersonaLoader
 
     loaded = LLMLoader().load(MODEL_NAME)
     persona = PersonaLoader(folder=str(BASE_DIR / "personas")).load(persona_number)

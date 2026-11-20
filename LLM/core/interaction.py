@@ -1,5 +1,5 @@
-from LLM import AnswerStore, LLMGeneration, LLMLoader, PersonaLoader
-from RAG import FactBase, Retriever
+from core.LLM import AnswerStore, LLMGeneration, LLMLoader, PersonaLoader
+from core.RAG import FactBase, Retriever
 
 FACT_FILE = "facts/ipcc_ar6_syr_spm.json"
 SITUATION = "You are at the base camp of a mountain whose glacier has disappeared. You came here by helicopter."

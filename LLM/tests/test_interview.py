@@ -4,18 +4,18 @@ Tests of Interview.py.
 No real model is loaded: the classes receive a fake LLMGeneration.
 The tests run in a temporary folder.
 
-Run with: pytest test_interview.py -v
+Run with: pytest tests/test_interview.py -v
 """
 import json
 from unittest.mock import MagicMock
 
 import pytest
 
-from Interview import (
+from pipeline.Interview import (
     GenerationRecord, InterviewQuestion, PersonaInterview, QuestionLoader, RecordStore, RequirementWriter,
     SideQuestWriter, clean_answer, parse_side_quest, run_info,
 )
-from RAG import Retriever, Statement
+from core.RAG import Retriever, Statement
 
 QUESTIONS = [
     InterviewQuestion("Q1", "attitude", "Would you play a game about climate change?"),

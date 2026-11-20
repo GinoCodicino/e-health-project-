@@ -364718,6 +364718,22 @@ PrefabInstance:
       propertyPath: sprintSpeed
       value: 12
       objectReference: {fileID: 0}
+    - target: {fileID: 5714425160536043505, guid: c21da601573ce4387a9f7a80fda4a43e, type: 3}
+      propertyPath: handEuler.x
+      value: -20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5714425160536043505, guid: c21da601573ce4387a9f7a80fda4a43e, type: 3}
+      propertyPath: handOffset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5714425160536043505, guid: c21da601573ce4387a9f7a80fda4a43e, type: 3}
+      propertyPath: handOffset.y
+      value: -0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 5714425160536043505, guid: c21da601573ce4387a9f7a80fda4a43e, type: 3}
+      propertyPath: handOffset.z
+      value: 0.55
+      objectReference: {fileID: 0}
     - target: {fileID: 6757325024590885263, guid: c21da601573ce4387a9f7a80fda4a43e, type: 3}
       propertyPath: far clip plane
       value: 1600

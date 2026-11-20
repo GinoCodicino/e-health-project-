@@ -1,0 +1,119 @@
+newmtl Intonaco_Giallo
+Kd 0.820 0.680 0.400
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Intonaco_Luce
+Kd 0.900 0.780 0.520
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Cornici_Crema
+Kd 0.700 0.640 0.490
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Pietra_Scura
+Kd 0.320 0.340 0.360
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Pietra_Media
+Kd 0.390 0.410 0.430
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Pietra_Chiara
+Kd 0.460 0.480 0.500
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Malta
+Kd 0.290 0.300 0.310
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Legno
+Kd 0.280 0.135 0.050
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Legno_Scuro
+Kd 0.150 0.065 0.025
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Vetro
+Kd 0.120 0.220 0.240
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Portale
+Kd 0.570 0.470 0.390
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Ferro
+Kd 0.120 0.130 0.130
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Bronzo
+Kd 0.320 0.300 0.140
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Tetto0
+Kd 0.200 0.220 0.230
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Tetto1
+Kd 0.225 0.245 0.255
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Tetto2
+Kd 0.250 0.270 0.280
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Tetto3
+Kd 0.275 0.295 0.305
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+

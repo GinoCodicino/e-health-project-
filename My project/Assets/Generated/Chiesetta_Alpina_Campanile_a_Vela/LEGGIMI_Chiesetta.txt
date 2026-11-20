@@ -1,0 +1,7 @@
+CHIESETTA ALPINA LOW POLY
+Ispirata alla foto fornita: navata alta, annesso basso a sinistra, intonaco giallo, tetti in lastre scure, campanile a vela con vano realmente aperto, campana e croce. Non riproduzione esatta.
+Navata 6.4 x 9.2 m, gronda 7.4 m, colmo tetto circa 9.4 m, croce fino a circa 12.78 m. Annesso 2.9 x 5.9 m. Ingombri maggiori con tetti e gradini.
+Campanile nella zona posteriore della navata, centrato a Z=2.45; vano aperto fronte/retro. Campana statica non animata.
+Y verticale, base Y=0, fronte -Z. Materiali a colori pieni e normali esplicite. Nessuna texture fotografica.
+Estrarre lo ZIP e importare insieme OBJ e MTL nella stessa cartella Assets. URP/HDRP puo richiedere conversione/riassegnazione dei materiali.
+Solo esterni: porta e finestre sono dettagli su muri pieni, senza interni visitabili. Nessun terreno, vegetazione, recinto o collider incluso. Non e prefab/unitypackage.

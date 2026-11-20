@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 2b6b9ab7929ef72408287b43b958611c
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 407734
+  packageName: Low Poly Vehicle Starter Pack
+  packageVersion: 1.0
+  assetPath: Assets/LowPolyVehicleStarterPack/Prefabs/Wheelbarrow/Materials/Wheelbarrow_Tear_Mat.mat
+  uploadId: 995866

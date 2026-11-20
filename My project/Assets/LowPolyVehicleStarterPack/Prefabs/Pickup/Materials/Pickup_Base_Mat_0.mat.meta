@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 4f0bcfb8a0891ef48b848bbc432c5392
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 407734
+  packageName: Low Poly Vehicle Starter Pack
+  packageVersion: 1.0
+  assetPath: Assets/LowPolyVehicleStarterPack/Prefabs/Pickup/Materials/Pickup_Base_Mat_0.mat
+  uploadId: 995866

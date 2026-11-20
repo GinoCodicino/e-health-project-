@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: a16eafec6833ba746a721b3b5172ab13
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 407734
+  packageName: Low Poly Vehicle Starter Pack
+  packageVersion: 1.0
+  assetPath: Assets/LowPolyVehicleStarterPack/Prefabs/Scooter/Materials/Scooter_Body_Mat_4.mat
+  uploadId: 995866

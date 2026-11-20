@@ -577218,7 +577218,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1541265102}
   - component: {fileID: 1541265101}
-  - component: {fileID: 1541265100}
   - component: {fileID: 1541265104}
   - component: {fileID: 1541265103}
   m_Layer: 0
@@ -577228,22 +577227,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1541265100
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1541265099}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ce533ebdef25b0a9f62eb86824c8156, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Level02.DeerRescue.RiverFishingGame
-  fishGoal: 10
-  timeLimitSeconds: 90
-  netSpeed: 650
-  fallSpeed: 110
 --- !u!114 &1541265101
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -577262,6 +577245,7 @@ MonoBehaviour:
   bridgeCondition: {fileID: 1157329192}
   encounterPoint: {fileID: 581678107}
   ranger: {fileID: 1771162439}
+  testStartFromMiaEncounter: 0
   deerPoint: {fileID: 1157609716}
   deerView: {fileID: 2091387425}
   releaseGame: {fileID: 1541265104}
@@ -577319,18 +577303,29 @@ MonoBehaviour:
   fallenTree: {fileID: 1925329804}
   mia: {fileID: 1771162439}
   ropeOnTree: {fileID: 2138257071}
+  miaPullPoint: {fileID: 0}
   treeMoveDirection: {x: 0, y: 0, z: 1}
   totalMoveDistance: 2.2
-  pullsNeeded: 5
-  pullAnimationTime: 0.65
+  trunkMass: 60
+  breakawayForce: 400
+  slideFriction: 380
+  drag: 40
+  playerPullForce: 300
+  miaPullForce: 330
+  miaHeavePeriod: 2.2
+  miaHeaveFraction: 0.55
+  miaRestForceFraction: 0.1
+  staminaDrainPerSecond: 0.3
+  staminaRegenPerSecond: 0.55
+  staminaRecoverThreshold: 0.3
   ropeWidth: 0.035
   ropeColor: {r: 0.72, g: 0.57, b: 0.32, a: 1}
   playerHandOffset: {x: 0, y: 1.15, z: 0.25}
   miaHandOffset: {x: 0, y: 1.15, z: 0.25}
   treeRopeOffset: {x: 0, y: 0.7, z: 0}
-  greenZoneStart: 0.62
-  greenZoneEnd: 0.84
-  chargeSeconds: 1.35
+  ropeSag: 0.35
+  miaWalkSpeed: 2.5
+  miaLeanDistance: 0.25
 --- !u!1001 &1541469411
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -787658,7 +787653,7 @@ MonoBehaviour:
   animalVisual: {fileID: 24592275}
   fallenBranches: {fileID: 1925329803}
   bandageVisual: {fileID: 483104015}
-  restingEuler: {x: 90, y: 0, z: 0}
+  restingEuler: {x: 0, y: 0, z: 90}
 --- !u!4 &2091387426
 Transform:
   m_ObjectHideFlags: 0

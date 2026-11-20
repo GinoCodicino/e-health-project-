@@ -20,7 +20,11 @@ namespace Level02.DeerRescue
         [Header("Punti del terzo gioco")]
         public Transform encounterPoint;
         public Transform ranger;
-       
+
+        [Header("Test")]
+        [Tooltip("Salta ponte e missioni precedenti: Mia si avvicina subito all'avvio, con rete e kit già dati.")]
+        public bool testStartFromMiaEncounter;
+
         public Transform deerPoint;
         public DeerRescueView deerView;
    
@@ -67,20 +71,17 @@ namespace Level02.DeerRescue
             marker=gameObject.AddComponent<BridgeQuestMarker>();
             if(player!=null) view=player.GetComponentInChildren<Camera>(true);
             if(view==null) view=Camera.main;
+            if (testStartFromMiaEncounter) encounterStarted = true;
         }
-        bool PreviousComplete { get { return bridgeCondition!=null && bridgeCondition.IsRepaired && bridgeQuest!=null && bridgeQuest.CurrentStage==BridgeStage.Complete; } }
+        bool PreviousComplete { get { return testStartFromMiaEncounter || (bridgeCondition != null && bridgeCondition.IsRepaired && bridgeQuest != null && bridgeQuest.CurrentStage == BridgeStage.Complete); } }
         float Distance(Transform t) { return t==null || player==null ? float.PositiveInfinity : Vector3.Distance(t.position,player.transform.position); }
         bool Near(Transform t) { return Distance(t)<=interactionDistance; }
         void Update()
         {
             if(player==null) return;
-            progress.GrantPeterGifts(
-                mushroomQuest != null &&
-                mushroomQuest.HasFishingNet &&
-                mushroomQuest.HasMedicalKit
-            );
-            
-            if(bridgeQuest!=null)bridgeQuest.showLegacyInventory=false;
+            progress.GrantPeterGifts(testStartFromMiaEncounter || (mushroomQuest != null && mushroomQuest.HasFishingNet && mushroomQuest.HasMedicalKit));
+
+            if (bridgeQuest!=null)bridgeQuest.showLegacyInventory=false;
             equipment.Show(progress.HasAxe,progress.HasMedicalKit,progress.HasNet,progress.Fish,
                 bridgeQuest==null?0:bridgeQuest.RemainingPlanks,!IsOpen && !player.IsGameplayBlocked);
             if(IsOpen)

@@ -1,27 +1,51 @@
 using System;
 using System.Collections;
-using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
 
 namespace Level02.DeerRescue
 {
-    // Minigioco in scena: giocatore e Mia tirano la stessa fune dallo stesso lato.
-    // Non eredita da RescueGamePanel: usa solo Unity UI e mantiene l'API
-    // richiesta da DeerRescueController (Open, IsOpen, Close).
+    // Tiro alla fune con fisica, tutto in scena (nessuna schermata).
+    // Giocatore e Mia tirano il tronco dallo stesso lato. Da solo nessuno dei due
+    // riesce a smuoverlo (attrito di primo distacco): bisogna tirare insieme a Mia
+    // mentre lei "dà uno strappo". Il tronco poi scivola finche' la spinta supera l'attrito.
+    // Mantiene l'API richiesta da DeerRescueController (Open, IsOpen, Close).
     public sealed class ScrewRescueGame : MonoBehaviour
     {
         [Header("Riferimenti scena")]
         public Transform fallenTree;
         public Transform mia;
         public Transform ropeOnTree;
+        [Tooltip("Opzionale: punto dove Mia va a mettersi per tirare. Se vuoto resta dove si trova.")]
+        public Transform miaPullPoint;
 
-        [Header("Spostamento tronco")]
+        [Header("Direzione e distanza")]
+        [Tooltip("Direzione in cui scivola il tronco: verso il lato dove tirate tu e Mia.")]
         public Vector3 treeMoveDirection = Vector3.forward;
         [Min(0.1f)] public float totalMoveDistance = 2.2f;
-        [Range(3, 8)] public int pullsNeeded = 5;
-        [Min(0.1f)] public float pullAnimationTime = 0.65f;
+
+        [Header("Fisica del tronco")]
+        [Min(1f)] public float trunkMass = 60f;
+        [Tooltip("Forza minima per smuovere il tronco da fermo. Deve essere maggiore della forza di UNO solo dei due.")]
+        public float breakawayForce = 400f;
+        [Tooltip("Attrito mentre scivola (tienilo un po' sotto la forza di primo distacco).")]
+        public float slideFriction = 380f;
+        [Min(0f)] public float drag = 40f;
+
+        [Header("Forze")]
+        public float playerPullForce = 300f;
+        public float miaPullForce = 330f;
+        [Tooltip("Ogni quanti secondi Mia ripete lo strappo.")]
+        [Min(0.5f)] public float miaHeavePeriod = 2.2f;
+        [Tooltip("Quota del ciclo in cui Mia tira forte.")]
+        [Range(0.2f, 0.8f)] public float miaHeaveFraction = 0.55f;
+        [Tooltip("Forza di Mia a riposo, in percentuale della sua forza massima.")]
+        [Range(0f, 0.5f)] public float miaRestForceFraction = 0.1f;
+
+        [Header("Fiato del giocatore")]
+        [Min(0.05f)] public float staminaDrainPerSecond = 0.30f;
+        [Min(0.05f)] public float staminaRegenPerSecond = 0.55f;
+        [Range(0f, 1f)] public float staminaRecoverThreshold = 0.3f;
 
         [Header("Fune")]
         [Min(0.01f)] public float ropeWidth = 0.035f;
@@ -29,47 +53,62 @@ namespace Level02.DeerRescue
         public Vector3 playerHandOffset = new Vector3(0f, 1.15f, 0.25f);
         public Vector3 miaHandOffset = new Vector3(0f, 1.15f, 0.25f);
         public Vector3 treeRopeOffset = new Vector3(0f, 0.7f, 0f);
+        [Tooltip("Quanto pende la fune quando e' allentata.")]
+        [Min(0f)] public float ropeSag = 0.35f;
 
-        [Header("Tempismo")]
-        [Range(0.1f, 0.9f)] public float greenZoneStart = 0.62f;
-        [Range(0.2f, 1f)] public float greenZoneEnd = 0.84f;
-        [Min(0.2f)] public float chargeSeconds = 1.35f;
+        [Header("Mia")]
+        [Min(0.1f)] public float miaWalkSpeed = 2.5f;
+        [Tooltip("Quanto Mia si piega all'indietro quando tira al massimo.")]
+        [Min(0f)] public float miaLeanDistance = 0.25f;
 
-        public bool IsOpen { get { return uiRoot != null && uiRoot.activeSelf; } }
+        public bool IsOpen { get { return active; } }
+
+        const int RopePoints = 14;
 
         playercontroller currentPlayer;
         Transform playerTransform;
         Action<bool> resultCallback;
-        GameObject uiRoot;
-        TMP_Text titleText;
-        TMP_Text instructionText;
-        TMP_Text meterText;
-        TMP_Text progressText;
-        TMP_Text statusText;
 
         LineRenderer playerRope;
         LineRenderer miaRope;
         GameObject ropeRoot;
 
-        Vector3 treeStartPosition;
+        Rigidbody trunkBody;
+        bool bodyWasKinematic;
+        Vector3 treeOrigin;
+        bool treeOriginSaved;
         Vector3 moveDirection;
-        float tension;
-        int successfulPulls;
-        bool roundRunning;
-        bool keyWasHeld;
-        bool animating;
-        bool callbackSent;
-        Coroutine moveRoutine;
+        Vector3 miaBasePosition;
+
+        // Stato della simulazione
+        float distance;          // quanto ha scivolato il tronco (m)
+        float velocity;          // velocita' lungo la direzione (m/s)
+        float heaveClock;
+        float playerForceNow, miaForceNow;
+        bool miaHeaving;
+        float ropeTension;       // 0 fune lenta, 1 fune tesa (solo grafica)
+
+        // Giocatore
+        float stamina = 1f;
+        bool exhausted, pulling, armed;
+
+        bool active, finished, callbackSent, miaInPlace;
+        GUIStyle labelStyle, smallStyle;
+
+        Vector3 TreePoint
+        {
+            get
+            {
+                if (fallenTree == null) return Vector3.zero;
+                return ropeOnTree != null
+                    ? ropeOnTree.position
+                    : fallenTree.position + fallenTree.TransformDirection(treeRopeOffset);
+            }
+        }
 
         public void Open(playercontroller who, Action<bool> callback)
         {
-            if (IsOpen || who == null) return;
-
-            currentPlayer = who;
-            playerTransform = who.transform;
-            resultCallback = callback;
-            callbackSent = false;
-            completedWaitingForKey = false;
+            if (active || who == null) return;
 
             DeerRescueController controller = GetComponent<DeerRescueController>();
             if (mia == null && controller != null) mia = controller.ranger;
@@ -80,200 +119,156 @@ namespace Level02.DeerRescue
                 return;
             }
 
-            treeStartPosition = fallenTree.position;
-            moveDirection = treeMoveDirection.sqrMagnitude > 0.001f
-                ? treeMoveDirection.normalized
-                : Vector3.forward;
+            if (!treeOriginSaved) { treeOrigin = fallenTree.position; treeOriginSaved = true; }
+            moveDirection = treeMoveDirection.sqrMagnitude > 0.001f ? treeMoveDirection.normalized : Vector3.forward;
 
-            successfulPulls = 0;
-            tension = 0f;
-            keyWasHeld = false;
-            animating = false;
-            roundRunning = false;
+            // Se il tronco ha un Rigidbody lo muovo io: lo rendo cinematico per la durata del gioco.
+            trunkBody = fallenTree.GetComponent<Rigidbody>();
+            if (trunkBody != null) { bodyWasKinematic = trunkBody.isKinematic; trunkBody.isKinematic = true; }
 
+            currentPlayer = who;
+            playerTransform = who.transform;
+            resultCallback = callback;
+            callbackSent = false;
+            finished = false;
+            velocity = 0f;
+            stamina = 1f;
+            exhausted = false;
+            pulling = false;
+            armed = false; // il tasto E che ha aperto il gioco non deve contare come trazione
+            heaveClock = -0.8f; // piccola pausa prima del primo strappo di Mia
+            playerForceNow = miaForceNow = 0f;
+
+            miaInPlace = mia == null || miaPullPoint == null;
+            if (mia != null) miaBasePosition = mia.position;
+
+            active = true;
             currentPlayer.SetUiMode(this, true);
-            CreateUI();
-            ShowInstructions();
             CreateRopes();
-        }
-
-        void CreateUI()
-        {
-            if (uiRoot != null) Destroy(uiRoot);
-
-            uiRoot = new GameObject("ScrewRescue_UI");
-            Canvas canvas = uiRoot.AddComponent<Canvas>();
-            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-            canvas.sortingOrder = 300;
-            uiRoot.AddComponent<CanvasScaler>().uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-            uiRoot.GetComponent<CanvasScaler>().referenceResolution = new Vector2(1280, 720);
-            uiRoot.AddComponent<GraphicRaycaster>();
-
-            Image background = uiRoot.AddComponent<Image>();
-            background.color = new Color(0.025f, 0.07f, 0.055f, 0.94f);
-
-            titleText = MakeText("Titolo", 34, new Vector2(0.08f, 0.76f), new Vector2(0.84f, 0.14f));
-            titleText.alignment = TextAlignmentOptions.Center;
-
-            instructionText = MakeText("Istruzioni", 24, new Vector2(0.12f, 0.42f), new Vector2(0.76f, 0.28f));
-            instructionText.alignment = TextAlignmentOptions.Center;
-
-            meterText = MakeText("Indicatore", 30, new Vector2(0.12f, 0.28f), new Vector2(0.76f, 0.10f));
-            meterText.alignment = TextAlignmentOptions.Center;
-
-            progressText = MakeText("Progressi", 23, new Vector2(0.12f, 0.18f), new Vector2(0.76f, 0.08f));
-            progressText.alignment = TextAlignmentOptions.Center;
-
-            statusText = MakeText("Stato", 21, new Vector2(0.10f, 0.08f), new Vector2(0.80f, 0.09f));
-            statusText.alignment = TextAlignmentOptions.Center;
-        }
-
-        TMP_Text MakeText(string objectName, int fontSize, Vector2 anchorMin, Vector2 anchorMax)
-        {
-            GameObject go = new GameObject(objectName);
-            go.transform.SetParent(uiRoot.transform, false);
-            RectTransform rect = go.AddComponent<RectTransform>();
-            rect.anchorMin = anchorMin;
-            rect.anchorMax = anchorMax;
-            rect.offsetMin = Vector2.zero;
-            rect.offsetMax = Vector2.zero;
-
-            TMP_Text text = go.AddComponent<TextMeshProUGUI>();
-            text.fontSize = fontSize;
-            text.color = Color.white;
-            text.textWrappingMode = TextWrappingModes.Normal;
-            text.alignment = TextAlignmentOptions.Center;
-            return text;
-        }
-
-        void ShowInstructions()
-        {
-            titleText.text = "LIBERIAMO IL CERVO";
-            instructionText.text =
-                "Tu e Mia siete dalla stessa parte del tronco e tirate insieme la fune.\\n\\n" +
-                "Tieni premuto E per caricare la trazione. RILASCIA E quando l'indicatore è nella zona verde.\\n\\n" +
-                "Ogni strappo riuscito sposta il tronco. Premi E per iniziare.";
-            meterText.text = "";
-            progressText.text = "";
-            statusText.text = "Premi E per cominciare";
-        }
-
-        void StartChallenge()
-        {
-            roundRunning = true;
-            tension = 0f;
-            keyWasHeld = false;
-            instructionText.text = "TIENI PREMUTO E, POI RILASCIA NEL VERDE";
-            statusText.text = "Mia sta tirando insieme a te!";
-            RefreshUI();
         }
 
         void Update()
         {
-            if (!IsOpen) return;
+            if (!active) return;
+            Keyboard kb = Keyboard.current;
+            if (kb == null) return;
 
-            if (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame)
+            if (kb.escapeKey.wasPressedThisFrame) { Close(); return; }
+
+            if (!miaInPlace) { WalkMia(); return; }
+            if (finished) { pulling = false; return; }
+
+            bool held = kb.eKey.isPressed;
+            if (!armed)
             {
-                Close();
+                if (!held) armed = true;
+                pulling = false;
                 return;
             }
 
-            if (completedWaitingForKey)
+            if (exhausted && stamina >= staminaRecoverThreshold) exhausted = false;
+            pulling = held && !exhausted && stamina > 0f;
+
+            if (pulling)
             {
-                if (Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame)
-                    FinishSuccess();
-                return;
-            }
-
-            if (!roundRunning)
-            {
-                if (Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame)
-                    StartChallenge();
-                return;
-            }
-
-            if (animating || Keyboard.current == null) return;
-
-            bool held = Keyboard.current.eKey.isPressed;
-            if (held)
-            {
-                tension = Mathf.Clamp01(tension + Time.unscaledDeltaTime / Mathf.Max(0.2f, chargeSeconds));
-            }
-
-            if (keyWasHeld && !held)
-                ReleasePull();
-
-            keyWasHeld = held;
-            RefreshUI();
-        }
-
-        void ReleasePull()
-        {
-            if (tension >= greenZoneStart && tension <= greenZoneEnd)
-            {
-                successfulPulls++;
-                statusText.text = "Ottimo strappo! Tu e Mia avete spostato il tronco.";
-                if (moveRoutine != null) StopCoroutine(moveRoutine);
-                moveRoutine = StartCoroutine(MoveTree());
-            }
-            else if (tension < greenZoneStart)
-            {
-                statusText.text = "Troppo presto! Aspetta la zona verde.";
+                stamina -= staminaDrainPerSecond * Time.deltaTime;
+                if (stamina <= 0f) { stamina = 0f; exhausted = true; pulling = false; }
             }
             else
             {
-                statusText.text = "Troppo tardi! Riprova a coordinarti con Mia.";
+                stamina = Mathf.Min(1f, stamina + staminaRegenPerSecond * Time.deltaTime);
             }
-
-            tension = 0f;
-            keyWasHeld = false;
-            RefreshUI();
         }
 
-        IEnumerator MoveTree()
+        void WalkMia()
         {
-            animating = true;
-            Vector3 from = fallenTree.position;
-            Vector3 target = treeStartPosition + moveDirection *
-                (totalMoveDistance * successfulPulls / Mathf.Max(1, pullsNeeded));
-
-            float elapsed = 0f;
-            while (elapsed < pullAnimationTime)
+            Vector3 target = miaPullPoint.position;
+            target.y = mia.position.y;
+            Vector3 delta = target - mia.position;
+            if (delta.sqrMagnitude < 0.05f * 0.05f)
             {
-                elapsed += Time.unscaledDeltaTime;
-                float t = Mathf.Clamp01(elapsed / pullAnimationTime);
-                t = t * t * (3f - 2f * t);
-                fallenTree.position = Vector3.Lerp(from, target, t);
-                UpdateRopes();
-                yield return null;
+                miaInPlace = true;
+                miaBasePosition = mia.position;
+                return;
             }
+            mia.position = Vector3.MoveTowards(mia.position, target, miaWalkSpeed * Time.deltaTime);
+            mia.rotation = Quaternion.Slerp(mia.rotation, Quaternion.LookRotation(delta), Time.deltaTime * 8f);
+        }
 
-            fallenTree.position = target;
-            animating = false;
-            moveRoutine = null;
-            RefreshUI();
+        // La fisica gira a passo fisso: forze -> attrito -> velocita' -> posizione.
+        void FixedUpdate()
+        {
+            if (!active || !miaInPlace || finished) return;
 
-            if (successfulPulls >= pullsNeeded)
-                Win();
+            float dt = Time.fixedDeltaTime;
+            heaveClock += dt;
+
+            // Mia tira a ondate: a riposo poco, durante lo strappo con una curva a campana.
+            float phase = Mathf.Repeat(heaveClock, miaHeavePeriod) / miaHeavePeriod;
+            miaHeaving = heaveClock >= 0f && phase < miaHeaveFraction;
+            float rest = miaPullForce * miaRestForceFraction;
+            miaForceNow = miaHeaving
+                ? Mathf.Max(rest, miaPullForce * Mathf.Sin(Mathf.PI * phase / miaHeaveFraction))
+                : rest;
+            playerForceNow = pulling ? playerPullForce : 0f;
+
+            float total = playerForceNow + miaForceNow;
+
+            if (velocity <= 0.001f)
+            {
+                // Fermo: serve superare l'attrito di primo distacco.
+                if (total <= breakawayForce) velocity = 0f;
+                else velocity = Mathf.Max(0.02f, (total - slideFriction) / trunkMass * dt);
+            }
             else
-                statusText.text = "Ancora " + (pullsNeeded - successfulPulls) + " strappi per liberare il cervo.";
-        }
-
-        void RefreshUI()
-        {
-            if (meterText != null)
             {
-                int percent = Mathf.RoundToInt(tension * 100f);
-                int filled = Mathf.RoundToInt(tension * 10f);
-                string bar = new string('|', filled) + new string('-', 10 - filled);
-                meterText.text = "TENSIONE  [" + bar + "]  " + percent + "%";
-                meterText.color = tension >= greenZoneStart && tension <= greenZoneEnd
-                    ? new Color(0.35f, 1f, 0.4f)
-                    : Color.white;
+                // In movimento: attrito di scivolamento + resistenza proporzionale alla velocita'.
+                float net = total - slideFriction - drag * velocity;
+                velocity = Mathf.Max(0f, velocity + net / trunkMass * dt);
             }
 
-            if (progressText != null)
-                progressText.text = "STRAPPI RIUSCITI: " + successfulPulls + " / " + pullsNeeded;
+            distance = Mathf.Min(totalMoveDistance, distance + velocity * dt);
+            ApplyTrunk();
+
+            if (distance >= totalMoveDistance) StartCoroutine(Win());
+        }
+
+        void ApplyTrunk()
+        {
+            Vector3 p = treeOrigin + moveDirection * distance;
+            if (trunkBody != null) trunkBody.MovePosition(p);
+            else fallenTree.position = p;
+        }
+
+        IEnumerator Win()
+        {
+            finished = true;
+            velocity = 0f;
+            yield return new WaitForSeconds(1.5f);
+            FinishSuccess();
+        }
+
+        void LateUpdate()
+        {
+            if (!active) return;
+
+            float total = playerForceNow + miaForceNow;
+            float target = Mathf.Clamp01(total / Mathf.Max(1f, breakawayForce));
+            ropeTension = Mathf.Lerp(ropeTension, finished ? 0.2f : target, Time.deltaTime * 10f);
+
+            if (mia != null && miaInPlace)
+            {
+                Vector3 toTree = TreePoint - miaBasePosition;
+                toTree.y = 0f;
+                if (toTree.sqrMagnitude > 0.001f)
+                {
+                    Vector3 dir = toTree.normalized;
+                    float lean = finished ? 0f : (miaForceNow / Mathf.Max(1f, miaPullForce)) * miaLeanDistance;
+                    mia.position = miaBasePosition - dir * lean;
+                    mia.rotation = Quaternion.Slerp(mia.rotation, Quaternion.LookRotation(dir), Time.deltaTime * 8f);
+                }
+            }
+            UpdateRopes();
         }
 
         void CreateRopes()
@@ -281,7 +276,7 @@ namespace Level02.DeerRescue
             if (ropeRoot != null) Destroy(ropeRoot);
             ropeRoot = new GameObject("Fune_Salvataggio");
             playerRope = MakeRope("Fune_Giocatore");
-            if (mia != null) miaRope = MakeRope("Fune_Mia");
+            miaRope = mia != null ? MakeRope("Fune_Mia") : null;
             UpdateRopes();
         }
 
@@ -289,9 +284,8 @@ namespace Level02.DeerRescue
         {
             GameObject go = new GameObject(objectName);
             go.transform.SetParent(ropeRoot.transform, false);
-
             LineRenderer line = go.AddComponent<LineRenderer>();
-            line.positionCount = 2;
+            line.positionCount = RopePoints;
             line.useWorldSpace = true;
             line.startWidth = ropeWidth;
             line.endWidth = ropeWidth;
@@ -301,83 +295,115 @@ namespace Level02.DeerRescue
             return line;
         }
 
-        void LateUpdate()
-        {
-            if (IsOpen) UpdateRopes();
-        }
-
         void UpdateRopes()
         {
             if (fallenTree == null || playerTransform == null || playerRope == null) return;
-
-            Vector3 treePoint = ropeOnTree != null
-                ? ropeOnTree.position
-                : fallenTree.position + fallenTree.TransformDirection(treeRopeOffset);
-
-            Vector3 playerHand = playerTransform.position +
-                playerTransform.TransformDirection(playerHandOffset);
-            playerRope.SetPosition(0, playerHand);
-            playerRope.SetPosition(1, treePoint);
-
+            Vector3 treePoint = TreePoint;
+            DrawRope(playerRope, playerTransform.position + playerTransform.TransformDirection(playerHandOffset), treePoint);
             if (mia != null && miaRope != null)
+                DrawRope(miaRope, mia.position + mia.TransformDirection(miaHandOffset), treePoint);
+        }
+
+        // La fune pende quando e' allentata e si tende con la forza applicata.
+        void DrawRope(LineRenderer line, Vector3 a, Vector3 b)
+        {
+            float sag = (1f - ropeTension) * ropeSag;
+            for (int i = 0; i < RopePoints; i++)
             {
-                Vector3 miaHand = mia.position + mia.TransformDirection(miaHandOffset);
-                miaRope.SetPosition(0, miaHand);
-                miaRope.SetPosition(1, treePoint);
+                float k = i / (RopePoints - 1f);
+                Vector3 p = Vector3.Lerp(a, b, k);
+                p.y -= Mathf.Sin(k * Mathf.PI) * sag;
+                line.SetPosition(i, p);
             }
         }
 
-        void Win()
+        string StatusText()
         {
-            roundRunning = false;
-            instructionText.text = "Avete tirato insieme e liberato il cervo!";
-            meterText.text = "";
-            progressText.text = "IL CERVO È LIBERO";
-            statusText.text = "Premi E per continuare";
-            completedWaitingForKey = true;
+            if (!miaInPlace) return "Mia is getting into position...";
+            if (finished) return "You pulled together and freed the deer!";
+            if (exhausted) return "Out of breath! Let go and recover.";
+            if (miaHeaving) return pulling ? "Together! Keep pulling!" : "Mia is heaving! Hold E now!";
+            return "Mia is catching her breath... get ready";
         }
 
-        bool completedWaitingForKey;
+        void Fill(Rect area, float from, float to, Color c)
+        {
+            GUI.color = c;
+            GUI.DrawTexture(new Rect(area.x + area.width * from, area.y, area.width * Mathf.Max(0f, to - from), area.height), Texture2D.whiteTexture);
+        }
+
+        // Solo un piccolo pannello in basso: il mondo di gioco resta sempre visibile.
+        void OnGUI()
+        {
+            if (!active) return;
+
+            if (labelStyle == null)
+            {
+                labelStyle = new GUIStyle(GUI.skin.label);
+                labelStyle.alignment = TextAnchor.MiddleCenter;
+                labelStyle.fontSize = 20;
+                labelStyle.fontStyle = FontStyle.Bold;
+                labelStyle.normal.textColor = Color.white;
+                smallStyle = new GUIStyle(GUI.skin.label);
+                smallStyle.alignment = TextAnchor.MiddleRight;
+                smallStyle.fontSize = 13;
+                smallStyle.normal.textColor = Color.white;
+            }
+
+            float w = 440f;
+            float x = (Screen.width - w) * 0.5f;
+            float y0 = Screen.height - 160f;
+            Color old = GUI.color;
+
+            GUI.color = new Color(0f, 0f, 0f, 0.55f);
+            GUI.DrawTexture(new Rect(x - 80f, y0 - 10f, w + 160f, 150f), Texture2D.whiteTexture);
+
+            GUI.color = Color.white;
+            GUI.Label(new Rect(x - 80f, y0, w + 160f, 28f), StatusText(), labelStyle);
+
+            // Forza: blu = tu, arancio = Mia. La linea bianca e' la forza che serve per smuovere il tronco.
+            float maxForce = Mathf.Max(1f, playerPullForce + miaPullForce);
+            Rect force = new Rect(x, y0 + 34f, w, 22f);
+            Fill(force, 0f, 1f, new Color(0.18f, 0.18f, 0.18f, 1f));
+            Fill(force, 0f, playerForceNow / maxForce, new Color(0.3f, 0.6f, 1f, 1f));
+            Fill(force, playerForceNow / maxForce, (playerForceNow + miaForceNow) / maxForce, new Color(1f, 0.6f, 0.2f, 1f));
+            GUI.color = Color.white;
+            GUI.DrawTexture(new Rect(force.x + force.width * Mathf.Clamp01(breakawayForce / maxForce) - 1.5f, force.y - 3f, 3f, force.height + 6f), Texture2D.whiteTexture);
+            GUI.Label(new Rect(x - 80f, force.y, 75f, force.height), "Force", smallStyle);
+
+            Rect trunk = new Rect(x, y0 + 64f, w, 10f);
+            Fill(trunk, 0f, 1f, new Color(0.18f, 0.18f, 0.18f, 1f));
+            Fill(trunk, 0f, distance / Mathf.Max(0.01f, totalMoveDistance), new Color(0.3f, 0.85f, 0.35f, 1f));
+            GUI.color = Color.white;
+            GUI.Label(new Rect(x - 80f, trunk.y - 8f, 75f, 26f), "Trunk", smallStyle);
+
+            Rect breath = new Rect(x, y0 + 80f, w, 10f);
+            Fill(breath, 0f, 1f, new Color(0.18f, 0.18f, 0.18f, 1f));
+            Fill(breath, 0f, stamina, exhausted ? new Color(0.9f, 0.25f, 0.2f, 1f) : new Color(1f, 0.85f, 0.3f, 1f));
+            GUI.color = Color.white;
+            GUI.Label(new Rect(x - 80f, breath.y - 8f, 75f, 26f), "Breath", smallStyle);
+
+            GUI.Label(new Rect(x - 80f, y0 + 100f, w + 160f, 26f),
+                "Hold E to pull with Mia   (Esc to stop)", labelStyle);
+            GUI.color = old;
+        }
 
         void FinishSuccess()
         {
-            if (callbackSent) return;
+            if (!active || callbackSent) return;
             callbackSent = true;
+            EndSession();
             Action<bool> callback = resultCallback;
             resultCallback = null;
-            CleanupUI();
-            if (currentPlayer != null) currentPlayer.SetUiMode(this, false);
-            if (ropeRoot != null) ropeRoot.SetActive(false);
             callback?.Invoke(true);
-        }
-
-
-        void OnGUI()
-        {
-            // Nessuna GUI legacy: input finale gestito qui solo come fallback.
-        }
-
-        void CleanupUI()
-        {
-            if (uiRoot != null)
-            {
-                Destroy(uiRoot);
-                uiRoot = null;
-            }
         }
 
         public void Close()
         {
-            if (!IsOpen && callbackSent) return;
+            if (!active) return;
+            if (finished) { FinishSuccess(); return; }
 
-            roundRunning = false;
-            completedWaitingForKey = false;
-            if (moveRoutine != null) StopCoroutine(moveRoutine);
-            moveRoutine = null;
-            CleanupUI();
-            if (ropeRoot != null) ropeRoot.SetActive(false);
-            if (currentPlayer != null) currentPlayer.SetUiMode(this, false);
-
+            EndSession();
             if (!callbackSent)
             {
                 callbackSent = true;
@@ -387,9 +413,21 @@ namespace Level02.DeerRescue
             }
         }
 
+        void EndSession()
+        {
+            active = false;
+            velocity = 0f;
+            pulling = false;
+            if (fallenTree != null && treeOriginSaved) fallenTree.position = treeOrigin + moveDirection * distance;
+            if (trunkBody != null) trunkBody.isKinematic = bodyWasKinematic;
+            if (mia != null && miaInPlace) mia.position = miaBasePosition;
+            if (ropeRoot != null) ropeRoot.SetActive(false);
+            if (currentPlayer != null) currentPlayer.SetUiMode(this, false);
+        }
+
         void OnDisable()
         {
-            if (IsOpen) Close();
+            if (active) Close();
         }
 
         void OnDestroy()

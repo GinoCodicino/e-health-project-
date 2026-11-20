@@ -1,0 +1,16 @@
+MURATURA SOSTITUTIVA MULINO - V3
+SOLO MURI: nessuna ruota, porta, finestra, tetto o collider incluso.
+Corpo originale 8.4 x 6.4 m; da Y=-2.4 a Y=5.8, frontoni fino a Y=7.7. Fronte originale -Z.
+Rilievo pietre circa 5-9 cm; tre grigi, fughe strette e nucleo continuo. Pietre grandi smussate low-poly ispirate al riferimento; nessuna texture fotografica usata. Normali esplicite incluse.
+
+COME SOSTITUIRE SENZA PERDERE LE MODIFICHE
+1. Duplicare il mulino nella scena come backup.
+2. Estrarre lo ZIP e importare OBJ e MTL insieme nella stessa cartella Assets.
+3. Se il vecchio modello e un prefab non modificabile, usare Unpack Prefab per poter disattivare i singoli figli.
+4. Disattivare SOLO i vecchi elementi murari: StoneBuilding, RoundedCobblestones, StoneGables, BasementCore, BasementCobblestones (inclusi eventuali duplicati con suffissi numerici).
+5. Lasciare attivi tetto, finestre, porta, ruota e relativi supporti.
+6. Inserire il nuovo modello come figlio dello stesso contenitore del vecchio modello: posizione locale 0,0,0, rotazione locale 0,0,0, scala locale 1,1,1 SE il vecchio modello ha questi valori. Altrimenti copiare il Transform locale del vecchio modello. Non copiare il Transform della ruota.
+7. Verificare che i due asset usino la stessa scala di importazione. Y=0 resta il livello originale di ingresso/terreno; il fondo interrato e a -2.4 m.
+
+Il nucleo e pieno: non sono presenti aperture visitabili o interni. Porte/finestre esistenti rimangono dettagli esterni.
+Materiali a colori pieni. In URP/HDRP potrebbe servire convertire o riassegnare i materiali.

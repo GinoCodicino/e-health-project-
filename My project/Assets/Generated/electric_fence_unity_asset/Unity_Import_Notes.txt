@@ -1,0 +1,6 @@
+Unity import notes
+- Import electric_fence_alpine.obj into Unity.
+- Scale: 1 Unity unit = 1 meter; footprint about 25 x 20 m.
+- Materials: white_plastic, electric_orange.
+- Two wires at 0.35 m and 0.75 m.
+- No terrain included; place on flat ground.

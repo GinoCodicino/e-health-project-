@@ -71,8 +71,8 @@ MonoBehaviour:
       - rid: 202439341576028164
       - rid: 202439341576028165
       - rid: 202439341576028166
-      - rid: 6412811463623966720
-      - rid: 6412811463623966721
+      - rid: 2682644138378395729
+      - rid: 2682644138378395730
     m_RuntimeSettings:
       m_List: []
   m_AssetVersion: 11
@@ -317,12 +317,12 @@ MonoBehaviour:
         _sixFaceSkyBoxMesh: {fileID: 4300000, guid: a80925ceebd011741b42509226cefc74, type: 2}
         _buildLightGridShader: {fileID: 7200000, guid: 16e47c1641bd0104e92b624601457bb0, type: 3}
         _solidColorShader: {fileID: 4800000, guid: 3765a7ac691541038de4d587b94ae768, type: 3}
-    - rid: 6412811463623966720
+    - rid: 2682644138378395729
       type: {class: ScreenSpaceAmbientOcclusionCoreResources, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.Runtime}
       data:
         m_RasterizationShader: {fileID: 4800000, guid: 0849e84e3d62649e8882e9d6f056a017, type: 3}
         m_Version: 0
-    - rid: 6412811463623966721
+    - rid: 2682644138378395730
       type: {class: ScreenSpaceAmbientOcclusionBlueNoiseResources, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.Runtime}
       data:
         m_BlueNoise256Textures:

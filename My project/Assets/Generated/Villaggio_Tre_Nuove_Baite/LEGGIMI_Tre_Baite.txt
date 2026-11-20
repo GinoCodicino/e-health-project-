@@ -1,0 +1,12 @@
+TRE BAITE COMPLETE LOW POLY
+Tutte con due piani, piano terra nella stessa muratura sfaccettata del mulino v3 e delle ultime baite: tre grigi, rilievo 5-9 cm, nucleo continuo.
+
+1. Baita_Antica_Bruna: corpo 6.4 x 5.8 m, legno bruno scuro, balcone corto a sinistra, ingresso a destra, tetto in pietra.
+2. Baita_Grigia_Stagionata: corpo 9.2 x 6 m, legno grigio-bruno, balcone largo senza colonne a terra, ingresso centrale, tetto in scandole lignee scure.
+3. Baita_Nuova_Miele: corpo 7.4 x 7.2 m, legno miele e tavole verticali, senza balcone, ingresso decentrato con pensilina, tetto in pietra.
+Vecchio/nuovo suggerito da palette e dettagli, non da texture di usura fotografiche.
+
+Estrarre tutto lo ZIP. Importare ogni OBJ insieme al relativo MTL nella stessa cartella Assets. Posizionare in scena a scala 1 se si desiderano le dimensioni in metri.
+Asse Y verticale, quota base Y=0, fronte -Z. Ingombri di tetti e balconi maggiori dei corpi indicati. Normali esplicite incluse.
+Modelli esterni completi, nessun interno, apertura visitabile, animazione, collider, terreno o basamento interrato.
+Materiali a colori pieni senza texture/UV. In URP/HDRP puo servire convertire o riassegnare i materiali. OBJ non prefab/unitypackage.

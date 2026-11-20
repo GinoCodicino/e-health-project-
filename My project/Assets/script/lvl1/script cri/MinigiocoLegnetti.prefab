@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6428704162036279246
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1958636871156250679}
+  - component: {fileID: 456659479673726835}
+  m_Layer: 0
+  m_Name: MinigiocoLegnetti
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1958636871156250679
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6428704162036279246}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 39.42859, y: 10.00219, z: 39.97688}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &456659479673726835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6428704162036279246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88fcf5be7fa0e9c428b8c2183007ab4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RaccoltaLegnetti
+  sfondo: {fileID: -2710765271744640799, guid: aeea8ce3585cb1940ab7caf25c75afea, type: 3}
+  cesta: {fileID: 1386593423705871544, guid: 5ab0e036099dd8247a786cc67b62bec8, type: 3}
+  legnetti:
+  - {fileID: -5658618715671055416, guid: 14c6e774a91ec634095a0cc16c06110a, type: 3}
+  - {fileID: -49540772645281197, guid: 69351ed2eb5a3da4a9452f151e523d28, type: 3}
+  - {fileID: -3739470527474609210, guid: 5c951426b0025144d81973cb868ce878, type: 3}
+  pigna: {fileID: -2032472096342062768, guid: 2baacc1ffd9ad8e4d8bb0eb77081ba97, type: 3}
+  legnettiDaRaccogliere: 12
+  vite: 3
+  probabilitaPigna: 0.25
+  cadutaIniziale: 150
+  cadutaFinale: 240
+  intervalloIniziale: 1.5
+  intervalloFinale: 1
+  velocitaCesta: 520
+  larghezzaCesta: 150
+  dimensioneOggetto: 76
+  ricordoNonno: "Dal taccuino del nonno:\n\xABSu un sentiero incontrai un bambino che passava i pomeriggi nel bosco a osservare pi\xF9 specie possibile: scoiattoli, picchi, ghiri. Ogni giorno ne scopriva una nuova.\xBB"
+  presente: "Oggi il bosco ha perso molti alberi e la fauna si \xE8 ritirata. Quel bambino \xE8 diventato un adulto che costruisce rifugi per animali: cataste di legno che fanno ombra e tana."
+  istruzioni: "[\u2190 \u2192] oppure [A] [D] = muovi la cesta\nRaccogli i legnetti per costruire il rifugio. Evita le pigne: non servono!"
+  player: {fileID: 0}
+  onVittoria:
+    m_PersistentCalls:
+      m_Calls: []
+  onSconfitta:
+    m_PersistentCalls:
+      m_Calls: []

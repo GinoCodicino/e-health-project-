@@ -1,0 +1,8 @@
+BAITA ALPINA LOW POLY - VERSIONE 2
+Ricreata dal codice originale con geometria e dimensioni principali mantenute.
+Modifiche: colori piu saturi e luminosi; copertura a lastre di pietra scura con variazioni di grigio; rimossi i dettagli lignei delle travi del tetto; sostegno centrale inferiore spostato da X=0 a X=1.8 m.
+Corpo 10 x 8 m, colmo circa 7.9 m, camino 8.58 m. Y verticale, base Y=0, fronte -Z.
+Solo esterni, senza collider o terreno.
+Estrarre lo ZIP e copiare insieme OBJ e MTL nella stessa cartella di Assets in Unity.
+Materiali a colori pieni senza texture; per URP/HDRP puo essere necessario assegnare o convertire i materiali.
+Non e un prefab o un file unitypackage.

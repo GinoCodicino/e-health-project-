@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c34217e55a045ee439d13e367a51decb
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 407734
+  packageName: Low Poly Vehicle Starter Pack
+  packageVersion: 1.0
+  assetPath: Assets/LowPolyVehicleStarterPack/Prefabs/Wheelbarrow/Materials/Wheelbarrow_Body_Mat_1.mat
+  uploadId: 995866

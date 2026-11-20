@@ -1,0 +1,91 @@
+newmtl Malta
+Kd 0.290 0.300 0.310
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Pietra_Scura
+Kd 0.320 0.340 0.360
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Pietra_Media
+Kd 0.390 0.410 0.430
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Pietra_Chiara
+Kd 0.460 0.480 0.500
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Legno
+Kd 0.240 0.105 0.038
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Legno_Chiaro
+Kd 0.340 0.170 0.065
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Legno_Scuro
+Kd 0.130 0.052 0.018
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Vetro
+Kd 0.140 0.390 0.470
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Ferro
+Kd 0.120 0.140 0.150
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Copertura0
+Kd 0.204 0.230 0.246
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Copertura1
+Kd 0.228 0.257 0.275
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Copertura2
+Kd 0.252 0.284 0.304
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Copertura3
+Kd 0.276 0.310 0.333
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+

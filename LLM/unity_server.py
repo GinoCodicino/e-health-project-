@@ -1,4 +1,4 @@
-"""Bridge Unity /ask. Reuses main.LLM without editing the model author's main.py.
+"""Bridge Unity /ask. Reuses the LLM module (LLMLoader, PersonaLoader, AnswerStore).
 
 python unity_server.py --demo  -> explicit scripted replies, no model download
 python unity_server.py         -> real local Qwen model and existing persona
@@ -82,23 +82,25 @@ def final_answer(text: str) -> str:
 
 
 def load_real_model(persona_number: int) -> Any:
-    """Keep main.py intact; only resolve its relative file paths for this server."""
+    """Load model, persona and answer log with the LLM module, using paths relative to this file."""
     persona_path = BASE_DIR / "personas" / f"persona_{persona_number}.json"
     if not persona_path.is_file():
         raise FileNotFoundError(f"Missing persona: {persona_path}")
-    from main import LLM
+    from types import SimpleNamespace
 
-    class GameLLM(LLM):
-        def load_persona(self, number):
-            with (BASE_DIR / "personas" / f"persona_{number}.json").open(encoding="utf-8") as handle:
-                return json.load(handle)
+    from LLM import AnswerStore, LLMLoader, PersonaLoader
 
-        def generate_name_output_file(self, model_name, number):
-            folder = BASE_DIR / f"output_{number}"
-            folder.mkdir(exist_ok=True)
-            return str(folder / ("output_" + model_name.replace("/", "_") + ".txt"))
-
-    return GameLLM(model_name=MODEL_NAME, persona_number=persona_number)
+    loaded = LLMLoader().load(MODEL_NAME)
+    persona = PersonaLoader(folder=str(BASE_DIR / "personas")).load(persona_number)
+    output_folder = BASE_DIR / f"output_{persona_number}"
+    output_folder.mkdir(exist_ok=True)
+    store = AnswerStore(str(output_folder / ("output_" + MODEL_NAME.replace("/", "_") + ".txt")))
+    return SimpleNamespace(
+        model=loaded.model,
+        tokenizer=loaded.tokenizer,
+        system_prompt=persona.system_prompt(),
+        store=store,
+    )
 
 
 def generate_real_answer(llm: Any, question: str, history=None) -> str:
@@ -131,7 +133,7 @@ def generate_real_answer(llm: Any, question: str, history=None) -> str:
     answer = final_answer(text)
     if not answer:
         raise ValueError("The model returned no final answer. Try a shorter question.")
-    llm.store_answer(question, answer, llm.output_file)
+    llm.store.save(question, answer)
     return answer
 
 

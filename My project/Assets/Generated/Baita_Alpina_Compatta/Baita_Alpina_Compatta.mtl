@@ -1,0 +1,119 @@
+newmtl Wood
+Kd 0.430 0.200 0.065
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl LightWood
+Kd 0.620 0.340 0.105
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl DarkWood
+Kd 0.270 0.105 0.025
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Mortar
+Kd 0.400 0.380 0.320
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Glass
+Kd 0.140 0.490 0.620
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Slate
+Kd 0.230 0.260 0.280
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Metal
+Kd 0.130 0.140 0.140
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Stone0
+Kd 0.493 0.459 0.365
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Slate0
+Kd 0.220 0.245 0.260
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Stone1
+Kd 0.534 0.497 0.396
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Slate1
+Kd 0.238 0.263 0.278
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Stone2
+Kd 0.574 0.535 0.426
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Slate2
+Kd 0.256 0.281 0.296
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Stone3
+Kd 0.615 0.572 0.456
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Slate3
+Kd 0.274 0.299 0.314
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Stone4
+Kd 0.655 0.610 0.486
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Slate4
+Kd 0.292 0.317 0.332
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+

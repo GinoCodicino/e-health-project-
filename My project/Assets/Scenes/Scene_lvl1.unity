@@ -39268,7 +39268,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8783306491908617939, guid: f02116c209ecd9e488fc4d2cd8996133, type: 3}
       propertyPath: m_Name
-      value: Rock_04 - casuale
+      value: rock_minigioco
       objectReference: {fileID: 0}
     - target: {fileID: 8783306491909106419, guid: f02116c209ecd9e488fc4d2cd8996133, type: 3}
       propertyPath: m_LocalScale.x
@@ -39409,7 +39409,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PuntoMinigioco
   minigioco: {fileID: 0}
   interactKey: 101
-  interactDistance: 3.5
+  interactDistance: 5
   testo: Cerca il vitellino tra le rocce
   abilitato: 0
   completato: 0
@@ -131384,6 +131384,26 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 550749511122384726, guid: fe4ddc300bb879c4f860a9a1954689fb, type: 3}
   m_PrefabInstance: {fileID: 678128584}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &678476590 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4509049720512584943, guid: 7220552af89d241ea841896ec5eb5b54, type: 3}
+  m_PrefabInstance: {fileID: 939198758}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &678476591 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3282961845508457196, guid: 7220552af89d241ea841896ec5eb5b54, type: 3}
+  m_PrefabInstance: {fileID: 939198758}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &678476592 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 372565560437292001, guid: 7220552af89d241ea841896ec5eb5b54, type: 3}
+  m_PrefabInstance: {fileID: 939198758}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &678476593 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -3849813107231120311, guid: 7220552af89d241ea841896ec5eb5b54, type: 3}
+  m_PrefabInstance: {fileID: 939198758}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &679054062
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -134937,7 +134957,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 0.7058824, g: 0.68235296, b: 0.59607846, a: 1}
-    - _Color: {r: 0.7058824, g: 0.68235296, b: 0.5960784, a: 1}
+    - _Color: {r: 0.7058823, g: 0.68235296, b: 0.5960784, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
@@ -186710,7 +186730,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 7220552af89d241ea841896ec5eb5b54, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 88.976
+      value: 92.235
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7220552af89d241ea841896ec5eb5b54, type: 3}
       propertyPath: m_LocalPosition.y
@@ -186718,11 +186738,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7220552af89d241ea841896ec5eb5b54, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -157.323
+      value: -154.863
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7220552af89d241ea841896ec5eb5b54, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.8548569
+      value: 0.21882796
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7220552af89d241ea841896ec5eb5b54, type: 3}
       propertyPath: m_LocalRotation.x
@@ -186730,7 +186750,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7220552af89d241ea841896ec5eb5b54, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.5188638
+      value: -0.9757635
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7220552af89d241ea841896ec5eb5b54, type: 3}
       propertyPath: m_LocalRotation.z
@@ -186742,11 +186762,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7220552af89d241ea841896ec5eb5b54, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -62.512
+      value: -154.72
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7220552af89d241ea841896ec5eb5b54, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -3849813107231120311, guid: 7220552af89d241ea841896ec5eb5b54, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -1046333162348106272, guid: 7220552af89d241ea841896ec5eb5b54, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -186769,6 +186793,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7220552af89d241ea841896ec5eb5b54, type: 3}
       insertIndex: -1
       addedObject: {fileID: 939198763}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7220552af89d241ea841896ec5eb5b54, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 939198764}
   m_SourcePrefab: {fileID: 100100000, guid: 7220552af89d241ea841896ec5eb5b54, type: 3}
 --- !u!1 &939198759 stripped
 GameObject:
@@ -186810,7 +186837,7 @@ Animation:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 939198759}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Animation: {fileID: 0}
   m_Animations: []
@@ -186847,6 +186874,45 @@ MonoBehaviour:
   dialogoFinale:
   - "Acqua pulita... non ne vedevo cos\xEC da tanto tempo."
   - Grazie, ragazzo. Una volta bastava allungare una mano per berne quanta ne volevi.
+--- !u!114 &939198764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 939198759}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d17c0587b8ff8b43bbb9268beb4a1ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OldLadyAnimation
+  spine: {fileID: 678476593}
+  head: {fileID: 678476591}
+  handLeft: {fileID: 678476592}
+  handRight: {fileID: 678476590}
+  handsCenter: {x: 0, y: 0.9, z: 0}
+  handsGap: 0.35
+  greetArmSpread: 0.15
+  armSwayAmplitude: 0.06
+  armSwaySpeed: 0.65
+  leanForward: 12
+  hunch: 0.15
+  weightShiftAngle: 2.2
+  weightShiftSpeed: 0.35
+  breathing: 0.035
+  handTremor: 0.012
+  headTremor: 0.6
+  nodEvery: 7.5
+  nodDuration: 2.2
+  headDown: 5
+  headTilt: 6
+  glanceAngle: 25
+  lookRange: 12
+  maxHeadYaw: 60
+  maxHeadPitch: 25
+  lookSpeed: 3.5
+  invertForward: 1
+  targetToWatch: {fileID: 1727607287}
 --- !u!1001 &940632367
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -232299,6 +232365,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7405846476849834440, guid: c6308cb7062fac34e8e50600086b12a1, type: 3}
   m_PrefabInstance: {fileID: 1159065039}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1159383103 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 372565560437292001, guid: 89492668bba6c274ab79a14e289b90e5, type: 3}
+  m_PrefabInstance: {fileID: 1655203020}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1160375691
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -237800,9 +237871,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Malgaro
   player: {fileID: 0}
   punto: {fileID: 0}
+  malgaroAnimation: {fileID: 0}
   nome: Il malgaro
   interactKey: 101
-  interactDistance: 3
+  interactDistance: 5
   orientamentoModello: 0
   dialogoIniziale:
   - Ah, un escursionista! Meno male, ho bisogno di una mano.
@@ -280166,6 +280238,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 2989105432394852335, guid: 81851aa98b1114f7009cae8a0198fec9, type: 3}
   m_PrefabInstance: {fileID: 1364758137}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1364889705 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3282961845508457196, guid: 89492668bba6c274ab79a14e289b90e5, type: 3}
+  m_PrefabInstance: {fileID: 1655203020}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1365843528
 PrefabInstance:
@@ -338718,12 +338795,55 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 89492668bba6c274ab79a14e289b90e5, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1180283086}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 89492668bba6c274ab79a14e289b90e5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1655203022}
   m_SourcePrefab: {fileID: 100100000, guid: 89492668bba6c274ab79a14e289b90e5, type: 3}
 --- !u!4 &1655203021 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 89492668bba6c274ab79a14e289b90e5, type: 3}
   m_PrefabInstance: {fileID: 1655203020}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1655203022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1180283082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca1f866f6fcda89479b8e7c2fb7e0431, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MalgaroAnimation
+  spine: {fileID: 1943623016}
+  head: {fileID: 1364889705}
+  handLeft: {fileID: 1159383103}
+  handRight: {fileID: 282338681}
+  calfSearchTarget: {fileID: 196256569}
+  isPointing: 0
+  pointTransitionSpeed: 1.2
+  pointingHandOffset: {x: 0.45, y: 1.55, z: 1.85}
+  pointingArmEuler: {x: -55, y: 0, z: -90}
+  bodyPointOffsetAngle: -40
+  handsBaseCenter: {x: 0, y: 0.5, z: 1}
+  baseHandsGap: 1
+  dismayArmSpread: 0.85
+  dismayEvery: 6.5
+  dismayDuration: 2.8
+  leanForward: 10
+  hunch: 0.12
+  breathing: 0.035
+  headShakeAngle: 14
+  defeatedHeadPitch: 10
+  searchLookAngle: 48
+  searchSpeed: 0.45
+  lookRange: 18
+  maxHeadYaw: 70
+  maxSpinePointTwist: 35
+  lookSpeed: 3.5
+  invertForward: 0
+  targetToWatch: {fileID: 0}
 --- !u!1001 &1655426111
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -354702,6 +354822,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CameraShake
   durata: 0.6
   intensita: 2.5
+--- !u!4 &1727607287 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3458663899393767999, guid: c21da601573ce4387a9f7a80fda4a43e, type: 3}
+  m_PrefabInstance: {fileID: 810582190470326613}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1727979623
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -390113,19 +390238,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8806667431028794931, guid: d56123a0271c76241bb2c7c6253e8c15, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.1967396
+      value: 0.19673961
       objectReference: {fileID: 0}
     - target: {fileID: 8806667431028794931, guid: d56123a0271c76241bb2c7c6253e8c15, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.13571984
+      value: 0.13571982
       objectReference: {fileID: 0}
     - target: {fileID: 8806667431028794931, guid: d56123a0271c76241bb2c7c6253e8c15, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.79928255
+      value: 0.7992826
       objectReference: {fileID: 0}
     - target: {fileID: 8806667431028794931, guid: d56123a0271c76241bb2c7c6253e8c15, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.55138105
+      value: -0.551381
       objectReference: {fileID: 0}
     - target: {fileID: 8806667431028842623, guid: d56123a0271c76241bb2c7c6253e8c15, type: 3}
       propertyPath: m_LocalPosition.x
@@ -397896,6 +398021,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 880970725214738984, guid: c60edd51c065ceb46b345849a03bc106, type: 3}
   m_PrefabInstance: {fileID: 1943233874}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1943623016 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -3849813107231120311, guid: 89492668bba6c274ab79a14e289b90e5, type: 3}
+  m_PrefabInstance: {fileID: 1655203020}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1943673432
 PrefabInstance:

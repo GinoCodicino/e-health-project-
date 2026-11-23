@@ -5,6 +5,7 @@ public class Malgaro : MonoBehaviour
 {
     public playercontroller player;
     public PuntoMinigioco punto;     // trascina qui l'oggetto con PuntoMinigioco
+    public MalgaroAnimation malgaroAnimation;
     public string nome = "Il malgaro";
     public KeyCode interactKey = KeyCode.E;
     public float interactDistance = 3f;
@@ -36,12 +37,16 @@ public class Malgaro : MonoBehaviour
     string[] righeAttuali;
     int indice;
     bool parlando;
+    bool staPuntando;
     bool haParlato;
     System.Action allaFine;
     playerinputcontroller inputController;
 
     void Start()
     {
+        if (malgaroAnimation == null)
+            malgaroAnimation = GetComponent<MalgaroAnimation>();
+
         if (player == null && Camera.main != null)
             player = Camera.main.GetComponentInParent<playercontroller>();
 
@@ -75,15 +80,18 @@ public class Malgaro : MonoBehaviour
 
         if (parlando)
         {
-            Vector3 dir = player.transform.position - transform.position;
-            dir.y = 0;
-            if (dir.sqrMagnitude > 0.01f)
+            if (!staPuntando)
             {
-                Quaternion rotazioneVersoPlayer =
-                    Quaternion.LookRotation(dir) *
-                    Quaternion.Euler(0f, orientamentoModello, 0f);
-                transform.rotation = Quaternion.Slerp(
-                    transform.rotation, rotazioneVersoPlayer, Time.deltaTime * 4f);
+                Vector3 dir = player.transform.position - transform.position;
+                dir.y = 0;
+                if (dir.sqrMagnitude > 0.01f)
+                {
+                    Quaternion rotazioneVersoPlayer =
+                        Quaternion.LookRotation(dir) *
+                        Quaternion.Euler(0f, orientamentoModello, 0f);
+                    transform.rotation = Quaternion.Slerp(
+                        transform.rotation, rotazioneVersoPlayer, Time.deltaTime * 4f);
+                }
             }
 
             if (InterazionePremuta() ||
@@ -121,6 +129,7 @@ public class Malgaro : MonoBehaviour
         allaFine = fine;
         parlando = true;
         player.canMove = false;
+        AggiornaAnimazioneRiga();
     }
 
     void Avanti()
@@ -129,9 +138,31 @@ public class Malgaro : MonoBehaviour
         if (indice >= righeAttuali.Length)
         {
             parlando = false;
+            staPuntando = false;
+            if (malgaroAnimation != null) malgaroAnimation.StopPointing();
             player.canMove = true;
             if (allaFine != null) allaFine();
             allaFine = null;
+        }
+        else
+        {
+            AggiornaAnimazioneRiga();
+        }
+    }
+
+    void AggiornaAnimazioneRiga()
+    {
+        if (malgaroAnimation == null) return;
+
+        if (righeAttuali[indice].Contains("tra le rocce e i cespugli"))
+        {
+            staPuntando = true;
+            malgaroAnimation.PointAtCalf();
+        }
+        else
+        {
+            staPuntando = false;
+            malgaroAnimation.StopPointing();
         }
     }
 

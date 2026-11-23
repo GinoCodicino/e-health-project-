@@ -25,7 +25,7 @@ namespace Level02.DeerRescue
         {
             if(IsOpen || who==null)return;running=false;Begin(who,callback,"FirstAidArcade_UI");
             Label("FIRST-AID KIT: MICROBE CHALLENGE",-550,285,1100,64,30);
-            Art(RescueArtwork.Picture.Deer,page.transform,0,80,440,220);
+        
             Label("An arcade challenge inside the kit:\nFUCHSIA TWEEZERS remove falling infected splinters.\nDISINFECTANT defeats microbes with two hits.\nA first spray releases a splinter: remove it before the second spray.\nSwitch tools and avoid five misses. The deer is safe during retries.",-510,-115,1020,210,25);
             Button("Start challenge",page.transform,-270,-290,480,48,StartRound);
             Button("Back to the trail",page.transform,270,-290,480,48,()=>Close());
@@ -99,7 +99,6 @@ namespace Level02.DeerRescue
         {
             running=false;NewPage();fragments.Clear();
             Label(won?"KIT CHALLENGE COMPLETE!":"LET'S TRY AGAIN",-550,275,1100,65,31);
-            var deer=Art(RescueArtwork.Picture.Deer,page.transform,0,55,620,310);deer.bandaged=won;deer.SetVerticesDirty();
             Label(won?"The kit is ready. Mia can dress the deer's injured leg.":"Switch tools to handle each target. Your kit is still available.",-520,-150,1040,90,25);
             Button(won?"Help the deer":"Try again",page.transform,-270,-285,480,48,()=>{if(won)Close(true);else StartRound();});
             Button("Back to the trail",page.transform,270,-285,480,48,()=>Close());

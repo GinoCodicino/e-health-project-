@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c11da82bd497544b39908620c118cafc, type: 3}
+  m_Name: Climber_Rest
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueData
+  lines:
+  - speaker: You
+    text: Are you okay? You look exhausted.
+    source: 
+    choices: []
+  - speaker: 
+    text: I tried the summit this morning. I turned back at ninety metres, right when the storm hit.
+    source: 
+    choices: []
+  - speaker: You
+    text: The storm?
+    source: 
+    choices: []
+  - speaker: 
+    text: Wind from thirty metres, rain from sixty, then lightning. And rocks falling the whole way up. It wasn't like this when I started climbing here.
+    source: 
+    choices: []
+  - speaker: 
+    text: Back then you crossed a glacier to reach the top. Now the ice is gone, and the scientists say those losses are becoming irreversible.
+    source: IPCC AR6 Synthesis Report, SPM A.2.3, p.11
+    choices: []
+  - speaker: You
+    text: Any advice before I go up?
+    source: 
+    choices: []
+  - speaker: 
+    text: Watch your stamina and grab the water bottles on the way. When you see rocks coming, change lanes.
+    source: 
+    choices: []
+  - speaker: 
+    text: If you fall, you start again from your last section. Good luck... and come back down, okay?
+    source: 
+    choices: []
+  endings: []

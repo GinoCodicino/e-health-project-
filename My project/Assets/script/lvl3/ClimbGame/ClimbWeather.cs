@@ -12,10 +12,14 @@ public class WeatherSection
     public string name = "The weather is fine...";
     [Tooltip("Altitude where this section starts (m). It is also the checkpoint after a fall.")]
     public float startHeight;
-    [Tooltip("Sky color at the horizon, also used by the fog.")]
-    public Color sky = new Color(0.55f, 0.78f, 0.98f);
+    [Tooltip("Sky color at the horizon (the glow of the setting sun).")]
+    public Color sky = new Color(0.95f, 0.58f, 0.4f);
     [Tooltip("Sky color at the very top (zenith).")]
-    public Color skyTop = new Color(0.2f, 0.42f, 0.8f);
+    public Color skyTop = new Color(0.13f, 0.16f, 0.38f);
+    [Tooltip("Color of the distance (fog, far mountains, clouds). Transparent = the horizon color.")]
+    public Color fog = new Color(0.7f, 0.57f, 0.55f);
+    [Tooltip("How visible the stars are (the clouds hide them in bad weather).")]
+    [Range(0f, 1f)] public float stars = 1f;
     [Tooltip("Rain visible on screen.")]
     public bool rain;
 
@@ -39,6 +43,9 @@ public class WeatherSection
 
     /// <summary>Zenith; if skyTop was never set (transparent), a darker version of the horizon.</summary>
     public Color SkyTop => skyTop.a > 0f ? skyTop : sky * 0.55f;
+
+    /// <summary>Distance color; if fog was never set (transparent), the horizon color.</summary>
+    public Color Fog => fog.a > 0f ? fog : sky;
 }
 
 /// <summary>
@@ -49,10 +56,11 @@ public class ClimbWeather : MonoBehaviour
 {
     public List<WeatherSection> sections = new List<WeatherSection>
     {
-        new WeatherSection { name = "Clear skies", startHeight = 0f,  sky = new Color(0.55f, 0.78f, 0.98f), skyTop = new Color(0.2f, 0.42f, 0.8f), rockRate = 0.25f, waterChance = 0.12f },
-        new WeatherSection { name = "Wind",       startHeight = 30f, sky = new Color(0.62f, 0.74f, 0.86f), skyTop = new Color(0.3f, 0.45f, 0.7f), drainMultiplier = 1.1f, rockRate = 0.3f, gustRate = 0.25f, waterChance = 0.15f },
-        new WeatherSection { name = "Rain",       startHeight = 60f, sky = new Color(0.42f, 0.5f, 0.6f), skyTop = new Color(0.25f, 0.3f, 0.4f),   rain = true, drainMultiplier = 1.3f, climbSpeedMultiplier = 0.85f, rockRate = 0.35f, gustRate = 0.1f, wetChance = 0.35f, waterChance = 0.18f },
-        new WeatherSection { name = "Storm",      startHeight = 90f, sky = new Color(0.24f, 0.26f, 0.34f), skyTop = new Color(0.08f, 0.09f, 0.14f), rain = true, drainMultiplier = 1.5f, climbSpeedMultiplier = 0.8f, rockRate = 0.4f, gustRate = 0.3f, lightningRate = 0.4f, wetChance = 0.3f, waterChance = 0.2f },
+        // Same twilight as the base camp at the start, then the sky closes in as the weather turns.
+        new WeatherSection { name = "Clear skies", startHeight = 0f,  sky = new Color(0.95f, 0.58f, 0.4f),  skyTop = new Color(0.13f, 0.16f, 0.38f), fog = new Color(0.7f, 0.57f, 0.55f),  rockRate = 0.25f, waterChance = 0.12f },
+        new WeatherSection { name = "Wind",       startHeight = 30f, sky = new Color(0.82f, 0.5f, 0.42f),  skyTop = new Color(0.11f, 0.13f, 0.32f), fog = new Color(0.6f, 0.5f, 0.52f),   stars = 0.7f, drainMultiplier = 1.1f, rockRate = 0.3f, gustRate = 0.25f, waterChance = 0.15f },
+        new WeatherSection { name = "Rain",       startHeight = 60f, sky = new Color(0.5f, 0.42f, 0.48f),  skyTop = new Color(0.09f, 0.1f, 0.2f),   fog = new Color(0.42f, 0.38f, 0.44f), stars = 0.15f, rain = true, drainMultiplier = 1.3f, climbSpeedMultiplier = 0.85f, rockRate = 0.35f, gustRate = 0.1f, wetChance = 0.35f, waterChance = 0.18f },
+        new WeatherSection { name = "Storm",      startHeight = 90f, sky = new Color(0.26f, 0.23f, 0.31f), skyTop = new Color(0.04f, 0.04f, 0.09f), fog = new Color(0.22f, 0.21f, 0.27f), stars = 0f, rain = true, drainMultiplier = 1.5f, climbSpeedMultiplier = 0.8f, rockRate = 0.4f, gustRate = 0.3f, lightningRate = 0.4f, wetChance = 0.3f, waterChance = 0.2f },
     };
 
     public WeatherSection Current { get; private set; }

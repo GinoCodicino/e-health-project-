@@ -13,10 +13,102 @@ MonoBehaviour:
   m_Name: EthanBrooks_Intro
   m_EditorClassIdentifier: Assembly-CSharp::DialogueData
   lines:
+  - speaker: You
+    text: "Hey! Did you just land here with that helicopter?"
+    source:
+    choices: []
+  - speaker:
+    text: "Sure did. I have clients to see, that's my job. One flight won't change the weather, and nobody is going to ground me over it."
+    source:
+    choices: []
+  - speaker: You
+    text: "Look at the mountain, though. There used to be a glacier up there."
+    source:
+    choices: []
+  - speaker:
+    text: "And now everyone says it melted because of us. Come on."
+    source:
+    choices: []
   - speaker: 
-    text: Hey! You're heading up the mountain?
+    text: "That's just the weather, not climate change. Glaciers come and go, the climate has always changed, and I don't see how organizing people's lives would fix it."
+    source: 
+    choices:
+    - label: "Fact: billions of people are vulnerable"
+      playerLine: "The IPCC says about 3.3 to 3.6 billion people already live in places highly vulnerable to climate change. That's more than weather."
+      source: "IPCC AR6 Synthesis Report, SPM A.2.2, p.11"
+      reaction: "Billions, huh. I'm still not sure it's climate change and not just natural weather patterns. But fine, those people do need to adapt."
+      convince: 1
+    - label: "Ask: is it only natural?"
+      playerLine: "Is it just natural climate change, or is there something more to it that we're not seeing?"
+      source: ""
+      reaction: "Maybe. But the glaciers and the wild weather look like natural cycles to me. I'm not convinced humans are the main driver."
+      convince: 0
+    - label: "Understand him, then a fact on extremes"
+      playerLine: "I get why you doubt it, Ethan, the weather up here has always been wild. But the IPCC says human-caused climate change is already affecting extremes in every region of the globe."
+      source: "IPCC AR6 Synthesis Report, SPM A.2, p.11"
+      reaction: "Every region... All right, maybe I'm missing something. I just don't see how reorganizing people's lives fixes it."
+      convince: 2
   - speaker: 
-    text: Take it slow and drink some water on the way. The weather changes fast
-      up there.
+    text: "It's not human-caused. It's natural processes we don't fully understand yet, and no single human action is going to change the world."
+    source: 
+    choices:
+    - label: "Fact: 1.07\u00b0C caused by humans"
+      playerLine: "The IPCC measured it: humans caused about 1.07\u00b0C of warming since 1850\u20131900, while natural drivers changed the temperature by 0.1\u00b0C at most."
+      source: "IPCC AR6 Synthesis Report, SPM A.1.2, p.10"
+      reaction: "I don't doubt it. The facts are hard to deny, but I'm not convinced reorganizing everyone's life will fix it."
+      convince: 1
+    - label: "Ask: why does the IPCC say otherwise?"
+      playerLine: "If it's natural, why does the IPCC say natural variability only modulates the warming, with little effect on the long-term trend?"
+      source: "IPCC AR6 Synthesis Report, SPM B.1.5, p.19"
+      reaction: "I'm not contradicting the report. I just think we should look at every possibility before blaming people."
+      convince: 1
+    - label: "Agree nature plays a part, then a fact"
+      playerLine: "Nature does play a part, Ethan, you're right about that. The IPCC agrees natural variability matters, but says it has little effect on the long-term warming."
+      source: "IPCC AR6 Synthesis Report, SPM B.1.5, p.19"
+      reaction: "Fair enough, at least you're not calling me an idiot. Natural variability is part of the story... maybe not the whole story."
+      convince: 2
   - speaker: 
-    text: Come back and tell me how it went!
+    text: "Sure, it's warming a bit faster than it used to, but I don't think we're the main factor. I look at numbers, not feelings."
+    source: 
+    choices:
+    - label: "Fact: +1.1\u00b0C, caused by humans"
+      playerLine: "Then here's a number: global temperature reached 1.1\u00b0C above 1850\u20131900 in 2011\u20132020, and the IPCC says human activities unequivocally caused it."
+      source: "IPCC AR6 Synthesis Report, SPM A.1, p.10"
+      reaction: "I have to admit the numbers. But I doubt we're the main factor, the climate is not that simple."
+      convince: 1
+    - label: "Ask: which number would change your mind?"
+      playerLine: "You like numbers. Which number would change your mind?"
+      source: ""
+      reaction: "Good question. A clear trend over decades, not one hot summer. That's what I'd want to see."
+      convince: 1
+    - label: "Respect his numbers, then a fact"
+      playerLine: "I respect that you want numbers, Ethan, not feelings. And the IPCC's numbers say the warming is unequivocally caused by human activities."
+      source: "IPCC AR6 Synthesis Report, SPM A.1, p.10"
+      reaction: "I value facts, so I'll look at those numbers. I'm not promising anything."
+      convince: 1
+  - speaker: 
+    text: "I'm not convinced reorganizing everyone's life is going to fix it. The climate has always changed, and I doubt that individual action will matter enough to address the scale of the issue."
+    source: 
+    choices:
+    - label: "Fact: some changes are irreversible"
+      playerLine: "The IPCC says many changes will be irreversible for centuries if emissions continue. Acting now is what limits them."
+      source: "IPCC AR6 Synthesis Report, SPM C.1.3, p.30"
+      reaction: "I don't doubt the IPCC report. But I still doubt one person's actions matter at that scale."
+      convince: 1
+    - label: "Ask: what if everyone acts together?"
+      playerLine: "What if it's not about one person, but about everyone acting together?"
+      source: ""
+      reaction: "Everyone together... that's different from me alone, I'll grant you that. I'm just not sure it will ever happen."
+      convince: 2
+    - label: "Agree one person can't, then a fact"
+      playerLine: "I understand your point, Ethan: one person alone can't fix it. But the IPCC says accelerated action by everyone is critical, and that's where the difference is."
+      source: "IPCC AR6 Synthesis Report, SPM C.4, p.36"
+      reaction: "Collective efforts, maybe. One helicopter less won't save the glacier, but I'll think about it."
+      convince: 2
+  endings:
+  - minConvince: 0
+    text: "I'm not convinced. The weather up there gets wild, it always has. Be prepared, and watch out for the rocks."
+  - minConvince: 4
+    text: "You made me think, I'll give you that. Keep moving, and take shelter when the storm comes."
+  - minConvince: 6
+    text: "I see your point, even if it's hard to say it. Go on, climb, and tell me what the weather is like up there."

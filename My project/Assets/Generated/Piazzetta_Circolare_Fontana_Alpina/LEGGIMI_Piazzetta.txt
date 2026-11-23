@@ -1,0 +1,7 @@
+PIAZZETTA CIRCOLARE CON FONTANA ALPINA - LOW POLY
+Ispirata alla fontana della foto: vasca a coppa in pietra su piedistallo, colonnina posteriore e bocchetta. Interpretazione stilizzata, non copia metrica.
+Piazza diametro 12 m, cordolo incluso. Base Y=0, pavimentazione circa Y=0.15, bordo Y=0.18. Fontana al centro, sommità Y=1.96 circa.
+Ciottoli geometrici in cerchi concentrici con rilievo minimo; acqua opaca a colori pieni. Getto statico separato, non simulazione.
+Due archi di staccionata lasciano due ampi accessi. Gruppi Staccionata_1 e Staccionata_2 disattivabili.
+Estrarre e importare insieme OBJ e MTL in Assets. Y verticale. Modello composto da gruppi nominati; normali esplicite, materiali pieni senza texture. URP/HDRP potrebbe richiedere conversione/riassegnazione materiali.
+Nessun collider, terreno, edificio, bacheca o vegetazione incluso. OBJ non prefab/unitypackage. Non verificato nella scena Unity dell utente.

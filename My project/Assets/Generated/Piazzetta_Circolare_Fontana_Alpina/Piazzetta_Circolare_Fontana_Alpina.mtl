@@ -1,0 +1,105 @@
+newmtl Malta_Pavimento
+Kd 0.320 0.340 0.320
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Bordo_Pietra
+Kd 0.480 0.490 0.440
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Fontana_Pietra
+Kd 0.430 0.400 0.360
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Fontana_Chiara
+Kd 0.520 0.490 0.430
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Fontana_Interno
+Kd 0.350 0.340 0.310
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Acqua
+Kd 0.190 0.400 0.430
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Legno
+Kd 0.260 0.170 0.090
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Legno_Scuro
+Kd 0.180 0.115 0.065
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Ferro
+Kd 0.150 0.180 0.170
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Ciottolo0
+Kd 0.380 0.400 0.370
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Ciottolo1
+Kd 0.412 0.430 0.398
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Ciottolo2
+Kd 0.444 0.460 0.426
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Ciottolo3
+Kd 0.476 0.490 0.454
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Ciottolo4
+Kd 0.508 0.520 0.482
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+
+newmtl Ciottolo5
+Kd 0.540 0.550 0.510
+Ka 0.15 0.15 0.15
+Ks 0 0 0
+d 1
+illum 1
+

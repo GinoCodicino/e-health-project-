@@ -119,9 +119,9 @@ public class BasketDrop : MonoBehaviour
             BoxCollider col = basket.AddComponent<BoxCollider>();
         }
         rb.mass = 1.2f;
-        rb.drag = 1.8f;
-        rb.angularDrag = 3f;
-        rb.velocity = Vector3.zero;
+        rb.linearDamping = 1.8f;
+        rb.angularDamping = 3f;
+        rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Random.insideUnitSphere * 0.35f;
 
         // Suono all'impatto

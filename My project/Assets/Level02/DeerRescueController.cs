@@ -79,9 +79,17 @@ namespace Level02.DeerRescue
         void Update()
         {
             if(player==null) return;
+<<<<<<< Updated upstream
             progress.GrantPeterGifts(testStartFromMiaEncounter || (mushroomQuest != null && mushroomQuest.HasFishingNet && mushroomQuest.HasMedicalKit));
 
             if (bridgeQuest!=null)bridgeQuest.showLegacyInventory=false;
+=======
+            progress.GrantPeterGifts(
+                mushroomQuest != null
+            );
+            
+            if(bridgeQuest!=null)bridgeQuest.showLegacyInventory=false;
+>>>>>>> Stashed changes
             equipment.Show(progress.HasAxe,progress.HasMedicalKit,progress.HasNet,progress.Fish,
                 bridgeQuest==null?0:bridgeQuest.RemainingPlanks,!IsOpen && !player.IsGameplayBlocked);
             if(IsOpen)

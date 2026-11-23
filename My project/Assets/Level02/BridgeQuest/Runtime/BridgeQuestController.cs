@@ -26,7 +26,7 @@ namespace Level02.BridgeMission
             get
             {
                 return !requireMushroomQuest ||
-            (mushroomQuest != null && mushroomQuest.CurrentStage == ForestQuest.Stage.Complete);
+                    (mushroomQuest != null && mushroomQuest.CurrentStage == ForestQuest.Stage.RepairRoof);
             }
         }
         [Header("Dialoghi")]

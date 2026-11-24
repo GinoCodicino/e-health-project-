@@ -1,0 +1,132 @@
+2026-11-24 22:43:53
+Interview question: When you hear "climate change", what is the first thing that comes to your mind?
+Answer of Rachel Morgan (The Concerned but Powerless Pragmatist) (a target player of the game): When I hear "climate change," the first thing that comes to mind is that it's a serious issue caused by human activity, but I also think about how much more action is needed from governments and big industries. I understand the science, but I feel like individual efforts alone aren't enough to make a real difference. I try to be eco-friendly where I can, like recycling and saving energy, but it's not always easy or practical. I believe in environmental policies and hold government and industry accountable for bigger changes.
+
+Goal of the game: The game raises awareness about climate change: it helps players examine their views with facts from the IPCC report, without lecturing them.
+Write one or two functional requirements that help the game reach this player, given their answer. Each requirement starts with "The system shall" and fits on one line. Write only the requirements, one per line. /no_think
+
+
+The system shall present interactive scenarios that highlight the role of government and industry in climate change, using data from the IPCC report to reinforce Rachel's belief in policy-driven solutions.  
+The system shall include personal reflection prompts that encourage players to consider the balance between individual actions and systemic change, based on IPCC findings.
+:) :) :) ---------------------------------------
+2026-11-24 22:44:09
+Interview question: Would you play a video game about climate change? What would make you stop playing after five minutes?
+Answer of Rachel Morgan (The Concerned but Powerless Pragmatist) (a target player of the game): I would play a video game about climate change if it was engaging and educational. But I’d stop after five minutes if it felt like another message from the government telling me what to do, not helping me understand the real challenges we face. I care about the issue, but I don’t believe small personal changes can make a difference. I’d rather see solutions that actually involve big changes in policy and industry.
+
+Goal of the game: The game raises awareness about climate change: it helps players examine their views with facts from the IPCC report, without lecturing them.
+Write one or two functional requirements that help the game reach this player, given their answer. Each requirement starts with "The system shall" and fits on one line. Write only the requirements, one per line. /no_think
+
+
+The system shall present interactive scenarios that challenge players to consider the scale of climate impacts through data from the IPCC report, fostering reflection without direct instruction.  
+The system shall allow players to explore the balance between individual actions and systemic change using factual information from the IPCC report, encouraging critical thinking.
+:) :) :) ---------------------------------------
+2026-11-24 22:44:26
+Interview question: What kind of message in a game would make you feel lectured or manipulated?
+Answer of Rachel Morgan (The Concerned but Powerless Pragmatist) (a target player of the game): If a game tried to make me feel like I was being lectured or manipulated, it would be if it forced me to make extreme, unrealistic changes to my lifestyle that didn't reflect the real world or the bigger picture of government and industry action. I want to see systemic solutions and policy changes in games, not just individual efforts. If the game made me feel like my choices didn't matter, that would be off-putting. I prefer messages that acknowledge the complexity of the issue and the need for collective action.
+
+Goal of the game: The game raises awareness about climate change: it helps players examine their views with facts from the IPCC report, without lecturing them.
+Write one or two functional requirements that help the game reach this player, given their answer. Each requirement starts with "The system shall" and fits on one line. Write only the requirements, one per line. /no_think
+
+
+The system shall present systemic solutions and policy changes as core gameplay elements, incorporating data from the IPCC report to illustrate large-scale impacts and collective action.  
+The system shall allow players to make choices that reflect real-world complexity, ensuring their decisions do not feel isolated or insignificant in the context of global efforts.
+:) :) :) ---------------------------------------
+2026-11-24 22:44:43
+Interview question: What would you need to see in a game to trust a fact about the climate?
+Answer of Rachel Morgan (The Concerned but Powerless Pragmatist) (a target player of the game): I'd need to see consistent, clear evidence from reliable sources that's backed up by data and peer-reviewed research. I trust science, but I also value practical, real-world outcomes. I'm more likely to believe a fact if it's presented in a way that shows how it affects people and the planet. I'm not convinced just by numbers alone.
+
+Goal of the game: The game raises awareness about climate change: it helps players examine their views with facts from the IPCC report, without lecturing them.
+Write one or two functional requirements that help the game reach this player, given their answer. Each requirement starts with "The system shall" and fits on one line. Write only the requirements, one per line. /no_think
+
+
+The system shall present facts from the IPCC report in a format that clearly links them to real-world impacts and human experiences.  
+The system shall ensure all presented facts are sourced from peer-reviewed research and clearly labeled as such.
+:) :) :) ---------------------------------------
+2026-11-24 22:44:59
+Interview question: Which sources do you trust about the climate, and which ones do you not trust?
+Answer of Rachel Morgan (The Concerned but Powerless Pragmatist) (a target player of the game): I trust scientific organizations like the IPCC and environmental agencies because they base their work on solid research. I don’t trust climate change denial websites that spread misinformation or ignore the overwhelming evidence. I’ve seen the data and understand the science, but I also know that changing my habits alone won’t fix the problem. I believe in government and industry action, but I also try to make small, practical choices where I can.
+
+Goal of the game: The game raises awareness about climate change: it helps players examine their views with facts from the IPCC report, without lecturing them.
+Write one or two functional requirements that help the game reach this player, given their answer. Each requirement starts with "The system shall" and fits on one line. Write only the requirements, one per line. /no_think
+
+
+The system shall present interactive scenarios that highlight the role of scientific organizations like the IPCC in climate research, using data from the IPCC report to reinforce Rachel's trust in credible sources.  
+The system shall include decision-making elements that balance individual action with systemic change, reflecting Rachel's belief in both personal choices and broader governmental/industrial efforts.
+:) :) :) ---------------------------------------
+2026-11-24 22:45:15
+Interview question: If a game character disagrees with you, how should they talk to you so that you keep listening?
+Answer of Rachel Morgan (The Concerned but Powerless Pragmatist) (a target player of the game): If a game character disagrees with me, they should acknowledge my concerns about climate change and explain their perspective clearly, but not dismiss my actions or beliefs. I value evidence and logic, so they should present facts and reasons respectfully. I might still disagree, but I’d be more open to understanding their viewpoint. I think the game could help people see the bigger picture, even if my daily choices feel small.
+
+Goal of the game: The game raises awareness about climate change: it helps players examine their views with facts from the IPCC report, without lecturing them.
+Write one or two functional requirements that help the game reach this player, given their answer. Each requirement starts with "The system shall" and fits on one line. Write only the requirements, one per line. /no_think
+
+
+The system shall present climate-related facts from the IPCC report in a respectful and evidence-based manner when a character engages with the player's views.  
+The system shall allow players to engage in dialogue where characters acknowledge the player's concerns and explain differing perspectives using clear, non-dismissive language.
+:) :) :) ---------------------------------------
+2026-11-24 22:45:32
+Interview question: What would make a conversation with a game character feel real to you?
+Answer of Rachel Morgan (The Concerned but Powerless Pragmatist) (a target player of the game): A conversation with a game character would feel real if they showed genuine understanding of the complexity of climate change and acknowledged that individual actions, while important, are just one piece of a much larger puzzle. I’d want them to reflect the balance I live with—knowing the science is clear but feeling that systemic change is where the real impact lies. If the character was realistic about the challenges and didn’t oversimplify the issue, that would make the conversation feel authentic. I’d also appreciate if they didn’t pretend that small changes alone could fix the world, because that’s something I’ve felt for a long time.
+
+Goal of the game: The game raises awareness about climate change: it helps players examine their views with facts from the IPCC report, without lecturing them.
+Write one or two functional requirements that help the game reach this player, given their answer. Each requirement starts with "The system shall" and fits on one line. Write only the requirements, one per line. /no_think
+
+
+The system shall present dialogue options that reflect the complexity of climate change and acknowledge the limitations of individual actions.  
+The system shall incorporate IPCC-based facts to illustrate systemic challenges without oversimplifying the issue or dismissing the importance of personal responsibility.
+:) :) :) ---------------------------------------
+2026-11-24 22:45:48
+Interview question: Would you rather choose between answers or write your own? Why?
+Answer of Rachel Morgan (The Concerned but Powerless Pragmatist) (a target player of the game): I'd rather write my own answers because I believe in taking personal responsibility for my actions, even if they don't make a huge difference. I know my choices matter, but I also understand that systemic change is needed. I try to make small, practical changes in my daily life, like recycling and saving energy when it's convenient. But I still think governments and industries need to do more to address climate change effectively.
+
+Goal of the game: The game raises awareness about climate change: it helps players examine their views with facts from the IPCC report, without lecturing them.
+Write one or two functional requirements that help the game reach this player, given their answer. Each requirement starts with "The system shall" and fits on one line. Write only the requirements, one per line. /no_think
+
+
+The system shall present interactive scenarios that allow players to explore the impact of individual actions versus systemic changes, using data from the IPCC report.  
+The system shall include a feature that highlights the balance between personal responsibility and the need for collective action, based on scientific consensus from the IPCC.
+:) :) :) ---------------------------------------
+2026-11-24 22:46:04
+Interview question: This mountain used to be covered with ice and now there is none. What would you want to find out up there?
+Answer of Rachel Morgan (The Concerned but Powerless Pragmatist) (a target player of the game): I’d want to know why the ice melted and what happened to the animals and plants that lived there. I’d also like to understand how people can help stop this from happening in the future. But I’d probably start by checking if there’s any government or company responsible for the change. I’m more concerned about big systems than individual actions.
+
+Goal of the game: The game raises awareness about climate change: it helps players examine their views with facts from the IPCC report, without lecturing them.
+Write one or two functional requirements that help the game reach this player, given their answer. Each requirement starts with "The system shall" and fits on one line. Write only the requirements, one per line. /no_think
+
+
+The system shall present a scenario where players investigate the historical reasons for ice melting in a mountain, using data from the IPCC report to explain the scientific causes.  
+The system shall include a feature that allows players to explore the impact on local ecosystems, including animals and plants, based on climate change projections from the IPCC.
+:) :) :) ---------------------------------------
+2026-11-24 22:46:23
+Interview question: What small challenge at the base camp would make you think about the climate without feeling like homework?
+Answer of Rachel Morgan (The Concerned but Powerless Pragmatist) (a target player of the game): At the base camp, watching a glacier calve into the sea would make me think about the climate, but I’d try not to feel like I’m doing homework—just observing something that feels real and urgent. I’d probably grab a sandwich and a coffee, then stare at the water for a while, wondering how much longer it’ll be there. It’s a moment that feels personal but also part of a bigger story I can’t control. I’d think about how much I wish governments and companies were doing more, but I’d also remind myself that I can’t change the world alone.
+
+Goal of the game: The game raises awareness about climate change: it helps players examine their views with facts from the IPCC report, without lecturing them.
+Write one or two functional requirements that help the game reach this player, given their answer. Each requirement starts with "The system shall" and fits on one line. Write only the requirements, one per line. /no_think
+
+
+The system shall display a realistic glacier calving animation that players can observe without interruption, accompanied by subtle ambient sounds and visual cues to enhance the sense of presence and urgency.  
+The system shall provide contextual, non-intrusive facts about glacier retreat and its connection to climate change, presented in a way that aligns with the player's desire to observe rather than be lectured.
+:) :) :) ---------------------------------------
+2026-11-24 22:46:38
+Interview question: What would make reaching the summit feel rewarding to you?
+Answer of Rachel Morgan (The Concerned but Powerless Pragmatist) (a target player of the game): Reaching the summit would feel rewarding if it represented a meaningful step toward systemic change, like policy reforms or industry shifts that address climate change at a larger scale. I know my individual actions have limited impact, so I’d want the summit to symbolize collective effort and real progress. I’ve always believed in small, practical steps, but I’m also aware that true change requires bigger forces. The reward would be seeing those forces move in the right direction.
+
+Goal of the game: The game raises awareness about climate change: it helps players examine their views with facts from the IPCC report, without lecturing them.
+Write one or two functional requirements that help the game reach this player, given their answer. Each requirement starts with "The system shall" and fits on one line. Write only the requirements, one per line. /no_think
+
+
+The system shall display facts from the IPCC report that highlight the importance of systemic change and policy reforms in achieving climate goals.  
+The system shall allow players to see the cumulative impact of collective efforts through visualizations that reflect real-world data on policy and industry shifts.
+:) :) :) ---------------------------------------
+2026-11-24 22:46:52
+Interview question: What could actually make you change your mind about one of your opinions on climate?
+Answer of Rachel Morgan (The Concerned but Powerless Pragmatist) (a target player of the game): I don't think my opinions will change just because of more individual actions. I believe real change comes from government policies and industry reform. Even if I tried harder to be sustainable, it wouldn't make a big difference. I'm more hopeful that systemic changes will address the climate crisis effectively.
+
+Goal of the game: The game raises awareness about climate change: it helps players examine their views with facts from the IPCC report, without lecturing them.
+Write one or two functional requirements that help the game reach this player, given their answer. Each requirement starts with "The system shall" and fits on one line. Write only the requirements, one per line. /no_think
+
+
+The system shall present data from the IPCC report showing the scale of emissions from industries and the limited impact of individual actions.  
+The system shall allow players to explore scenarios where systemic policy changes lead to significant reductions in global emissions.
+:) :) :) ---------------------------------------

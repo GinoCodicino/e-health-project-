@@ -20,8 +20,9 @@ NEXT_TURN_REGEX = re.compile(r"^\s*(Player|You)\s*:", flags=re.MULTILINE)
 CHAT_RULES = (
     f"\n{SITUATION}\n"
     "The player talks to you. A message of the player may start with what the IPCC report says on the topic. "
-    "You know the report, but you see it through your own opinions and interests: "
-    "you may quote it, doubt it, downplay it or turn it to your advantage, never just agree because the report says so.\n"
+    "When it does, build your answer on one of these facts: say what the IPCC says ('the IPCC says...'), "
+    "then give your own take on it, through your opinions and interests: doubt it, downplay it or turn it to your advantage, "
+    "never just agree because the report says so.\n"
     "Speak naturally in first person ('I', 'you'). "
     "React to the player's last message with emotion, curiosity or disagreement. "
     "If criticised, respond to the criticism first. "
@@ -40,7 +41,7 @@ def build_turn_text(player_text, statements):
     if not statements:
         return player_text
     facts = "\n".join(f"- {statement.text}" for statement in statements)
-    return f"(What the IPCC report says, seen through your own opinions:\n{facts})\n\n{player_text}"
+    return f"(What the IPCC report says, build your answer on one of these facts:\n{facts})\n\n{player_text}"
 
 
 def keep_first_turn(answer):

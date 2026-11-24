@@ -3,7 +3,7 @@ from core.LLM import Persona
 
 
 # Interview and analysis
-PROMPT_VERSION = "4"
+PROMPT_VERSION = "5"
 
 NO_THINK = " /no_think"
 
@@ -21,7 +21,7 @@ ANALYST = Persona(number=0, data={
         "a functional requirement describes what the game does, not how it is coded",
         "each requirement starts with 'The system shall' and fits on one line",
         "a requirement serves the goal of the game: it never spreads a claim that contradicts the IPCC report",
-        "use what the player said to find how to reach him (tone, trust, interest), not to repeat his opinions",
+        "use what the player said to find how to reach this player (tone, trust, interest), not to repeat their opinions",
     ],
 })
 
@@ -44,7 +44,7 @@ def requirements_prompt(question, answer, player):
         f"Interview question: {question}\n"
         f"Answer of {player} (a target player of the game): {answer}\n\n"
         f"Goal of the game: {GAME_GOAL}\n"
-        "Write one or two functional requirements that help the game reach this player, given his answer. "
+        "Write one or two functional requirements that help the game reach this player, given their answer. "
         "Each requirement starts with \"The system shall\" and fits on one line. "
         "Write only the requirements, one per line."
     )

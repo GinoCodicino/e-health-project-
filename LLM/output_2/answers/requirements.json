@@ -1,0 +1,300 @@
+{
+ "run": {
+  "model": "Qwen/Qwen3-1.7B",
+  "temperature": 0.3,
+  "seed": 42,
+  "prompt_version": "5",
+  "generated_at": "2026-11-24 22:13:57",
+  "persona": 2
+ },
+ "items": [
+  {
+   "id": "Q1-A1-FR1",
+   "source": "Q1-A1",
+   "text": "The system shall allow players to explore their initial reactions to \"climate change\" by presenting factual information about the IPCC report, encouraging reflection without direct instruction.",
+   "prompt": "Interview question: When you hear \"climate change\", what is the first thing that comes to your mind?\nAnswer of Chloe Bennett (The Highly Engaged Climate Advocate) (a target player of the game): When I hear \"climate change,\" the first thing that comes to mind is the urgent need for action. I think about the science, the impacts on our environment, and the responsibility we all share in addressing it. I believe in making informed choices that reduce our footprint, whether it's cutting down on transportation or supporting sustainable practices. But at the end of the day, I'm driven by the idea that every small step counts, and that collective effort is key to creating real change.\n\nGoal of the game: The game raises awareness about climate change: it helps players examine their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given their answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q1"
+   },
+   "status": "to_review",
+   "edited_text": "",
+   "note": ""
+  },
+  {
+   "id": "Q1-A1-FR2",
+   "source": "Q1-A1",
+   "text": "The system shall enable players to input their personal views on climate change and compare them with scientific data from the IPCC report to foster critical thinking and awareness.",
+   "prompt": "Interview question: When you hear \"climate change\", what is the first thing that comes to your mind?\nAnswer of Chloe Bennett (The Highly Engaged Climate Advocate) (a target player of the game): When I hear \"climate change,\" the first thing that comes to mind is the urgent need for action. I think about the science, the impacts on our environment, and the responsibility we all share in addressing it. I believe in making informed choices that reduce our footprint, whether it's cutting down on transportation or supporting sustainable practices. But at the end of the day, I'm driven by the idea that every small step counts, and that collective effort is key to creating real change.\n\nGoal of the game: The game raises awareness about climate change: it helps players examine their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given their answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q1"
+   },
+   "status": "to_review",
+   "edited_text": "",
+   "note": ""
+  },
+  {
+   "id": "Q2-A1-FR1",
+   "source": "Q2-A1",
+   "text": "The system shall allow players to explore real-world climate solutions and their measurable impact through interactive scenarios.",
+   "prompt": "Interview question: Would you play a video game about climate change? What would make you stop playing after five minutes?\nAnswer of Chloe Bennett (The Highly Engaged Climate Advocate) (a target player of the game): Yes, I would play a video game about climate change. It would need to be educational, engaging, and show real, measurable impact. What would make me stop playing after five minutes is if the game didn't address the root causes of climate change or if the solutions felt too abstract or unrealistic. I want to see actions that actually make a difference.\n\nGoal of the game: The game raises awareness about climate change: it helps players examine their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given their answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q2"
+   },
+   "status": "to_review",
+   "edited_text": "",
+   "note": ""
+  },
+  {
+   "id": "Q2-A1-FR2",
+   "source": "Q2-A1",
+   "text": "The system shall present factual information from the IPCC report in a way that encourages critical thinking without overwhelming or lecturing players.",
+   "prompt": "Interview question: Would you play a video game about climate change? What would make you stop playing after five minutes?\nAnswer of Chloe Bennett (The Highly Engaged Climate Advocate) (a target player of the game): Yes, I would play a video game about climate change. It would need to be educational, engaging, and show real, measurable impact. What would make me stop playing after five minutes is if the game didn't address the root causes of climate change or if the solutions felt too abstract or unrealistic. I want to see actions that actually make a difference.\n\nGoal of the game: The game raises awareness about climate change: it helps players examine their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given their answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q2"
+   },
+   "status": "to_review",
+   "edited_text": "",
+   "note": ""
+  },
+  {
+   "id": "Q3-A1-FR1",
+   "source": "Q3-A1",
+   "text": "The system shall allow players to express their views on climate action in a way that respects their autonomy and informed decision-making, without forcing them to conform to a specific narrative.",
+   "prompt": "Interview question: What kind of message in a game would make you feel lectured or manipulated?\nAnswer of Chloe Bennett (The Highly Engaged Climate Advocate) (a target player of the game): If a game told me I was being manipulated or lectured for my choices, I'd be disappointed. I value my autonomy and the ability to make informed decisions. I'd want the game to respect my choices and encourage real, measurable action, not force me to conform. I'd prefer a game that empowers me to take responsibility for my impact, not constantly remind me I'm part of a larger problem.\n\nGoal of the game: The game raises awareness about climate change: it helps players examine their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given their answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q3"
+   },
+   "status": "to_review",
+   "edited_text": "",
+   "note": ""
+  },
+  {
+   "id": "Q3-A1-FR2",
+   "source": "Q3-A1",
+   "text": "The system shall provide real-time feedback on player choices that align with IPCC data, ensuring players feel empowered to take responsibility for their impact rather than being lectured.",
+   "prompt": "Interview question: What kind of message in a game would make you feel lectured or manipulated?\nAnswer of Chloe Bennett (The Highly Engaged Climate Advocate) (a target player of the game): If a game told me I was being manipulated or lectured for my choices, I'd be disappointed. I value my autonomy and the ability to make informed decisions. I'd want the game to respect my choices and encourage real, measurable action, not force me to conform. I'd prefer a game that empowers me to take responsibility for my impact, not constantly remind me I'm part of a larger problem.\n\nGoal of the game: The game raises awareness about climate change: it helps players examine their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given their answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q3"
+   },
+   "status": "to_review",
+   "edited_text": "",
+   "note": ""
+  },
+  {
+   "id": "Q4-A1-FR1",
+   "source": "Q4-A1",
+   "text": "The system shall provide clear, accurate visuals that demonstrate the impact of human actions on the climate, including examples of how reducing carbon emissions or adopting sustainable practices can lead to positive environmental outcomes.",
+   "prompt": "Interview question: What would you need to see in a game to trust a fact about the climate?\nAnswer of Chloe Bennett (The Highly Engaged Climate Advocate) (a target player of the game): To trust a fact about the climate in a game, I would need clear, accurate visuals that show the impact of human actions\u2014like how reducing carbon emissions or adopting sustainable practices can make a difference. The game should also include real-world data and realistic scenarios to help players understand the connection between their choices and the environment. I\u2019d also want to see evidence-based storytelling that highlights both the challenges and the hope for a sustainable future.\n\nGoal of the game: The game raises awareness about climate change: it helps players examine their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given their answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q4"
+   },
+   "status": "to_review",
+   "edited_text": "",
+   "note": ""
+  },
+  {
+   "id": "Q4-A1-FR2",
+   "source": "Q4-A1",
+   "text": "The system shall include real-world data and realistic scenarios to help players understand the connection between their choices and the environment, ensuring that the game's content is evidence-based and aligned with the IPCC report.",
+   "prompt": "Interview question: What would you need to see in a game to trust a fact about the climate?\nAnswer of Chloe Bennett (The Highly Engaged Climate Advocate) (a target player of the game): To trust a fact about the climate in a game, I would need clear, accurate visuals that show the impact of human actions\u2014like how reducing carbon emissions or adopting sustainable practices can make a difference. The game should also include real-world data and realistic scenarios to help players understand the connection between their choices and the environment. I\u2019d also want to see evidence-based storytelling that highlights both the challenges and the hope for a sustainable future.\n\nGoal of the game: The game raises awareness about climate change: it helps players examine their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given their answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q4"
+   },
+   "status": "to_review",
+   "edited_text": "",
+   "note": ""
+  },
+  {
+   "id": "Q5-A1-FR1",
+   "source": "Q5-A1",
+   "text": "The system shall allow players to select and evaluate different sources of climate information, including scientific research, reputable journalism, and institutions with transparency commitments, to reflect their trust in credible sources.",
+   "prompt": "Interview question: Which sources do you trust about the climate, and which ones do you not trust?\nAnswer of Chloe Bennett (The Highly Engaged Climate Advocate) (a target player of the game): I trust scientific research, reputable climate journalism, and institutions that are committed to transparency and accountability. I don't trust misinformation, cherry-picked data, or sources that ignore the consensus on human-caused climate change. I also don't trust anything that downplays the urgency or the real impacts of climate change. I want to know which actions actually make a measurable difference.\n\nGoal of the game: The game raises awareness about climate change: it helps players examine their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given their answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q5"
+   },
+   "status": "to_review",
+   "edited_text": "",
+   "note": ""
+  },
+  {
+   "id": "Q5-A1-FR2",
+   "source": "Q5-A1",
+   "text": "The system shall present players with scenarios that highlight the impact of human activities on climate change, encouraging them to consider the real-world consequences of their actions and the measurable effects of sustainable choices.",
+   "prompt": "Interview question: Which sources do you trust about the climate, and which ones do you not trust?\nAnswer of Chloe Bennett (The Highly Engaged Climate Advocate) (a target player of the game): I trust scientific research, reputable climate journalism, and institutions that are committed to transparency and accountability. I don't trust misinformation, cherry-picked data, or sources that ignore the consensus on human-caused climate change. I also don't trust anything that downplays the urgency or the real impacts of climate change. I want to know which actions actually make a measurable difference.\n\nGoal of the game: The game raises awareness about climate change: it helps players examine their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given their answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q5"
+   },
+   "status": "to_review",
+   "edited_text": "",
+   "note": ""
+  },
+  {
+   "id": "Q6-A1-FR1",
+   "source": "Q6-A1",
+   "text": "The system shall allow players to engage in respectful, collaborative dialogue with game characters that acknowledge complexity and promote open discussion without dismissing concerns.",
+   "prompt": "Interview question: If a game character disagrees with you, how should they talk to you so that you keep listening?\nAnswer of Chloe Bennett (The Highly Engaged Climate Advocate) (a target player of the game): If a game character disagrees with me, they should listen to my concerns without dismissing them, acknowledge the complexity of the issue, and respect my commitment to making informed choices. They should encourage open dialogue and focus on solutions rather than blame. I want to feel heard and empowered to take action, so the conversation should be respectful and focused on collaboration. Ultimately, I want to see the game support real, measurable climate actions that align with my values.\n\nGoal of the game: The game raises awareness about climate change: it helps players examine their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given their answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q6"
+   },
+   "status": "to_review",
+   "edited_text": "",
+   "note": ""
+  },
+  {
+   "id": "Q6-A1-FR2",
+   "source": "Q6-A1",
+   "text": "The system shall ensure that game characters respond to disagreements by focusing on solutions, encouraging dialogue, and aligning with the player's commitment to informed climate action.",
+   "prompt": "Interview question: If a game character disagrees with you, how should they talk to you so that you keep listening?\nAnswer of Chloe Bennett (The Highly Engaged Climate Advocate) (a target player of the game): If a game character disagrees with me, they should listen to my concerns without dismissing them, acknowledge the complexity of the issue, and respect my commitment to making informed choices. They should encourage open dialogue and focus on solutions rather than blame. I want to feel heard and empowered to take action, so the conversation should be respectful and focused on collaboration. Ultimately, I want to see the game support real, measurable climate actions that align with my values.\n\nGoal of the game: The game raises awareness about climate change: it helps players examine their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given their answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q6"
+   },
+   "status": "to_review",
+   "edited_text": "",
+   "note": ""
+  },
+  {
+   "id": "Q7-A1-FR1",
+   "source": "Q7-A1",
+   "text": "The system shall allow players to engage in dialogue with game characters that reflect genuine interest in their climate actions and concerns, incorporating real-world scientific facts from the IPCC report to foster thoughtful discussion.",
+   "prompt": "Interview question: What would make a conversation with a game character feel real to you?\nAnswer of Chloe Bennett (The Highly Engaged Climate Advocate) (a target player of the game): A conversation with a game character would feel real if they truly listened to my concerns about climate change, showed genuine interest in my efforts to make a difference, and didn't just talk about \"sustainability\" without understanding the real impacts of our actions. I want to see them engage with the science, the solutions, and the urgency of the crisis. They should be honest, thoughtful, and willing to discuss difficult truths. And most of all, they should respect my commitment to making a difference, even when the challenges are big.\n\nGoal of the game: The game raises awareness about climate change: it helps players examine their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given their answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q7"
+   },
+   "status": "to_review",
+   "edited_text": "",
+   "note": ""
+  },
+  {
+   "id": "Q7-A1-FR2",
+   "source": "Q7-A1",
+   "text": "The system shall ensure that game characters demonstrate honesty, thoughtfulness, and respect for the player's commitment to climate action, without oversimplifying or dismissing their efforts.",
+   "prompt": "Interview question: What would make a conversation with a game character feel real to you?\nAnswer of Chloe Bennett (The Highly Engaged Climate Advocate) (a target player of the game): A conversation with a game character would feel real if they truly listened to my concerns about climate change, showed genuine interest in my efforts to make a difference, and didn't just talk about \"sustainability\" without understanding the real impacts of our actions. I want to see them engage with the science, the solutions, and the urgency of the crisis. They should be honest, thoughtful, and willing to discuss difficult truths. And most of all, they should respect my commitment to making a difference, even when the challenges are big.\n\nGoal of the game: The game raises awareness about climate change: it helps players examine their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given their answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q7"
+   },
+   "status": "to_review",
+   "edited_text": "",
+   "note": ""
+  },
+  {
+   "id": "Q8-A1-FR1",
+   "source": "Q8-A1",
+   "text": "The system shall allow players to choose between pre-defined options that reflect different climate perspectives, promoting critical thinking and informed decision-making.",
+   "prompt": "Interview question: Would you rather choose between answers or write your own? Why?\nAnswer of Chloe Bennett (The Highly Engaged Climate Advocate) (a target player of the game): I would rather choose between answers because I believe in the importance of critical thinking and making informed decisions. I value the ability to evaluate options and understand the impact of my choices. Writing my own answers allows me to reflect on my values and priorities, which aligns with my commitment to climate action. I think the process of choosing helps me stay engaged and motivated in the fight against climate change.\n\nGoal of the game: The game raises awareness about climate change: it helps players examine their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given their answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q8"
+   },
+   "status": "to_review",
+   "edited_text": "",
+   "note": ""
+  },
+  {
+   "id": "Q8-A1-FR2",
+   "source": "Q8-A1",
+   "text": "The system shall present climate facts from the IPCC report in a way that encourages players to reflect on their values and priorities, without imposing a single viewpoint.",
+   "prompt": "Interview question: Would you rather choose between answers or write your own? Why?\nAnswer of Chloe Bennett (The Highly Engaged Climate Advocate) (a target player of the game): I would rather choose between answers because I believe in the importance of critical thinking and making informed decisions. I value the ability to evaluate options and understand the impact of my choices. Writing my own answers allows me to reflect on my values and priorities, which aligns with my commitment to climate action. I think the process of choosing helps me stay engaged and motivated in the fight against climate change.\n\nGoal of the game: The game raises awareness about climate change: it helps players examine their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given their answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q8"
+   },
+   "status": "to_review",
+   "edited_text": "",
+   "note": ""
+  },
+  {
+   "id": "Q9-A1-FR1",
+   "source": "Q9-A1",
+   "text": "The system shall allow players to explore the loss of ice on a mountain and investigate the causes behind it, including factors related to climate change.",
+   "prompt": "Interview question: This mountain used to be covered with ice and now there is none. What would you want to find out up there?\nAnswer of Chloe Bennett (The Highly Engaged Climate Advocate) (a target player of the game): This mountain used to be covered with ice and now there is none. I would want to know what caused the loss of ice and whether efforts to protect it are making a measurable difference. I\u2019d also like to understand how local communities are adapting to the changes and what actions are most effective in preserving this vital part of the Earth\u2019s environment. Ultimately, I want to see if the changes we\u2019re witnessing are real and if our actions are helping to slow them down.\n\nGoal of the game: The game raises awareness about climate change: it helps players examine their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given their answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q9"
+   },
+   "status": "to_review",
+   "edited_text": "",
+   "note": ""
+  },
+  {
+   "id": "Q9-A1-FR2",
+   "source": "Q9-A1",
+   "text": "The system shall provide players with factual information about local community adaptations and the effectiveness of conservation efforts, aligning with the IPCC report.",
+   "prompt": "Interview question: This mountain used to be covered with ice and now there is none. What would you want to find out up there?\nAnswer of Chloe Bennett (The Highly Engaged Climate Advocate) (a target player of the game): This mountain used to be covered with ice and now there is none. I would want to know what caused the loss of ice and whether efforts to protect it are making a measurable difference. I\u2019d also like to understand how local communities are adapting to the changes and what actions are most effective in preserving this vital part of the Earth\u2019s environment. Ultimately, I want to see if the changes we\u2019re witnessing are real and if our actions are helping to slow them down.\n\nGoal of the game: The game raises awareness about climate change: it helps players examine their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given their answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q9"
+   },
+   "status": "to_review",
+   "edited_text": "",
+   "note": ""
+  },
+  {
+   "id": "Q10-A1-FR1",
+   "source": "Q10-A1",
+   "text": "The system shall allow players to engage in a small, personal challenge at the base camp that simulates carrying light gear and encourages reflection on daily choices without feeling lectured.",
+   "prompt": "Interview question: What small challenge at the base camp would make you think about the climate without feeling like homework?\nAnswer of Chloe Bennett (The Highly Engaged Climate Advocate) (a target player of the game): At the base camp, I\u2019d challenge myself to walk a mile without a backpack, even if it means carrying a small piece of gear. It forces me to think about how my daily choices\u2014like packing light or choosing efficient transport\u2014impact the environment. It\u2019s a small act, but it makes me reflect on how much I can do to reduce my footprint without feeling like I\u2019m being forced to do so. It\u2019s about finding balance between action and awareness.\n\nGoal of the game: The game raises awareness about climate change: it helps players examine their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given their answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q10"
+   },
+   "status": "to_review",
+   "edited_text": "",
+   "note": ""
+  },
+  {
+   "id": "Q10-A1-FR2",
+   "source": "Q10-A1",
+   "text": "The system shall present factual information about the environmental impact of carrying heavy gear and transport choices, aligning with the IPCC report to foster balanced awareness.",
+   "prompt": "Interview question: What small challenge at the base camp would make you think about the climate without feeling like homework?\nAnswer of Chloe Bennett (The Highly Engaged Climate Advocate) (a target player of the game): At the base camp, I\u2019d challenge myself to walk a mile without a backpack, even if it means carrying a small piece of gear. It forces me to think about how my daily choices\u2014like packing light or choosing efficient transport\u2014impact the environment. It\u2019s a small act, but it makes me reflect on how much I can do to reduce my footprint without feeling like I\u2019m being forced to do so. It\u2019s about finding balance between action and awareness.\n\nGoal of the game: The game raises awareness about climate change: it helps players examine their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given their answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q10"
+   },
+   "status": "to_review",
+   "edited_text": "",
+   "note": ""
+  },
+  {
+   "id": "Q11-A1-FR1",
+   "source": "Q11-A1",
+   "text": "The system shall allow players to track their carbon footprint contributions and see how their actions align with the IPCC report's recommendations.",
+   "prompt": "Interview question: What would make reaching the summit feel rewarding to you?\nAnswer of Chloe Bennett (The Highly Engaged Climate Advocate) (a target player of the game): Reaching the summit would feel rewarding because it's a testament to my commitment to reducing my carbon footprint and supporting sustainable practices. Each step up the trail reflects my efforts to make a positive impact, whether it's cutting back on plastic use or advocating for climate action. The sense of accomplishment comes from knowing I'm contributing to a larger movement toward a healthier planet. It's not just about the climb\u2014it's about the journey and the difference I'm making along the way.\n\nGoal of the game: The game raises awareness about climate change: it helps players examine their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given their answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q11"
+   },
+   "status": "to_review",
+   "edited_text": "",
+   "note": ""
+  },
+  {
+   "id": "Q11-A1-FR2",
+   "source": "Q11-A1",
+   "text": "The system shall enable players to reflect on their environmental impact through a personalized journey that emphasizes small, meaningful changes over grand gestures.",
+   "prompt": "Interview question: What would make reaching the summit feel rewarding to you?\nAnswer of Chloe Bennett (The Highly Engaged Climate Advocate) (a target player of the game): Reaching the summit would feel rewarding because it's a testament to my commitment to reducing my carbon footprint and supporting sustainable practices. Each step up the trail reflects my efforts to make a positive impact, whether it's cutting back on plastic use or advocating for climate action. The sense of accomplishment comes from knowing I'm contributing to a larger movement toward a healthier planet. It's not just about the climb\u2014it's about the journey and the difference I'm making along the way.\n\nGoal of the game: The game raises awareness about climate change: it helps players examine their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given their answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q11"
+   },
+   "status": "to_review",
+   "edited_text": "",
+   "note": ""
+  },
+  {
+   "id": "Q12-A1-FR1",
+   "source": "Q12-A1",
+   "text": "The system shall allow players to track and visualize the cumulative impact of individual actions, such as reducing single-use plastics or supporting renewable energy, through interactive data displays.",
+   "prompt": "Interview question: What could actually make you change your mind about one of your opinions on climate?\nAnswer of Chloe Bennett (The Highly Engaged Climate Advocate) (a target player of the game): Changing my mind would mean realizing that even small actions, like reducing single-use plastics or supporting renewable energy, can have a significant cumulative impact. It would also involve seeing that climate solutions often require collective action, and that individual efforts, when combined, can drive meaningful change. I\u2019d need to see evidence that my choices are making a real difference, not just feeling good about them. Ultimately, it\u2019s about understanding the bigger picture and how my actions fit into the global effort to address climate change.\n\nGoal of the game: The game raises awareness about climate change: it helps players examine their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given their answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q12"
+   },
+   "status": "to_review",
+   "edited_text": "",
+   "note": ""
+  },
+  {
+   "id": "Q12-A1-FR2",
+   "source": "Q12-A1",
+   "text": "The system shall provide real-time feedback on how collective actions contribute to global climate goals, emphasizing that individual efforts are part of a larger, interconnected system.",
+   "prompt": "Interview question: What could actually make you change your mind about one of your opinions on climate?\nAnswer of Chloe Bennett (The Highly Engaged Climate Advocate) (a target player of the game): Changing my mind would mean realizing that even small actions, like reducing single-use plastics or supporting renewable energy, can have a significant cumulative impact. It would also involve seeing that climate solutions often require collective action, and that individual efforts, when combined, can drive meaningful change. I\u2019d need to see evidence that my choices are making a real difference, not just feeling good about them. Ultimately, it\u2019s about understanding the bigger picture and how my actions fit into the global effort to address climate change.\n\nGoal of the game: The game raises awareness about climate change: it helps players examine their views with facts from the IPCC report, without lecturing them.\nWrite one or two functional requirements that help the game reach this player, given their answer. Each requirement starts with \"The system shall\" and fits on one line. Write only the requirements, one per line.",
+   "data": {
+    "question": "Q12"
+   },
+   "status": "to_review",
+   "edited_text": "",
+   "note": ""
+  }
+ ]
+}

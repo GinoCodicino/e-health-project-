@@ -75,7 +75,7 @@ def clean_answer(text):
     if "<think>" in text:
         text = text.split("</think>")[-1] if "</think>" in text else ""  # a reasoning cut before its end: no answer
     text = text.strip().strip('"“”').strip()
-    text = re.sub(r"^(Your answer|Answer|Ethan|Ethan Brooks)\s*:\s*", "", text, flags=re.IGNORECASE)
+    text = re.sub(r"^(Your answer|Answer|Ethan Brooks|Ethan|Chloe Bennett|Chloe|Rachel Morgan|Rachel)\s*:\s*", "", text, flags=re.IGNORECASE)
     return " ".join(line.strip() for line in text.splitlines() if line.strip())
 
 

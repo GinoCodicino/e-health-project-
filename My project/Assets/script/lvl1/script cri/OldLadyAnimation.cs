@@ -1,74 +1,73 @@
 using UnityEngine;
 
 /// <summary>
-/// Procedural idle animation for an Old Lady (cubic character without Animator):
-/// hunched posture, gentle weight shift, expressive subtle arm movements,
-/// subtle age tremor, occasional slow nodding, and immediate head/upper-body tracking
-/// toward the Main Camera as soon as the player enters the frame.
-/// Automatically compensates for non-unit parent scales (e.g., 27.7732).
+/// Procedural animation for the Elderly Lady NPC:
+/// 1. Idle (Tired & composed): Clasps her hands together in front of her with slow breathing and subtle tremor.
+/// 2. Talking: Opens/spreads her arms slowly while speaking and looking at the player.
+/// 3. Pointing at River: Turns slightly and points her right arm toward the river target.
+/// Automatically compensates for non-unit parent scales.
 /// </summary>
 public class OldLadyAnimation : MonoBehaviour
 {
+    public enum StatoAnziana
+    {
+        RiposoManiGiunte,
+        ParlandoBracciaAperte,
+        IndicandoFiume
+    }
+
     [Header("Bones (found by name if empty)")]
     [SerializeField] private Transform spine;
     [SerializeField] private Transform head;
     [SerializeField] private Transform handLeft;
     [SerializeField] private Transform handRight;
 
-    [Header("Expressive Arms & Hands (spine space)")]
-    [Tooltip("Base resting position of the hands in front of the body.")]
-    [SerializeField] private Vector3 handsCenter = new Vector3(0f, 0.95f, 1.25f);
-    [Tooltip("Base distance between the two hands.")]
-    [SerializeField] private float handsGap = 0.85f;
-    [Tooltip("Extra widening of the arms when she notices and looks at the camera.")]
-    [SerializeField] private float greetArmSpread = 0.45f;
-    [Tooltip("Amplitude of the gentle idle arm/hand motion.")]
-    [SerializeField] private float armSwayAmplitude = 0.14f;
-    [SerializeField] private float armSwaySpeed = 0.85f;
-
-    [Header("Elderly Posture & Sway")]
-    [Tooltip("Pronounced forward hunch (degrees).")]
-    [SerializeField] private float leanForward = 16f;
-    [Tooltip("Shoulders lowered (spine space).")]
-    [SerializeField] private float hunch = 0.16f;
-    [Tooltip("Slow side-to-side weight shift (degrees).")]
-    [SerializeField] private float weightShiftAngle = 3.0f;
-    [SerializeField] private float weightShiftSpeed = 0.4f;
-    [Tooltip("Slow breathing amplitude (spine space).")]
-    [SerializeField] private float breathing = 0.04f;
-
-    [Header("Subtle Tremor & Nodding")]
-    [Tooltip("Subtle hand tremor intensity.")]
-    [SerializeField] private float handTremor = 0.015f;
-    [Tooltip("Subtle head tremor (degrees).")]
-    [SerializeField] private float headTremor = 0.6f;
-    [Tooltip("Seconds between slow thoughtful nods.")]
-    [SerializeField] private float nodEvery = 6.5f;
-    [SerializeField] private float nodDuration = 2.0f;
-
-    [Header("Looking at the Main Camera (Long Range)")]
-    [Tooltip("Chin slightly tucked in rest pose (degrees).")]
-    [SerializeField] private float headDown = 5f;
-    [Tooltip("Slight head tilt (degrees).")]
-    [SerializeField] private float headTilt = 6f;
-    [Tooltip("Slow curious glances when camera is out of range (degrees).")]
-    [SerializeField] private float glanceAngle = 25f;
-    [Tooltip("Large distance so she spots and tracks the camera as soon as she enters the frame.")]
-    [SerializeField] private float lookRange = 35f;
-    [SerializeField] private float maxHeadYaw = 75f;
-    [SerializeField] private float maxHeadPitch = 25f;
-    [Tooltip("Responsive head turn speed so she locks onto the camera quickly.")]
-    [SerializeField] private float lookSpeed = 4.5f;
+    [Header("Stato Attuale (Testabile in Play Mode)")]
+    [SerializeField] private StatoAnziana statoAttuale = StatoAnziana.RiposoManiGiunte;
+    [SerializeField] private float transitionSpeed = 2.5f;
     [Tooltip("Check this if the model's front faces -Z instead of +Z.")]
     [SerializeField] private bool invertForward = false;
-    [Tooltip("Target to watch. If empty, automatically uses Camera.main.")]
+    [SerializeField] private float modelFacingOffset = 0f;
+
+    [Header("1. Mani Giunte & Stanchezza (Riposo)")]
+    [SerializeField] private Vector3 claspedHandsCenter = new Vector3(0f, 0.85f, 1.25f);
+    [SerializeField] private float claspedHandsGap = 0.35f;
+    [SerializeField] private float tiredLeanForward = 12f;
+    [SerializeField] private float tiredHeadPitch = 10f;
+    [SerializeField] private float hunch = 0.14f;
+    [SerializeField] private float breathing = 0.04f;
+    [SerializeField] private float handTremor = 0.015f;
+
+    [Header("2. Braccia Aperte (Parlando)")]
+    [SerializeField] private Vector3 talkHandsCenter = new Vector3(0f, 1.05f, 1.3f);
+    [SerializeField] private float talkHandsGap = 1.25f;
+    [SerializeField] private float armSwayAmplitude = 0.10f;
+    [SerializeField] private float armSwaySpeed = 0.85f;
+
+    [Header("3. Indicare il Fiume")]
+    [Tooltip("Trascina qui un Empty GameObject posizionato nella direzione del fiume.")]
+    [SerializeField] private Transform riverTarget;
+    [SerializeField] private Vector3 pointingHandOffset = new Vector3(0.45f, 1.45f, 1.8f);
+    [SerializeField] private Vector3 pointingArmEuler = new Vector3(-50f, 0f, -15f);
+    [SerializeField] private float bodyPointOffsetAngle = -25f;
+
+    [Header("Sguardo e Tracciamento Player")]
+    [SerializeField] private float lookRange = 14f;
+    [SerializeField] private float maxHeadYaw = 60f;
+    [SerializeField] private float lookSpeed = 2.8f;
     [SerializeField] private Transform targetToWatch;
 
+    private Quaternion restRootRot;
     private Vector3 spineRestPos, headRestPos, leftRestPos, rightRestPos;
     private Quaternion spineRestRot, headRestRot, leftRestRot, rightRestRot;
     private bool restCaptured;
+
+    private float idleWeight = 1f;
+    private float talkWeight = 0f;
+    private float pointWeight = 0f;
+
     private float headYaw;
-    private float headPitchOffset;
+    private float spineYawOffset;
     private float lookWeight;
     private float timeOffset;
 
@@ -87,6 +86,30 @@ public class OldLadyAnimation : MonoBehaviour
         }
     }
 
+    // =========================================================================
+    // METODI PUBBLICI DA CHIAMARE DALLO SCRIPT DEL DIALOGO DELL'ANZIANA
+    // =========================================================================
+
+    /// <summary>Chiama questo quando inizia a parlare (allarga le braccia).</summary>
+    public void StartTalking()
+    {
+        statoAttuale = StatoAnziana.ParlandoBracciaAperte;
+    }
+
+    /// <summary>Chiama questo nella frase in cui parla del fiume (indica verso il fiume).</summary>
+    public void PointAtRiver()
+    {
+        statoAttuale = StatoAnziana.IndicandoFiume;
+    }
+
+    /// <summary>Chiama questo quando finisce il dialogo (torna alle mani giunte).</summary>
+    public void StopTalking()
+    {
+        statoAttuale = StatoAnziana.RiposoManiGiunte;
+    }
+
+    // =========================================================================
+
     private void LateUpdate()
     {
         if (targetToWatch == null && Camera.main != null)
@@ -94,46 +117,87 @@ public class OldLadyAnimation : MonoBehaviour
             targetToWatch = Camera.main.transform;
         }
 
-        float targetWeight = 0f;
-        float targetYaw = 0f;
-        float targetPitch = 0f;
+        float k = 1f - Mathf.Exp(-transitionSpeed * Time.deltaTime);
+        float lk = 1f - Mathf.Exp(-lookSpeed * Time.deltaTime);
 
-        if (targetToWatch != null)
+        // Pesi fluidi tra i 3 stati
+        idleWeight = Mathf.Lerp(idleWeight, statoAttuale == StatoAnziana.RiposoManiGiunte ? 1f : 0f, k);
+        talkWeight = Mathf.Lerp(talkWeight, statoAttuale == StatoAnziana.ParlandoBracciaAperte ? 1f : 0f, k);
+        pointWeight = Mathf.Lerp(pointWeight, statoAttuale == StatoAnziana.IndicandoFiume ? 1f : 0f, k);
+
+        // 1. Rotazione del corpo in base allo stato
+        if (statoAttuale == StatoAnziana.IndicandoFiume && riverTarget != null)
         {
-            // Calcolo direzione dalla testa (o dal busto) verso la Main Camera
-            Vector3 origin = head != null ? head.position : transform.position;
-            Vector3 toTarget = targetToWatch.position - origin;
-            float fullDistance = toTarget.magnitude;
-
-            Vector3 flatToTarget = new Vector3(toTarget.x, 0f, toTarget.z);
-            float flatDistance = flatToTarget.magnitude;
-
-            if (fullDistance < lookRange && flatDistance > 0.01f)
+            Vector3 toRiver = riverTarget.position - transform.position;
+            toRiver.y = 0f;
+            if (toRiver.sqrMagnitude > 0.001f)
             {
-                Vector3 localFlat = transform.InverseTransformDirection(flatToTarget / flatDistance);
-                if (invertForward) localFlat = -localFlat;
+                Vector3 dir = invertForward ? -toRiver.normalized : toRiver.normalized;
+                Quaternion desiredRot = Quaternion.LookRotation(dir, Vector3.up) * Quaternion.Euler(0f, bodyPointOffsetAngle + modelFacingOffset, 0f);
+                transform.rotation = Quaternion.Slerp(transform.rotation, desiredRot, k);
+            }
+        }
+        else if (statoAttuale == StatoAnziana.ParlandoBracciaAperte && targetToWatch != null)
+        {
+            Vector3 toPlayer = targetToWatch.position - transform.position;
+            toPlayer.y = 0f;
+            if (toPlayer.sqrMagnitude > 0.001f)
+            {
+                Vector3 dir = invertForward ? -toPlayer.normalized : toPlayer.normalized;
+                Quaternion desiredRot = Quaternion.LookRotation(dir, Vector3.up) * Quaternion.Euler(0f, modelFacingOffset, 0f);
+                transform.rotation = Quaternion.Slerp(transform.rotation, desiredRot, k);
+            }
+        }
+        else if (statoAttuale == StatoAnziana.RiposoManiGiunte)
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, restRootRot, k);
+        }
 
-                // Appena il giocatore/camera è davanti (anche molto di lato), lo segue con lo sguardo
-                if (localFlat.z > -0.35f)
+        // 2. Calcolo direzione sguardo
+        float targetWeight = 0f;
+        float targetHeadYaw = 0f;
+        float targetSpineYaw = 0f;
+
+        Transform activeTarget = (statoAttuale == StatoAnziana.IndicandoFiume && riverTarget != null)
+            ? riverTarget
+            : targetToWatch;
+
+        if (activeTarget != null)
+        {
+            Vector3 toTarget = activeTarget.position - transform.position;
+            toTarget.y = 0f;
+            float distance = toTarget.magnitude;
+
+            float effectiveRange = (statoAttuale == StatoAnziana.IndicandoFiume) ? 400f : lookRange;
+            if (distance < effectiveRange && distance > 0.01f)
+            {
+                Vector3 local = transform.InverseTransformDirection(toTarget / distance);
+                if (invertForward) local = -local;
+
+                if (local.z > -0.3f || statoAttuale == StatoAnziana.IndicandoFiume)
                 {
-                    targetYaw = Mathf.Clamp(Mathf.Atan2(localFlat.x, Mathf.Max(0.01f, localFlat.z)) * Mathf.Rad2Deg, -maxHeadYaw, maxHeadYaw);
-
-                    // Calcolo angolo verticale (pitch) per guardare la camera anche su terreni in pendenza
-                    float elevationAngle = -Mathf.Atan2(toTarget.y, flatDistance) * Mathf.Rad2Deg;
-                    targetPitch = Mathf.Clamp(elevationAngle, -maxHeadPitch, maxHeadPitch);
-
-                    // Rampa rapida: già al 90% del lookRange inizia a guardarti pienamente
-                    targetWeight = Mathf.InverseLerp(lookRange, lookRange * 0.75f, fullDistance);
+                    float signedAngle = Mathf.Atan2(local.x, Mathf.Max(0.01f, local.z)) * Mathf.Rad2Deg;
+                    if (statoAttuale == StatoAnziana.IndicandoFiume)
+                    {
+                        targetSpineYaw = Mathf.Clamp(signedAngle * 0.4f, -30f, 30f);
+                        targetHeadYaw = Mathf.Clamp(signedAngle - targetSpineYaw, -maxHeadYaw, maxHeadYaw);
+                        targetWeight = 1f;
+                    }
+                    else
+                    {
+                        targetHeadYaw = Mathf.Clamp(signedAngle, -maxHeadYaw, maxHeadYaw);
+                        targetSpineYaw = targetHeadYaw * 0.15f;
+                        targetWeight = Mathf.InverseLerp(lookRange, lookRange * 0.6f, distance);
+                    }
                 }
             }
         }
 
-        float k = 1f - Mathf.Exp(-lookSpeed * Time.deltaTime);
-        lookWeight = Mathf.Lerp(lookWeight, targetWeight, k);
-        headYaw = Mathf.Lerp(headYaw, targetYaw, k);
-        headPitchOffset = Mathf.Lerp(headPitchOffset, targetPitch, k);
+        lookWeight = Mathf.Lerp(lookWeight, targetWeight, lk);
+        headYaw = Mathf.Lerp(headYaw, targetHeadYaw, lk);
+        spineYawOffset = Mathf.Lerp(spineYawOffset, targetSpineYaw, lk);
 
-        Evaluate(Time.time + timeOffset, headYaw, headPitchOffset, lookWeight);
+        Evaluate(Time.time + timeOffset);
     }
 
     public void FindBones()
@@ -149,6 +213,7 @@ public class OldLadyAnimation : MonoBehaviour
 
     public void CaptureRest()
     {
+        restRootRot = transform.rotation;
         if (spine == null || head == null || handLeft == null || handRight == null) return;
         spineRestPos = spine.localPosition; spineRestRot = spine.localRotation;
         headRestPos = head.localPosition; headRestRot = head.localRotation;
@@ -159,6 +224,7 @@ public class OldLadyAnimation : MonoBehaviour
 
     public void RestoreRest()
     {
+        transform.rotation = restRootRot;
         if (!restCaptured) return;
         spine.localPosition = spineRestPos; spine.localRotation = spineRestRot;
         head.localPosition = headRestPos; head.localRotation = headRestRot;
@@ -166,87 +232,108 @@ public class OldLadyAnimation : MonoBehaviour
         handRight.localPosition = rightRestPos; handRight.localRotation = rightRestRot;
     }
 
-    public void Evaluate(float t, float playerYaw, float playerPitch, float playerWeight)
+    private void Evaluate(float t)
     {
         if (!restCaptured) return;
 
-        // Compensazione automatica della scala del genitore
         float parentScale = spine.parent != null ? spine.parent.lossyScale.y : 1f;
         float invScale = parentScale > 0.0001f ? (1f / parentScale) : 1f;
 
-        // Respiro e dondolio del corpo
-        float breath = Mathf.Sin(t * Mathf.PI * 2f * 0.25f);
-        float sway = Mathf.Sin(t * Mathf.PI * 2f * weightShiftSpeed);
+        // Respiro lento e un po' affaticato
+        float breath = Mathf.Sin(t * Mathf.PI * 2f * 0.22f);
+        float sway = Mathf.Sin(t * Mathf.PI * 2f * 0.18f);
 
-        // Cenni lenti del capo
-        float nod = 0f;
-        float n = Mathf.Repeat(t, nodEvery);
-        if (n < nodDuration)
-        {
-            float u = n / nodDuration;
-            float envelope = Mathf.Sin(u * Mathf.PI);
-            nod = Mathf.Sin(u * Mathf.PI * 4f) * envelope * 6.5f;
-        }
-
-        // Busto: segue leggermente con le spalle la direzione dello sguardo (25% dello yaw della testa)
+        // --- 1. BUSTO ---
+        // Più china in riposo per la stanchezza, leggermente più dritta quando racconta o indica
+        float lean = Mathf.Lerp(tiredLeanForward - 4f, tiredLeanForward, idleWeight) + (breath * 1.5f);
         float torsoY = (-hunch + breath * breathing) * invScale;
-        float torsoFollowYaw = playerYaw * 0.25f * playerWeight;
+
         spine.localPosition = spineRestPos + new Vector3(0f, torsoY, 0f);
         spine.localRotation = spineRestRot * Quaternion.Euler(
-            leanForward + breath * 1.3f - (playerWeight * 3f),
-            sway * 2.0f + torsoFollowYaw,
-            sway * weightShiftAngle
+            lean,
+            spineYawOffset * lookWeight,
+            sway * 1.5f
         );
 
-        // Testa: aggancia lo sguardo della camera sia in orizzontale che in verticale
-        float glance = (Mathf.PerlinNoise(t * 0.25f, 3.1f) - 0.5f) * 2f * glanceAngle;
-        float yaw = Mathf.Lerp(glance, playerYaw, playerWeight);
-        float tremorY = (Mathf.PerlinNoise(t * 4.5f, 1.2f) - 0.5f) * 2f * headTremor;
-        float tremorX = (Mathf.PerlinNoise(t * 4.2f, 8.7f) - 0.5f) * 2f * (headTremor * 0.7f);
+        // --- 2. TESTA ---
+        // In riposo guarda un po' verso il basso (stanca), quando parla/indica alza lo sguardo e annuisce piano
+        float talkNod = Mathf.Sin(t * 2.4f) * 3f * talkWeight;
+        float idlePitch = Mathf.Lerp(tiredHeadPitch, 2f, lookWeight);
+        float activePitch = (idlePitch * idleWeight) + ((2f + talkNod) * talkWeight) + (-3f * pointWeight);
 
-        float basePitch = headDown + nod + tremorX;
-        float targetPitch = playerPitch + (nod * 0.6f) + tremorX;
-        float pitch = Mathf.Lerp(basePitch, targetPitch, playerWeight);
-        float roll = headTilt * (1f - playerWeight * 0.2f) - sway * (weightShiftAngle * 0.5f);
+        float idleScan = sway * 8f * (1f - lookWeight) * idleWeight;
+        float finalYaw = (headYaw * lookWeight) + idleScan;
+        float finalRoll = (sway * 2.5f) + (Mathf.Sin(t * 1.1f) * 3f * talkWeight);
 
         head.localPosition = headRestPos;
-        head.localRotation = headRestRot * Quaternion.Euler(pitch, yaw + tremorY, roll);
+        head.localRotation = headRestRot * Quaternion.Euler(activePitch, finalYaw, finalRoll);
 
-        // Braccia e mani: movimento sincronizzato (come se fossero congiunte)
+        // --- 3. BRACCIA E MANI ---
         float handParentScale = handLeft.parent != null ? handLeft.parent.lossyScale.y : parentScale;
         float handInvScale = handParentScale > 0.0001f ? (1f / handParentScale) : 1f;
 
-        float armPhase = t * Mathf.PI * 2f * armSwaySpeed;
-        float idleOpenClose = (Mathf.Sin(t * Mathf.PI * 2f * 0.18f) + 1f) * 0.5f * 0.15f;
-
-        float dynamicGap = (handsGap + idleOpenClose + (playerWeight * greetArmSpread)) * handInvScale;
-        float greetLift = playerWeight * 0.10f * handInvScale;
-
-        // Un unico movimento condiviso da entrambe le braccia per farle restare unite
-        Vector3 sharedMotion = new Vector3(
-            (sway * 0.05f) * handInvScale,
-            (Mathf.Sin(armPhase) * armSwayAmplitude + breath * breathing) * handInvScale + greetLift,
-            (Mathf.Cos(armPhase) * (armSwayAmplitude * 0.6f)) * handInvScale
-        );
-
+        // Tremolio leggero condiviso
         Vector3 tremorOffset = new Vector3(
-            (Mathf.PerlinNoise(t * 5.5f, 2.4f) - 0.5f) * 2f,
-            (Mathf.PerlinNoise(t * 5.2f, 6.8f) - 0.5f) * 2f,
+            (Mathf.PerlinNoise(t * 5.0f, 2.4f) - 0.5f) * 2f,
+            (Mathf.PerlinNoise(t * 4.8f, 6.8f) - 0.5f) * 2f,
             0f
         ) * (handTremor * handInvScale);
 
-        Vector3 scaledHandsCenter = handsCenter * handInvScale;
+        // A) Posa Riposo: Mani giunte sincronizzate davanti al corpo
+        float breathLift = (breath * breathing * 0.8f) * handInvScale;
+        Vector3 sharedIdleMotion = new Vector3(sway * 0.04f * handInvScale, breathLift, 0f);
+        Vector3 scaledClaspedCenter = claspedHandsCenter * handInvScale;
+        float halfClaspedGap = claspedHandsGap * 0.5f * handInvScale;
 
-        // Entrambe le mani usano lo stesso sharedMotion e lo stesso tremorOffset
-        handLeft.localPosition = scaledHandsCenter + new Vector3(-dynamicGap * 0.5f, 0f, 0f) + sharedMotion + tremorOffset;
-        handRight.localPosition = scaledHandsCenter + new Vector3(dynamicGap * 0.5f, 0f, 0f) + sharedMotion + tremorOffset;
+        Vector3 leftIdlePos = scaledClaspedCenter + new Vector3(-halfClaspedGap, 0f, 0f) + sharedIdleMotion + tremorOffset;
+        Vector3 rightIdlePos = scaledClaspedCenter + new Vector3(halfClaspedGap, 0f, 0f) + sharedIdleMotion + tremorOffset;
 
-        // Rotazioni simmetriche e sincronizzate
-        float armSwingAngle = Mathf.Sin(armPhase) * 5f;
-        float armSpreadAngle = 10f + (playerWeight * 10f) + (idleOpenClose * 15f);
-        handLeft.localRotation = leftRestRot * Quaternion.Euler(armSwingAngle, 12f, -armSpreadAngle);
-        handRight.localRotation = rightRestRot * Quaternion.Euler(armSwingAngle, -12f, armSpreadAngle);
+        Quaternion leftIdleRot = leftRestRot * Quaternion.Euler(4f, 14f, -10f);
+        Quaternion rightIdleRot = rightRestRot * Quaternion.Euler(4f, -14f, 10f);
+
+        // B) Posa Parlando: Braccia allargate con gesti lenti e morbidi
+        float armPhase = t * Mathf.PI * 2f * armSwaySpeed;
+        Vector3 scaledTalkCenter = talkHandsCenter * handInvScale;
+        float halfTalkGap = talkHandsGap * 0.5f * handInvScale;
+
+        Vector3 leftTalkPos = scaledTalkCenter + new Vector3(
+            -halfTalkGap,
+            (Mathf.Sin(armPhase) * armSwayAmplitude + breath * breathing) * handInvScale,
+            (Mathf.Cos(armPhase) * 0.06f) * handInvScale
+        ) + tremorOffset;
+
+        Vector3 rightTalkPos = scaledTalkCenter + new Vector3(
+            halfTalkGap,
+            (Mathf.Cos(armPhase * 0.9f) * armSwayAmplitude + breath * breathing) * handInvScale,
+            (Mathf.Sin(armPhase * 0.9f) * 0.06f) * handInvScale
+        ) + tremorOffset;
+
+        Quaternion leftTalkRot = leftRestRot * Quaternion.Euler(-15f + Mathf.Sin(armPhase) * 8f, -18f, -32f);
+        Quaternion rightTalkRot = rightRestRot * Quaternion.Euler(-15f + Mathf.Cos(armPhase * 0.9f) * 8f, 18f, 32f);
+
+        // C) Posa Indica il Fiume: Braccio destro alzato a indicare, sinistro aperto
+        Vector3 leftPointPos = scaledTalkCenter + new Vector3(-halfTalkGap * 0.85f, 0.05f * handInvScale, 0f) + tremorOffset;
+        Quaternion leftPointRot = leftRestRot * Quaternion.Euler(-10f, -10f, -24f);
+
+        Vector3 rightPointPos = (pointingHandOffset * handInvScale) + tremorOffset;
+        float aimYaw = headYaw + spineYawOffset * 0.5f;
+        Quaternion rightPointRot = rightRestRot * Quaternion.Euler(pointingArmEuler.x, pointingArmEuler.y + aimYaw, pointingArmEuler.z);
+
+        // Miscelazione fluida tra i 3 stati
+        handLeft.localPosition = (leftIdlePos * idleWeight) + (leftTalkPos * talkWeight) + (leftPointPos * pointWeight);
+        handRight.localPosition = (rightIdlePos * idleWeight) + (rightTalkPos * talkWeight) + (rightPointPos * pointWeight);
+
+        float talkRatio = talkWeight / Mathf.Max(0.001f, idleWeight + talkWeight);
+        Quaternion blendedLeftRot = Quaternion.Slerp(leftIdleRot, leftTalkRot, talkRatio);
+        blendedLeftRot = Quaternion.Slerp(blendedLeftRot, leftPointRot, pointWeight);
+
+        Quaternion blendedRightRot = Quaternion.Slerp(rightIdleRot, rightTalkRot, talkRatio);
+        blendedRightRot = Quaternion.Slerp(blendedRightRot, rightPointRot, pointWeight);
+
+        handLeft.localRotation = blendedLeftRot;
+        handRight.localRotation = blendedRightRot;
     }
+
     private void OnDisable()
     {
         RestoreRest();

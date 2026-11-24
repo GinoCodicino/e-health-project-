@@ -187054,28 +187054,28 @@ MonoBehaviour:
   head: {fileID: 678476591}
   handLeft: {fileID: 678476592}
   handRight: {fileID: 678476590}
-  handsCenter: {x: 0, y: 0.9, z: 0}
-  handsGap: 0.35
-  greetArmSpread: 0.15
-  armSwayAmplitude: 0.06
-  armSwaySpeed: 0.65
-  leanForward: 12
+  statoAttuale: 0
+  transitionSpeed: 2.5
+  invertForward: 1
+  modelFacingOffset: 0
+  claspedHandsCenter: {x: 0, y: 0.4, z: 0.4}
+  claspedHandsGap: 0.35
+  tiredLeanForward: 12
+  tiredHeadPitch: 10
   hunch: 0.15
-  weightShiftAngle: 2.2
-  weightShiftSpeed: 0.35
   breathing: 0.035
   handTremor: 0.012
-  headTremor: 0.6
-  nodEvery: 7.5
-  nodDuration: 2.2
-  headDown: 5
-  headTilt: 6
-  glanceAngle: 25
+  talkHandsCenter: {x: 0, y: 0.4, z: 0.4}
+  talkHandsGap: 1.25
+  armSwayAmplitude: 0.06
+  armSwaySpeed: 0.65
+  riverTarget: {fileID: 0}
+  pointingHandOffset: {x: 0.45, y: 0.5, z: 1}
+  pointingArmEuler: {x: -50, y: 0, z: -15}
+  bodyPointOffsetAngle: -25
   lookRange: 12
   maxHeadYaw: 60
-  maxHeadPitch: 25
   lookSpeed: 3.5
-  invertForward: 1
   targetToWatch: {fileID: 1727607287}
 --- !u!1001 &940632367
 PrefabInstance:

@@ -19,7 +19,9 @@ NEXT_TURN_REGEX = re.compile(r"^\s*(Player|You)\s*:", flags=re.MULTILINE)
 # what the player says, so that it looks like the turns of the history (otherwise the model repeats itself)
 CHAT_RULES = (
     f"\n{SITUATION}\n"
-    "The player talks to you. A message of the player may start with facts from the IPCC report: you may mention them.\n"
+    "The player talks to you. A message of the player may start with what the IPCC report says on the topic. "
+    "You know the report, but you see it through your own opinions and interests: "
+    "you may quote it, doubt it, downplay it or turn it to your advantage, never just agree because the report says so.\n"
     "Speak naturally in first person ('I', 'you'). "
     "React to the player's last message with emotion, curiosity or disagreement. "
     "If criticised, respond to the criticism first. "
@@ -37,8 +39,8 @@ def build_turn_text(player_text, statements):
     """The facts that match, then what the player says."""
     if not statements:
         return player_text
-    facts = "\n".join(f"[{statement.id}] {statement.text}" for statement in statements)
-    return f"(Facts from the IPCC report:\n{facts})\n\n{player_text}"
+    facts = "\n".join(f"- {statement.text}" for statement in statements)
+    return f"(What the IPCC report says, seen through your own opinions:\n{facts})\n\n{player_text}"
 
 
 def keep_first_turn(answer):
@@ -53,6 +55,7 @@ class History:
         self.max_turns = max_turns
         self.messages = []
         self.last_query = None
+        self.given_facts = set()
 
     def add(self, player_text, answer):
         self.messages += [
@@ -71,9 +74,17 @@ class History:
             return query
         return self.last_query or player_text
 
+    def new_facts(self, retriever, query, count=FACT_COUNT):
+        """The best facts for the query that were not given yet: the same facts twice make the model repeat itself."""
+        found = retriever.search(query, count=count + len(self.given_facts))
+        statements = [statement for statement, score in found if statement.id not in self.given_facts][:count]
+        self.given_facts.update(statement.id for statement in statements)
+        return statements
+
     def reset(self):
         self.messages = []
         self.last_query = None
+        self.given_facts = set()
 
 
 def run_conversation(model_name=DEFAULT_MODEL, persona_number=1, folder=None, seed=42, max_turns=MAX_TURNS):
@@ -105,11 +116,11 @@ def run_conversation(model_name=DEFAULT_MODEL, persona_number=1, folder=None, se
             continue
 
         query = history.fact_query(retriever, player_text)
-        statements = [statement for statement, score in retriever.search(query, count=FACT_COUNT)]
+        statements = history.new_facts(retriever, query)
         answer = generation.generate(
             build_turn_text(player_text, statements),
             max_new_tokens=MAX_NEW_TOKENS, temperature=TEMPERATURE,
-            history=history.messages, instructions=CHAT_RULES,
+            history=history.messages, instructions=CHAT_RULES, thinking=False,
         )
         answer = keep_first_turn(answer)
         history.add(player_text, answer)

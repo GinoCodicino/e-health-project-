@@ -78,10 +78,11 @@ class LLMGeneration:
         self.persona = persona
         self.store = store
 
-    def generate(self, input_text, max_new_tokens=200, temperature=0.7, history=None, instructions=""):
+    def generate(self, input_text, max_new_tokens=200, temperature=0.7, history=None, instructions="", thinking=True):
         """Return the answer (without <think> block) and store it if a store is given.
         history: previous {"role", "content"} messages, placed between the system prompt and input_text.
-        instructions: added to the system prompt, after the persona's description."""
+        instructions: added to the system prompt, after the persona's description.
+        thinking: False turns off the reasoning of the models that have it (Qwen3), the others ignore it."""
         model, tokenizer = self.llm.model, self.llm.tokenizer
         model.eval()
         messages = [
@@ -94,6 +95,7 @@ class LLMGeneration:
             add_generation_prompt=True,
             return_tensors="pt",
             return_dict=True,
+            enable_thinking=thinking,
         ).to(model.device)
 
         output = model.generate(

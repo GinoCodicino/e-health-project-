@@ -25,6 +25,10 @@ public class ClimbGameManager : MonoBehaviour
     [Tooltip("How long the climber is seen falling before the fade.")]
     [SerializeField] private float fallDuration = 0.8f;
     [SerializeField] private string summitMessage = "Summit reached!";
+    [Tooltip("How long the victory message stays before going to the summit of the mountain scene.")]
+    [SerializeField] private float summitMessageDuration = 2.5f;
+    [Tooltip("After the victory, load the mountain scene with the player on the summit.")]
+    [SerializeField] private bool goToSummitOnWin = true;
     [Tooltip("Called when the summit is reached (end of the game: ending scene, credits...).")]
     public UnityEvent onSummitReached;
 
@@ -140,6 +144,15 @@ public class ClimbGameManager : MonoBehaviour
         if (fader != null) fader.Message = summitMessage;
         Debug.Log("Summit reached: victory!");
         onSummitReached?.Invoke();
+        if (goToSummitOnWin) StartCoroutine(GoToSummitRoutine());
+    }
+
+    // Victory message for a moment, fade to black, then the player arrives on the summit of the mountain scene.
+    private IEnumerator GoToSummitRoutine()
+    {
+        yield return new WaitForSeconds(summitMessageDuration);
+        yield return Fade(1f);
+        ClimbGameSession.GoToSummit();
     }
 
     private IEnumerator AbandonRoutine()

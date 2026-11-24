@@ -34,11 +34,12 @@ def build_input_text(player_text, statements, said="", hint=""):
     return prompt
 
 
-def interact(generation, retriever, player_text, query=None, fact_count=2, max_new_tokens=600, temperature=0.7):
-    """Send the player's sentence to the persona with the facts that match the query (default: the sentence)."""
+def interact(generation, retriever, player_text, query=None, fact_count=2, max_new_tokens=600, temperature=0.7, history=None):
+    """Send the player's sentence to the persona with the facts that match the query (default: the sentence).
+    history: previous messages of the conversation, given to the model before this sentence."""
     statements = [statement for statement, score in retriever.search(query or player_text, count=fact_count)]
     input_text = build_input_text(player_text, statements)
-    return generation.generate(input_text, max_new_tokens=max_new_tokens, temperature=temperature)
+    return generation.generate(input_text, max_new_tokens=max_new_tokens, temperature=temperature, history=history)
 
 
 def simulate_interaction(model_name, persona_number, player_text):

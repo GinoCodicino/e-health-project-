@@ -78,12 +78,15 @@ class LLMGeneration:
         self.persona = persona
         self.store = store
 
-    def generate(self, input_text, max_new_tokens=200, temperature=0.7):
-        """Return the answer (without <think> block) and store it if a store is given."""
+    def generate(self, input_text, max_new_tokens=200, temperature=0.7, history=None, instructions=""):
+        """Return the answer (without <think> block) and store it if a store is given.
+        history: previous {"role", "content"} messages, placed between the system prompt and input_text.
+        instructions: added to the system prompt, after the persona's description."""
         model, tokenizer = self.llm.model, self.llm.tokenizer
         model.eval()
         messages = [
-            {"role": "system", "content": self.persona.system_prompt()},
+            {"role": "system", "content": self.persona.system_prompt() + instructions},
+            *(history or []),
             {"role": "user", "content": input_text},
         ]
         inputs = tokenizer.apply_chat_template(

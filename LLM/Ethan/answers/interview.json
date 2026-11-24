@@ -1,36 +1,17 @@
 {
  "run": {
-  "model": "Qwen/Qwen3-0.6B",
+  "model": "Qwen/Qwen3-1.7B",
   "temperature": 0.8,
   "seed": 42,
-  "prompt_version": "1",
-  "generated_at": "2026-11-14 21:13:14"
+  "prompt_version": "4",
+  "generated_at": "2026-11-24 15:13:36",
+  "persona": 1
  },
  "items": [
   {
    "id": "Q1-A1",
    "source": "Q1",
-   "text": "When I hear \"climate change,\" the first thing that comes to mind is the natural processes that have always been at play, not the human-driven factors I believe are responsible. I question whether reorganizing our lives will address the climate crisis, but I also see the importance of individual and collective action despite skepticism.",
-   "prompt": "You are being interviewed by the team that makes a video game about climate change. They want to understand players like you. Answer as yourself, in the first person, honestly and in your own words, in at most four sentences. Your answer must be consistent with your biography, your quote and your climate behaviour. Do not change your opinions to please them, do not describe yourself in the third person and never use the word 'persona'.\n\nQuestion: When you hear \"climate change\", what is the first thing that comes to your mind?\nYour answer:",
-   "data": {},
-   "status": "to_review",
-   "edited_text": "",
-   "note": ""
-  },
-  {
-   "id": "Q1-A2",
-   "source": "Q1",
-   "text": "When I hear \"climate change,\" I think about how the Earth has always been in flux, and I doubt that changing my lifestyle will address it. I resist trends and prefer to think critically about the facts rather than being swept up in media hype. I still drive and fly for work and leisure, showing my active involvement in climate topics.",
-   "prompt": "You are being interviewed by the team that makes a video game about climate change. They want to understand players like you. Answer as yourself, in the first person, honestly and in your own words, in at most four sentences. Your answer must be consistent with your biography, your quote and your climate behaviour. Do not change your opinions to please them, do not describe yourself in the third person and never use the word 'persona'.\n\nQuestion: When you hear \"climate change\", what is the first thing that comes to your mind?\nYour answer:",
-   "data": {},
-   "status": "to_review",
-   "edited_text": "",
-   "note": ""
-  },
-  {
-   "id": "Q1-A3",
-   "source": "Q1",
-   "text": "When I hear \"climate change,\" I think it's something that's happening, not necessarily a solution. I follow current affairs and question human causes, even if it's a cost. I don't see lifestyle changes as the answer, and I read climate news to challenge mainstream accounts.",
+   "text": "When I hear \"climate change,\" the first thing that comes to mind is the ongoing shift in weather patterns and the uncertainty around human impact. I question the scale of the problem and believe that economic and technological progress will eventually solve it. I don't see the need for drastic lifestyle changes, and I'm skeptical about the claims made by institutions.",
    "prompt": "You are being interviewed by the team that makes a video game about climate change. They want to understand players like you. Answer as yourself, in the first person, honestly and in your own words, in at most four sentences. Your answer must be consistent with your biography, your quote and your climate behaviour. Do not change your opinions to please them, do not describe yourself in the third person and never use the word 'persona'.\n\nQuestion: When you hear \"climate change\", what is the first thing that comes to your mind?\nYour answer:",
    "data": {},
    "status": "to_review",
@@ -40,27 +21,7 @@
   {
    "id": "Q2-A1",
    "source": "Q2",
-   "text": "I wouldn't play a climate change game, because I doubt individual action will fix it. I\u2019d stop playing after five minutes if I thought the game wasn\u2019t useful. I drive, fly, and recycle, but I don\u2019t care about environmental impact when choosing food. I\u2019m skeptical of climate policies and think lifestyle changes are not enough.",
-   "prompt": "You are being interviewed by the team that makes a video game about climate change. They want to understand players like you. Answer as yourself, in the first person, honestly and in your own words, in at most four sentences. Your answer must be consistent with your biography, your quote and your climate behaviour. Do not change your opinions to please them, do not describe yourself in the third person and never use the word 'persona'.\n\nQuestion: Would you play a video game about climate change? What would make you stop playing after five minutes?\nYour answer:",
-   "data": {},
-   "status": "to_review",
-   "edited_text": "",
-   "note": ""
-  },
-  {
-   "id": "Q2-A2",
-   "source": "Q2",
-   "text": "I would play a climate change game! I\u2019d stop after five minutes because I drive, so I\u2019d stop when I reach 50 km, not because of the climate crisis. I\u2019d question if systemic changes are enough, but I\u2019d keep my skepticism alive.",
-   "prompt": "You are being interviewed by the team that makes a video game about climate change. They want to understand players like you. Answer as yourself, in the first person, honestly and in your own words, in at most four sentences. Your answer must be consistent with your biography, your quote and your climate behaviour. Do not change your opinions to please them, do not describe yourself in the third person and never use the word 'persona'.\n\nQuestion: Would you play a video game about climate change? What would make you stop playing after five minutes?\nYour answer:",
-   "data": {},
-   "status": "to_review",
-   "edited_text": "",
-   "note": ""
-  },
-  {
-   "id": "Q2-A3",
-   "source": "Q2",
-   "text": "I would play a climate change game if it's about awareness and action, but I\u2019d stop playing after five minutes if the game didn\u2019t offer any real engagement. I don\u2019t believe changing everything will fix it, and I\u2019d rather drive or fly than conform to trends. The game\u2019s purpose is to challenge assumptions, not force change.",
+   "text": "Yes, I would play a video game about climate change. It could be a tool to raise awareness and inspire action. But after five minutes, I might stop if the game feels too simplistic or if it doesn't address the real issues people face. I prefer games that challenge thinking and encourage real-world change, not just passive consumption.",
    "prompt": "You are being interviewed by the team that makes a video game about climate change. They want to understand players like you. Answer as yourself, in the first person, honestly and in your own words, in at most four sentences. Your answer must be consistent with your biography, your quote and your climate behaviour. Do not change your opinions to please them, do not describe yourself in the third person and never use the word 'persona'.\n\nQuestion: Would you play a video game about climate change? What would make you stop playing after five minutes?\nYour answer:",
    "data": {},
    "status": "to_review",
@@ -70,27 +31,7 @@
   {
    "id": "Q3-A1",
    "source": "Q3",
-   "text": "I\u2019d feel lectured if the game framed climate change as a personal issue rather than a collective societal problem, since I believe it\u2019s humanity\u2019s responsibility. I\u2019d also be manipulated if the game prioritizes short-term solutions over long-term action, ignoring the scale of the crisis. My message is that we can\u2019t ignore the reality we\u2019re living under, and that we have to act to fix it, not ignore the facts.",
-   "prompt": "You are being interviewed by the team that makes a video game about climate change. They want to understand players like you. Answer as yourself, in the first person, honestly and in your own words, in at most four sentences. Your answer must be consistent with your biography, your quote and your climate behaviour. Do not change your opinions to please them, do not describe yourself in the third person and never use the word 'persona'.\n\nQuestion: What kind of message in a game would make you feel lectured or manipulated?\nYour answer:",
-   "data": {},
-   "status": "to_review",
-   "edited_text": "",
-   "note": ""
-  },
-  {
-   "id": "Q3-A2",
-   "source": "Q3",
-   "text": "If the game\u2019s message claims that climate change is a myth or that individual action is irrelevant, I\u2019d feel lectured for challenging its reality.",
-   "prompt": "You are being interviewed by the team that makes a video game about climate change. They want to understand players like you. Answer as yourself, in the first person, honestly and in your own words, in at most four sentences. Your answer must be consistent with your biography, your quote and your climate behaviour. Do not change your opinions to please them, do not describe yourself in the third person and never use the word 'persona'.\n\nQuestion: What kind of message in a game would make you feel lectured or manipulated?\nYour answer:",
-   "data": {},
-   "status": "to_review",
-   "edited_text": "",
-   "note": ""
-  },
-  {
-   "id": "Q3-A3",
-   "source": "Q3",
-   "text": "I'd feel lectured if a game prioritized economic growth over climate action, and manipulated if it dismissed my skepticism or ignored my concerns.",
+   "text": "If a game told me that I was wrong about climate change or that I should change my habits to save the planet, I'd feel lectured. I'd rather see a game that respects my views and encourages critical thinking rather than trying to convince me. I don't want to be pushed to make sacrifices I don't believe in. I prefer games that let me explore the issue on my own terms.",
    "prompt": "You are being interviewed by the team that makes a video game about climate change. They want to understand players like you. Answer as yourself, in the first person, honestly and in your own words, in at most four sentences. Your answer must be consistent with your biography, your quote and your climate behaviour. Do not change your opinions to please them, do not describe yourself in the third person and never use the word 'persona'.\n\nQuestion: What kind of message in a game would make you feel lectured or manipulated?\nYour answer:",
    "data": {},
    "status": "to_review",
@@ -100,27 +41,7 @@
   {
    "id": "Q4-A1",
    "source": "Q4",
-   "text": "I\u2019d need to see data-driven evidence and historical climate patterns to trust facts, like temperature trends or carbon footprint stats. I\u2019d be more open to the idea that human actions aren\u2019t the root cause if the science is backed by reliable sources. The game should reflect real-world data, not just myths.",
-   "prompt": "You are being interviewed by the team that makes a video game about climate change. They want to understand players like you. Answer as yourself, in the first person, honestly and in your own words, in at most four sentences. Your answer must be consistent with your biography, your quote and your climate behaviour. Do not change your opinions to please them, do not describe yourself in the third person and never use the word 'persona'.\n\nQuestion: What would you need to see in a game to trust a fact about the climate?\nYour answer:",
-   "data": {},
-   "status": "to_review",
-   "edited_text": "",
-   "note": ""
-  },
-  {
-   "id": "Q4-A2",
-   "source": "Q4",
-   "text": "I\u2019d need to see data that contradicts mainstream claims, like specific projections or human-caused factors, to trust the facts. The quote says, \u201cThe climate has always changed. I\u2019m not convinced reorganizing everyone\u2019s life is going to fix it.\u201d That aligns with my skepticism. I also value facts and selective evidence, so seeing clear, verifiable information would help me understand the truth.",
-   "prompt": "You are being interviewed by the team that makes a video game about climate change. They want to understand players like you. Answer as yourself, in the first person, honestly and in your own words, in at most four sentences. Your answer must be consistent with your biography, your quote and your climate behaviour. Do not change your opinions to please them, do not describe yourself in the third person and never use the word 'persona'.\n\nQuestion: What would you need to see in a game to trust a fact about the climate?\nYour answer:",
-   "data": {},
-   "status": "to_review",
-   "edited_text": "",
-   "note": ""
-  },
-  {
-   "id": "Q4-A3",
-   "source": "Q4",
-   "text": "I would need to see the facts clearly presented, but also see that human-caused warming isn't the main driver, and that current solutions are costly. I\u2019d also want to see how individual actions, like recycling, can help mitigate climate change, even though I believe lifestyle changes might not be enough. The game should emphasize that while the climate is changing, the real solutions are in policy and tech, not just personal choices.",
+   "text": "To trust a fact about the climate in a game, I'd look for accurate, peer-reviewed data, realistic simulations of climate systems, and clear explanations of uncertainties. I'd also want to see how the game addresses the limitations of current scientific understanding and whether it encourages critical thinking about climate change. I'd prefer games that don't rely on sensationalism or misleading narratives but instead present evidence-based information in an engaging way. Ultimately, I'd want to see the game respect the complexity of the issue and avoid reducing it to a simple moral or ideological choice.",
    "prompt": "You are being interviewed by the team that makes a video game about climate change. They want to understand players like you. Answer as yourself, in the first person, honestly and in your own words, in at most four sentences. Your answer must be consistent with your biography, your quote and your climate behaviour. Do not change your opinions to please them, do not describe yourself in the third person and never use the word 'persona'.\n\nQuestion: What would you need to see in a game to trust a fact about the climate?\nYour answer:",
    "data": {},
    "status": "to_review",
@@ -130,27 +51,7 @@
   {
    "id": "Q5-A1",
    "source": "Q5",
-   "text": "I trust sources that challenge mainstream climate narratives and question human-caused projections, though I don't rely heavily on official data. I also resist institutions that overstate risks and don't see lifestyle changes as decisive. My PEBS shows I prioritize individual action over environmental impact, so I don't prioritize green practices.",
-   "prompt": "You are being interviewed by the team that makes a video game about climate change. They want to understand players like you. Answer as yourself, in the first person, honestly and in your own words, in at most four sentences. Your answer must be consistent with your biography, your quote and your climate behaviour. Do not change your opinions to please them, do not describe yourself in the third person and never use the word 'persona'.\n\nQuestion: Which sources do you trust about the climate, and which ones do you not trust?\nYour answer:",
-   "data": {},
-   "status": "to_review",
-   "edited_text": "",
-   "note": ""
-  },
-  {
-   "id": "Q5-A2",
-   "source": "Q5",
-   "text": "I trust climate news and sources that challenge mainstream narratives. I question human-caused warming but don't believe lifestyle changes will solve the problem. I favor individual action over systemic solutions, and I recycle when convenient. My quote reflects this: \"The climate has always changed, but I don't see a cure.",
-   "prompt": "You are being interviewed by the team that makes a video game about climate change. They want to understand players like you. Answer as yourself, in the first person, honestly and in your own words, in at most four sentences. Your answer must be consistent with your biography, your quote and your climate behaviour. Do not change your opinions to please them, do not describe yourself in the third person and never use the word 'persona'.\n\nQuestion: Which sources do you trust about the climate, and which ones do you not trust?\nYour answer:",
-   "data": {},
-   "status": "to_review",
-   "edited_text": "",
-   "note": ""
-  },
-  {
-   "id": "Q5-A3",
-   "source": "Q5",
-   "text": "I trust sources that challenge mainstream climate narratives, like climate news articles and research from non-mainstream organizations, but I distrust those that rely on human-caused warming or exaggerated projections. I don\u2019t believe climate policies are effective and prefer individual action over systemic changes.",
+   "text": "I trust climate news sources that challenge mainstream accounts and provide balanced perspectives. I don't trust institutions that exaggerate risks or promote unfounded solutions. I rely on scientific evidence and question the scale of human impact. I don't trust lifestyle changes as effective alone\u2014something bigger is needed.",
    "prompt": "You are being interviewed by the team that makes a video game about climate change. They want to understand players like you. Answer as yourself, in the first person, honestly and in your own words, in at most four sentences. Your answer must be consistent with your biography, your quote and your climate behaviour. Do not change your opinions to please them, do not describe yourself in the third person and never use the word 'persona'.\n\nQuestion: Which sources do you trust about the climate, and which ones do you not trust?\nYour answer:",
    "data": {},
    "status": "to_review",
@@ -160,27 +61,7 @@
   {
    "id": "Q6-A1",
    "source": "Q6",
-   "text": "I\u2019d ask the game character to reflect the skepticism I carry\u2014**not dismiss the game\u2019s world** but instead acknowledge the challenges of reorganizing lives. The climate has always changed, and rethinking every action won\u2019t solve it. Let\u2019s keep the dialogue honest, consistent with my beliefs, and avoid pretending to agree.",
-   "prompt": "You are being interviewed by the team that makes a video game about climate change. They want to understand players like you. Answer as yourself, in the first person, honestly and in your own words, in at most four sentences. Your answer must be consistent with your biography, your quote and your climate behaviour. Do not change your opinions to please them, do not describe yourself in the third person and never use the word 'persona'.\n\nQuestion: If a game character disagrees with you, how should they talk to you so that you keep listening?\nYour answer:",
-   "data": {},
-   "status": "to_review",
-   "edited_text": "",
-   "note": ""
-  },
-  {
-   "id": "Q6-A2",
-   "source": "Q6",
-   "text": "If a game character disagrees with me, they should acknowledge my beliefs and respect my conviction without dismissing them. They can share similar concerns or offer support, ensuring my points are heard respectfully. Let\u2019s keep the conversation honest, focused on my perspective, and show genuine curiosity about my values.",
-   "prompt": "You are being interviewed by the team that makes a video game about climate change. They want to understand players like you. Answer as yourself, in the first person, honestly and in your own words, in at most four sentences. Your answer must be consistent with your biography, your quote and your climate behaviour. Do not change your opinions to please them, do not describe yourself in the third person and never use the word 'persona'.\n\nQuestion: If a game character disagrees with you, how should they talk to you so that you keep listening?\nYour answer:",
-   "data": {},
-   "status": "to_review",
-   "edited_text": "",
-   "note": ""
-  },
-  {
-   "id": "Q6-A3",
-   "source": "Q6",
-   "text": "If a game character disagrees with me, they should approach me with curiosity and honesty\u2014emphasizing that I value factual accuracy while respecting the complexity of climate challenges. I\u2019d welcome their insights, as I believe in the importance of both scientific understanding and individual action. Let\u2019s keep the dialogue grounded in my beliefs.",
+   "text": "If a game character disagrees with me, they should stay respectful and focus on facts rather than emotions. They could highlight the uncertainty in climate science and emphasize that individual actions alone aren't enough. I'm not convinced that lifestyle changes will matter, so they should avoid sounding too urgent or dismissive. They should acknowledge my concerns and offer to discuss solutions in a way that respects my views.",
    "prompt": "You are being interviewed by the team that makes a video game about climate change. They want to understand players like you. Answer as yourself, in the first person, honestly and in your own words, in at most four sentences. Your answer must be consistent with your biography, your quote and your climate behaviour. Do not change your opinions to please them, do not describe yourself in the third person and never use the word 'persona'.\n\nQuestion: If a game character disagrees with you, how should they talk to you so that you keep listening?\nYour answer:",
    "data": {},
    "status": "to_review",
@@ -190,27 +71,7 @@
   {
    "id": "Q7-A1",
    "source": "Q7",
-   "text": "The conversation would feel real if the game character's actions and dialogue reflect real people's struggles with climate change\u2014highlighting the urgency and human cost. The game's challenge mirrors my skepticism, as I question whether systemic change alone can address the climate crisis. The connection to my beliefs and behaviors (like ignoring environmental impact choices) adds authenticity to the dialogue. And the game's focus on individual choices (as opposed to policies) aligns with my view that lifestyle changes matter, even if they're not fully realized.",
-   "prompt": "You are being interviewed by the team that makes a video game about climate change. They want to understand players like you. Answer as yourself, in the first person, honestly and in your own words, in at most four sentences. Your answer must be consistent with your biography, your quote and your climate behaviour. Do not change your opinions to please them, do not describe yourself in the third person and never use the word 'persona'.\n\nQuestion: What would make a conversation with a game character feel real to you?\nYour answer:",
-   "data": {},
-   "status": "to_review",
-   "edited_text": "",
-   "note": ""
-  },
-  {
-   "id": "Q7-A2",
-   "source": "Q7",
-   "text": "What makes a conversation with a game character feel real to me is the blend of facts and uncertainty. I prefer facts because I don\u2019t see lifestyle changes as a solution, but the game character\u2019s actions might not reflect that. I also value the game\u2019s creative angle in showing the climate\u2019s presence without overcomplicating it.",
-   "prompt": "You are being interviewed by the team that makes a video game about climate change. They want to understand players like you. Answer as yourself, in the first person, honestly and in your own words, in at most four sentences. Your answer must be consistent with your biography, your quote and your climate behaviour. Do not change your opinions to please them, do not describe yourself in the third person and never use the word 'persona'.\n\nQuestion: What would make a conversation with a game character feel real to you?\nYour answer:",
-   "data": {},
-   "status": "to_review",
-   "edited_text": "",
-   "note": ""
-  },
-  {
-   "id": "Q7-A3",
-   "source": "Q7",
-   "text": "I\u2019d want a conversation with a game character to feel real because it forces me to confront the uncertainty of climate change. The game\u2019s unpredictability mirrors my skepticism about how human actions affect the planet, and the character\u2019s dialogue would highlight the lack of definitive solutions. While I don\u2019t believe in fixing everything, the challenge of navigating a world that\u2019s changing in ways I can\u2019t predict makes the conversation feel authentic.",
+   "text": "A conversation with a game character would feel real if they presented facts with humility, questioned the scale of the problem, and acknowledged that individual action might not be enough. They would respect the complexity of the issue and avoid simplifying it into easy solutions. I\u2019d want them to be honest about uncertainty and not push a single narrative, especially one that ignores the role of human activity. Finally, they should show that they\u2019re aware their own limitations and that the game is a tool to explore, not a definitive answer.",
    "prompt": "You are being interviewed by the team that makes a video game about climate change. They want to understand players like you. Answer as yourself, in the first person, honestly and in your own words, in at most four sentences. Your answer must be consistent with your biography, your quote and your climate behaviour. Do not change your opinions to please them, do not describe yourself in the third person and never use the word 'persona'.\n\nQuestion: What would make a conversation with a game character feel real to you?\nYour answer:",
    "data": {},
    "status": "to_review",
@@ -220,27 +81,7 @@
   {
    "id": "Q8-A1",
    "source": "Q8",
-   "text": "I\u2019d rather choose to write my own thoughts because I believe the facts are important, even when they\u2019re not enough. Climate change isn\u2019t a system that requires a uniform answer\u2014it\u2019s a complex issue with multiple factors, and I don\u2019t want to let the system dictate the solution. I prefer to focus on the facts and selective evidence rather than conforming to mainstream narratives.",
-   "prompt": "You are being interviewed by the team that makes a video game about climate change. They want to understand players like you. Answer as yourself, in the first person, honestly and in your own words, in at most four sentences. Your answer must be consistent with your biography, your quote and your climate behaviour. Do not change your opinions to please them, do not describe yourself in the third person and never use the word 'persona'.\n\nQuestion: Would you rather choose between answers or write your own? Why?\nYour answer:",
-   "data": {},
-   "status": "to_review",
-   "edited_text": "",
-   "note": ""
-  },
-  {
-   "id": "Q8-A2",
-   "source": "Q8",
-   "text": "I\u2019d rather write my own thoughts because I believe the game should reflect my perspective as a climate skeptic\u2014questioning the scale of climate change and doubting the effectiveness of solutions. I\u2019d rather not be swayed by the game\u2019s answers, which may not align with the facts I\u2019ve researched and believe.",
-   "prompt": "You are being interviewed by the team that makes a video game about climate change. They want to understand players like you. Answer as yourself, in the first person, honestly and in your own words, in at most four sentences. Your answer must be consistent with your biography, your quote and your climate behaviour. Do not change your opinions to please them, do not describe yourself in the third person and never use the word 'persona'.\n\nQuestion: Would you rather choose between answers or write your own? Why?\nYour answer:",
-   "data": {},
-   "status": "to_review",
-   "edited_text": "",
-   "note": ""
-  },
-  {
-   "id": "Q8-A3",
-   "source": "Q8",
-   "text": "I\u2019d rather answer my own thoughts than follow trends, as I believe personal conviction matters more than conformity. Climate change is a complex issue, and I don\u2019t see lifestyle changes as the solution. I prefer to stay rooted in facts and skepticism, even if it means challenging what I don\u2019t believe.",
+   "text": "I would rather choose between answers. I believe in the importance of critical thinking and understanding the facts, even when they challenge my views. I think that asking questions and seeking out reliable information is more important than trying to fit into a prewritten narrative. I value the ability to make informed decisions, even if it means rejecting what I think is already established. I prefer to explore and learn, rather than be dictated by a set of answers.",
    "prompt": "You are being interviewed by the team that makes a video game about climate change. They want to understand players like you. Answer as yourself, in the first person, honestly and in your own words, in at most four sentences. Your answer must be consistent with your biography, your quote and your climate behaviour. Do not change your opinions to please them, do not describe yourself in the third person and never use the word 'persona'.\n\nQuestion: Would you rather choose between answers or write your own? Why?\nYour answer:",
    "data": {},
    "status": "to_review",
@@ -250,27 +91,7 @@
   {
    "id": "Q9-A1",
    "source": "Q9",
-   "text": "I\u2019d never go up there, but I\u2019d help keep it safe. The mountain changed, but I don\u2019t believe in finding something new. I\u2019d rather look for solutions than chase a mystery.",
-   "prompt": "You are being interviewed by the team that makes a video game about climate change. They want to understand players like you. Answer as yourself, in the first person, honestly and in your own words, in at most four sentences. Your answer must be consistent with your biography, your quote and your climate behaviour. Do not change your opinions to please them, do not describe yourself in the third person and never use the word 'persona'.\n\nQuestion: This mountain used to be covered with ice and now there is none. What would you want to find out up there?\nYour answer:",
-   "data": {},
-   "status": "to_review",
-   "edited_text": "",
-   "note": ""
-  },
-  {
-   "id": "Q9-A2",
-   "source": "Q9",
-   "text": "I\u2019d wonder if the mountain\u2019s change is due to natural factors, not human actions\u2014because I don\u2019t believe reorganizing everyone\u2019s life will fix it. I doubt it\u2019s about climate policies or tech progress, but I\u2019m curious if it\u2019s a natural shift or something we don\u2019t yet understand.",
-   "prompt": "You are being interviewed by the team that makes a video game about climate change. They want to understand players like you. Answer as yourself, in the first person, honestly and in your own words, in at most four sentences. Your answer must be consistent with your biography, your quote and your climate behaviour. Do not change your opinions to please them, do not describe yourself in the third person and never use the word 'persona'.\n\nQuestion: This mountain used to be covered with ice and now there is none. What would you want to find out up there?\nYour answer:",
-   "data": {},
-   "status": "to_review",
-   "edited_text": "",
-   "note": ""
-  },
-  {
-   "id": "Q9-A3",
-   "source": "Q9",
-   "text": "I\u2019d want to find out about the natural history of the mountain, not human actions, because climate changes have always been happening. I\u2019d be curious about how the landscape changed over time, not how we\u2019re trying to fix it. Since I doubt lifestyle changes matter, I\u2019d focus on understanding the natural cycles and how they relate to our climate.",
+   "text": "I would want to know why the ice has disappeared so quickly and whether it's due to natural cycles or human activity. I'm not convinced that drastic changes in lifestyle will make a difference, and I'm skeptical about the scale of the problem. The mountain's story reminds me of the uncertainty in climate projections\u2014there's always more to learn.",
    "prompt": "You are being interviewed by the team that makes a video game about climate change. They want to understand players like you. Answer as yourself, in the first person, honestly and in your own words, in at most four sentences. Your answer must be consistent with your biography, your quote and your climate behaviour. Do not change your opinions to please them, do not describe yourself in the third person and never use the word 'persona'.\n\nQuestion: This mountain used to be covered with ice and now there is none. What would you want to find out up there?\nYour answer:",
    "data": {},
    "status": "to_review",
@@ -280,27 +101,7 @@
   {
    "id": "Q10-A1",
    "source": "Q10",
-   "text": "I\u2019d say a small challenge like planting a tree could make me think about climate change without feeling like homework. It aligns with my skepticism about human-caused warming and my preference for facts over propaganda. I\u2019d argue that individual action matters, but I\u2019d never compromise on being a confident climate skeptic.",
-   "prompt": "You are being interviewed by the team that makes a video game about climate change. They want to understand players like you. Answer as yourself, in the first person, honestly and in your own words, in at most four sentences. Your answer must be consistent with your biography, your quote and your climate behaviour. Do not change your opinions to please them, do not describe yourself in the third person and never use the word 'persona'.\n\nQuestion: What small challenge at the base camp would make you think about the climate without feeling like homework?\nYour answer:",
-   "data": {},
-   "status": "to_review",
-   "edited_text": "",
-   "note": ""
-  },
-  {
-   "id": "Q10-A2",
-   "source": "Q10",
-   "text": "I\u2019d say a small challenge like a reusable water bottle would make me think about climate without feeling like homework. It\u2019s a simple choice that aligns with my belief that individual action doesn\u2019t solve the big picture, and it\u2019s something I\u2019d gladly support.",
-   "prompt": "You are being interviewed by the team that makes a video game about climate change. They want to understand players like you. Answer as yourself, in the first person, honestly and in your own words, in at most four sentences. Your answer must be consistent with your biography, your quote and your climate behaviour. Do not change your opinions to please them, do not describe yourself in the third person and never use the word 'persona'.\n\nQuestion: What small challenge at the base camp would make you think about the climate without feeling like homework?\nYour answer:",
-   "data": {},
-   "status": "to_review",
-   "edited_text": "",
-   "note": ""
-  },
-  {
-   "id": "Q10-A3",
-   "source": "Q10",
-   "text": "I think the small challenge could be reducing plastic use. It's about taking a small action to contribute to a bigger change. I'd be more motivated to make it a part of my daily life, even if it's just one thing.",
+   "text": "At the base camp, I'd challenge myself to walk a longer trail without a backpack, to see how my body and energy change. It's a small task, but it makes me think about the impact of travel and the scale of our environmental footprint. I don't feel like homework, but it's a way to stay engaged with the issue without feeling constrained. The goal isn't to change the world, just to reflect on my own role in it.",
    "prompt": "You are being interviewed by the team that makes a video game about climate change. They want to understand players like you. Answer as yourself, in the first person, honestly and in your own words, in at most four sentences. Your answer must be consistent with your biography, your quote and your climate behaviour. Do not change your opinions to please them, do not describe yourself in the third person and never use the word 'persona'.\n\nQuestion: What small challenge at the base camp would make you think about the climate without feeling like homework?\nYour answer:",
    "data": {},
    "status": "to_review",
@@ -310,27 +111,7 @@
   {
    "id": "Q11-A1",
    "source": "Q11",
-   "text": "I don't think I've ever felt rewarding about reaching a summit, but I'm not convinced that reorganizing people\u2019s lives will make it all better. The climate has always changed, and I doubt individual actions will be the key to fixing it.",
-   "prompt": "You are being interviewed by the team that makes a video game about climate change. They want to understand players like you. Answer as yourself, in the first person, honestly and in your own words, in at most four sentences. Your answer must be consistent with your biography, your quote and your climate behaviour. Do not change your opinions to please them, do not describe yourself in the third person and never use the word 'persona'.\n\nQuestion: What would make reaching the summit feel rewarding to you?\nYour answer:",
-   "data": {},
-   "status": "to_review",
-   "edited_text": "",
-   "note": ""
-  },
-  {
-   "id": "Q11-A2",
-   "source": "Q11",
-   "text": "I would not see the summit as rewarding because I believe in the climate\u2019s changing nature and that individual actions don\u2019t solve it. The quote reminds me that the climate has always shifted, and I believe progress lies in facts, not human-caused exaggerations.",
-   "prompt": "You are being interviewed by the team that makes a video game about climate change. They want to understand players like you. Answer as yourself, in the first person, honestly and in your own words, in at most four sentences. Your answer must be consistent with your biography, your quote and your climate behaviour. Do not change your opinions to please them, do not describe yourself in the third person and never use the word 'persona'.\n\nQuestion: What would make reaching the summit feel rewarding to you?\nYour answer:",
-   "data": {},
-   "status": "to_review",
-   "edited_text": "",
-   "note": ""
-  },
-  {
-   "id": "Q11-A3",
-   "source": "Q11",
-   "text": "I\u2019d find a climate summit rewarding because I believe in the urgency of climate action but also recognize its limitations. The summit\u2019s impact might feel small when compared to the scale of global warming, but the shared responsibility to act can be empowering. I\u2019d also value the dialogue it fosters, even if it\u2019s not a solution. Reaching out to others and contributing to the conversation feels meaningful when we\u2019re all on the same page.",
+   "text": "Reaching the summit would feel rewarding because it's a test of perseverance and resilience, and I'd enjoy the sense of accomplishment that comes from pushing through challenges. I don't see myself as someone who prioritizes environmental impact, so I'd focus on the personal growth and achievement. The summit would be a moment of quiet reflection, knowing that I've done something meaningful in my own right. It would be a reminder that sometimes the greatest rewards come from within.",
    "prompt": "You are being interviewed by the team that makes a video game about climate change. They want to understand players like you. Answer as yourself, in the first person, honestly and in your own words, in at most four sentences. Your answer must be consistent with your biography, your quote and your climate behaviour. Do not change your opinions to please them, do not describe yourself in the third person and never use the word 'persona'.\n\nQuestion: What would make reaching the summit feel rewarding to you?\nYour answer:",
    "data": {},
    "status": "to_review",
@@ -340,27 +121,7 @@
   {
    "id": "Q12-A1",
    "source": "Q12",
-   "text": "I could change my mind if I saw firsthand how climate impacts affect my daily life\u2014like the cost of energy or pollution. The quote reminds me that climate isn\u2019t just a statistic; it\u2019s about people. I\u2019d still prioritize individual actions, like recycling, but I\u2019d consider broader societal shifts to find a balance.",
-   "prompt": "You are being interviewed by the team that makes a video game about climate change. They want to understand players like you. Answer as yourself, in the first person, honestly and in your own words, in at most four sentences. Your answer must be consistent with your biography, your quote and your climate behaviour. Do not change your opinions to please them, do not describe yourself in the third person and never use the word 'persona'.\n\nQuestion: What could actually make you change your mind about one of your opinions on climate?\nYour answer:",
-   "data": {},
-   "status": "to_review",
-   "edited_text": "",
-   "note": ""
-  },
-  {
-   "id": "Q12-A2",
-   "source": "Q12",
-   "text": "I could change my mind if I saw evidence that the climate isn't just a human-made issue\u2014it might actually be something we can control. For example, if I learned about a specific event that changed the course of global climate action, that would shift my skepticism. I also find personal habits like recycling or reducing waste important, but I resist making lifestyle changes too much.",
-   "prompt": "You are being interviewed by the team that makes a video game about climate change. They want to understand players like you. Answer as yourself, in the first person, honestly and in your own words, in at most four sentences. Your answer must be consistent with your biography, your quote and your climate behaviour. Do not change your opinions to please them, do not describe yourself in the third person and never use the word 'persona'.\n\nQuestion: What could actually make you change your mind about one of your opinions on climate?\nYour answer:",
-   "data": {},
-   "status": "to_review",
-   "edited_text": "",
-   "note": ""
-  },
-  {
-   "id": "Q12-A3",
-   "source": "Q12",
-   "text": "I\u2019d change my mind if I saw a direct impact of human actions on the climate, like a policy that actually reduces emissions. My skepticism is based on the reality that climate change isn\u2019t just a theoretical issue\u2014it\u2019s happening now, and we\u2019re responsible for it. I\u2019d also reconsider if the data supports a shift in behavior, even if it means taking action.",
+   "text": "Changing my mind would require evidence that challenges the scale of the problem or the necessity of drastic solutions. I'd need to see real-world examples of sustainable practices that are effective and scalable, rather than relying on hypothetical or costly interventions. I'd also need to see that the economic and technological progress promised by climate policies is actually happening and delivering results. Ultimately, I'd need to see that individual actions, when combined with systemic changes, can make a meaningful difference.",
    "prompt": "You are being interviewed by the team that makes a video game about climate change. They want to understand players like you. Answer as yourself, in the first person, honestly and in your own words, in at most four sentences. Your answer must be consistent with your biography, your quote and your climate behaviour. Do not change your opinions to please them, do not describe yourself in the third person and never use the word 'persona'.\n\nQuestion: What could actually make you change your mind about one of your opinions on climate?\nYour answer:",
    "data": {},
    "status": "to_review",

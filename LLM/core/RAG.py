@@ -169,6 +169,7 @@ def tokenize(text):
 
 
 class Retriever:
+    # core parameters for the RAG !!!
     K1 = 1.5
     B = 0.75
 

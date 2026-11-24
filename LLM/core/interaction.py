@@ -13,21 +13,25 @@ def build_input_text(player_text, statements, said="", hint=""):
     facts = "\n".join(f"[{statement.id}] {statement.text}" for statement in statements)
     before = f'You just said: "{said}"\n' if said else ""
     reaction = f"{hint}\n" if hint else ""
-    return (
-        f"{SITUATION}\n{before}"
-        f"Facts from the IPCC report (the player may bring them up):\n{facts}\n\n"
-        "You are in a real conversation. Speak in the first person to the player (\"I\", \"you\"). "
-        "Never talk about \"the player\" in the third person, never analyse or comment, "
-        "just answer what the player said, in at most three short sentences. "
-        "If the player criticises something you did, react to that criticism first. "
-        "Keep your own doubts and do not invent facts, figures or sources.\n"
-        f"{reaction}\n"
-        "Example\n"
-        f"Player: \"{EXAMPLE_PLAYER_TEXT}\"\n"
-        f"You: \"{EXAMPLE_ANSWER}\"\n\n"
-        f"Player: \"{player_text}\"\n"
-        "You:"
-    )
+    prompt = (
+    f"{SITUATION}\n{before}"
+    f"Facts from the IPCC report (you may mention them):\n{facts}\n\n"
+    "Speak naturally in first person ('I', 'you'). "
+    "React to what the player says with emotion, curiosity or disagreement. ask a question to the player to keep the conversation going. "
+    "If criticised, respond to the criticism first. "
+    "Occasionally ask a relevant question to keep the conversation going. "
+    "Stay in character, keep your doubts and never invent facts or sources. "
+    "Never refer to the player in third person or analyse the conversation. "
+    "Use at most three short sentences.\n"
+
+    f"{reaction}\n"
+    "Example\n"
+    f"Player: \"{EXAMPLE_PLAYER_TEXT}\"\n"
+    f"You: \"{EXAMPLE_ANSWER}\"\n\n"
+    f"Player: \"{player_text}\"\n"
+    "You:"
+)
+    return prompt
 
 
 def interact(generation, retriever, player_text, query=None, fact_count=2, max_new_tokens=600, temperature=0.7):

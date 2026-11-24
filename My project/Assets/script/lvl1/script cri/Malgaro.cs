@@ -6,6 +6,7 @@ public class Malgaro : MonoBehaviour
     public playercontroller player;
     public PuntoMinigioco punto;     // trascina qui l'oggetto con PuntoMinigioco
     public MalgaroAnimation malgaroAnimation;
+    public VitellinoRaccoglibile vitellino;
     public string nome = "Il malgaro";
     public KeyCode interactKey = KeyCode.E;
     public float interactDistance = 3f;
@@ -46,6 +47,9 @@ public class Malgaro : MonoBehaviour
     {
         if (malgaroAnimation == null)
             malgaroAnimation = GetComponent<MalgaroAnimation>();
+
+        if (vitellino == null)
+            vitellino = FindAnyObjectByType<VitellinoRaccoglibile>(FindObjectsInactive.Include);
 
         if (player == null && Camera.main != null)
             player = Camera.main.GetComponentInParent<playercontroller>();
@@ -113,7 +117,9 @@ public class Malgaro : MonoBehaviour
 
     void Inizia()
     {
-        if (punto != null && punto.completato)
+        bool vitellinoConsegnato = (vitellino == null || vitellino.consegnato);
+
+        if (punto != null && punto.completato && vitellinoConsegnato)
             Dialogo(dialogoFinale, null);
         else if (!haParlato)
             Dialogo(dialogoIniziale, () => { haParlato = true; if (punto != null) punto.abilitato = true; });
@@ -206,11 +212,19 @@ public class Malgaro : MonoBehaviour
                       "[" + interactKey + "] Parla con " + nome, s);
         }
 
-        if (haParlato && punto != null && !punto.completato)
+        if (haParlato && punto != null)
         {
             GUIStyle o = new GUIStyle(GUI.skin.label) { fontSize = 18 };
             o.normal.textColor = new Color(1f, 0.85f, 0.4f);
-            GUI.Label(new Rect(20, 20, 700, 30), "Obiettivo: trova il vitellino tra le rocce", o);
+
+            if (!punto.completato)
+            {
+                GUI.Label(new Rect(20, 20, 700, 30), "Obiettivo: trova il vitellino tra le rocce", o);
+            }
+            else if (vitellino != null && !vitellino.consegnato)
+            {
+                GUI.Label(new Rect(20, 20, 700, 30), "Obiettivo: riporta il vitellino dal malgaro", o);
+            }
         }
     }
 }

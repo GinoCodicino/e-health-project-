@@ -28,15 +28,16 @@ public class MemoryMinigame : MonoBehaviour
     [Header("Retri Carte (Opzionali)")]
     public Sprite spriteRoccia;          // Trascina qui lo sprite della roccia
     public Sprite spriteCespuglio;       // Trascina qui lo sprite del cespuglio
-    
+
     [Header("Sfondo")]
     public Sprite immagineSfondo;
-    
+
     [Header("Animali (uno per coppia: 6 per la griglia 4x3)")]
     public Animale[] animali;
 
     [Header("Riferimenti")]
     public playercontroller player;
+    public VitellinoRaccoglibile vitellino;
 
     [Header("Eventi")]
     public UnityEvent onVittoria;
@@ -143,6 +144,9 @@ public class MemoryMinigame : MonoBehaviour
 
         if (player != null)
             playerInput = player.GetComponent<playerinputcontroller>();
+
+        if (vitellino == null)
+            vitellino = FindAnyObjectByType<VitellinoRaccoglibile>(FindObjectsInactive.Include);
 
         PreparaCarte();
 
@@ -273,6 +277,10 @@ public class MemoryMinigame : MonoBehaviour
         yield return new WaitForSeconds(3f);
 
         Chiudi();
+
+        if (vitellino != null)
+            vitellino.MaterializzaDavantiAlPlayer(player != null ? player.transform : null);
+
         if (onVittoria != null) onVittoria.Invoke();
     }
 

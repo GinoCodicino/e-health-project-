@@ -8,7 +8,7 @@ namespace Level02.DeerRescue
         public Transform animalVisual;
         public GameObject fallenBranches;
         public GameObject bandageVisual;
-        public Vector3 restingEuler=new Vector3(0,0,0);
+        public Vector3 restingEuler=new Vector3(90,0,0);
         Quaternion standing;
         Vector3 standingPosition;
         void Awake()

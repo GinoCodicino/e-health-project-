@@ -123,26 +123,3 @@ Tip: select the object with the `QuestMarker` component in the editor. An orange
 
 The `LineRenderer`s use `useWorldSpace = false`, so the points are relative to the marker. That is why the marker only needs to be moved to the target.
 
----
-
-## 7. Tips
-
-- **Hide it during dialogues or menus**: call `marker.Hide()` or set `marker.enabled = false`, and restore it afterwards with `SetTarget()`.
-- **Uneven terrain**: the ring is flat. If the ground is sloped, increase `ringHeight` a little or place the target on the highest point.
-- **Several markers**: add one `QuestMarker` component per objective on different GameObjects.
-- **Distance on screen as well**: if you want a UI text in a corner, read `marker.Distance` and write it to your own HUD.
-- **Builds**: `Shader.Find` can fail in a build if the shader is stripped. Add `Universal Render Pipeline/Unlit` to *Project Settings → Graphics → Always Included Shaders*.
-
----
-
-## 8. Troubleshooting
-
-| Problem | Fix |
-|---|---|
-| Nothing appears | `target` is empty, the component is disabled, or the object is inactive. |
-| The ring is pink | The shader was not found. Use URP, or change the shader name in `Build()`. |
-| Distance is always `0 m` | The player is not found. Check the `Player` tag or assign `player`. |
-| The label is missing or shows squares | Import the TMP Essential Resources. |
-| The label does not face the camera | Check that the camera has the `MainCamera` tag. |
-| The ring is half underground | Increase `ringHeight` or place the target higher. |
-| Ring too big or too small | Change `radius`. |

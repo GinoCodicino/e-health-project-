@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -11,7 +12,8 @@ using UnityEngine.UI;
 // Lo stato dura per la sessione corrente: non viene salvato su disco.
 public class ForestQuest : MonoBehaviour
 {
-    public enum Stage { Introduction, FindMushrooms, ReportMushrooms, FindRoofPieces, RepairRoof, Complete }
+    public enum Stage { Introduction, FindMushrooms, ReportMushrooms, FindRoofPieces, RepairRoof }
+
     [Header("Collegamenti")]
     public playercontroller player;
     [Tooltip("Centro dell'area dove si nascondono i pezzi di tetto: davanti alla casa, dal lato opposto del path. Si crea con Tools > Level 02 > Create roof search area and repair point.")]
@@ -65,14 +67,13 @@ public class ForestQuest : MonoBehaviour
     [Range(1f, 8f)] public float markerHeight = 4f;
     public Stage CurrentStage { get; private set; }
     // Premi disponibili soltanto dopo funghi E riparazione del tetto.
-    public bool HasFishingNet { get { return CurrentStage == Stage.Complete; } }
-    public bool HasMedicalKit { get { return CurrentStage == Stage.Complete; } }
+
     public bool IsOpen { get { return uiRoot != null && uiRoot.activeSelf; } }
     public int FoundCount { get { return found; } }
 
     GameObject uiRoot, page;
     RectTransform canvas;
-    TMP_Text speech, counter, hint;
+    TMP_Text speech, counter, hint, centerMsg;
     GameObject marker;
     LineRenderer markerRing, markerBeam;
     TextMeshPro markerLabel;
@@ -138,10 +139,10 @@ public class ForestQuest : MonoBehaviour
         if (!eKey) return;
         if (CurrentStage == Stage.RepairRoof && Near(housePoint))
         {
-            CurrentStage = Stage.Complete;
-            Speak(new[] { "Thank you! With these planks the roof will keep the rain out again.",
-                "Your grandfather would be proud of you. Take this fishing net and this first-aid kit as a thank-you.",
-                "The net may be useful by the river. Keep the kit with you in case an animal needs help." }, CloseDialogue);
+            Speak(new[] {
+        "Thank you! With these planks the roof will keep the rain out again.",
+        "Your grandfather would be proud of you."
+    }, CloseDialogue);
         }
         else if (Near(transform)) OpenDialogue(player);
     }
@@ -393,6 +394,13 @@ public class ForestQuest : MonoBehaviour
         RefreshCounter();
         Choice("Back to the forest", -250, -310, 460, CloseDialogue);
         Choice("New random search", 250, -310, 460, NewSearch);
+
+        centerMsg = MushroomUI.Text("VictoryBanner", page.transform, "", 34, new Color(1f, 0f, 0f));
+        centerMsg.rectTransform.pivot = new Vector2(0.5f, 0.5f);
+        MushroomUI.Place(centerMsg.rectTransform, 0, -5, 760, 110);
+        centerMsg.alignment = TextAlignmentOptions.Center;
+        centerMsg.raycastTarget = false;
+        centerMsg.gameObject.SetActive(false);
     }
     // Genera una nuova partita: numero e posizioni dei funghi cambiano ogni volta.
     void NewRound()
@@ -420,12 +428,23 @@ public class ForestQuest : MonoBehaviour
     }
     void FinishSearch()
     {
+        if (centerMsg != null)
+        {
+            centerMsg.text = "You found them all!";
+            centerMsg.gameObject.SetActive(true);
+        }
+
         if (CurrentStage == Stage.FindMushrooms)
         {
             CurrentStage = Stage.ReportMushrooms;
-            hint.text = "All found! Return to Peter to receive your next task, or play again with new positions.";
+            if (hint != null)
+                hint.text = "You found them all! Return to Peter to receive your next task, or play again with new positions.";
         }
-        else hint.text = "All found again! Press \"New random search\" to play another round.";
+        else
+        {
+            if (hint != null)
+                hint.text = "You found them all! Press \"New random search\" to play another round.";
+        }
     }
     bool NearMushroom(Vector2 point, float radius)
     {
@@ -521,6 +540,7 @@ public class ForestQuest : MonoBehaviour
         world.anchoredPosition = pos;
     }
     void RefreshCounter() { counter.text = "Mushrooms remaining: " + (target - found) + "     Wrong clicks: " + misses; }
+
     // ---------- Pezzi di tetto nascosti tra i cespugli ----------
     class Bush { public Transform t; public bool hasPiece, done, generated; public Vector3 basePos; public Quaternion baseRot; public GameObject sparkle; }
     List<Bush> bushes = new List<Bush>();

@@ -18,6 +18,10 @@ namespace Level02.BridgeMission
         public BridgeCondition bridge;
         [Header("Minigioco travi (in scena)")]
         public BeamCuttingGame beamGame;
+        [Header("Posizionamento davanti alla trave")]
+        [Tooltip("Distanza in metri davanti all'asse/trave prima di avviare il taglio")]
+        public float standDistanceInFrontOfBeam = 1.4f;
+        public bool snapPlayerToBeamOnStart = true;
         [Header("Sblocco dopo la prima missione")]
         public ForestQuest mushroomQuest;
         public bool requireMushroomQuest = true;
@@ -26,7 +30,7 @@ namespace Level02.BridgeMission
             get
             {
                 return !requireMushroomQuest ||
-            (mushroomQuest != null && mushroomQuest.CurrentStage == ForestQuest.Stage.Complete);
+                    (mushroomQuest != null && mushroomQuest.CurrentStage == ForestQuest.Stage.RepairRoof);
             }
         }
         [Header("Dialoghi")]
@@ -132,6 +136,39 @@ namespace Level02.BridgeMission
             // Un colpo per trave e tempo praticamente illimitato: il vero gioco e il minigioco in scena.
             return progress.StartAttempt(logs, 1, Now, 86400f);
         }
+        void PositionPlayerInFrontOfBeam()
+        {
+            if (!snapPlayerToBeamOnStart || player == null || beamGame == null) return;
+
+            Transform beamTransform = beamGame.transform;
+
+            // Punto davanti alla trave lungo il suo asse forward (se preferisci un altro lato, puoi regolare il segno)
+            Vector3 standPos = beamTransform.position + beamTransform.forward * standDistanceInFrontOfBeam;
+
+            // Mantiene l'altezza attuale del giocatore (o prova ad allinearla al terreno se presente)
+            standPos.y = player.transform.position.y;
+            if (Physics.Raycast(standPos + Vector3.up * 2f, Vector3.down, out RaycastHit hit, 5f, ~0, QueryTriggerInteraction.Ignore))
+            {
+                standPos.y = hit.point.y;
+            }
+
+            // Se il giocatore usa un CharacterController, va disabilitato brevemente per spostarlo senza blocchi
+            CharacterController cc = player.GetComponent<CharacterController>();
+            bool wasCcEnabled = cc != null && cc.enabled;
+            if (wasCcEnabled) cc.enabled = false;
+
+            player.transform.position = standPos;
+
+            // Ruota il giocatore in modo che guardi dritto verso la trave
+            Vector3 lookTarget = new Vector3(beamTransform.position.x, player.transform.position.y, beamTransform.position.z);
+            Vector3 dir = lookTarget - player.transform.position;
+            if (dir.sqrMagnitude > 0.0001f)
+            {
+                player.transform.rotation = Quaternion.LookRotation(dir.normalized, Vector3.up);
+            }
+
+            if (wasCcEnabled) cc.enabled = true;
+        }
         void UpdateBeamAvailability()
         {
             if (beamGame == null) return;
@@ -139,8 +176,11 @@ namespace Level02.BridgeMission
         }
         bool NearBeam()
         {
-            return beamGame != null && beamGame.available && !beamGame.IsCompleted && !beamGame.IsPlaying
-                && Vector3.Distance(player.transform.position, beamGame.transform.position) <= beamGame.interactDistance;
+            if (beamGame == null || !beamGame.available || beamGame.IsCompleted || beamGame.IsPlaying)
+                return false;
+
+            float maxDist = Mathf.Max(beamGame.interactDistance, interactionDistance);
+            return Vector3.Distance(player.transform.position, beamGame.transform.position) <= maxDist;
         }
         void Update()
         {
@@ -161,7 +201,7 @@ namespace Level02.BridgeMission
             if (player.IsGameplayBlocked || closeFrame == Time.frameCount) { marker.Hide(); return; }
             UpdateObjective();
             if (Keyboard.current == null || !Keyboard.current.eKey.wasPressedThisFrame) return;
-            if (NearBeam()) { beamGame.Begin(); return; }
+            if (NearBeam()) { PositionPlayerInFrontOfBeam(); beamGame.Begin(); return; }
             if (progress.Stage == BridgeStage.RepairBridge && Near(bridgeInteraction)) OpenPuzzle();
             else
             {

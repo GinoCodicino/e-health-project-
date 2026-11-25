@@ -5,6 +5,7 @@ public class Anziana : MonoBehaviour
 {
     public playercontroller player;
     public PuntoTorrente punto;
+    public OldLadyAnimation oldLadyAnimation;
     public string nome = "La signora della baita";
     public KeyCode interactKey = KeyCode.E;
     public float interactDistance = 3f;
@@ -41,6 +42,9 @@ public class Anziana : MonoBehaviour
 
     void Start()
     {
+        if (oldLadyAnimation == null)
+            oldLadyAnimation = GetComponent<OldLadyAnimation>();
+
         if (player == null && Camera.main != null)
             player = Camera.main.GetComponentInParent<playercontroller>();
 
@@ -57,18 +61,21 @@ public class Anziana : MonoBehaviour
 
         if (parlando)
         {
-            Vector3 dir = player.transform.position - transform.position;
-            dir.y = 0;
-            if (dir.sqrMagnitude > 0.01f)
+            if (oldLadyAnimation == null)
             {
-                Quaternion rotazioneVersoPlayer =
-                    Quaternion.LookRotation(dir) *
-                    Quaternion.Euler(0f, orientamentoModello, 0f);
+                Vector3 dir = player.transform.position - transform.position;
+                dir.y = 0;
+                if (dir.sqrMagnitude > 0.01f)
+                {
+                    Quaternion rotazioneVersoPlayer =
+                        Quaternion.LookRotation(dir) *
+                        Quaternion.Euler(0f, orientamentoModello, 0f);
 
-                transform.rotation = Quaternion.Slerp(
-                    transform.rotation,
-                    rotazioneVersoPlayer,
-                    Time.deltaTime * 4f);
+                    transform.rotation = Quaternion.Slerp(
+                        transform.rotation,
+                        rotazioneVersoPlayer,
+                        Time.deltaTime * 4f);
+                }
             }
 
             if (InterazionePremuta() || (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame))
@@ -105,6 +112,7 @@ public class Anziana : MonoBehaviour
         allaFine = fine;
         parlando = true;
         player.canMove = false;
+        AggiornaAnimazioneRiga();
     }
 
     void Avanti()
@@ -113,9 +121,29 @@ public class Anziana : MonoBehaviour
         if (indice >= righeAttuali.Length)
         {
             parlando = false;
+            if (oldLadyAnimation != null) oldLadyAnimation.StopTalking();
             player.canMove = true;
             if (allaFine != null) allaFine();
             allaFine = null;
+        }
+        else
+        {
+            AggiornaAnimazioneRiga();
+        }
+    }
+
+    void AggiornaAnimazioneRiga()
+    {
+        if (oldLadyAnimation == null) return;
+
+        string frase = righeAttuali[indice];
+        if (frase.Contains("rigagnolo laggiù") || frase.Contains("Il torrente è lì sotto"))
+        {
+            oldLadyAnimation.PointAtRiver();
+        }
+        else
+        {
+            oldLadyAnimation.StartTalking();
         }
     }
 

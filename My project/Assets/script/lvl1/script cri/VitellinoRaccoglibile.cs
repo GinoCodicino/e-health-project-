@@ -9,10 +9,11 @@ public class VitellinoRaccoglibile : MonoBehaviour
 
     [Header("Interazione")]
     public KeyCode tastoChiama = KeyCode.E;
+    public KeyCode tastoConsegna = KeyCode.W;
     public float distanzaInterazione = 3.5f;
     [Tooltip("Se spuntato, inizia a seguirti subito appena compare senza dover premere E.")]
     public bool seguiSubitoAllaComparsa = false;
-    public float distanzaConsegnaMalgaro = 4.5f;
+    public float distanzaConsegnaMalgaro = 4f;
 
     [Header("Movimento Inseguimento")]
     public float velocitaCamminata = 4.2f;
@@ -32,6 +33,7 @@ public class VitellinoRaccoglibile : MonoBehaviour
     [HideInInspector] public bool consegnato = false;
 
     private bool staSeguendo = false;
+    private bool vicinoAlMalgaro = false;
     private float timerPasso = 0f;
     private playerinputcontroller inputController;
 
@@ -65,6 +67,7 @@ public class VitellinoRaccoglibile : MonoBehaviour
         gameObject.SetActive(true);
         staSeguendo = seguiSubitoAllaComparsa;
         consegnato = false;
+        vicinoAlMalgaro = false;
         transform.SetParent(null);
 
         if (player != null)
@@ -94,23 +97,28 @@ public class VitellinoRaccoglibile : MonoBehaviour
         {
             // Aspetta che il player lo chiami premendo E
             float dist = Vector3.Distance(transform.position, player.position);
-            if (dist <= distanzaInterazione && TastoPremuto())
+            if (dist <= distanzaInterazione && TastoChiamaPremuto())
             {
                 staSeguendo = true;
             }
             return;
         }
 
-        // 1. Controlla se siamo arrivati dal Malgaro (sia il player che il vitellino vicini)
+        // 1. Controlla la distanza dal Malgaro e attende il tasto di consegna
+        vicinoAlMalgaro = false;
         if (malgaro != null)
         {
             float distPlayerMalgaro = Vector3.Distance(player.position, malgaro.transform.position);
             float distVitellinoMalgaro = Vector3.Distance(transform.position, malgaro.transform.position);
 
-            if (distPlayerMalgaro <= distanzaConsegnaMalgaro && distVitellinoMalgaro <= distanzaConsegnaMalgaro + 2.5f)
+            if (distPlayerMalgaro <= distanzaConsegnaMalgaro && distVitellinoMalgaro <= distanzaConsegnaMalgaro + 3f)
             {
-                ConsegnaAlMalgaro();
-                return;
+                vicinoAlMalgaro = true;
+                if (TastoConsegnaPremuto())
+                {
+                    ConsegnaAlMalgaro();
+                    return;
+                }
             }
         }
 
@@ -123,15 +131,12 @@ public class VitellinoRaccoglibile : MonoBehaviour
         {
             Vector3 direzione = versoPlayer.normalized;
 
-            // Ruota verso il player
             Quaternion targetRot = Quaternion.LookRotation(direzione) * Quaternion.Euler(0f, orientamentoModello, 0f);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * velocitaRotazione);
 
-            // Sceglie velocità in base a quanto è lontano
             float velocitaAttuale = distanza > distanzaCorsa ? velocitaCorsa : velocitaCamminata;
             Vector3 nuovaPos = transform.position + direzione * velocitaAttuale * Time.deltaTime;
 
-            // Calcola altezza del terreno e aggiunge un piccolo saltello mentre cammina
             float altezzaSuolo = CalcolaAltezzaTerreno(nuovaPos);
             timerPasso += Time.deltaTime * frequenzaPasso * (velocitaAttuale / velocitaCamminata);
             float hop = Mathf.Abs(Mathf.Sin(timerPasso)) * altezzaSaltelloPasso;
@@ -141,7 +146,6 @@ public class VitellinoRaccoglibile : MonoBehaviour
         }
         else
         {
-            // Quando è fermo vicino al player, si appoggia bene a terra e lo guarda
             timerPasso = 0f;
             Vector3 posTerra = transform.position;
             posTerra.y = Mathf.Lerp(posTerra.y, CalcolaAltezzaTerreno(posTerra), Time.deltaTime * 10f);
@@ -168,13 +172,12 @@ public class VitellinoRaccoglibile : MonoBehaviour
     {
         staSeguendo = false;
         consegnato = true;
+        vicinoAlMalgaro = false;
 
-        // Si ferma bene appoggiato a terra dove si trova accanto al Malgaro
         Vector3 posFinale = transform.position;
         posFinale.y = CalcolaAltezzaTerreno(posFinale);
         transform.position = posFinale;
 
-        // Guarda verso il Malgaro o il player
         Vector3 versoMalgaro = malgaro.transform.position - transform.position;
         versoMalgaro.y = 0f;
         if (versoMalgaro.sqrMagnitude > 0.01f)
@@ -183,11 +186,20 @@ public class VitellinoRaccoglibile : MonoBehaviour
         }
     }
 
-    private bool TastoPremuto()
+    private bool TastoChiamaPremuto()
     {
         bool actionPressed = inputController != null && inputController.ConsumeInteractRequest();
         bool keyPressed = Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame;
         return actionPressed || keyPressed;
+    }
+
+    private bool TastoConsegnaPremuto()
+    {
+        if (Keyboard.current == null) return false;
+        // Legge il tasto configurato in tastoConsegna (default W) tramite il nuovo Input System
+        string keyName = tastoConsegna.ToString().ToLower();
+        var keyControl = Keyboard.current.FindKeyOnCurrentKeyboardLayout(keyName);
+        return keyControl != null && keyControl.wasPressedThisFrame;
     }
 
     private void OnGUI()
@@ -207,6 +219,14 @@ public class VitellinoRaccoglibile : MonoBehaviour
         }
         else
         {
+            if (vicinoAlMalgaro)
+            {
+                GUIStyle s = new GUIStyle(GUI.skin.label) { fontSize = 22, alignment = TextAnchor.MiddleCenter };
+                s.normal.textColor = new Color(1f, 0.9f, 0.4f);
+                GUI.Label(new Rect(0, Screen.height * 0.70f, Screen.width, 40),
+                          "[" + tastoConsegna + "] Consegna il vitellino al malgaro", s);
+            }
+
             GUIStyle o = new GUIStyle(GUI.skin.label) { fontSize = 18 };
             o.normal.textColor = new Color(0.5f, 1f, 0.5f);
             GUI.Label(new Rect(20, 50, 700, 30), "Il vitellino ti sta seguendo! Riportalo dal malgaro.", o);

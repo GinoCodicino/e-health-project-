@@ -1,0 +1,63 @@
+newmtl Brown
+Kd 0.3800 0.1700 0.0750
+Ka 0 0 0
+Ks 0 0 0
+Ns 1
+d 1
+illum 1
+
+newmtl Cream
+Kd 0.8600 0.8100 0.6900
+Ka 0 0 0
+Ks 0 0 0
+Ns 1
+d 1
+illum 1
+
+newmtl Pink
+Kd 0.7000 0.4300 0.3400
+Ka 0 0 0
+Ks 0 0 0
+Ns 1
+d 1
+illum 1
+
+newmtl Hoof
+Kd 0.1900 0.1050 0.0700
+Ka 0 0 0
+Ks 0 0 0
+Ns 1
+d 1
+illum 1
+
+newmtl Black
+Kd 0.0350 0.0240 0.0180
+Ka 0 0 0
+Ks 0 0 0
+Ns 1
+d 1
+illum 1
+
+newmtl Nose
+Kd 0.3000 0.1600 0.1300
+Ka 0 0 0
+Ks 0 0 0
+Ns 1
+d 1
+illum 1
+
+newmtl Leather
+Kd 0.1600 0.0650 0.0350
+Ka 0 0 0
+Ks 0 0 0
+Ns 1
+d 1
+illum 1
+
+newmtl Gold
+Kd 0.7900 0.5600 0.1200
+Ka 0 0 0
+Ks 0 0 0
+Ns 1
+d 1
+illum 1

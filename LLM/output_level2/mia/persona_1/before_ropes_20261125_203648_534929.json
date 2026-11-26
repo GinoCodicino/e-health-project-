@@ -1,0 +1,53 @@
+{
+  "model": "Qwen/Qwen3-0.6B",
+  "persona": {
+    "number": 1,
+    "name": "Ethan Brooks"
+  },
+  "created": "2026-11-25T20:36:48",
+  "seed": 42,
+  "dialogue": [
+    {
+      "turn": 1,
+      "speaker": "Mia",
+      "line": "Quick, follow me. The deer is far down the trail.",
+      "fallback": false
+    },
+    {
+      "turn": 2,
+      "speaker": "Player",
+      "line": "What happened to the injured deer?",
+      "fallback": false
+    },
+    {
+      "turn": 3,
+      "speaker": "Mia",
+      "line": "The heavy rain knocked down the old tree, and a heavy log is now pinning the deer's leg.",
+      "fallback": false
+    },
+    {
+      "turn": 4,
+      "speaker": "Player",
+      "line": "Those splinters are a warning, and I am afraid I may harm the deer more while helping.",
+      "fallback": false
+    },
+    {
+      "turn": 5,
+      "speaker": "Mia",
+      "line": "Move the log slowly, and I'll help you. The deer's leg is still tied.",
+      "fallback": false
+    },
+    {
+      "turn": 6,
+      "speaker": "Player",
+      "line": "Okay, I'll help. Where is Mia?",
+      "fallback": false
+    },
+    {
+      "turn": 7,
+      "speaker": "Mia",
+      "line": "Take the other end of the rope and pull with me to move the log!",
+      "fallback": true
+    }
+  ]
+}

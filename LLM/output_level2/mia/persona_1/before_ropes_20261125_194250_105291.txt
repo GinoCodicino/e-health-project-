@@ -1,0 +1,7 @@
+Mia: Quick, follow me. The deer is far down the trail.
+Player: What happened to the deer?
+Mia: The heavy rain knocked down the old tree, and a heavy log is pinning the deer's leg.
+Player: Those splinters are troubling me, and I am afraid of hurting the deer more while helping.
+Mia: The log is only a little bit heavy, but it's enough to give the deer room to move.
+Player: Okay, I'll help. Where do you need me?
+Mia: Take the other end of the rope and pull with me to move the log!

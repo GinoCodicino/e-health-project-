@@ -22627,7 +22627,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8783306491909106419, guid: f02116c209ecd9e488fc4d2cd8996133, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.243744
+      value: -2.03
       objectReference: {fileID: 0}
     - target: {fileID: 8783306491909106419, guid: f02116c209ecd9e488fc4d2cd8996133, type: 3}
       propertyPath: m_LocalPosition.y
@@ -22635,7 +22635,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8783306491909106419, guid: f02116c209ecd9e488fc4d2cd8996133, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -11.75383
+      value: -14.71
       objectReference: {fileID: 0}
     - target: {fileID: 8783306491909106419, guid: f02116c209ecd9e488fc4d2cd8996133, type: 3}
       propertyPath: m_LocalRotation.w
@@ -22675,6 +22675,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8783306491908617939, guid: f02116c209ecd9e488fc4d2cd8996133, type: 3}
       insertIndex: 4
       addedObject: {fileID: 196256573}
+    - targetCorrespondingSourceObject: {fileID: 8783306491908617939, guid: f02116c209ecd9e488fc4d2cd8996133, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 196256575}
   m_SourcePrefab: {fileID: 100100000, guid: f02116c209ecd9e488fc4d2cd8996133, type: 3}
 --- !u!4 &196256569 stripped
 Transform:
@@ -22765,10 +22768,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PuntoMinigioco
   minigioco: {fileID: 0}
   interactKey: 101
-  interactDistance: 5
+  interactDistance: 10
   testo: Cerca il vitellino tra le rocce
   abilitato: 0
   completato: 0
+--- !u!114 &196256575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 155041112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 001c4cb90f4acba46b0ea1cf963eb669, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::QuestMarker
+  target: {fileID: 0}
+  player: {fileID: 0}
+  radius: 3
+  height: 6
+  color: {r: 1, g: 0.7, b: 0.1, a: 1}
+  lineWidth: 0.08
+  ringSegments: 48
+  ringHeight: 0.1
+  showLabel: 1
+  title: OBJECTIVE
+  insideText: You are here
+  fontSize: 3
 --- !u!1001 &196720005
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -263158,6 +263185,10 @@ PrefabInstance:
     - target: {fileID: 71717131789341169, guid: c21da601573ce4387a9f7a80fda4a43e, type: 3}
       propertyPath: m_Name
       value: main_character
+      objectReference: {fileID: 0}
+    - target: {fileID: 843610146619607883, guid: c21da601573ce4387a9f7a80fda4a43e, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 843610146619607883, guid: c21da601573ce4387a9f7a80fda4a43e, type: 3}
       propertyPath: m_LocalPosition.x

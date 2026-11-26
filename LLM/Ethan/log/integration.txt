@@ -1,0 +1,78 @@
+2026-11-26 19:02:37
+Goal of the game: The game raises awareness about climate change: it helps players examine their views with facts from the IPCC report, without lecturing them.
+
+Fact from the IPCC report that came up in a conversation with a target player:
+The higher the magnitude and the longer the duration of overshoot, the more ecosystems and societies are exposed to greater and more widespread changes in climatic impact-drivers, increasing risks for many natural and human systems. Compared to pathways without overshoot, societies would face higher risks to infrastructure, low-lying coastal settlements, and associated livelihoods. Overshooting 1.5°C will result in irreversible adverse impacts on certain ecosystems with low resilience, such as polar, mountain, and coastal ecosystems, impacted by ice-sheet melt, glacier melt, or by accelerating and higher committed sea level rise. (high confidence)
+
+Functional requirements of the game:
+[Q1-A1-FR1] The system shall allow players to explore their initial perceptions of climate change by presenting conflicting viewpoints, including those of a climate skeptic like Ethan Brooks, while providing factual context from the IPCC report.
+[Q1-A1-FR2] The system shall enable players to engage with the IPCC data in a way that challenges their existing beliefs without directly lecturing them, fostering critical thinking about the scale of the issue.
+[Q2-A1-FR1] The system shall allow players to engage with climate change content that challenges their existing beliefs while presenting factual information from the IPCC report.
+[Q2-A1-FR2] The system shall ensure the game remains interactive and thought-provoking, avoiding simplistic or passive experiences that might lead players to stop after five minutes.
+[Q3-A1-FR1] The system shall allow players to explore climate change topics through interactive scenarios that respect their existing views and encourage critical thinking, without imposing any external judgments or persuasion.
+[Q3-A1-FR2] The system shall present factual information from the IPCC report in a way that fosters independent analysis and personal reflection, rather than attempting to convince players of a particular stance.
+[Q4-A1-FR1] The system shall allow players to evaluate climate facts by accessing peer-reviewed data and simulations, ensuring accuracy and scientific rigor.
+[Q4-A1-FR2] The system shall present climate information in an engaging way that encourages critical thinking about uncertainties and scientific limitations.
+[Q5-A1-FR1] The system shall allow players to explore their trust in climate sources by selecting from a list of credible and non-credible sources, with the game presenting balanced perspectives.
+[Q5-A1-FR2] The system shall present facts from the IPCC report in a way that challenges players' existing beliefs, encouraging them to question assumptions without direct instruction.
+[Q6-A1-FR1] The system shall allow players to engage with climate science in a respectful and fact-based manner when encountering opposing viewpoints, ensuring the dialogue remains constructive and aligned with the IPCC report.
+[Q6-A1-FR2] The system shall enable players to explore the concept of uncertainty in climate science and emphasize that individual actions are insufficient for meaningful change, while maintaining a respectful tone.
+[Q7-A1-FR1] The system shall allow players to engage in dialogue with climate change characters that reflect humility and complexity, presenting facts without simplifying the issue.
+[Q7-A1-FR2] The system shall present IPCC data in a way that acknowledges uncertainty and individual action limitations, avoiding pushy or deterministic narratives.
+[Q8-A1-FR1] The system shall allow players to choose between prewritten answers, fostering critical thinking and informed decision-making.
+[Q8-A1-FR2] The system shall present climate facts from the IPCC report in a neutral, unbiased manner to encourage independent exploration of views.
+[Q9-A1-FR1] The system shall allow players to explore the historical and current state of the mountain, including visual and textual representations of ice coverage changes.
+[Q9-A1-FR2] The system shall present players with questions about the causes of ice disappearance, offering balanced information from the IPCC report to foster critical thinking.
+[Q10-A1-FR1] The system shall allow players to engage in a small, personal challenge at the base camp that reflects their own environmental impact, such as walking a longer trail without a backpack, to foster reflection without feeling constrained.
+[Q10-A1-FR2] The system shall present the player with factual insights about travel's impact on the environment, encouraging them to reflect on their own role in climate change without direct instruction or lecturing.
+[Q11-A1-FR1] The system shall allow players to customize their progression path to emphasize personal growth and achievement, reflecting their individual values and priorities.
+[Q11-A1-FR2] The system shall provide a reflective moment at the summit where players can engage with the game's climate facts and consider their own impact without being lectured.
+[Q12-A1-FR1] The system shall allow players to explore real-world examples of sustainable practices that are effective and scalable, providing data to challenge their perception of the scale of the climate crisis.
+[Q12-A1-FR2] The system shall present economic and technological progress data that demonstrates the actual implementation and results of climate policies, fostering a deeper understanding of their impact.
+
+Propose 2 to 3 ideas to bring this fact to the player in the game (a scene, a line of a character, an object, a choice to make...). Stay faithful to the fact and don't lecture the player. Write one numbered line per idea, ending with the ids of the requirements it serves, like: 1. <idea> (FR: Q1-A1-FR1, Q3-A1-FR2). Write only the ideas. /no_think
+
+
+1. A character in a mountain village explains how melting glaciers affect local water supplies, showing a map of shrinking ice coverage and asking the player to consider the long-term consequences of temperature increases (FR: Q9-A1-FR1, Q9-A1-FR2).  
+2. A scientist in a research station discusses how even small temperature overshoots can lead to irreversible changes, using a simulation that shows the gradual loss of polar ice over decades (FR: Q4-A1-FR1, Q4-A1-FR2).  
+3. A player chooses between two paths in a forest: one that leads to a trail with visible signs of erosion and another that avoids it, with a dialogue that reflects the long-term risks of climate impacts (FR: Q10-A1-FR1, Q10-A1-FR2).
+:) :) :) ---------------------------------------
+2026-11-26 19:05:31
+Goal of the game: The game raises awareness about climate change: it helps players examine their views with facts from the IPCC report, without lecturing them.
+
+Fact from the IPCC report that came up in a conversation with a target player:
+The higher the magnitude and the longer the duration of overshoot, the more ecosystems and societies are exposed to greater and more widespread changes in climatic impact-drivers, increasing risks for many natural and human systems. Compared to pathways without overshoot, societies would face higher risks to infrastructure, low-lying coastal settlements, and associated livelihoods. Overshooting 1.5°C will result in irreversible adverse impacts on certain ecosystems with low resilience, such as polar, mountain, and coastal ecosystems, impacted by ice-sheet melt, glacier melt, or by accelerating and higher committed sea level rise. (high confidence)
+
+Functional requirements of the game:
+[Q1-A1-FR1] The system shall allow players to explore their initial perceptions of climate change by presenting conflicting viewpoints, including those of a climate skeptic like Ethan Brooks, while providing factual context from the IPCC report.
+[Q1-A1-FR2] The system shall enable players to engage with the IPCC data in a way that challenges their existing beliefs without directly lecturing them, fostering critical thinking about the scale of the issue.
+[Q2-A1-FR1] The system shall allow players to engage with climate change content that challenges their existing beliefs while presenting factual information from the IPCC report.
+[Q2-A1-FR2] The system shall ensure the game remains interactive and thought-provoking, avoiding simplistic or passive experiences that might lead players to stop after five minutes.
+[Q3-A1-FR1] The system shall allow players to explore climate change topics through interactive scenarios that respect their existing views and encourage critical thinking, without imposing any external judgments or persuasion.
+[Q3-A1-FR2] The system shall present factual information from the IPCC report in a way that fosters independent analysis and personal reflection, rather than attempting to convince players of a particular stance.
+[Q4-A1-FR1] The system shall allow players to evaluate climate facts by accessing peer-reviewed data and simulations, ensuring accuracy and scientific rigor.
+[Q4-A1-FR2] The system shall present climate information in an engaging way that encourages critical thinking about uncertainties and scientific limitations.
+[Q5-A1-FR1] The system shall allow players to explore their trust in climate sources by selecting from a list of credible and non-credible sources, with the game presenting balanced perspectives.
+[Q5-A1-FR2] The system shall present facts from the IPCC report in a way that challenges players' existing beliefs, encouraging them to question assumptions without direct instruction.
+[Q6-A1-FR1] The system shall allow players to engage with climate science in a respectful and fact-based manner when encountering opposing viewpoints, ensuring the dialogue remains constructive and aligned with the IPCC report.
+[Q6-A1-FR2] The system shall enable players to explore the concept of uncertainty in climate science and emphasize that individual actions are insufficient for meaningful change, while maintaining a respectful tone.
+[Q7-A1-FR1] The system shall allow players to engage in dialogue with climate change characters that reflect humility and complexity, presenting facts without simplifying the issue.
+[Q7-A1-FR2] The system shall present IPCC data in a way that acknowledges uncertainty and individual action limitations, avoiding pushy or deterministic narratives.
+[Q8-A1-FR1] The system shall allow players to choose between prewritten answers, fostering critical thinking and informed decision-making.
+[Q8-A1-FR2] The system shall present climate facts from the IPCC report in a neutral, unbiased manner to encourage independent exploration of views.
+[Q9-A1-FR1] The system shall allow players to explore the historical and current state of the mountain, including visual and textual representations of ice coverage changes.
+[Q9-A1-FR2] The system shall present players with questions about the causes of ice disappearance, offering balanced information from the IPCC report to foster critical thinking.
+[Q10-A1-FR1] The system shall allow players to engage in a small, personal challenge at the base camp that reflects their own environmental impact, such as walking a longer trail without a backpack, to foster reflection without feeling constrained.
+[Q10-A1-FR2] The system shall present the player with factual insights about travel's impact on the environment, encouraging them to reflect on their own role in climate change without direct instruction or lecturing.
+[Q11-A1-FR1] The system shall allow players to customize their progression path to emphasize personal growth and achievement, reflecting their individual values and priorities.
+[Q11-A1-FR2] The system shall provide a reflective moment at the summit where players can engage with the game's climate facts and consider their own impact without being lectured.
+[Q12-A1-FR1] The system shall allow players to explore real-world examples of sustainable practices that are effective and scalable, providing data to challenge their perception of the scale of the climate crisis.
+[Q12-A1-FR2] The system shall present economic and technological progress data that demonstrates the actual implementation and results of climate policies, fostering a deeper understanding of their impact.
+
+Propose 2 to 3 ideas to bring this fact to the player in the game (a scene, a line of a character, an object, a choice to make...). Stay faithful to the fact and don't lecture the player. Write one numbered line per idea, ending with the ids of the requirements it serves, like: 1. <idea> (FR: Q1-A1-FR1, Q3-A1-FR2). Write only the ideas. /no_think
+
+
+1. A character in a mountain village explains how melting glaciers affect local water supplies, showing a map of shrinking ice coverage and asking the player to consider the long-term consequences of temperature increases (FR: Q9-A1-FR1, Q9-A1-FR2).  
+2. A scientist in a research station discusses how even small temperature overshoots can lead to irreversible changes, using a simulation that shows the gradual loss of polar ice over decades (FR: Q4-A1-FR1, Q4-A1-FR2).  
+3. A player chooses between two paths in a forest: one that leads to a trail with visible signs of erosion and another that avoids it, with a dialogue that reflects the long-term risks of climate impacts (FR: Q10-A1-FR1, Q10-A1-FR2).
+:) :) :) ---------------------------------------

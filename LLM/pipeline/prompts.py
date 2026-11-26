@@ -3,7 +3,7 @@ from core.LLM import Persona
 
 
 # Interview and analysis
-PROMPT_VERSION = "5"
+PROMPT_VERSION = "6"
 
 NO_THINK = " /no_think"
 
@@ -47,4 +47,18 @@ def requirements_prompt(question, answer, player):
         "Write one or two functional requirements that help the game reach this player, given their answer. "
         "Each requirement starts with \"The system shall\" and fits on one line. "
         "Write only the requirements, one per line."
+    )
+
+
+def integration_prompt(fact, requirements):
+    """requirements: (id, text) pairs of the functional requirements of the game."""
+    listed = "\n".join(f"[{requirement_id}] {text}" for requirement_id, text in requirements)
+    return (
+        f"Goal of the game: {GAME_GOAL}\n\n"
+        f"Fact from the IPCC report that came up in a conversation with a target player:\n{fact}\n\n"
+        f"Functional requirements of the game:\n{listed}\n\n"
+        "Propose 2 to 3 ideas to bring this fact to the player in the game (a scene, a line of a character, "
+        "an object, a choice to make...). Stay faithful to the fact and don't lecture the player. "
+        "Write one numbered line per idea, ending with the ids of the requirements it serves, like: "
+        "1. <idea> (FR: Q1-A1-FR1, Q3-A1-FR2). Write only the ideas."
     )

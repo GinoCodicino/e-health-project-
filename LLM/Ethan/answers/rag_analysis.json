@@ -1,0 +1,493 @@
+{
+ "per_line": [
+  {
+   "node": "0",
+   "speaker": "player",
+   "text": "Seriously, you came up here by helicopter? This mountain used to be a glacier, and now look at it.",
+   "facts": [
+    {
+     "id": "A.2.3",
+     "score": 6.87,
+     "rank": 1
+    },
+    {
+     "id": "B.7.2",
+     "score": 6.694,
+     "rank": 2
+    },
+    {
+     "id": "B.4.2",
+     "score": 6.528,
+     "rank": 3
+    }
+   ]
+  },
+  {
+   "node": "0",
+   "speaker": "persona",
+   "text": "Yeah, I flew in. The glacier’s gone, but that doesn’t mean the climate’s not changing. I’ve seen the data, but I still don’t think it’s all humans causing.",
+   "facts": [
+    {
+     "id": "A.2.1",
+     "score": 4.895,
+     "rank": 1
+    },
+    {
+     "id": "B.7.2",
+     "score": 4.838,
+     "rank": 2
+    },
+    {
+     "id": "B.3.2",
+     "score": 4.743,
+     "rank": 3
+    }
+   ]
+  },
+  {
+   "node": "0.2",
+   "speaker": "player",
+   "text": "I understand it's efficient, but scientists agree the glacier melted because of human-caused warming. Doesn't flying in here feel a bit contradictory to you?",
+   "facts": [
+    {
+     "id": "B.1.5",
+     "score": 6.471,
+     "rank": 1
+    },
+    {
+     "id": "A.2.3",
+     "score": 6.164,
+     "rank": 2
+    },
+    {
+     "id": "A.1.2",
+     "score": 5.864,
+     "rank": 3
+    }
+   ]
+  },
+  {
+   "node": "0.2",
+   "speaker": "persona",
+   "text": "You’re right, it does feel contradictory. I’ve flown in on business before, but this is different. The glacier’s gone, and the data says it’s because of warming.",
+   "facts": [
+    {
+     "id": "B.6.1",
+     "score": 7.554,
+     "rank": 1
+    },
+    {
+     "id": "B.4.2",
+     "score": 4.853,
+     "rank": 2
+    },
+    {
+     "id": "B.3.3",
+     "score": 4.375,
+     "rank": 3
+    }
+   ]
+  },
+  {
+   "node": "0.2.2",
+   "speaker": "player",
+   "text": "Glaciers do go through cycles, but those take thousands of years. This one vanished in one lifetime, natural cycles can't explain that speed.",
+   "facts": [
+    {
+     "id": "B.1.5",
+     "score": 8.574,
+     "rank": 1
+    },
+    {
+     "id": "B.1.3",
+     "score": 8.398,
+     "rank": 2
+    },
+    {
+     "id": "A.4.5",
+     "score": 6.507,
+     "rank": 3
+    }
+   ]
+  },
+  {
+   "node": "0.2.2",
+   "speaker": "persona",
+   "text": "You're pointing out something important. But I’ve seen the models, and they show a pattern that’s not natural. It’s not just a cycle—it’s a shift we’re not used to.",
+   "facts": [
+    {
+     "id": "B.1.5",
+     "score": 6.172,
+     "rank": 1
+    },
+    {
+     "id": "B.3.3",
+     "score": 5.505,
+     "rank": 2
+    },
+    {
+     "id": "B.1.3",
+     "score": 5.287,
+     "rank": 3
+    }
+   ]
+  },
+  {
+   "node": "0.2.2.2",
+   "speaker": "player",
+   "text": "Way faster than any natural cycle. Old photos of this valley show ice everywhere, and it's gone in a few decades.",
+   "facts": [
+    {
+     "id": "A.1.1",
+     "score": 9.813,
+     "rank": 1
+    },
+    {
+     "id": "B.1",
+     "score": 7.376,
+     "rank": 2
+    },
+    {
+     "id": "B.7.2",
+     "score": 5.472,
+     "rank": 3
+    }
+   ]
+  },
+  {
+   "node": "0.2.2.2",
+   "speaker": "persona",
+   "text": "You’re right, the change is sudden. I’ve seen old maps too. The ice was there, and now it’s gone.",
+   "facts": [
+    {
+     "id": "C.1",
+     "score": 7.867,
+     "rank": 1
+    },
+    {
+     "id": "B.3.2",
+     "score": 5.541,
+     "rank": 2
+    },
+    {
+     "id": "B.3.3",
+     "score": 5.494,
+     "rank": 3
+    }
+   ]
+  },
+  {
+   "node": "0.2.2.2.2",
+   "speaker": "player",
+   "text": "They show the ice was there for centuries and melted in one generation. If you saw it yourself, doesn't that make you wonder a little?",
+   "facts": [
+    {
+     "id": "B.1.5",
+     "score": 8.687,
+     "rank": 1
+    },
+    {
+     "id": "A.4",
+     "score": 7.147,
+     "rank": 2
+    },
+    {
+     "id": "B.3.1",
+     "score": 6.19,
+     "rank": 3
+    }
+   ]
+  },
+  {
+   "node": "0.2.2.2.2",
+   "speaker": "persona",
+   "text": "Yeah, seeing it with my own eyes makes you question. I’ve flown in before, but this? This is different.",
+   "facts": [
+    {
+     "id": "B.6.1",
+     "score": 5.745,
+     "rank": 1
+    },
+    {
+     "id": "A.4",
+     "score": 4.563,
+     "rank": 2
+    },
+    {
+     "id": "C.4.1",
+     "score": 4.237,
+     "rank": 3
+    }
+   ]
+  },
+  {
+   "node": "0.3",
+   "speaker": "player",
+   "text": "What caused it? People like you burning fuel for convenience! You're standing on the proof and you still say there's no reason to worry?",
+   "facts": [
+    {
+     "id": "B.6.4",
+     "score": 6.854,
+     "rank": 1
+    },
+    {
+     "id": "B.2.2",
+     "score": 6.06,
+     "rank": 2
+    },
+    {
+     "id": "B.5",
+     "score": 5.468,
+     "rank": 3
+    }
+   ]
+  },
+  {
+   "node": "0.3",
+   "speaker": "persona",
+   "text": "I don’t deny the glacier melted. But I’ve seen other places where the ice stayed. People are always looking for answers, but I’m not sure we’re ready to accept that our actions really matter.",
+   "facts": [
+    {
+     "id": "B.7.2",
+     "score": 6.908,
+     "rank": 1
+    },
+    {
+     "id": "B.6.4",
+     "score": 6.369,
+     "rank": 2
+    },
+    {
+     "id": "C.4.2",
+     "score": 5.529,
+     "rank": 3
+    }
+   ]
+  },
+  {
+   "node": "0.3.1",
+   "speaker": "player",
+   "text": "Okay, you're right, shouting at each other won't fix it. I'd start with cutting the trips we don't really need, like flights for short distances.",
+   "facts": [
+    {
+     "id": "B.6.4",
+     "score": 7.525,
+     "rank": 1
+    },
+    {
+     "id": "C.7.1",
+     "score": 5.986,
+     "rank": 2
+    },
+    {
+     "id": "A.3.2",
+     "score": 5.923,
+     "rank": 3
+    }
+   ]
+  },
+  {
+   "node": "0.3.1",
+   "speaker": "persona",
+   "text": "You’re not wrong. But I’ve flown a lot for work. It’s not like I’m trying to avoid the problem.",
+   "facts": [
+    {
+     "id": "A.3.2",
+     "score": 7.273,
+     "rank": 1
+    },
+    {
+     "id": "C.3.6",
+     "score": 4.333,
+     "rank": 2
+    },
+    {
+     "id": "B.4.2",
+     "score": 3.847,
+     "rank": 3
+    }
+   ]
+  },
+  {
+   "node": "0.3.1.2",
+   "speaker": "player",
+   "text": "My concern is that we are already losing places like this one. I don't think it's overreacting when the ice is literally gone.",
+   "facts": [
+    {
+     "id": "A.3.2",
+     "score": 4.54,
+     "rank": 1
+    },
+    {
+     "id": "B.3.2",
+     "score": 4.402,
+     "rank": 2
+    },
+    {
+     "id": "B.1.5",
+     "score": 3.859,
+     "rank": 3
+    }
+   ]
+  },
+  {
+   "node": "0.3.1.2",
+   "speaker": "persona",
+   "text": "You’re right. The ice is gone. But I’ve seen glaciers that survived more extreme changes.",
+   "facts": [
+    {
+     "id": "B.7.2",
+     "score": 10.315,
+     "rank": 1
+    },
+    {
+     "id": "A.2.3",
+     "score": 7.575,
+     "rank": 2
+    },
+    {
+     "id": "C.5.2",
+     "score": 6.129,
+     "rank": 3
+    }
+   ]
+  },
+  {
+   "node": "0.3.1.2.3",
+   "speaker": "player",
+   "text": "You just said the exact same thing. Are you even listening to me, or do you just repeat it until I give up?",
+   "facts": [
+    {
+     "id": "C.2.4",
+     "score": 9.419,
+     "rank": 1
+    },
+    {
+     "id": "C.7.3",
+     "score": 4.88,
+     "rank": 2
+    },
+    {
+     "id": "B.5",
+     "score": 4.363,
+     "rank": 3
+    }
+   ]
+  },
+  {
+   "node": "0.3.1.2.3",
+   "speaker": "persona",
+   "text": "I’m not repeating. I’ve seen glaciers that lasted longer than this one. But I’ve also seen places where the ice didn’t disappear.",
+   "facts": [
+    {
+     "id": "B.7.2",
+     "score": 10.228,
+     "rank": 1
+    },
+    {
+     "id": "B.4.2",
+     "score": 5.857,
+     "rank": 2
+    },
+    {
+     "id": "B.3.1",
+     "score": 5.263,
+     "rank": 3
+    }
+   ]
+  }
+ ],
+ "top_facts": [
+  {
+   "id": "B.7.2",
+   "text": "The higher the magnitude and the longer the duration of overshoot, the more ecosystems and societies are exposed to greater and more widespread changes in climatic impact-drivers, increasing risks for many natural and human systems. Compared to pathways without overshoot, societies would face higher risks to infrastructure, low-lying coastal settlements, and associated livelihoods. Overshooting 1.5°C will result in irreversible adverse impacts on certain ecosystems with low resilience, such as polar, mountain, and coastal ecosystems, impacted by ice-sheet melt, glacier melt, or by accelerating and higher committed sea level rise. (high confidence)",
+   "page": 29,
+   "count": 6,
+   "mean_rank": 1.67,
+   "total_score": 44.455,
+   "speakers": {
+    "player": 2,
+    "persona": 4
+   },
+   "lines": [
+    "0:player",
+    "0:persona",
+    "0.2.2.2:player",
+    "0.3:persona",
+    "0.3.1.2:persona",
+    "0.3.1.2.3:persona"
+   ]
+  },
+  {
+   "id": "B.1.5",
+   "text": "Natural variability will continue to modulate human-caused climate changes, either attenuating or amplifying projected changes, with little effect on centennial-scale global warming (high confidence). These modulations are important to consider in adaptation planning, especially at the regional scale and in the near term. If a large explosive volcanic eruption were to occur, it would temporarily and partially mask human-caused climate change by reducing global surface temperature and precipitation for one to three years (medium confidence).",
+   "page": 19,
+   "count": 5,
+   "mean_rank": 1.4,
+   "total_score": 33.763,
+   "speakers": {
+    "player": 4,
+    "persona": 1
+   },
+   "lines": [
+    "0.2:player",
+    "0.2.2:player",
+    "0.2.2:persona",
+    "0.2.2.2.2:player",
+    "0.3.1.2:player"
+   ]
+  },
+  {
+   "id": "B.4.2",
+   "text": "With additional global warming, limits to adaptation and losses and damages, strongly concentrated among vulnerable populations, will become increasingly difficult to avoid (high confidence). Above 1.5°C of global warming, limited freshwater resources pose potential hard adaptation limits for small islands and for regions dependent on glacier and snow melt (medium confidence). Above that level, ecosystems such as some warm-water coral reefs, coastal wetlands, rainforests, and polar and mountain ecosystems will have reached or surpassed hard adaptation limits and as a consequence, some Ecosystem-based Adaptation measures will also lose their effectiveness (high confidence).",
+   "page": 25,
+   "count": 4,
+   "mean_rank": 2.5,
+   "total_score": 21.085,
+   "speakers": {
+    "player": 1,
+    "persona": 3
+   },
+   "lines": [
+    "0:player",
+    "0.2:persona",
+    "0.3.1:persona",
+    "0.3.1.2.3:persona"
+   ]
+  },
+  {
+   "id": "B.6.4",
+   "text": "Mitigation options often have synergies with other aspects of sustainable development, but some options can also have trade-offs. There are potential synergies between sustainable development and, for instance, energy efficiency and renewable energy. Similarly, depending on the context, biological CDR methods like reforestation, improved forest management, soil carbon sequestration, peatland restoration and coastal blue carbon management can enhance biodiversity and ecosystem functions, employment and local livelihoods. However, afforestation or production of biomass crops can have adverse socio-economic and environmental impacts, including on biodiversity, food and water security, local livelihoods and the rights of Indigenous Peoples, especially if implemented at large scales and where land tenure is insecure. Modelled pathways that assume using resources more efficiently or that shift global development towards sustainability include fewer challenges, such as less dependence on CDR and pressure on land and biodiversity. (high confidence)",
+   "page": 27,
+   "count": 3,
+   "mean_rank": 1.33,
+   "total_score": 20.747,
+   "speakers": {
+    "player": 2,
+    "persona": 1
+   },
+   "lines": [
+    "0.3:player",
+    "0.3:persona",
+    "0.3.1:player"
+   ]
+  },
+  {
+   "id": "A.2.3",
+   "text": "Climate change has caused substantial damages, and increasingly irreversible losses, in terrestrial, freshwater, cryospheric, and coastal and open ocean ecosystems (high confidence). Hundreds of local losses of species have been driven by increases in the magnitude of heat extremes (high confidence) with mass mortality events recorded on land and in the ocean (very high confidence). Impacts on some ecosystems are approaching irreversibility such as the impacts of hydrological changes resulting from the retreat of glaciers, or the changes in some mountain (medium confidence) and Arctic ecosystems driven by permafrost thaw (high confidence).",
+   "page": 11,
+   "count": 3,
+   "mean_rank": 1.67,
+   "total_score": 20.609,
+   "speakers": {
+    "player": 2,
+    "persona": 1
+   },
+   "lines": [
+    "0:player",
+    "0.2:player",
+    "0.3.1.2:persona"
+   ]
+  }
+ ]
+}

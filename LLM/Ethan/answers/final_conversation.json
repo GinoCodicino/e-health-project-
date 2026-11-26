@@ -1,0 +1,78 @@
+{
+  "run": {
+    "model": "Qwen/Qwen3-4B",
+    "persona": 1,
+    "seed": 42,
+    "temperature": 1
+  },
+  "tree": {
+    "id": "0",
+    "stance": null,
+    "player": "Seriously, you came up here by helicopter? This mountain used to be a glacier, and now look at it.",
+    "persona": "Yeah, I flew in. The glacier’s gone, but that doesn’t mean the climate’s not changing. I’ve seen the data, but I still don’t think it’s all humans causing.",
+    "children": [
+      {
+        "id": "0.2",
+        "stance": "respectful_disagreement",
+        "player": "I understand it's efficient, but scientists agree the glacier melted because of human-caused warming. Doesn't flying in here feel a bit contradictory to you?",
+        "persona": "You’re right, it does feel contradictory. I’ve flown in on business before, but this is different. The glacier’s gone, and the data says it’s because of warming.",
+        "children": [
+          {
+            "id": "0.2.2",
+            "stance": "respectful_disagreement",
+            "player": "Glaciers do go through cycles, but those take thousands of years. This one vanished in one lifetime, natural cycles can't explain that speed.",
+            "persona": "You're pointing out something important. But I’ve seen the models, and they show a pattern that’s not natural. It’s not just a cycle—it’s a shift we’re not used to.",
+            "children": [
+              {
+                "id": "0.2.2.2",
+                "stance": "respectful_disagreement",
+                "player": "Way faster than any natural cycle. Old photos of this valley show ice everywhere, and it's gone in a few decades.",
+                "persona": "You’re right, the change is sudden. I’ve seen old maps too. The ice was there, and now it’s gone.",
+                "children": [
+                  {
+                    "id": "0.2.2.2.2",
+                    "stance": "respectful_disagreement",
+                    "player": "They show the ice was there for centuries and melted in one generation. If you saw it yourself, doesn't that make you wonder a little?",
+                    "persona": "Yeah, seeing it with my own eyes makes you question. I’ve flown in before, but this? This is different.",
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "0.3",
+        "stance": "angry_disagreement",
+        "player": "What caused it? People like you burning fuel for convenience! You're standing on the proof and you still say there's no reason to worry?",
+        "persona": "I don’t deny the glacier melted. But I’ve seen other places where the ice stayed. People are always looking for answers, but I’m not sure we’re ready to accept that our actions really matter.",
+        "children": [
+          {
+            "id": "0.3.1",
+            "stance": "agree",
+            "player": "Okay, you're right, shouting at each other won't fix it. I'd start with cutting the trips we don't really need, like flights for short distances.",
+            "persona": "You’re not wrong. But I’ve flown a lot for work. It’s not like I’m trying to avoid the problem.",
+            "children": [
+              {
+                "id": "0.3.1.2",
+                "stance": "respectful_disagreement",
+                "player": "My concern is that we are already losing places like this one. I don't think it's overreacting when the ice is literally gone.",
+                "persona": "You’re right. The ice is gone. But I’ve seen glaciers that survived more extreme changes.",
+                "children": [
+                  {
+                    "id": "0.3.1.2.3",
+                    "stance": "angry_disagreement",
+                    "player": "You just said the exact same thing. Are you even listening to me, or do you just repeat it until I give up?",
+                    "persona": "I’m not repeating. I’ve seen glaciers that lasted longer than this one. But I’ve also seen places where the ice didn’t disappear.",
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

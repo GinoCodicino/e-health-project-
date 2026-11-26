@@ -35,11 +35,12 @@ public class SmoothMouseLook : MonoBehaviour
     private Quaternion _originalRotation;
     private Quaternion _parentOriginalRotation;
 
-    //---------------------------------------------------------------------
-    // Messages
-    //---------------------------------------------------------------------
 
-    protected void Update()
+//---------------------------------------------------------------------
+// Messages
+//---------------------------------------------------------------------
+
+protected void Update()
     {
         if (!Input.GetButton("Fire2")) return;
 

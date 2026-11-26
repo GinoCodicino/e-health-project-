@@ -10,7 +10,7 @@ public class MountainReturnPoint : MonoBehaviour
 
     private void Start()
     {
-        if (!ClimbGameSession.ConsumeReturn()) return;
+        if (!ClimbGameSession.ConsumeArrival(ClimbGameSession.Arrival.Foot)) return;
 
         var player = FindFirstObjectByType<playercontroller>();
         if (player != null) PlayerPlacement.PlaceOnGround(player.transform, transform.position, transform.eulerAngles.y);

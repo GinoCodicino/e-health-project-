@@ -71,3 +71,6 @@ __pycache__/
 # Unity crash recovery scenes
 My project/Assets/_Recovery/
 My project/Assets/_Recovery.meta
+
+# Dati locali (non versionati)
+data/

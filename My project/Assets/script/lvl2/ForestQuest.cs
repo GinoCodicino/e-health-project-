@@ -12,7 +12,7 @@ using UnityEngine.UI;
 // Lo stato dura per la sessione corrente: non viene salvato su disco.
 public class ForestQuest : MonoBehaviour
 {
-    public enum Stage { Introduction, FindMushrooms, ReportMushrooms, FindRoofPieces, RepairRoof }
+    public enum Stage { Introduction, FindMushrooms, ReportMushrooms, FindRoofPieces, RepairRoof, RoofRepaired }
 
     [Header("Collegamenti")]
     public playercontroller player;
@@ -25,6 +25,7 @@ public class ForestQuest : MonoBehaviour
     [HideInInspector] public Transform gardenPoint;
     [Header("Personalizzazione")]
     public string speakerName = "Peter";
+    public InquadraturaDialogo vistaPeter;
     public float interactionDistance = 3f;
     [Range(0f, 0.1f)] public float typingSpeed = 0.025f;
     [Range(0.2f, 0.95f)] public float dialogueOpacity = 0.72f;
@@ -139,6 +140,7 @@ public class ForestQuest : MonoBehaviour
         if (!eKey) return;
         if (CurrentStage == Stage.RepairRoof && Near(housePoint))
         {
+            CurrentStage = Stage.RoofRepaired;
             Speak(new[] {
         "Thank you! With these planks the roof will keep the rain out again.",
         "Your grandfather would be proud of you."
@@ -276,6 +278,7 @@ public class ForestQuest : MonoBehaviour
     void Speak(string[] text, Action done)
     {
         ClearPage(false);
+        if (vistaPeter) vistaPeter.Apri(player);
         lines = text; lineIndex = 0; afterLines = done;
         Label(speakerName, -550, 116, 1000, 30, 22);
         speech = Label("", -550, 30, 1100, 110, 25);
@@ -321,6 +324,7 @@ public class ForestQuest : MonoBehaviour
         // replaying: permette di rigiocare anche dopo aver finito la missione, senza cambiare lo stato della quest.
         if ((CurrentStage != Stage.FindMushrooms && !replaying) || player == null) return;
         ClearPage(true);
+        if (vistaPeter) vistaPeter.Chiudi();
         Label("FIND THE MUSHROOMS", -540, 295, 850, 45, 30);
         counter = Label("", -540, 247, 1000, 35);
         Image field = MushroomUI.Image("MountainPicture", page.transform, new Color(.22f, .29f, .15f));
@@ -338,6 +342,7 @@ public class ForestQuest : MonoBehaviour
         world.localScale = new Vector3(zoom, zoom, 1);
         if (forestBackground != null)
         {
+            
             // Effetto "cover": l'immagine riempie la scena senza deformarsi, il resto viene tagliato.
             Image picture = MushroomUI.Image("Picture", world, Color.white);
             picture.sprite = forestBackground; picture.raycastTarget = false;
@@ -432,6 +437,7 @@ public class ForestQuest : MonoBehaviour
         {
             centerMsg.text = "You found them all!";
             centerMsg.gameObject.SetActive(true);
+            StartCoroutine(FesteggiaFunghi(centerMsg));
         }
 
         if (CurrentStage == Stage.FindMushrooms)
@@ -446,6 +452,70 @@ public class ForestQuest : MonoBehaviour
                 hint.text = "You found them all! Press \"New random search\" to play another round.";
         }
     }
+
+
+    IEnumerator FesteggiaFunghi(TMP_Text titolo)
+    {
+        Image bordo = MushroomUI.Image("PremioFunghi", titolo.transform.parent,
+            new Color32(210, 170, 83, 255));
+        RectTransform cartello = bordo.rectTransform;
+        MushroomUI.Place(cartello, 0f, -5f, 500f, 86f);
+        bordo.gameObject.AddComponent<CanvasGroup>().blocksRaycasts = false;
+
+        Image fondo = MushroomUI.Image("Fondo", cartello, new Color32(24, 54, 42, 255));
+        MushroomUI.Fill(fondo.rectTransform, 3f);
+
+        titolo.transform.SetParent(cartello, false);
+        MushroomUI.Fill(titolo.rectTransform, 8f);
+        titolo.fontStyle |= FontStyles.Bold;
+        titolo.fontSize = 42f;
+        titolo.color = new Color32(255, 230, 164, 255);
+
+        // Usiamo le stesse foglie illustrate del minigioco.
+        Image[] foglie = new Image[8];
+        for (int i = 0; i < foglie.Length; i++)
+        {
+            Image foglia = MushroomUI.Image("Foglia", cartello, Color.white);
+            foglia.sprite = ForestToonArt.Leaf(i);
+            MushroomUI.Place(foglia.rectTransform, 0f, 0f, 36f, 36f);
+            foglie[i] = foglia;
+        }
+
+        const float durata = 1.2f;
+        for (float tempo = 0f; tempo < durata; tempo += Time.unscaledDeltaTime)
+        {
+            if (!cartello || !cartello.gameObject.activeInHierarchy) break;
+
+            float t = tempo / durata;
+            float pop = Mathf.Clamp01(tempo / 0.38f);
+            float scala = Mathf.Lerp(0.82f, 1f, pop) + 0.15f * Mathf.Sin(pop * Mathf.PI);
+            cartello.localScale = Vector3.one * scala;
+
+            float arco = Mathf.Sin(t * Mathf.PI);
+            float opacita = 1f - Mathf.InverseLerp(0.55f, 1f, t);
+
+            for (int i = 0; i < foglie.Length; i++)
+            {
+                int coppia = i / 2;
+                float lato = i % 2 == 0 ? -1f : 1f;
+                float x = lato * (245f + (70f + 24f * coppia) * t);
+                float y = (80f + 18f * coppia) * arco + 8f * coppia - 40f * t;
+
+                RectTransform foglia = foglie[i].rectTransform;
+                foglia.anchoredPosition = new Vector2(x, y);
+                foglia.localRotation = Quaternion.Euler(0f, 0f, lato * (20f * coppia + 160f * t));
+                foglie[i].color = new Color(1f, 1f, 1f, opacita);
+            }
+
+            yield return null;
+        }
+
+        if (cartello) cartello.localScale = Vector3.one;
+        foreach (Image foglia in foglie)
+            if (foglia) Destroy(foglia.gameObject);
+    }
+
+
     bool NearMushroom(Vector2 point, float radius)
     {
         foreach (Vector2 s in slots) if (Vector2.Distance(point, s) < radius) return true;
@@ -926,6 +996,7 @@ public class ForestQuest : MonoBehaviour
     }
     public void CloseDialogue()
     {
+        if (vistaPeter != null) vistaPeter.Chiudi();
         bushOpen = false;
         if (typing != null) StopCoroutine(typing);
         typing = null; isTyping = false;

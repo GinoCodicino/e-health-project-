@@ -11,6 +11,8 @@ using UnityEngine;
 /// </summary>
 public class FungaioloAscolta : MonoBehaviour
 {
+
+    [SerializeField] private InquadraturaDialogo vistaDialogo;
     [Header("Giocatore")]
     [Tooltip("Se vuoto lo cerca da solo (Tag 'Player' o il playercontroller della camera)")]
     public Transform player;
@@ -106,12 +108,14 @@ public class FungaioloAscolta : MonoBehaviour
 
     void Update()
     {
-        if (player == null) return;
+        bool inDialogo = vistaDialogo != null && vistaDialogo.Attiva;
+        if (player == null && !inDialogo) return;
 
-        Vector3 versoPlayer = player.position - transform.position;
+        Transform bersaglio = inDialogo ? vistaDialogo.transform : player;
+        Vector3 versoPlayer = bersaglio.position - transform.position;
         versoPlayer.y = 0f;
-        StaAscoltando = versoPlayer.magnitude <= raggio;
 
+        StaAscoltando = inDialogo || versoPlayer.magnitude <= raggio;
         // Si gira (resta fermo dov'è, ruota solo su Y)
         Quaternion target = _rotIniziale;
         if (StaAscoltando && versoPlayer.sqrMagnitude > 0.01f)

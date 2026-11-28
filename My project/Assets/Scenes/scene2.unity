@@ -196660,6 +196660,39 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 53f2026b57a3a4c19a8fc4cab7e55f8a, type: 3}
   m_PrefabInstance: {fileID: 448532253}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &448597882
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 448597883}
+  m_Layer: 0
+  m_Name: InquadratureDialoghi
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &448597883
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 448597882}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 15.89355, y: -0.82677, z: -182.64009}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1299058548}
+  - {fileID: 788503131}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &449092738
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -345616,6 +345649,51 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4c48caa82e2a5244897ba65965da2c8c, type: 3}
   m_PrefabInstance: {fileID: 788253129}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &788503130
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 788503131}
+  - component: {fileID: 788503132}
+  m_Layer: 0
+  m_Name: Vista_Noah
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &788503131
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 788503130}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.01797247, y: 0.93301034, z: -0.047061604, w: 0.35630596}
+  m_LocalPosition: {x: 27.573116, y: 1.4970872, z: 179.3145}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 448597883}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &788503132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 788503130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5f6e41648f244e36aa7ce4d2a539eb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InquadraturaDialogo
+  nascondiGiocatore: 1
 --- !u!1 &788525523
 GameObject:
   m_ObjectHideFlags: 0
@@ -396242,6 +396320,7 @@ Transform:
   m_Children:
   - {fileID: 1115063714}
   - {fileID: 2076586674}
+  - {fileID: 1442914924}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &896460771
@@ -500626,6 +500705,7 @@ MonoBehaviour:
   riverPoint: {fileID: 0}
   gardenPoint: {fileID: 0}
   speakerName: Peter
+  vistaPeter: {fileID: 1442914925}
   interactionDistance: 3
   typingSpeed: 0.035
   dialogueOpacity: 0.82
@@ -500667,6 +500747,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 620c694588700e245a02fac84459195f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FungaioloAccompagnabile
+  vistaDialogo: {fileID: 0}
   player: {fileID: 1773431040}
   raggio: 4
   velocitaRotazione: 8
@@ -518067,6 +518148,8 @@ MonoBehaviour:
   player: {fileID: 1156815163}
   fisher: {fileID: 1988091751}
   woodcutter: {fileID: 503197227}
+  vistaNoah: {fileID: 788503132}
+  vistaRowan: {fileID: 1299058549}
   bridgeInteraction: {fileID: 678007095}
   bridge: {fileID: 1157329192}
   beamGame: {fileID: 605936569}
@@ -581790,6 +581873,51 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 550749511122384726, guid: 150cf7551d9b9ce40aaa3d5b7c355fcb, type: 3}
   m_PrefabInstance: {fileID: 1299015238}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1299058547
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1299058548}
+  - component: {fileID: 1299058549}
+  m_Layer: 0
+  m_Name: Vista_Rowan
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1299058548
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1299058547}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.05029931, y: 0.7943427, z: -0.066399395, w: 0.6017316}
+  m_LocalPosition: {x: 110.29435, y: 2.2033074, z: 242.85248}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 448597883}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1299058549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1299058547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5f6e41648f244e36aa7ce4d2a539eb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InquadraturaDialogo
+  nascondiGiocatore: 0
 --- !u!1001 &1299068329
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -642938,6 +643066,51 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1442549076}
   m_Mesh: {fileID: 5668788170693331272, guid: 9a617e929d4c120498605b8a988fdefa, type: 3}
+--- !u!1 &1442914923
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1442914924}
+  - component: {fileID: 1442914925}
+  m_Layer: 0
+  m_Name: Vista_Peter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1442914924
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1442914923}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.07704624, y: -0.5920842, z: 0.057011202, w: 0.8001562}
+  m_LocalPosition: {x: 23.5, y: -0.7, z: -3.9}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 896327042}
+  m_LocalEulerAnglesHint: {x: 11, y: -73, z: 0}
+--- !u!114 &1442914925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1442914923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5f6e41648f244e36aa7ce4d2a539eb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InquadraturaDialogo
+  nascondiGiocatore: 0
 --- !u!1 &1443248524
 GameObject:
   m_ObjectHideFlags: 0
@@ -686243,7 +686416,7 @@ MonoBehaviour:
   bridgeCondition: {fileID: 1157329192}
   encounterPoint: {fileID: 581678107}
   ranger: {fileID: 1771162439}
-  testStartFromMiaEncounter: 1
+  testStartFromMiaEncounter: 0
   deerPoint: {fileID: 1157609716}
   deerView: {fileID: 2091387425}
   dialogueDistance: 1.9
@@ -898818,6 +898991,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 620c694588700e245a02fac84459195f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FungaioloAscolta
+  vistaDialogo: {fileID: 1442914925}
   player: {fileID: 1773431040}
   raggio: 4
   velocitaRotazione: 4
@@ -963956,3 +964130,4 @@ SceneRoots:
   - {fileID: 896327042}
   - {fileID: 456616260}
   - {fileID: 682752708}
+  - {fileID: 448597883}

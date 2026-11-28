@@ -14,6 +14,8 @@ namespace Level02.BridgeMission
         public playercontroller player;
         public Transform fisher;
         public Transform woodcutter;
+        public InquadraturaDialogo vistaNoah;
+        public InquadraturaDialogo vistaRowan;
         public Transform bridgeInteraction;
         public BridgeCondition bridge;
         [Header("Minigioco travi (in scena)")]
@@ -29,8 +31,10 @@ namespace Level02.BridgeMission
         {
             get
             {
+                
                 return !requireMushroomQuest ||
-                    (mushroomQuest != null && mushroomQuest.CurrentStage == ForestQuest.Stage.RepairRoof);
+                    (mushroomQuest != null && mushroomQuest.CurrentStage == ForestQuest.Stage.RoofRepaired);
+
             }
         }
         [Header("Dialoghi")]
@@ -316,6 +320,7 @@ namespace Level02.BridgeMission
         }
         void TalkFisher()
         {
+            if (vistaNoah) vistaNoah.Apri(player);
             if (progress.Stage == BridgeStage.MeetFisher)
             {
                 Speak(fisherName, new[] { "Oh, this bridge... Good morning! What brings you to the river?" }, () => { });
@@ -356,6 +361,7 @@ namespace Level02.BridgeMission
         }
         void TalkWoodcutter()
         {
+            if (vistaRowan) vistaRowan.Apri(player);
             if (progress.Stage == BridgeStage.MeetFisher)
             { Speak(woodcutterName, new[] { "Hello! If you need help with the bridge, speak to " + fisherName + " by the river first." }, Close); return; }
             if (progress.Stage == BridgeStage.FindWoodcutter)
@@ -394,6 +400,7 @@ namespace Level02.BridgeMission
         }
         void OfferPlanks()
         {
+            if (vistaRowan) vistaRowan.Apri(player);
             Speak(woodcutterName, new[] { "Good work! Here are three planks of different lengths.", "Take them to the bridge. Drag each plank into the gap with the same length." }, () =>
             {
                 if (progress.TakePlanks()) Close();
@@ -481,6 +488,8 @@ namespace Level02.BridgeMission
         }
         public void Close()
         {
+            if (vistaNoah) vistaNoah.Chiudi();
+            if (vistaRowan) vistaRowan.Chiudi();
             if (typing != null) StopCoroutine(typing);
             typing = null; isTyping = false;
             mode = ScreenMode.None;

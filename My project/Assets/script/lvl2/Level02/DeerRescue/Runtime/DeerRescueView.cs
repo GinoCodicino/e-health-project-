@@ -27,6 +27,71 @@ namespace Level02.DeerRescue
         const float RiseSeconds = 2.1f;
         const float DressingSeconds = .4f;
 
+        [SerializeField] AnimationClip passiEInchino;
+
+        Transform giocatoreSaluto;
+        Quaternion giroSaluto = Quaternion.identity;
+        Vector3 partenzaSaluto, arrivoSaluto;
+        bool salutoAttivo;
+
+        void IniziaSaluto()
+        {
+            if (!passiEInchino || passiEInchino.length <= 0f) return;
+
+            var missione = FindFirstObjectByType<DeerRescueController>();
+            if (!missione || !missione.player) return;
+
+            giocatoreSaluto = missione.player.transform;
+            partenzaSaluto = anchoredPivot;
+
+            Vector3 verso = Vector3.ProjectOnPlane(
+                giocatoreSaluto.position - partenzaSaluto, Vector3.up);
+
+            // Avanza al massimo mezzo metro e lascia spazio davanti al giocatore.
+            float distanza = Mathf.Clamp(verso.magnitude - 1.8f, 0f, .5f);
+            arrivoSaluto = partenzaSaluto + verso.normalized * distanza;
+            salutoAttivo = true;
+        }
+
+        void AggiornaSaluto()
+        {
+            float t = Mathf.Min(elapsed, passiEInchino.length);
+
+            // Lo spostamento coincide con i fotogrammi 18–51 della clip.
+            float passo = Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(.6f, 1.7f, t));
+            Vector3 nuovoPivot = Vector3.Lerp(partenzaSaluto, arrivoSaluto, passo);
+
+            if (nuovoPivot != anchoredPivot)
+            {
+                anchoredPivot = nuovoPivot;
+                MeasureFloor(anchoredPivot);
+            }
+
+            if (giocatoreSaluto)
+            {
+                Vector3 verso = Vector3.ProjectOnPlane(
+                    giocatoreSaluto.position - anchoredPivot, Vector3.up);
+
+                if (verso.sqrMagnitude > .001f)
+                {
+                    float angolo = Vector3.SignedAngle(forward, verso, Vector3.up);
+                    Quaternion mira = Quaternion.AngleAxis(angolo, Vector3.up);
+                    giroSaluto = Quaternion.RotateTowards(
+                        giroSaluto, mira, 240f * Time.deltaTime);
+                }
+            }
+
+            passiEInchino.SampleAnimation(deer.gameObject, t);
+            ApplyGroundedPose(0f);
+
+            if (t < passiEInchino.length) return;
+
+            salutoAttivo = false;
+            elapsed = 0f;
+        }
+
+
+
         internal Transform FindDeer()
         {
             if (!animalVisual) return null;
@@ -328,7 +393,7 @@ namespace Level02.DeerRescue
 
         void ApplyGroundedPose(float angle)
         {
-            Quaternion bank = groundTilt * Quaternion.AngleAxis(angle, forward);
+            Quaternion bank = groundTilt * giroSaluto * Quaternion.AngleAxis(angle, forward);
             Vector3 normal = Quaternion.Inverse(bank) * floorNormal;
             float min = float.PositiveInfinity;
             foreach (var p in support) min = Mathf.Min(min, Vector3.Dot(p, normal));
@@ -432,10 +497,18 @@ namespace Level02.DeerRescue
                 if (dressedJoint && dressedJoint.parent)
                     SetWorldOffset(dressedJoint, legRest, Quaternion.AngleAxis(8f * shift, pitchAxis));
                 if (elapsed < DressingSeconds + RiseSeconds) return;
-                state = State.Standing;
+                            state = State.Standing;
                 elapsed = 0f;
                 if (dressedJoint) dressedJoint.localRotation = legRest;
+                IniziaSaluto();
             }
+
+            if (salutoAttivo)
+            {
+                AggiornaSaluto();
+                return;
+            }
+
             float ease = Mathf.Clamp01(elapsed / .75f);
             float breath = Mathf.Sin(elapsed * 1.75f);
             float look = Mathf.Sin(elapsed * .86f);

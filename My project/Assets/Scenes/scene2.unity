@@ -939496,6 +939496,7 @@ MonoBehaviour:
   sceneData:
     referenceDeer: {fileID: 0}
     surfaces: []
+  passiEInchino: {fileID: 7400000, guid: cd507b16a54b24f33aa34a1c57a0752b, type: 2}
 --- !u!4 &2091387426
 Transform:
   m_ObjectHideFlags: 0

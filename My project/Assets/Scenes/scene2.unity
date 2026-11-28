@@ -686243,9 +686243,14 @@ MonoBehaviour:
   bridgeCondition: {fileID: 1157329192}
   encounterPoint: {fileID: 581678107}
   ranger: {fileID: 1771162439}
-  testStartFromMiaEncounter: 0
+  testStartFromMiaEncounter: 1
   deerPoint: {fileID: 1157609716}
   deerView: {fileID: 2091387425}
+  dialogueDistance: 1.9
+  miaModelYaw: 0
+  escortWaypoints: []
+  followDistance: 2.1
+  wideShotSeconds: 2
   playerStandPoint: {fileID: 456616261}
   rangerStandPoint: {fileID: 456616261}
   standDistance: 2.2
@@ -939488,6 +939493,9 @@ MonoBehaviour:
   fallenBranches: {fileID: 1925329803}
   bandageVisual: {fileID: 483104015}
   restingEuler: {x: 0, y: 0, z: 90}
+  sceneData:
+    referenceDeer: {fileID: 0}
+    surfaces: []
 --- !u!4 &2091387426
 Transform:
   m_ObjectHideFlags: 0
